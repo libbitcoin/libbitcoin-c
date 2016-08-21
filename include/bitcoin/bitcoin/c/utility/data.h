@@ -34,17 +34,24 @@ bc_data_chunk_t* bc_create_data_chunk();
 // Copy constructor
 bc_data_chunk_t* bc_create_data_chunk_copy(bc_data_chunk_t* other);
 // Initialize data chunk from uint8_t array
-bc_data_chunk_t* bc_create_data_chunk_Array(uint8_t* data, size_t size);
+bc_data_chunk_t* bc_create_data_chunk_Array(const uint8_t* data, size_t size);
 // Destructor
 void bc_destroy_data_chunk(bc_data_chunk_t* self);
 // .size()
-size_t bc_data_chunk_size(bc_data_chunk_t* self);
+size_t bc_data_chunk_size(const bc_data_chunk_t* self);
 // .empty()
-bool bc_data_chunk_empty(bc_data_chunk_t* self);
+bool bc_data_chunk_empty(const bc_data_chunk_t* self);
 // .data()
 uint8_t* bc_data_chunk_data(bc_data_chunk_t* self);
+// const .data()
+const uint8_t* bc_data_chunk_cdata(const bc_data_chunk_t* self);
 // extend_data()
 void bc_data_chunk_extend_data(bc_data_chunk_t* self, bc_data_chunk_t* other);
+
+/**
+ * Constrain a numeric value within a given range.
+ */
+size_t bc_range_constrain(size_t value, size_t minimum, size_t maximum);
 
 #ifdef __cplusplus
 }

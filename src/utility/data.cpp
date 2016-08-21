@@ -41,7 +41,7 @@ bc_data_chunk_t* bc_create_data_chunk_copy(bc_data_chunk_t* other)
     return self;
 }
 // Initialize data chunk from uint8_t array
-bc_data_chunk_t* bc_create_data_chunk_Array(uint8_t* data, size_t size)
+bc_data_chunk_t* bc_create_data_chunk_Array(const uint8_t* data, size_t size)
 {
     bc_data_chunk_t* self = new bc_data_chunk_t;
     self->obj = new libbitcoin::data_chunk(data, data + size);
@@ -54,12 +54,12 @@ void bc_destroy_data_chunk(bc_data_chunk_t* self)
     delete self;
 }
 // .size()
-size_t bc_data_chunk_size(bc_data_chunk_t* self)
+size_t bc_data_chunk_size(const bc_data_chunk_t* self)
 {
     return self->obj->size();
 }
 // .empty()
-bool bc_data_chunk_empty(bc_data_chunk_t* self)
+bool bc_data_chunk_empty(const bc_data_chunk_t* self)
 {
     return self->obj->empty();
 }
@@ -68,10 +68,20 @@ uint8_t* bc_data_chunk_data(bc_data_chunk_t* self)
 {
     return self->obj->data();
 }
+// const .data()
+const uint8_t* bc_data_chunk_cdata(const bc_data_chunk_t* self)
+{
+    return self->obj->data();
+}
 // extend_data()
 void bc_data_chunk_extend_data(bc_data_chunk_t* self, bc_data_chunk_t* other)
 {
     libbitcoin::extend_data(*self->obj, *other->obj);
+}
+
+size_t bc_range_constrain(size_t value, size_t minimum, size_t maximum)
+{
+    return libbitcoin::range_constrain(value, minimum, maximum);
 }
 
 }
