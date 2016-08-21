@@ -61,6 +61,10 @@ bool bc_string_equals(bc_string_t* self, bc_string_t* other)
 {
     return *self->obj == *other->obj;
 }
+bool bc_string_equals_cstr(bc_string_t* self, const char* other)
+{
+    return *self->obj == other;
+}
 
 }
 

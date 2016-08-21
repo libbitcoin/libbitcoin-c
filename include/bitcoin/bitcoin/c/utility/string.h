@@ -35,6 +35,8 @@ const char* bc_string_data(bc_string_t* self);
 size_t bc_string_length(bc_string_t* self);
 int bc_string_compare(bc_string_t* self, bc_string_t* other);
 bool bc_string_equals(bc_string_t* self, bc_string_t* other);
+// Convenience function
+bool bc_string_equals_cstr(bc_string_t* self, const char* other);
 
 #ifdef __cplusplus
 }
