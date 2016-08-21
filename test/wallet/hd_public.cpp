@@ -43,11 +43,14 @@ BOOST_AUTO_TEST_CASE(hd_public__derive_public__invalid__false_c)
 
 BOOST_AUTO_TEST_CASE(hd_public__encoded__round_trip__expected_c)
 {
-    const char* encoded = "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8";
-    bc_hd_public_t* key = bc_create_hd_public_String(encoded);
-    std::string reencoded = bc_hd_public_encoded(key);
-    BOOST_REQUIRE_EQUAL(reencoded, encoded);
+    const char* encoded_data = "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8";
+    bc_string_t* encoded = bc_create_string(encoded_data);
+    bc_hd_public_t* key = bc_create_hd_public_String(bc_string_data(encoded));
+    bc_string_t* reencoded = bc_hd_public_encoded(key);
+    BOOST_REQUIRE(bc_string_equals(reencoded, encoded));
     bc_destroy_hd_public(key);
+    bc_destroy_string(reencoded);
+    bc_destroy_string(encoded);
 }
 
 BOOST_AUTO_TEST_CASE(hd_public__derive_public__short_seed__expected_c)

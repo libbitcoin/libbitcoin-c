@@ -107,11 +107,11 @@ void bc_hd_lineage_set_child_number(
 // Comparison operators
 bool bc_hd_lineage_equals(bc_hd_lineage_t* a, bc_hd_lineage_t* b)
 {
-    return *(a->obj) == *(b->obj);
+    return *a->obj == *b->obj;
 }
 bool bc_hd_lineage_not_equals(bc_hd_lineage_t* a, bc_hd_lineage_t* b)
 {
-    return *(a->obj) != *(b->obj);
+    return *a->obj != *b->obj;
 }
 
 struct bc_hd_public_t
@@ -189,13 +189,10 @@ bool bc_hd_public_to_bool(bc_hd_public_t* self)
 {
     return (bool)*self->obj;
 }
-char* bc_hd_public_encoded(bc_hd_public_t* self)
+bc_string_t* bc_hd_public_encoded(bc_hd_public_t* self)
 {
     std::string encoded = self->obj->encoded();
-    char* result = (char*)malloc(encoded.length() + 1);
-    memcpy(result, encoded.c_str(), encoded.length());
-    result[encoded.length()] = '\0';
-    return result;
+    return bc_create_string_Length(encoded.data(), encoded.length());
 }
 bc_hd_chain_code_t* bc_hd_public_chain_code(bc_hd_public_t* self)
 {

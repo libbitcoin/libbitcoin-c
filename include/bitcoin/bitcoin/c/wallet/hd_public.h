@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <bitcoin/bitcoin/c/string.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -96,7 +97,7 @@ bool bc_hd_public_to_bool(bc_hd_public_t* self);
 // TODO:
 //   operator const ec_compressed&() const;
 /// Serializer.
-char* bc_hd_public_encoded(bc_hd_public_t* self);
+bc_string_t* bc_hd_public_encoded(bc_hd_public_t* self);
 /// Accessors.
 bc_hd_chain_code_t* bc_hd_public_chain_code(bc_hd_public_t* self);
 bc_hd_lineage_t* bc_hd_public_lineage(bc_hd_public_t* self);
