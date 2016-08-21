@@ -17,12 +17,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_HASH_H
-#define LIBBITCOIN_C_HASH_H
+#ifndef LIBBITCOIN_C_BASE_16_H
+#define LIBBITCOIN_C_BASE_16_H
 
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <bitcoin/bitcoin/c/math/hash.h>
+#include <bitcoin/bitcoin/c/utility/data.h>
+#include <bitcoin/bitcoin/c/utility/string.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,6 +41,26 @@ bool bc_is_base16(const char c);
 /**
  * Convert data into a user-readable hex string.
  */
+bc_string_t* bc_encode_base16(const bc_data_chunk_t* data);
+
+/**
+ * Convert a hex string into bytes.
+ * @return false if the input is malformed.
+ */
+bool bc_decode_base16(bc_data_chunk_t* out, const char* in);
+
+/**
+ * Converts a bitcoin_hash to a string.
+ * The bitcoin_hash format is like base16, but with the bytes reversed.
+ */
+bc_string_t* bc_encode_hash(const bc_hash_digest_t* hash);
+
+/**
+ * Convert a string into a bitcoin_hash.
+ * The bitcoin_hash format is like base16, but with the bytes reversed.
+ * @return false if the input is malformed.
+ */
+bool bc_decode_hash(bc_hash_digest_t* out, const char* in);
 
 #ifdef __cplusplus
 }

@@ -23,7 +23,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <bitcoin/bitcoin/c/string.h>
+#include <bitcoin/bitcoin/c/utility/string.h>
 
 #ifdef __cplusplus
 extern "C" {

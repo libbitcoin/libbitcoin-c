@@ -19,14 +19,10 @@
  */
 #include <bitcoin/bitcoin/c/utility/data.h>
 
-#include <bitcoin/bitcoin/utility/data.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 
 extern "C" {
 
-struct bc_data_chunk_t
-{
-    libbitcoin::data_chunk* obj;
-};
 bc_data_chunk_t* bc_create_data_chunk()
 {
     bc_data_chunk_t* self = new bc_data_chunk_t;
@@ -77,6 +73,11 @@ const uint8_t* bc_data_chunk_cdata(const bc_data_chunk_t* self)
 void bc_data_chunk_extend_data(bc_data_chunk_t* self, bc_data_chunk_t* other)
 {
     libbitcoin::extend_data(*self->obj, *other->obj);
+}
+// a == b
+bool bc_data_chunk_equals(bc_data_chunk_t* self, bc_data_chunk_t* other)
+{
+    return *self->obj == *other->obj;
 }
 
 size_t bc_range_constrain(size_t value, size_t minimum, size_t maximum)

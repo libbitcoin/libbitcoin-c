@@ -47,6 +47,8 @@ uint8_t* bc_data_chunk_data(bc_data_chunk_t* self);
 const uint8_t* bc_data_chunk_cdata(const bc_data_chunk_t* self);
 // extend_data()
 void bc_data_chunk_extend_data(bc_data_chunk_t* self, bc_data_chunk_t* other);
+// a == b
+bool bc_data_chunk_equals(bc_data_chunk_t* self, bc_data_chunk_t* other);
 
 /**
  * Constrain a numeric value within a given range.

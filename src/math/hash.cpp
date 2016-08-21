@@ -19,7 +19,7 @@
  */
 #include <bitcoin/bitcoin/c/math/hash.h>
 
-#include <bitcoin/bitcoin/math/hash.hpp>
+#include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 
 extern "C" {
 
@@ -50,10 +50,6 @@ size_t bc_mini_hash_size()
 
 #define HASH_IMPL(hashname) \
     \
-    struct bc_##hashname##_t \
-    { \
-        libbitcoin::hashname* obj; \
-    }; \
     bc_##hashname##_t* create_##hashname() \
     { \
         bc_##hashname##_t* self = new bc_##hashname##_t; \
