@@ -72,7 +72,7 @@ uint32_t bc_hd_public_to_prefix(uint64_t prefixes);
 // hd_public();
 bc_hd_public_t* bc_create_hd_public();
 // hd_public(const hd_public& other);
-bc_hd_public_t* bc_create_hd_public_copy(bc_hd_public_t* other);
+bc_hd_public_t* bc_create_hd_public_copy(const bc_hd_public_t* other);
 // hd_public(const hd_key& public_key);
 bc_hd_public_t* bc_create_hd_public_Key(bc_hd_key_t* public_key);
 // hd_public(const hd_key& public_key, uint32_t prefix);
@@ -93,7 +93,7 @@ bc_hd_public_t* bc_hd_public_copy(bc_hd_public_t* self, bc_hd_public_t* other);
 // Ignored:
 //  friend std::istream& operator>>(std::istream& in, hd_public& to);
 //  friend std::ostream& operator<<(std::ostream& out, const hd_public& of);
-bool bc_hd_public_to_bool(bc_hd_public_t* self);
+bool bc_hd_public_to_bool(const bc_hd_public_t* self);
 // TODO:
 //   operator const ec_compressed&() const;
 /// Serializer.

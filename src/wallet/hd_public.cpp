@@ -19,8 +19,9 @@
  */
 #include <bitcoin/bitcoin/c/wallet/hd_public.h>
 
-#include <bitcoin/bitcoin/wallet/hd_public.hpp>
 #include <string.h>
+#include <bitcoin/bitcoin/wallet/hd_public.hpp>
+#include <bitcoin/bitcoin/c/internal/wallet/hd_public.hpp>
 
 extern "C" {
 
@@ -49,10 +50,6 @@ size_t bc_hd_key_size()
 {
     return libbitcoin::wallet::hd_key_size;
 }
-struct bc_hd_key_t
-{
-    libbitcoin::wallet::hd_key* obj;
-};
 void bc_destroy_hd_key(bc_hd_key_t* self)
 {
     delete self->obj;
@@ -114,10 +111,6 @@ bool bc_hd_lineage_not_equals(bc_hd_lineage_t* a, bc_hd_lineage_t* b)
     return *a->obj != *b->obj;
 }
 
-struct bc_hd_public_t
-{
-    libbitcoin::wallet::hd_public* obj;
-};
 uint32_t bc_hd_public_mainnet()
 {
     return libbitcoin::wallet::hd_public::mainnet;
@@ -132,7 +125,7 @@ bc_hd_public_t* bc_create_hd_public()
     self->obj = new libbitcoin::wallet::hd_public();
     return self;
 }
-bc_hd_public_t* bc_create_hd_public_copy(bc_hd_public_t* other)
+bc_hd_public_t* bc_create_hd_public_copy(const bc_hd_public_t* other)
 {
     bc_hd_public_t* self = new bc_hd_public_t;
     self->obj = new libbitcoin::wallet::hd_public(*other->obj);
@@ -185,9 +178,9 @@ bc_hd_public_t* bc_hd_public_copy(bc_hd_public_t* self, bc_hd_public_t* other)
 {
     *self->obj = *other->obj;
 }
-bool bc_hd_public_to_bool(bc_hd_public_t* self)
+bool bc_hd_public_to_bool(const bc_hd_public_t* self)
 {
-    return (bool)*self->obj;
+    return static_cast<bool>(*self->obj);
 }
 bc_string_t* bc_hd_public_encoded(bc_hd_public_t* self)
 {
