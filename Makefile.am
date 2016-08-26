@@ -72,6 +72,7 @@ include_bitcoin_HEADERS = \
 
 include_bitcoin_bitcoin_c_mathdir = ${includedir}/bitcoin/bitcoin/c/math
 include_bitcoin_bitcoin_c_math_HEADERS = \
+    include/bitcoin/bitcoin/c/math/elliptic_curve.h \
     include/bitcoin/bitcoin/c/math/hash.h
 
 include_bitcoin_bitcoin_c_utilitydir = ${includedir}/bitcoin/bitcoin/c/utility
