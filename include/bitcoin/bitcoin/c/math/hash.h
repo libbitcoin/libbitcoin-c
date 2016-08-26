@@ -67,21 +67,21 @@ bc_mini_hash_t* bc_null_mini_hash();
 
  * ripemd160(data)
  */
-bc_short_hash_t* bc_ripemd160_hash(bc_data_chunk_t* data);
+bc_short_hash_t* bc_ripemd160_hash(const bc_data_chunk_t* data);
 
 /**
  * Generate a sha1 hash. This hash function is used in script for op_sha1.
  *
  * sha1(data)
  */
-bc_short_hash_t* bc_sha1_hash(bc_data_chunk_t* data);
+bc_short_hash_t* bc_sha1_hash(const bc_data_chunk_t* data);
 
 /**
  * Generate a sha256 hash. This hash function is used in mini keys.
  *
  * sha256(data)
  */
-bc_hash_digest_t* bc_sha256_hash(bc_data_chunk_t* data);
+bc_hash_digest_t* bc_sha256_hash(const bc_data_chunk_t* data);
 
 /**
  * Generate a sha256 hash. This hash function is used in electrum seed
@@ -90,7 +90,7 @@ bc_hash_digest_t* bc_sha256_hash(bc_data_chunk_t* data);
  * sha256(data)
  */
 bc_hash_digest_t* bc_sha256_hash_double(
-    bc_data_chunk_t* first, bc_data_chunk_t* second);
+    const bc_data_chunk_t* first, const bc_data_chunk_t* second);
 
 /**
  * Generate a hmac sha256 hash. This hash function is used in deterministic
@@ -99,14 +99,14 @@ bc_hash_digest_t* bc_sha256_hash_double(
  * hmac-sha256(data, key)
  */
 bc_hash_digest_t* bc_hmac_sha256_hash(
-    bc_data_chunk_t* data, bc_data_chunk_t* key);
+    const bc_data_chunk_t* data, const bc_data_chunk_t* key);
 
 /**
  * Generate a sha512 hash. This hash function is used in bip32 keys.
  *
  * sha512(data)
  */
-bc_long_hash_t* bc_sha512_hash(bc_data_chunk_t* data);
+bc_long_hash_t* bc_sha512_hash(const bc_data_chunk_t* data);
 
 /**
  * Generate a hmac sha512 hash. This hash function is used in bip32 keys.
@@ -114,7 +114,7 @@ bc_long_hash_t* bc_sha512_hash(bc_data_chunk_t* data);
  * hmac-sha512(data, key)
  */
 bc_long_hash_t* bc_hmac_sha512_hash(
-    bc_data_chunk_t* data, bc_data_chunk_t* key);
+    const bc_data_chunk_t* data, const bc_data_chunk_t* key);
 
 /**
  * Generate a pkcs5 pbkdf2 hmac sha512 hash. This hash function is used in
@@ -122,8 +122,9 @@ bc_long_hash_t* bc_hmac_sha512_hash(
  *
  * pkcs5_pbkdf2_hmac_sha512(passphrase, salt, iterations)
  */
-bc_long_hash_t* bc_pkcs5_pbkdf2_hmac_sha512(bc_data_chunk_t* passphrase,
-    bc_data_chunk_t* salt, size_t iterations);
+bc_long_hash_t* bc_pkcs5_pbkdf2_hmac_sha512(
+    const bc_data_chunk_t* passphrase,
+    const bc_data_chunk_t* salt, size_t iterations);
 
 /**
  * Generate a typical bitcoin hash. This is the most widely used
@@ -131,7 +132,7 @@ bc_long_hash_t* bc_pkcs5_pbkdf2_hmac_sha512(bc_data_chunk_t* passphrase,
  *
  * sha256(sha256(data))
  */
-bc_hash_digest_t* bc_bitcoin_hash(bc_data_chunk_t* data);
+bc_hash_digest_t* bc_bitcoin_hash(const bc_data_chunk_t* data);
 
 /**
  * Generate a bitcoin short hash. This hash function is used in a
@@ -139,14 +140,15 @@ bc_hash_digest_t* bc_bitcoin_hash(bc_data_chunk_t* data);
  *
  * ripemd160(sha256(data))
  */
-bc_short_hash_t* bc_bitcoin_short_hash(bc_data_chunk_t* data);
+bc_short_hash_t* bc_bitcoin_short_hash(const bc_data_chunk_t* data);
 
 /**
  * Generate a scrypt hash of specified length.
  *
  * scrypt(data, salt, params)
  */
-bc_data_chunk_t* bc_scrypt(bc_data_chunk_t* data, bc_data_chunk_t* salt,
+bc_data_chunk_t* bc_scrypt(
+    const bc_data_chunk_t* data, const bc_data_chunk_t* salt,
     uint64_t N, uint32_t p, uint32_t r, size_t length);
 
 #ifdef __cplusplus

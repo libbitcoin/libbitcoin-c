@@ -162,19 +162,23 @@ void bc_destroy_hd_public(bc_hd_public_t* self)
     delete self->obj;
     delete self;
 }
-bool bc_hd_public_less_than(bc_hd_public_t* self, bc_hd_public_t* other)
+bool bc_hd_public_less_than(
+    const bc_hd_public_t* self, const bc_hd_public_t* other)
 {
     return *self->obj < *other->obj;
 }
-bool bc_hd_public_equals(bc_hd_public_t* self, bc_hd_public_t* other)
+bool bc_hd_public_equals(
+    const bc_hd_public_t* self, const bc_hd_public_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_hd_public_not_equals(bc_hd_public_t* self, bc_hd_public_t* other)
+bool bc_hd_public_not_equals(
+    const bc_hd_public_t* self, const bc_hd_public_t* other)
 {
     return *self->obj != *other->obj;
 }
-bc_hd_public_t* bc_hd_public_copy(bc_hd_public_t* self, bc_hd_public_t* other)
+bc_hd_public_t* bc_hd_public_copy(
+    bc_hd_public_t* self, const bc_hd_public_t* other)
 {
     *self->obj = *other->obj;
 }
@@ -182,26 +186,26 @@ bool bc_hd_public_to_bool(const bc_hd_public_t* self)
 {
     return static_cast<bool>(*self->obj);
 }
-bc_string_t* bc_hd_public_encoded(bc_hd_public_t* self)
+bc_string_t* bc_hd_public_encoded(const bc_hd_public_t* self)
 {
     std::string encoded = self->obj->encoded();
     return bc_create_string_Length(encoded.data(), encoded.length());
 }
-bc_hd_chain_code_t* bc_hd_public_chain_code(bc_hd_public_t* self)
+bc_hd_chain_code_t* bc_hd_public_chain_code(const bc_hd_public_t* self)
 {
     auto &chain_code = self->obj->chain_code();
     bc_hd_chain_code_t* result = new bc_hd_chain_code_t;
     result->obj = new libbitcoin::wallet::hd_chain_code(chain_code);
     return result;
 }
-bc_hd_lineage_t* bc_hd_public_lineage(bc_hd_public_t* self)
+bc_hd_lineage_t* bc_hd_public_lineage(const bc_hd_public_t* self)
 {
     auto &lineage = self->obj->lineage();
     bc_hd_lineage_t* result = new bc_hd_lineage_t;
     result->obj = new libbitcoin::wallet::hd_lineage(lineage);
     return result;
 }
-bc_hd_key_t* bc_hd_public_to_hd_key(bc_hd_public_t* self)
+bc_hd_key_t* bc_hd_public_to_hd_key(const bc_hd_public_t* self)
 {
     auto key = self->obj->to_hd_key();
     bc_hd_key_t* result = new bc_hd_key_t;
@@ -209,7 +213,7 @@ bc_hd_key_t* bc_hd_public_to_hd_key(bc_hd_public_t* self)
     return result;
 }
 bc_hd_public_t* bc_hd_public_derive_public(
-    bc_hd_public_t* self, uint32_t index)
+    const bc_hd_public_t* self, uint32_t index)
 {
     bc_hd_public_t* derived = new bc_hd_public_t;
     derived->obj = new libbitcoin::wallet::hd_public(

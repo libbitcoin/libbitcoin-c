@@ -70,59 +70,60 @@ bc_ec_uncompressed_t* null_uncompressed_point();
 
 /// Compute the sum a += G*b, where G is the curve's generator point.
 /// return false on failure (such as infinity or zero).
-bool bc_ec_add_compressed(bc_ec_compressed_t* point, bc_ec_secret_t* secret);
+bool bc_ec_add_compressed(
+    bc_ec_compressed_t* point, const bc_ec_secret_t* secret);
 
 /// Compute the sum a += G*b, where G is the curve's generator point.
 /// return false on failure (such as infinity or zero).
 bool bc_ec_add_uncompressed(
-    bc_ec_uncompressed_t* point, bc_ec_secret_t* secret);
+    bc_ec_uncompressed_t* point, const bc_ec_secret_t* secret);
 
 /// Compute the sum a = (a + b) % n, where n is the curve order.
 /// return false on failure (such as a zero result).
-bool bc_ec_add(bc_ec_secret_t* left, bc_ec_secret_t* right);
+bool bc_ec_add(bc_ec_secret_t* left, const bc_ec_secret_t* right);
 
 /// Compute the product point *= secret.
 /// return false on failure (such as infinity or zero).
 bool bc_ec_multiply_compressed(
-    bc_ec_compressed_t* point, bc_ec_secret_t* secret);
+    bc_ec_compressed_t* point, const bc_ec_secret_t* secret);
 
 /// Compute the product point *= secret.
 /// return false on failure (such as infinity or zero).
 bool bc_ec_multiply_uncompressed(
-    bc_ec_uncompressed_t* point, bc_ec_secret_t* secret);
+    bc_ec_uncompressed_t* point, const bc_ec_secret_t* secret);
 
 /// Compute the product a = (a * b) % n, where n is the curve order.
 /// return false on failure (such as a zero result).
-bool bc_ec_multiply(bc_ec_secret_t* left, bc_ec_secret_t* right);
+bool bc_ec_multiply(bc_ec_secret_t* left, const bc_ec_secret_t* right);
 
 // Convert keys
 // ----------------------------------------------------------------------------
 
 /// Convert an uncompressed public point to compressed.
-bool bc_compress(bc_ec_compressed_t* out, bc_ec_uncompressed_t* point);
+bool bc_compress(bc_ec_compressed_t* out, const bc_ec_uncompressed_t* point);
 
 /// Convert a compressed public point to decompressed.
-bool bc_decompress(bc_ec_uncompressed_t* out, bc_ec_compressed_t* point);
+bool bc_decompress(bc_ec_uncompressed_t* out, const bc_ec_compressed_t* point);
 
 /// Convert a secret to a compressed public point.
 bool bc_compressed_secret_to_public(
-    bc_ec_compressed_t* out, bc_ec_secret_t* secret);
+    bc_ec_compressed_t* out, const bc_ec_secret_t* secret);
 
 /// Convert a secret parameter to an uncompressed public point.
 bool bc_uncompressed_secret_to_public(
-    bc_ec_uncompressed_t* out, bc_ec_secret_t* secret);
+    bc_ec_uncompressed_t* out, const bc_ec_secret_t* secret);
 
 // Verify keys
 // ----------------------------------------------------------------------------
 
 /// Verify a secret.
-bool bc_verify_secret(bc_ec_secret_t* secret);
+bool bc_verify_secret(const bc_ec_secret_t* secret);
 
 /// Verify a point.
-bool bc_verify_compressed(bc_ec_compressed_t* point);
+bool bc_verify_compressed(const bc_ec_compressed_t* point);
 
 /// Verify a point.
-bool bc_verify_uncompressed(bc_ec_uncompressed_t* point);
+bool bc_verify_uncompressed(const bc_ec_uncompressed_t* point);
 
 #ifdef __cplusplus
 }

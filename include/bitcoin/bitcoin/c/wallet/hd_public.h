@@ -86,27 +86,29 @@ bc_hd_public_t* bc_create_hd_public_String_Prefix(
 /// Destructor
 void bc_destroy_hd_public(bc_hd_public_t* self);
 /// Operators.
-bool bc_hd_public_less_than(bc_hd_public_t* self, bc_hd_public_t* other);
-bool bc_hd_public_equals(bc_hd_public_t* self, bc_hd_public_t* other);
-bool bc_hd_public_not_equals(bc_hd_public_t* self, bc_hd_public_t* other);
-bc_hd_public_t* bc_hd_public_copy(bc_hd_public_t* self, bc_hd_public_t* other);
+bool bc_hd_public_less_than(
+    const bc_hd_public_t* self, const bc_hd_public_t* other);
+bool bc_hd_public_equals(
+    const bc_hd_public_t* self, const bc_hd_public_t* other);
+bool bc_hd_public_not_equals(
+    const bc_hd_public_t* self, const bc_hd_public_t* other);
+bc_hd_public_t* bc_hd_public_copy(
+    bc_hd_public_t* self, const bc_hd_public_t* other);
 // Ignored:
 //  friend std::istream& operator>>(std::istream& in, hd_public& to);
 //  friend std::ostream& operator<<(std::ostream& out, const hd_public& of);
 bool bc_hd_public_to_bool(const bc_hd_public_t* self);
-// TODO:
-//   operator const ec_compressed&() const;
 /// Serializer.
-bc_string_t* bc_hd_public_encoded(bc_hd_public_t* self);
+bc_string_t* bc_hd_public_encoded(const bc_hd_public_t* self);
 /// Accessors.
-bc_hd_chain_code_t* bc_hd_public_chain_code(bc_hd_public_t* self);
-bc_hd_lineage_t* bc_hd_public_lineage(bc_hd_public_t* self);
+bc_hd_chain_code_t* bc_hd_public_chain_code(const bc_hd_public_t* self);
+bc_hd_lineage_t* bc_hd_public_lineage(const bc_hd_public_t* self);
 // TODO:
 //   const ec_compressed& point() const;
 /// Methods.
-bc_hd_key_t* bc_hd_public_to_hd_key(bc_hd_public_t* self);
+bc_hd_key_t* bc_hd_public_to_hd_key(const bc_hd_public_t* self);
 bc_hd_public_t* bc_hd_public_derive_public(
-    bc_hd_public_t* self, uint32_t index);
+    const bc_hd_public_t* self, uint32_t index);
 
 #ifdef __cplusplus
 }

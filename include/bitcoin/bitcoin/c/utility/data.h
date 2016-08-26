@@ -32,7 +32,7 @@ typedef struct bc_data_chunk_t bc_data_chunk_t;
 // Empty chunk
 bc_data_chunk_t* bc_create_data_chunk();
 // Copy constructor
-bc_data_chunk_t* bc_create_data_chunk_copy(bc_data_chunk_t* other);
+bc_data_chunk_t* bc_create_data_chunk_copy(const bc_data_chunk_t* other);
 // Initialize data chunk from uint8_t array
 bc_data_chunk_t* bc_create_data_chunk_Array(const uint8_t* data, size_t size);
 // Destructor
@@ -46,9 +46,11 @@ uint8_t* bc_data_chunk_data(bc_data_chunk_t* self);
 // const .data()
 const uint8_t* bc_data_chunk_cdata(const bc_data_chunk_t* self);
 // extend_data()
-void bc_data_chunk_extend_data(bc_data_chunk_t* self, bc_data_chunk_t* other);
+void bc_data_chunk_extend_data(
+    bc_data_chunk_t* self, const bc_data_chunk_t* other);
 // a == b
-bool bc_data_chunk_equals(bc_data_chunk_t* self, bc_data_chunk_t* other);
+bool bc_data_chunk_equals(
+    const bc_data_chunk_t* self, const bc_data_chunk_t* other);
 
 /**
  * Constrain a numeric value within a given range.

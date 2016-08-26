@@ -30,7 +30,7 @@ bc_data_chunk_t* bc_create_data_chunk()
     return self;
 }
 // Copy constructor
-bc_data_chunk_t* bc_create_data_chunk_copy(bc_data_chunk_t* other)
+bc_data_chunk_t* bc_create_data_chunk_copy(const bc_data_chunk_t* other)
 {
     bc_data_chunk_t* self = new bc_data_chunk_t;
     self->obj = new libbitcoin::data_chunk(*other->obj);
@@ -70,12 +70,14 @@ const uint8_t* bc_data_chunk_cdata(const bc_data_chunk_t* self)
     return self->obj->data();
 }
 // extend_data()
-void bc_data_chunk_extend_data(bc_data_chunk_t* self, bc_data_chunk_t* other)
+void bc_data_chunk_extend_data(
+    bc_data_chunk_t* self, const bc_data_chunk_t* other)
 {
     libbitcoin::extend_data(*self->obj, *other->obj);
 }
 // a == b
-bool bc_data_chunk_equals(bc_data_chunk_t* self, bc_data_chunk_t* other)
+bool bc_data_chunk_equals(
+    const bc_data_chunk_t* self, const bc_data_chunk_t* other)
 {
     return *self->obj == *other->obj;
 }
