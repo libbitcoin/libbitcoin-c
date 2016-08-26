@@ -17,22 +17,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_STRING_HPP
-#define LIBBITCOIN_C_INTERNAL_STRING_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_WALLET_BITCOIN_URI_HPP
+#define LIBBITCOIN_C_INTERNAL_WALLET_BITCOIN_URI_HPP
 
-#include <string>
+#include <bitcoin/bitcoin/wallet/bitcoin_uri.hpp>
 
 extern "C" {
 
-struct bc_string_t
+struct bc_bitcoin_uri_t
 {
-    std::string* obj;
+    libbitcoin::wallet::bitcoin_uri* obj;
 };
 
 }
-
-// C++ convenience function
-bc_string_t* bc_create_string_StdString(const std::string& string);
 
 #endif
 

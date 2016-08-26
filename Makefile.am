@@ -40,6 +40,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/formats/base_16.cpp \
     src/math/hash.cpp \
     src/math/elliptic_curve.cpp \
+    src/wallet/bitcoin_uri.cpp \
     src/wallet/hd_public.cpp \
     src/wallet/hd_private.cpp
 
@@ -58,6 +59,7 @@ test_libbitcoin_c_test_SOURCES = \
     test/formats/base_16.cpp \
     test/math/hash.cpp \
     test/math/elliptic_curve.cpp \
+    test/wallet/bitcoin_uri.cpp \
     test/wallet/hd_public.cpp
 
 endif WITH_TESTS
@@ -83,6 +85,7 @@ include_bitcoin_bitcoin_c_formats_HEADERS = \
 
 include_bitcoin_bitcoin_c_walletdir = ${includedir}/bitcoin/bitcoin/c/wallet
 include_bitcoin_bitcoin_c_wallet_HEADERS = \
+    include/bitcoin/bitcoin/c/wallet/bitcoin_uri.h \
     include/bitcoin/bitcoin/c/wallet/hd_public.h \
     include/bitcoin/bitcoin/c/wallet/hd_private.h
 
@@ -98,6 +101,7 @@ include_bitcoin_bitcoin_c_internal_utility_HEADERS = \
 
 include_bitcoin_bitcoin_c_internal_walletdir = ${includedir}/bitcoin/bitcoin/c/internal/wallet
 include_bitcoin_bitcoin_c_internal_wallet_HEADERS = \
+    include/bitcoin/bitcoin/c/internal/wallet/bitcoin_uri.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/hd_public.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/hd_private.hpp
 

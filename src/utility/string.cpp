@@ -59,3 +59,8 @@ bool bc_string_equals_cstr(const bc_string_t* self, const char* other)
 
 }
 
+bc_string_t* bc_create_string_StdString(const std::string& string)
+{
+    return bc_create_string_Length(string.data(), string.length());
+}
+
