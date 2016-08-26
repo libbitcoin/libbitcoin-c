@@ -17,31 +17,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_HD_PUBLIC_HPP
-#define LIBBITCOIN_C_INTERNAL_HD_PUBLIC_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_STRING_HPP
+#define LIBBITCOIN_C_INTERNAL_STRING_HPP
 
-#include <bitcoin/bitcoin/wallet/hd_public.hpp>
+#include <string>
 
 extern "C" {
 
-struct bc_hd_chain_code_t
+struct bc_string_t
 {
-    libbitcoin::wallet::hd_chain_code* obj;
-};
-
-struct bc_hd_key_t
-{
-    libbitcoin::wallet::hd_key* obj;
-};
-
-struct bc_hd_lineage_t
-{
-    libbitcoin::wallet::hd_lineage* obj;
-};
-
-struct bc_hd_public_t
-{
-    libbitcoin::wallet::hd_public* obj;
+    std::string* obj;
 };
 
 }

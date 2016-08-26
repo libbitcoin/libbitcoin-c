@@ -92,9 +92,11 @@ include_bitcoin_bitcoin_c_internal_math_HEADERS = \
 
 include_bitcoin_bitcoin_c_internal_utilitydir = ${includedir}/bitcoin/bitcoin/c/internal/utility
 include_bitcoin_bitcoin_c_internal_utility_HEADERS = \
-    include/bitcoin/bitcoin/c/internal/utility/data.hpp
+    include/bitcoin/bitcoin/c/internal/utility/data.hpp \
+    include/bitcoin/bitcoin/c/internal/utility/string.hpp
 
 include_bitcoin_bitcoin_c_internal_walletdir = ${includedir}/bitcoin/bitcoin/c/internal/wallet
 include_bitcoin_bitcoin_c_internal_wallet_HEADERS = \
-    include/bitcoin/bitcoin/c/internal/wallet/hd_public.hpp
+    include/bitcoin/bitcoin/c/internal/wallet/hd_public.hpp \
+    include/bitcoin/bitcoin/c/internal/wallet/hd_private.hpp
 

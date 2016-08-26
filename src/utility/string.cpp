@@ -19,26 +19,17 @@
  */
 #include <bitcoin/bitcoin/c/utility/string.h>
 
-#include <string>
+#include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 
 extern "C" {
 
-struct bc_string_t
-{
-    std::string* obj;
-};
-
 bc_string_t* bc_create_string(const char* data)
 {
-    bc_string_t* self = new bc_string_t;
-    self->obj = new std::string(data);
-    return self;
+    return new bc_string_t{ new std::string(data) };
 }
 bc_string_t* bc_create_string_Length(const char* data, size_t length)
 {
-    bc_string_t* self = new bc_string_t;
-    self->obj = new std::string(data, length);
-    return self;
+    return new bc_string_t{ new std::string(data, length) };
 }
 void bc_destroy_string(bc_string_t* self)
 {

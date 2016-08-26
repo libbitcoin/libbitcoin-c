@@ -23,13 +23,10 @@
 #include <bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/wallet/hd_public.hpp>
+#include <bitcoin/bitcoin/c/internal/wallet/hd_private.hpp>
 
 extern "C" {
 
-struct bc_hd_private_t
-{
-    libbitcoin::wallet::hd_private* obj;
-};
 uint64_t bc_hd_private_mainnet()
 {
     return libbitcoin::wallet::hd_private::mainnet;

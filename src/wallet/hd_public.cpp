@@ -20,7 +20,6 @@
 #include <bitcoin/bitcoin/c/wallet/hd_public.h>
 
 #include <string.h>
-#include <bitcoin/bitcoin/wallet/hd_public.hpp>
 #include <bitcoin/bitcoin/c/internal/wallet/hd_public.hpp>
 
 extern "C" {
@@ -35,10 +34,6 @@ size_t bc_hd_chain_code_size()
 {
     return libbitcoin::wallet::hd_chain_code_size;
 }
-struct bc_hd_chain_code_t
-{
-    libbitcoin::wallet::hd_chain_code* obj;
-};
 void bc_destroy_hd_chain_code(bc_hd_chain_code_t* self)
 {
     delete self->obj;
@@ -55,11 +50,6 @@ void bc_destroy_hd_key(bc_hd_key_t* self)
     delete self->obj;
     delete self;
 }
-
-struct bc_hd_lineage_t
-{
-    libbitcoin::wallet::hd_lineage* obj;
-};
 
 // prefixes
 uint64_t bc_hd_lineage_get_prefixes(bc_hd_lineage_t* self)
