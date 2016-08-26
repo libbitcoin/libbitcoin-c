@@ -57,6 +57,7 @@ test_libbitcoin_c_test_SOURCES = \
     test/utility/data.cpp \
     test/formats/base_16.cpp \
     test/math/hash.cpp \
+    test/math/elliptic_curve.cpp \
     test/wallet/hd_public.cpp
 
 endif WITH_TESTS

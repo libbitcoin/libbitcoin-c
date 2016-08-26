@@ -28,6 +28,15 @@
 extern "C" {
 #endif
 
+#define BC_DECLARE_BYTE_ARRAY(typename) \
+    size_t bc_##typename##_size(); \
+    typedef struct bc_##typename##_t bc_##typename##_t; \
+    bc_##typename##_t* bc_create_##typename(); \
+    bc_##typename##_t* bc_create_##typename##_Data(const uint8_t* data); \
+    void bc_destroy_##typename(bc_##typename##_t* self); \
+    uint8_t* bc_##typename##_data(bc_##typename##_t* self); \
+    const uint8_t* bc_##typename##_cdata(const bc_##typename##_t* self);
+
 typedef struct bc_data_chunk_t bc_data_chunk_t;
 // Empty chunk
 bc_data_chunk_t* bc_create_data_chunk();

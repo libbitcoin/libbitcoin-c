@@ -51,5 +51,11 @@ bool bc_decode_hash(bc_hash_digest_t* out, const char* in)
     return libbitcoin::decode_hash(*out->obj, in);
 }
 
+bc_hash_digest_t* bc_hash_literal(const char (*string)[65])
+{
+    return new bc_hash_digest_t{ new libbitcoin::hash_digest(
+        libbitcoin::hash_literal(*string)) };
+}
+
 }
 

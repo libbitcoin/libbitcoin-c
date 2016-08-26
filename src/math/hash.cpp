@@ -66,6 +66,10 @@ size_t bc_mini_hash_size()
     { \
         return self->obj->data(); \
     } \
+    const uint8_t* bc_##hashtype##_cdata(const bc_##hashtype##_t* self) \
+    { \
+        return self->obj->data(); \
+    } \
     \
     /* Internal constructor for this unit. */ \
     bc_##hashtype##_t* bc_Internal_create_##hashtype( \

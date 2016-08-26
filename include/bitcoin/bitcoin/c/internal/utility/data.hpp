@@ -29,6 +29,37 @@ struct bc_data_chunk_t
     libbitcoin::data_chunk* obj;
 };
 
+#define BC_IMPLEMENT_BYTE_ARRAY(typename) \
+    \
+    size_t bc_##typename##_size() \
+    { \
+        return libbitcoin::typename##_size; \
+    } \
+    bc_##typename##_t* bc_create_##typename() \
+    { \
+        return new bc_##typename##_t{ new libbitcoin::typename }; \
+    } \
+    bc_##typename##_t* bc_create_##typename##_Data(const uint8_t* data) \
+    { \
+        bc_##typename##_t* self = new bc_##typename##_t{ \
+            new libbitcoin::typename }; \
+        std::copy_n(data, bc_##typename##_size(), self->obj->data()); \
+        return self; \
+    } \
+    void bc_destroy_##typename(bc_##typename##_t* self) \
+    { \
+        delete self->obj; \
+        delete self; \
+    } \
+    uint8_t* bc_##typename##_data(bc_##typename##_t* self) \
+    { \
+        return self->obj->data(); \
+    } \
+    const uint8_t* bc_##typename##_cdata(const bc_##typename##_t* self) \
+    { \
+        return self->obj->data(); \
+    }
+
 }
 
 #endif

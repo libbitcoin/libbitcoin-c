@@ -29,6 +29,26 @@ struct bc_ec_secret_t
     libbitcoin::ec_secret* obj;
 };
 
+struct bc_ec_compressed_t
+{
+    libbitcoin::ec_compressed* obj;
+};
+
+struct bc_ec_uncompressed_t
+{
+    libbitcoin::ec_uncompressed* obj;
+};
+
+struct bc_ec_signature_t
+{
+    libbitcoin::ec_signature* obj;
+};
+
+struct bc_recoverable_signature_t
+{
+    libbitcoin::recoverable_signature* obj;
+};
+
 }
 
 #endif

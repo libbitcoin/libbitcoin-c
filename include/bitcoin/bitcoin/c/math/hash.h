@@ -42,7 +42,8 @@ size_t bc_mini_hash_size();
     typedef struct bc_##hashtype##_t bc_##hashtype##_t; \
     bc_##hashtype##_t* bc_create_##hashtype(); \
     void bc_destroy_##hashtype(bc_##hashtype##_t* self); \
-    uint8_t* bc_##hashtype##_data(bc_##hashtype##_t* self);
+    uint8_t* bc_##hashtype##_data(bc_##hashtype##_t* self); \
+    const uint8_t* bc_##hashtype##_cdata(const bc_##hashtype##_t* self);
 
 DECLARE_HASH_TYPE(hash_digest);
 DECLARE_HASH_TYPE(half_hash);

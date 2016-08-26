@@ -23,40 +23,34 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <bitcoin/bitcoin/c/math/hash.h>
+#include <bitcoin/bitcoin/c/utility/data.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /// Private key:
-size_t bc_ec_secret_size();
-typedef struct bc_ec_secret_t bc_ec_secret_t;
-void bc_destroy_ec_secret(bc_ec_secret_t* self);
+BC_DECLARE_BYTE_ARRAY(ec_secret);
 
 /// Compressed public key:
-size_t bc_ec_compressed_size();
-typedef struct bc_ec_compressed_t bc_ec_compressed_t;
-void bc_destroy_ec_compressed(bc_ec_compressed_t* self);
+BC_DECLARE_BYTE_ARRAY(ec_compressed);
 
 /// Uncompressed public key:
-size_t bc_ec_uncompressed_size();
-typedef struct bc_ec_uncompressed_t bc_ec_uncompressed_t;
-void bc_destroy_ec_uncompressed(bc_ec_uncompressed_t* self);
+BC_DECLARE_BYTE_ARRAY(ec_uncompressed);
 
 // Parsed ECDSA signature:
-size_t bc_ec_signature_size();
-typedef struct bc_ec_signature_t bc_ec_signature_t;
-void bc_destroy_ec_signature(bc_ec_signature_t* self);
+BC_DECLARE_BYTE_ARRAY(ec_signature);
 
 // DER encoded signature:
 size_t bc_max_der_signature_size();
-typedef struct bc_der_signature_t bc_der_signature_t;
-void bc_destroy_der_signature(bc_der_signature_t* self);
+// This type is actually a data_chunk typedef
+typedef struct bc_data_chunk_t bc_der_signature_t;
 
 /// DER encoded signature with sighash byte for input endorsement:
 size_t bc_max_endorsement_size();
-typedef struct bc_endorsement_t bc_endorsement_t;
-void bc_destroy_endorsement(bc_endorsement_t* self);
+// This type is actually a data_chunk typedef
+typedef struct bc_data_chunk_t bc_endorsement_t;
 
 /// Recoverable ecdsa signature for message signing:
 typedef struct bc_recoverable_signature_t bc_recoverable_signature_t;
@@ -106,11 +100,11 @@ bool bc_compress(bc_ec_compressed_t* out, const bc_ec_uncompressed_t* point);
 bool bc_decompress(bc_ec_uncompressed_t* out, const bc_ec_compressed_t* point);
 
 /// Convert a secret to a compressed public point.
-bool bc_compressed_secret_to_public(
+bool bc_secret_to_public_compressed(
     bc_ec_compressed_t* out, const bc_ec_secret_t* secret);
 
 /// Convert a secret parameter to an uncompressed public point.
-bool bc_uncompressed_secret_to_public(
+bool bc_secret_to_public_uncompressed(
     bc_ec_uncompressed_t* out, const bc_ec_secret_t* secret);
 
 // Verify keys
@@ -124,6 +118,66 @@ bool bc_verify_compressed(const bc_ec_compressed_t* point);
 
 /// Verify a point.
 bool bc_verify_uncompressed(const bc_ec_uncompressed_t* point);
+
+// Detect public keys
+// ----------------------------------------------------------------------------
+
+/// Fast detection of compressed public key structure.
+bool bc_is_compressed_key(const bc_data_chunk_t* point);
+
+/// Fast detection of uncompressed public key structure.
+bool bc_is_uncompressed_key(const bc_data_chunk_t* point);
+
+/// Fast detection of compressed or uncompressed public key structure.
+bool bc_is_public_key(const bc_data_chunk_t* point);
+
+// DER parse/encode
+// ----------------------------------------------------------------------------
+
+/// Parse a DER encoded signature with optional strict DER enforcement.
+/// Treat an empty DER signature as invalid, in accordance with BIP66.
+bool bc_parse_signature(bc_ec_signature_t* out,
+    const bc_der_signature_t* der_signature, bool strict);
+
+/// Encode an EC signature as DER (strict).
+bool bc_encode_signature(bc_der_signature_t* out,
+    const bc_ec_signature_t* signature);
+
+// EC sign/verify
+// ----------------------------------------------------------------------------
+
+/// Create a deterministic ECDSA signature using a private key.
+bool bc_sign(bc_ec_signature_t* out, const bc_ec_secret_t* secret,
+    const bc_hash_digest_t* hash);
+
+/// Verify an EC signature using a compressed point.
+bool bc_verify_signature_compressed(const bc_ec_compressed_t* point,
+    const bc_hash_digest_t* hash, const bc_ec_signature_t* signature);
+
+/// Verify an EC signature using an uncompressed point.
+bool bc_verify_signature_uncompressed(const bc_ec_uncompressed_t* point,
+    const bc_hash_digest_t* hash, const bc_ec_signature_t* signature);
+
+/// Verify an EC signature using a potential point.
+bool bc_verify_signature_point(const bc_data_chunk_t* point,
+    const bc_hash_digest_t* hash, const bc_ec_signature_t* signature);
+
+// Recoverable sign/recover
+// ----------------------------------------------------------------------------
+
+/// Create a recoverable signature for use in message signing.
+bool sign_recoverable(bc_recoverable_signature_t* out,
+    const bc_ec_secret_t* secret, const bc_hash_digest_t* hash);
+
+/// Recover the compressed point from a recoverable message signature.
+bool recover_public_compressed(bc_ec_compressed_t* out,
+    const bc_recoverable_signature_t* recoverable,
+    const bc_hash_digest_t* hash);
+
+/// Recover the uncompressed point from a recoverable message signature.
+bool recover_public_uncompressed(bc_ec_uncompressed_t* out,
+    const bc_recoverable_signature_t* recoverable,
+    const bc_hash_digest_t* hash);
 
 #ifdef __cplusplus
 }

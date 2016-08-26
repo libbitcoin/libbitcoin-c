@@ -62,6 +62,12 @@ bc_string_t* bc_encode_hash(const bc_hash_digest_t* hash);
  */
 bool bc_decode_hash(bc_hash_digest_t* out, const char* in);
 
+/**
+ * Convert a hex string literal into a bitcoin_hash.
+ * The bitcoin_hash format is like base16, but with the bytes reversed.
+ */
+bc_hash_digest_t* bc_hash_literal(const char (*string)[65]);
+
 #ifdef __cplusplus
 }
 #endif
