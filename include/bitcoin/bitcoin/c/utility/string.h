@@ -31,12 +31,12 @@ typedef struct bc_string_t bc_string_t;
 bc_string_t* bc_create_string(const char* data);
 bc_string_t* bc_create_string_Length(const char* data, size_t length);
 void bc_destroy_string(bc_string_t* self);
-const char* bc_string_data(bc_string_t* self);
-size_t bc_string_length(bc_string_t* self);
-int bc_string_compare(bc_string_t* self, bc_string_t* other);
-bool bc_string_equals(bc_string_t* self, bc_string_t* other);
+const char* bc_string_data(const bc_string_t* self);
+size_t bc_string_length(const bc_string_t* self);
+int bc_string_compare(const bc_string_t* self, const bc_string_t* other);
+bool bc_string_equals(const bc_string_t* self, const bc_string_t* other);
 // Convenience function
-bool bc_string_equals_cstr(bc_string_t* self, const char* other);
+bool bc_string_equals_cstr(const bc_string_t* self, const char* other);
 
 #ifdef __cplusplus
 }

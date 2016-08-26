@@ -45,23 +45,23 @@ void bc_destroy_string(bc_string_t* self)
     delete self->obj;
     delete self;
 }
-const char* bc_string_data(bc_string_t* self)
+const char* bc_string_data(const bc_string_t* self)
 {
     return self->obj->data();
 }
-size_t bc_string_length(bc_string_t* self)
+size_t bc_string_length(const bc_string_t* self)
 {
     return self->obj->length();
 }
-int bc_string_compare(bc_string_t* self, bc_string_t* other)
+int bc_string_compare(const bc_string_t* self, const bc_string_t* other)
 {
     return self->obj->compare(*other->obj);
 }
-bool bc_string_equals(bc_string_t* self, bc_string_t* other)
+bool bc_string_equals(const bc_string_t* self, const bc_string_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_string_equals_cstr(bc_string_t* self, const char* other)
+bool bc_string_equals_cstr(const bc_string_t* self, const char* other)
 {
     return *self->obj == other;
 }
