@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <bitcoin/bitcoin/c/utility/vector.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,6 +61,8 @@ void bc_data_chunk_extend_data(
 // a == b
 bool bc_data_chunk_equals(
     const bc_data_chunk_t* self, const bc_data_chunk_t* other);
+
+BC_DECLARE_VECTOR(data_stack, bc_data_chunk_t);
 
 /**
  * Constrain a numeric value within a given range.

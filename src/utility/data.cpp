@@ -82,6 +82,8 @@ bool bc_data_chunk_equals(
     return *self->obj == *other->obj;
 }
 
+BC_IMPLEMENT_VECTOR(data_stack, bc_data_chunk_t, bc_destroy_data_chunk);
+
 size_t bc_range_constrain(size_t value, size_t minimum, size_t maximum)
 {
     return libbitcoin::range_constrain(value, minimum, maximum);

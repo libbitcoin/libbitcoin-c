@@ -17,41 +17,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_ELLIPTIC_CURVE_HPP
-#define LIBBITCOIN_C_INTERNAL_ELLIPTIC_CURVE_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPERATION_HPP
+#define LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPERATION_HPP
 
-#include <bitcoin/bitcoin/math/elliptic_curve.hpp>
+#include <bitcoin/bitcoin/c/chain/script/operation.h>
+
+#include <vector>
+#include <bitcoin/bitcoin/chain/script/operation.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
 extern "C" {
 
-struct bc_ec_secret_t
-{
-    libbitcoin::ec_secret* obj;
-};
+BC_DECLARE_VECTOR_STRUCT(operation_stack, bc_operation_t);
 
-struct bc_ec_compressed_t
+struct bc_operation_t
 {
-    libbitcoin::ec_compressed* obj;
-};
-BC_DECLARE_VECTOR_STRUCT(point_list, bc_ec_compressed_t);
-
-struct bc_ec_uncompressed_t
-{
-    libbitcoin::ec_uncompressed* obj;
-};
-
-struct bc_ec_signature_t
-{
-    libbitcoin::ec_signature* obj;
-};
-
-struct bc_recoverable_signature_t
-{
-    libbitcoin::recoverable_signature* obj;
+    libbitcoin::chain::operation* obj;
 };
 
 }
+
+// C++ convenience function
+bc_script_pattern_t bc_script_pattern_to_ctype(
+    libbitcoin::chain::script_pattern value);
+libbitcoin::chain::script_pattern bc_script_pattern_from_ctype(
+    bc_script_pattern_t value);
 
 #endif
 

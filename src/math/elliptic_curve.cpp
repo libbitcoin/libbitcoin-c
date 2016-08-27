@@ -28,6 +28,7 @@ extern "C" {
 BC_IMPLEMENT_BYTE_ARRAY(ec_secret);
 
 BC_IMPLEMENT_BYTE_ARRAY(ec_compressed);
+BC_IMPLEMENT_VECTOR(point_list, bc_ec_compressed_t, bc_destroy_ec_compressed);
 
 BC_IMPLEMENT_BYTE_ARRAY(ec_uncompressed);
 

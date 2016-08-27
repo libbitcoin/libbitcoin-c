@@ -21,6 +21,7 @@
 #define LIBBITCOIN_C_INTERNAL_DATA_HPP
 
 #include <bitcoin/bitcoin/utility/data.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
 extern "C" {
 
@@ -28,6 +29,8 @@ struct bc_data_chunk_t
 {
     libbitcoin::data_chunk* obj;
 };
+
+BC_DECLARE_VECTOR_STRUCT(data_stack, bc_data_chunk_t);
 
 // For objects in the libbitcoin::wallet namespace
 #define BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(typename, namespace) \

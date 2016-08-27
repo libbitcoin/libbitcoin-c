@@ -25,6 +25,7 @@
 #include <stdint.h>
 #include <bitcoin/bitcoin/c/math/hash.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
+#include <bitcoin/bitcoin/c/utility/vector.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,6 +36,7 @@ BC_DECLARE_BYTE_ARRAY(ec_secret);
 
 /// Compressed public key:
 BC_DECLARE_BYTE_ARRAY(ec_compressed);
+BC_DECLARE_VECTOR(point_list, bc_ec_compressed_t);
 
 /// Uncompressed public key:
 BC_DECLARE_BYTE_ARRAY(ec_uncompressed);
