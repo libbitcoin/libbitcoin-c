@@ -18,9 +18,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <bitcoin/bitcoin/c/wallet/hd_public.h>
+#include <bitcoin/bitcoin/c/internal/wallet/hd_public.hpp>
 
 #include <string.h>
-#include <bitcoin/bitcoin/c/internal/wallet/hd_public.hpp>
 
 extern "C" {
 
