@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <bitcoin/bitcoin/c/chain/script/script.h>
 #include <bitcoin/bitcoin/c/math/hash.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
@@ -37,7 +38,14 @@ BC_DECLARE_BYTE_ARRAY(payment);
 typedef struct bc_payment_address_t bc_payment_address_t;
 uint8_t bc_payment_address_mainnet_p2kh();
 uint8_t bc_payment_address_mainnet_p2sh();
-// TODO: extract - script type needed first
+
+/// Extract a payment address from an input or output script.
+/// The address will be invalid if and only if the script type is not
+/// supported or the script is itself invalid.
+bc_payment_address_t* bc_payment_address_extract(
+    const bc_script_t* script);
+bc_payment_address_t* bc_payment_address_extract_Options(
+    const bc_script_t* script, uint8_t p2kh_version, uint8_t p2sh_version);
 
 bc_payment_address_t* bc_create_payment_address();
 bc_payment_address_t* bc_create_payment_address_Payment(
@@ -58,7 +66,10 @@ bc_payment_address_t* bc_create_payment_address_Hash_Version(
 //    const bc_ec_public_t* point);
 //bc_payment_address_t* bc_create_payment_address_Point_Version(
 //    const bc_ec_public_t* point, uint8_t version);
-// TODO: construct from script
+bc_payment_address_t* bc_create_payment_address_Script(
+    const bc_script_t* script);
+bc_payment_address_t* bc_create_payment_address_Script_Version(
+    const bc_script_t* script, uint8_t version);
 void bc_destroy_payment_address(bc_payment_address_t* self);
 
 /// Operators.

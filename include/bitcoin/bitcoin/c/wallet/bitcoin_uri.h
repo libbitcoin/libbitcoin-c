@@ -24,6 +24,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
+#include <bitcoin/bitcoin/c/wallet/payment_address.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,7 +56,7 @@ bc_string_t* bc_bitcoin_uri_label(const bc_bitcoin_uri_t* self);
 bc_string_t* bc_bitcoin_uri_message(const bc_bitcoin_uri_t* self);
 bc_string_t* bc_bitcoin_uri_r(const bc_bitcoin_uri_t* self);
 bc_string_t* bc_bitcoin_uri_address(const bc_bitcoin_uri_t* self);
-// TODO: payment address
+bc_payment_address_t* bc_bitcoin_uri_payment(const bc_bitcoin_uri_t* self);
 // TODO: stealth address
 bc_string_t* bc_bitcoin_uri_parameter(
     const bc_bitcoin_uri_t* self, const char* key);
@@ -65,7 +66,8 @@ void bc_bitcoin_uri_set_label(bc_bitcoin_uri_t* self, const char* label);
 void bc_bitcoin_uri_set_message(bc_bitcoin_uri_t* self, const char* message);
 void bc_bitcoin_uri_set_r(bc_bitcoin_uri_t* self, const char* r);
 void bc_bitcoin_uri_set_address(bc_bitcoin_uri_t* self, const char* address);
-// TODO: payment address
+void bc_bitcoin_uri_set_payment(bc_bitcoin_uri_t* self,
+    const bc_payment_address_t* payment);
 // TODO: stealth address
 /// uri_reader implementation.
 void bc_bitcoin_uri_set_strict(bc_bitcoin_uri_t* self, bool strict);

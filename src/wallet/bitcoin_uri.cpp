@@ -21,6 +21,7 @@
 #include <bitcoin/bitcoin/c/internal/wallet/bitcoin_uri.hpp>
 
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
+#include <bitcoin/bitcoin/c/internal/wallet/payment_address.hpp>
 
 extern "C" {
 
@@ -101,6 +102,11 @@ bc_string_t* bc_bitcoin_uri_address(const bc_bitcoin_uri_t* self)
 {
     return bc_create_string_StdString(self->obj->address());
 }
+bc_payment_address_t* bc_bitcoin_uri_payment(const bc_bitcoin_uri_t* self)
+{
+    return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
+        self->obj->payment()) };
+}
 bc_string_t* bc_bitcoin_uri_parameter(
     const bc_bitcoin_uri_t* self, const char* key)
 {
@@ -126,6 +132,11 @@ void bc_bitcoin_uri_set_r(bc_bitcoin_uri_t* self, const char* r)
 void bc_bitcoin_uri_set_address(bc_bitcoin_uri_t* self, const char* address)
 {
     self->obj->set_address(address);
+}
+void bc_bitcoin_uri_set_payment(bc_bitcoin_uri_t* self,
+    const bc_payment_address_t* payment)
+{
+    self->obj->set_address(*payment->obj);
 }
 /// uri_reader implementation.
 void bc_bitcoin_uri_set_strict(bc_bitcoin_uri_t* self, bool strict)

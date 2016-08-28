@@ -261,7 +261,13 @@ BOOST_AUTO_TEST_CASE(bitcoin_uri__payment__valid__expected_c)
     // TODO: need payment addresses first
     const auto expected_payment = "113Pfw4sFqN1T5kXUnKbqZHMJHN9oyjtgD";
     const auto expected_uri = std::string("bitcoin:") + expected_payment;
-    BOOST_REQUIRE_EQUAL(bitcoin_uri(expected_uri).payment().encoded(), expected_payment);
+    bc_bitcoin_uri_t* uri = bc_create_bitcoin_uri(expected_uri.data());
+    bc_payment_address_t* payment = bc_bitcoin_uri_payment(uri);
+    bc_string_t* encoded = bc_payment_address_encoded(payment);
+    BOOST_REQUIRE(bc_string_equals_cstr(encoded, expected_payment));
+    bc_destroy_string(encoded);
+    bc_destroy_payment_address(payment);
+    bc_destroy_bitcoin_uri(uri);
 }
 
 BOOST_AUTO_TEST_CASE(bitcoin_uri__stealth__valid__expected_c)

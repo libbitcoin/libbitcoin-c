@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <bitcoin/bitcoin/c/math/elliptic_curve.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
 
 #ifdef __cplusplus
@@ -103,8 +104,7 @@ bc_string_t* bc_hd_public_encoded(const bc_hd_public_t* self);
 /// Accessors.
 bc_hd_chain_code_t* bc_hd_public_chain_code(const bc_hd_public_t* self);
 bc_hd_lineage_t* bc_hd_public_lineage(const bc_hd_public_t* self);
-// TODO:
-//   const ec_compressed& point() const;
+bc_ec_compressed_t* bc_hd_public_point(const bc_hd_public_t* self);
 /// Methods.
 bc_hd_key_t* bc_hd_public_to_hd_key(const bc_hd_public_t* self);
 bc_hd_public_t* bc_hd_public_derive_public(

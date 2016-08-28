@@ -20,7 +20,7 @@
 #include <bitcoin/bitcoin/c/wallet/hd_public.h>
 #include <bitcoin/bitcoin/c/internal/wallet/hd_public.hpp>
 
-#include <string.h>
+#include <bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp>
 
 extern "C" {
 
@@ -194,6 +194,11 @@ bc_hd_lineage_t* bc_hd_public_lineage(const bc_hd_public_t* self)
     bc_hd_lineage_t* result = new bc_hd_lineage_t;
     result->obj = new libbitcoin::wallet::hd_lineage(lineage);
     return result;
+}
+bc_ec_compressed_t* bc_hd_public_point(const bc_hd_public_t* self)
+{
+    return new bc_ec_compressed_t{ new libbitcoin::ec_compressed(
+        self->obj->point()) };
 }
 bc_hd_key_t* bc_hd_public_to_hd_key(const bc_hd_public_t* self)
 {
