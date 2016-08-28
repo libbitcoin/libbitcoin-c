@@ -46,6 +46,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/wallet/payment_address.cpp \
     src/chain/point.cpp \
     src/chain/output.cpp \
+    src/chain/input.cpp \
     src/chain/script/operation.cpp \
     src/chain/script/opcode.cpp \
     src/chain/script/script.cpp
@@ -81,6 +82,7 @@ include_bitcoin_HEADERS = \
 include_bitcoin_bitcoin_c_chaindir = ${includedir}/bitcoin/bitcoin/c/chain
 include_bitcoin_bitcoin_c_chain_HEADERS = \
     include/bitcoin/bitcoin/c/chain/output.h \
+    include/bitcoin/bitcoin/c/chain/input.h \
     include/bitcoin/bitcoin/c/chain/point.h
 
 include_bitcoin_bitcoin_c_chain_scriptdir = ${includedir}/bitcoin/bitcoin/c/chain/script
@@ -114,6 +116,7 @@ include_bitcoin_bitcoin_c_wallet_HEADERS = \
 include_bitcoin_bitcoin_c_internal_chaindir = ${includedir}/bitcoin/bitcoin/c/internal/chain
 include_bitcoin_bitcoin_c_internal_chain_HEADERS = \
     include/bitcoin/bitcoin/c/internal/chain/output.hpp \
+    include/bitcoin/bitcoin/c/internal/chain/input.hpp \
     include/bitcoin/bitcoin/c/internal/chain/point.hpp
 
 include_bitcoin_bitcoin_c_internal_chain_scriptdir = ${includedir}/bitcoin/bitcoin/c/internal/chain/script
