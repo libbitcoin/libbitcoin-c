@@ -45,7 +45,7 @@ WrapperType* bc_vector_to_ctype(const VectorType& vector_obj,
     {
         ItemType* c_item = new ItemType{
             new typename VectorType::value_type(item) };
-        push_func(result, c_item);
+        push_func(result, &c_item);
     }
     return result;
 }

@@ -38,8 +38,8 @@ extern "C" {
     void bc_##typename##_clear(bc_##typename##_t* self); \
     void bc_##typename##_erase(bc_##typename##_t* self, size_t pos); \
     void bc_##typename##_insert(bc_##typename##_t* self, \
-        size_t pos, itemtype* obj); \
-    void bc_##typename##_push_back(bc_##typename##_t* self, itemtype* obj); \
+        size_t pos, itemtype** obj); \
+    void bc_##typename##_push_back(bc_##typename##_t* self, itemtype** obj); \
     void bc_##typename##_resize(bc_##typename##_t* self, size_t count);
 
 #ifdef __cplusplus

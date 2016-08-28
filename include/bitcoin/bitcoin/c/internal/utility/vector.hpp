@@ -67,15 +67,17 @@
         self->obj->erase(self->obj->begin() + pos); \
     } \
     void bc_##typename##_insert(bc_##typename##_t* self, \
-        size_t pos, itemtype* obj) \
+        size_t pos, itemtype** obj) \
     { \
-        bc_##typename##_t::uniqptr_type item(obj, delete_function); \
+        bc_##typename##_t::uniqptr_type item(*obj, delete_function); \
         self->obj->insert(self->obj->begin() + pos, std::move(item)); \
+        *obj = NULL; \
     } \
-    void bc_##typename##_push_back(bc_##typename##_t* self, itemtype* obj) \
+    void bc_##typename##_push_back(bc_##typename##_t* self, itemtype** obj) \
     { \
-        bc_##typename##_t::uniqptr_type item(obj, delete_function); \
+        bc_##typename##_t::uniqptr_type item(*obj, delete_function); \
         self->obj->push_back(std::move(item)); \
+        *obj = NULL; \
     } \
     void bc_##typename##_resize(bc_##typename##_t* self, size_t count) \
     { \

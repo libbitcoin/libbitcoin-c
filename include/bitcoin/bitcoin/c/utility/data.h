@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <bitcoin/bitcoin/c/utility/string.h>
 #include <bitcoin/bitcoin/c/utility/vector.h>
 
 #ifdef __cplusplus
@@ -36,7 +37,9 @@ extern "C" {
     bc_##typename##_t* bc_create_##typename##_Data(const uint8_t* data); \
     void bc_destroy_##typename(bc_##typename##_t* self); \
     uint8_t* bc_##typename##_data(bc_##typename##_t* self); \
-    const uint8_t* bc_##typename##_cdata(const bc_##typename##_t* self);
+    const uint8_t* bc_##typename##_cdata(const bc_##typename##_t* self); \
+    bc_string_t* bc_##typename##_encode_base16( \
+        const bc_##typename##_t* self);
 
 typedef struct bc_data_chunk_t bc_data_chunk_t;
 // Empty chunk

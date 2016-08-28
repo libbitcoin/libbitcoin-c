@@ -22,6 +22,9 @@
 
 #include <bitcoin/bitcoin/c/internal/chain/script/opcode.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/script/operation.hpp>
+#include <bitcoin/bitcoin/c/internal/chain/transaction.hpp>
+#include <bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp>
+#include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 
@@ -35,10 +38,44 @@ bc_script_t* bc_script_factory_from_data(const bc_data_chunk_t* data,
         *data->obj, prefix, bc_script_parse_mode_from_ctype(mode));
     return new bc_script_t{ new libbitcoin::chain::script(script) };
 }
+bool bc_script_verify(
+    const bc_script_t* input_script, const bc_script_t* output_script,
+    const bc_transaction_t* parent_tx, uint32_t input_index, uint32_t flags)
+{
+    return libbitcoin::chain::script::verify(
+        *input_script->obj, *output_script->obj, *parent_tx->obj,
+        input_index, flags);
+}
+bc_hash_digest_t* bc_script_generate_signature_hash(
+    const bc_transaction_t* parent_tx, uint32_t input_index,
+    const bc_script_t* script_code, uint8_t sighash_type)
+{
+    const auto hash = libbitcoin::chain::script::generate_signature_hash(
+        *parent_tx->obj, input_index, *script_code->obj, sighash_type);
+    return bc_create_hash_digest_Internal(hash);
+}
+bool bc_script_create_endorsement(
+    bc_endorsement_t* out, const bc_ec_secret_t* secret,
+    const bc_script_t* prevout_script, const bc_transaction_t* new_tx,
+    uint32_t input_index, uint8_t sighash_type)
+{
+    return libbitcoin::chain::script::create_endorsement(
+        *out->obj, *secret->obj, *prevout_script->obj, *new_tx->obj,
+        input_index, sighash_type);
+}
 bool bc_script_is_active(uint32_t flags, bc_script_context_t flag)
 {
     return libbitcoin::chain::script::is_active(
         flags, bc_script_context_from_ctype(flag));
+}
+bool bc_script_check_signature(const bc_ec_signature_t* signature,
+    uint8_t sighash_type, const bc_data_chunk_t* public_key,
+    const bc_script_t* script_code, const bc_transaction_t* parent_tx,
+    uint32_t input_index)
+{
+    return libbitcoin::chain::script::check_signature(
+        *signature->obj, sighash_type, *public_key->obj,
+        *script_code->obj, *parent_tx->obj, input_index);
 }
 // Constructor
 bc_script_t* bc_create_script()
@@ -99,7 +136,7 @@ bc_operation_stack_t* bc_script_operations(const bc_script_t* self)
 {
     return bc_operation_stack_to_ctype(self->obj->operations);
 }
-void bc_script_set_operations(const bc_script_t* self,
+void bc_script_set_operations(bc_script_t* self,
     const bc_operation_stack_t* operations)
 {
     self->obj->operations = bc_operation_stack_from_ctype(operations);

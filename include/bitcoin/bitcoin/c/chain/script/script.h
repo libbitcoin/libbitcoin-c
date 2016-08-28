@@ -35,12 +35,12 @@ typedef enum bc_signature_hash_algorithm_t
 {
     /// The default, signs all the inputs and outputs, protecting everything
     /// except the signature scripts against modification.
-    all = 0x01,
+    bc_signature_hash_algorithm_all = 0x01,
 
     /// Signs all of the inputs but none of the outputs, allowing anyone to
     /// change where the satoshis are going unless other signatures using 
     /// other signature hash flags protect the outputs.
-    none = 0x02,
+    bc_signature_hash_algorithm_none = 0x02,
 
     /// The only output signed is the one corresponding to this input (the
     /// output with the same output index number as this input), ensuring
@@ -50,29 +50,36 @@ typedef enum bc_signature_hash_algorithm_t
     /// security scheme. This input, as well as other inputs, are included
     /// in the signature. The sequence numbers of other inputs are not
     /// included in the signature, and can be updated.
-    single = 0x03,
+    bc_signature_hash_algorithm_single = 0x03,
 
     /// The above types can be modified with this flag, creating three new
     /// combined types.
-    anyone_can_pay = 0x80,
+    bc_signature_hash_algorithm_anyone_can_pay = 0x80,
 
     /// Signs all of the outputs but only this one input, and it also allows
     /// anyone to add or remove other inputs, so anyone can contribute
     /// additional satoshis but they cannot change how many satoshis are
     /// sent nor where they go.
-    all_anyone_can_pay = all | anyone_can_pay,
+    bc_signature_hash_algorithm_all_anyone_can_pay =
+        bc_signature_hash_algorithm_all |
+        bc_signature_hash_algorithm_anyone_can_pay,
 
     /// Signs only this one input and allows anyone to add or remove other
     /// inputs or outputs, so anyone who gets a copy of this input can spend
     /// it however they'd like.
-    none_anyone_can_pay = none | anyone_can_pay,
+    bc_signature_hash_algorithm_none_anyone_can_pay =
+        bc_signature_hash_algorithm_none |
+        bc_signature_hash_algorithm_anyone_can_pay,
 
     /// Signs this one input and its corresponding output. Allows anyone to
     /// add or remove other inputs.
-    single_anyone_can_pay = single | anyone_can_pay,
+    bc_signature_hash_algorithm_single_anyone_can_pay =
+        bc_signature_hash_algorithm_single |
+        bc_signature_hash_algorithm_anyone_can_pay,
 
     /// Used to mask off the anyone_can_pay flag to access the enumeration.
-    mask = ~anyone_can_pay
+    bc_signature_hash_algorithm_mask =
+        ~bc_signature_hash_algorithm_anyone_can_pay
 
 } bc_signature_hash_algorithm_t;
 
@@ -84,16 +91,28 @@ typedef enum bc_script_parse_mode_t
 
 } bc_script_parse_mode_t;
 
+// Forward declaration for methods below.
+typedef struct bc_transaction_t bc_transaction_t;
+
 typedef struct bc_script_t bc_script_t;
 // Static functions
 bc_script_t* bc_script_factory_from_data(const bc_data_chunk_t* data,
     bool prefix, bc_script_parse_mode_t mode);
-// TODO: need transaction type for
-//   verify
-//   gen sighash
-//   create endorsement
+bool bc_script_verify(
+    const bc_script_t* input_script, const bc_script_t* output_script,
+    const bc_transaction_t* parent_tx, uint32_t input_index, uint32_t flags);
+bc_hash_digest_t* bc_script_generate_signature_hash(
+    const bc_transaction_t* parent_tx, uint32_t input_index,
+    const bc_script_t* script_code, uint8_t sighash_type);
+bool bc_script_create_endorsement(
+    bc_endorsement_t* out, const bc_ec_secret_t* secret,
+    const bc_script_t* prevout_script, const bc_transaction_t* new_tx,
+    uint32_t input_index, uint8_t sighash_type);
 bool bc_script_is_active(uint32_t flags, bc_script_context_t flag);
-//   checksig
+bool bc_script_check_signature(const bc_ec_signature_t* signature,
+    uint8_t sighash_type, const bc_data_chunk_t* public_key,
+    const bc_script_t* script_code, const bc_transaction_t* parent_tx,
+    uint32_t input_index);
 // Constructor
 bc_script_t* bc_create_script();
 // Destructor
@@ -112,7 +131,7 @@ uint64_t bc_script_satoshi_content_size(const bc_script_t* self);
 uint64_t bc_script_serialized_size(const bc_script_t* self, bool prefix);
 // Member variables
 bc_operation_stack_t* bc_script_operations(const bc_script_t* self);
-void bc_script_set_operations(const bc_script_t* self,
+void bc_script_set_operations(bc_script_t* self,
     const bc_operation_stack_t* operations);
 
 #ifdef __cplusplus

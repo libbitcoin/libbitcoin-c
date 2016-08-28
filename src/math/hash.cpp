@@ -19,8 +19,10 @@
  */
 #include <bitcoin/bitcoin/c/math/hash.h>
 
+#include <bitcoin/bitcoin/formats/base_16.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 
 extern "C" {
 
@@ -69,6 +71,12 @@ size_t bc_mini_hash_size()
     const uint8_t* bc_##hashtype##_cdata(const bc_##hashtype##_t* self) \
     { \
         return self->obj->data(); \
+    } \
+    bc_string_t* bc_##hashtype##_encode_base16( \
+        const bc_##hashtype##_t* self) \
+    { \
+        return bc_create_string_StdString( \
+            libbitcoin::encode_base16(*self->obj)); \
     } \
     \
     /* Internal constructor for this unit. */ \

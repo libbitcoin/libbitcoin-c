@@ -24,6 +24,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
+#include <bitcoin/bitcoin/c/utility/string.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,7 +44,9 @@ size_t bc_mini_hash_size();
     bc_##hashtype##_t* bc_create_##hashtype(); \
     void bc_destroy_##hashtype(bc_##hashtype##_t* self); \
     uint8_t* bc_##hashtype##_data(bc_##hashtype##_t* self); \
-    const uint8_t* bc_##hashtype##_cdata(const bc_##hashtype##_t* self);
+    const uint8_t* bc_##hashtype##_cdata(const bc_##hashtype##_t* self); \
+    bc_string_t* bc_##hashtype##_encode_base16( \
+        const bc_##hashtype##_t* self);
 
 DECLARE_HASH_TYPE(hash_digest);
 DECLARE_HASH_TYPE(half_hash);

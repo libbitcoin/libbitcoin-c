@@ -21,6 +21,8 @@
 #define LIBBITCOIN_C_INTERNAL_DATA_HPP
 
 #include <bitcoin/bitcoin/utility/data.hpp>
+#include <bitcoin/bitcoin/formats/base_16.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
 BC_DECLARE_VECTOR_INTERNAL(data_stack, bc_data_chunk_t,
@@ -63,6 +65,12 @@ struct bc_data_chunk_t
     const uint8_t* bc_##typename##_cdata(const bc_##typename##_t* self) \
     { \
         return self->obj->data(); \
+    } \
+    bc_string_t* bc_##typename##_encode_base16( \
+        const bc_##typename##_t* self) \
+    { \
+        return bc_create_string_StdString( \
+            libbitcoin::encode_base16(*self->obj)); \
     }
 
 // The default define
