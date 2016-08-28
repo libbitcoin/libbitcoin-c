@@ -23,6 +23,9 @@
 #include <bitcoin/bitcoin/math/elliptic_curve.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
+BC_DECLARE_VECTOR_INTERNAL(point_list, bc_ec_compressed_t,
+    libbitcoin::point_list);
+
 extern "C" {
 
 struct bc_ec_secret_t
@@ -34,7 +37,6 @@ struct bc_ec_compressed_t
 {
     libbitcoin::ec_compressed* obj;
 };
-BC_DECLARE_VECTOR_STRUCT(point_list, bc_ec_compressed_t);
 
 struct bc_ec_uncompressed_t
 {
@@ -52,9 +54,6 @@ struct bc_recoverable_signature_t
 };
 
 } // extern C
-
-// C++ convenience functions
-BC_DECLARE_VECTOR_CONVERSION_FUNCTIONS(point_list, libbitcoin::point_list);
 
 #endif
 

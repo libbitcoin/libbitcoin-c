@@ -24,19 +24,22 @@
 
 extern "C" {
 
-#define HASH_STRUCT(hashname) \
+#define BC_DECLARE_HASH_INTERNAL(hashtype) \
     \
-    struct bc_##hashname##_t \
+    struct bc_##hashtype##_t \
     { \
-        libbitcoin::hashname* obj; \
-    };
+        libbitcoin::hashtype* obj; \
+    }; \
+    \
+    bc_##hashtype##_t* bc_create_##hashtype##_Internal( \
+        const libbitcoin::hashtype& value);
 
-HASH_STRUCT(hash_digest);
-HASH_STRUCT(half_hash);
-HASH_STRUCT(quarter_hash);
-HASH_STRUCT(long_hash);
-HASH_STRUCT(short_hash);
-HASH_STRUCT(mini_hash);
+BC_DECLARE_HASH_INTERNAL(hash_digest);
+BC_DECLARE_HASH_INTERNAL(half_hash);
+BC_DECLARE_HASH_INTERNAL(quarter_hash);
+BC_DECLARE_HASH_INTERNAL(long_hash);
+BC_DECLARE_HASH_INTERNAL(short_hash);
+BC_DECLARE_HASH_INTERNAL(mini_hash);
 
 #undef HASH_STRUCT
 

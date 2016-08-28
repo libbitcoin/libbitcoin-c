@@ -72,7 +72,7 @@ size_t bc_mini_hash_size()
     } \
     \
     /* Internal constructor for this unit. */ \
-    bc_##hashtype##_t* bc_Internal_create_##hashtype( \
+    bc_##hashtype##_t* bc_create_##hashtype##_Internal( \
         const libbitcoin::hashtype& value) \
     { \
         bc_##hashtype##_t* self = new bc_##hashtype##_t; \
@@ -91,71 +91,71 @@ HASH_IMPL(mini_hash);
 
 bc_hash_digest_t* bc_null_hash()
 {
-    return bc_Internal_create_hash_digest(libbitcoin::null_hash);
+    return bc_create_hash_digest_Internal(libbitcoin::null_hash);
 }
 bc_half_hash_t* bc_null_half_hash()
 {
-    return bc_Internal_create_half_hash(libbitcoin::null_half_hash);
+    return bc_create_half_hash_Internal(libbitcoin::null_half_hash);
 }
 bc_quarter_hash_t* bc_null_quarter_hash()
 {
-    return bc_Internal_create_quarter_hash(libbitcoin::null_quarter_hash);
+    return bc_create_quarter_hash_Internal(libbitcoin::null_quarter_hash);
 }
 bc_long_hash_t* bc_null_long_hash()
 {
-    return bc_Internal_create_long_hash(libbitcoin::null_long_hash);
+    return bc_create_long_hash_Internal(libbitcoin::null_long_hash);
 }
 bc_short_hash_t* bc_null_short_hash()
 {
-    return bc_Internal_create_short_hash(libbitcoin::null_short_hash);
+    return bc_create_short_hash_Internal(libbitcoin::null_short_hash);
 }
 bc_mini_hash_t* bc_null_mini_hash()
 {
-    return bc_Internal_create_mini_hash(libbitcoin::null_mini_hash);
+    return bc_create_mini_hash_Internal(libbitcoin::null_mini_hash);
 }
 
 bc_short_hash_t* bc_ripemd160_hash(const bc_data_chunk_t* data)
 {
-    return bc_Internal_create_short_hash(
+    return bc_create_short_hash_Internal(
         libbitcoin::ripemd160_hash(*data->obj));
 }
 
 bc_short_hash_t* bc_sha1_hash(const bc_data_chunk_t* data)
 {
-    return bc_Internal_create_short_hash(
+    return bc_create_short_hash_Internal(
         libbitcoin::sha1_hash(*data->obj));
 }
 
 bc_hash_digest_t* bc_sha256_hash(const bc_data_chunk_t* data)
 {
-    return bc_Internal_create_hash_digest(
+    return bc_create_hash_digest_Internal(
         libbitcoin::sha256_hash(*data->obj));
 }
 
 bc_hash_digest_t* bc_sha256_hash_double(
     const bc_data_chunk_t* first, const bc_data_chunk_t* second)
 {
-    return bc_Internal_create_hash_digest(
+    return bc_create_hash_digest_Internal(
         libbitcoin::sha256_hash(*first->obj, *second->obj));
 }
 
 bc_hash_digest_t* bc_hmac_sha256_hash(
     const bc_data_chunk_t* data, const bc_data_chunk_t* key)
 {
-    return bc_Internal_create_hash_digest(
+    return bc_create_hash_digest_Internal(
         libbitcoin::hmac_sha256_hash(*data->obj, *key->obj));
 }
 
 bc_long_hash_t* bc_sha512_hash(const bc_data_chunk_t* data)
 {
-    return bc_Internal_create_long_hash(
+    return bc_create_long_hash_Internal(
         libbitcoin::sha512_hash(*data->obj));
 }
 
 bc_long_hash_t* bc_hmac_sha512_hash(
     const bc_data_chunk_t* data, const bc_data_chunk_t* key)
 {
-    return bc_Internal_create_long_hash(
+    return bc_create_long_hash_Internal(
         libbitcoin::hmac_sha512_hash(*data->obj, *key->obj));
 }
 
@@ -163,20 +163,20 @@ bc_long_hash_t* bc_pkcs5_pbkdf2_hmac_sha512(
     const bc_data_chunk_t* passphrase,
     const bc_data_chunk_t* salt, size_t iterations)
 {
-    return bc_Internal_create_long_hash(
+    return bc_create_long_hash_Internal(
         libbitcoin::pkcs5_pbkdf2_hmac_sha512(
             *passphrase->obj, *salt->obj, iterations));
 }
 
 bc_hash_digest_t* bc_bitcoin_hash(const bc_data_chunk_t* data)
 {
-    return bc_Internal_create_hash_digest(
+    return bc_create_hash_digest_Internal(
         libbitcoin::bitcoin_hash(*data->obj));
 }
 
 bc_short_hash_t* bc_bitcoin_short_hash(const bc_data_chunk_t* data)
 {
-    return bc_Internal_create_short_hash(
+    return bc_create_short_hash_Internal(
         libbitcoin::bitcoin_short_hash(*data->obj));
 }
 
@@ -191,5 +191,5 @@ bc_data_chunk_t* bc_scrypt(
     return result;
 }
 
-}
+} // extern C
 

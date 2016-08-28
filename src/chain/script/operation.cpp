@@ -27,9 +27,10 @@
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-extern "C" {
+BC_IMPLEMENT_VECTOR(operation_stack, bc_operation_t, bc_destroy_operation,
+    libbitcoin::chain::operation::stack);
 
-BC_IMPLEMENT_VECTOR(operation_stack, bc_operation_t, bc_destroy_operation);
+extern "C" {
 
 size_t bc_operation_max_null_data_size()
 {
@@ -273,7 +274,4 @@ libbitcoin::chain::script_pattern bc_script_pattern_from_ctype(
             return libbitcoin::chain::script_pattern::non_standard;
     }
 }
-
-BC_IMPLEMENT_VECTOR_CONVERSION_FUNCTIONS(
-    operation_stack, bc_operation_t, libbitcoin::chain::operation::stack);
 

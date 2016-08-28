@@ -24,8 +24,6 @@
 #include <memory>
 #include <vector>
 
-extern "C" {
-
 #define BC_DECLARE_VECTOR_STRUCT(typename, itemtype) \
     \
     struct bc_##typename##_t \
@@ -36,7 +34,7 @@ extern "C" {
         list_type* obj; \
     };
 
-#define BC_IMPLEMENT_VECTOR(typename, itemtype, delete_function) \
+#define BC_IMPLEMENT_VECTOR_METHODS(typename, itemtype, delete_function) \
     \
     bc_##typename##_t* bc_create_##typename() \
     { \
@@ -84,8 +82,6 @@ extern "C" {
         self->obj->resize(count); \
     }
 
-} // extern C
-
 // C++ convenience functions
 template <typename ResultType, typename WrapperType,
     typename WrapperSizeFunc, typename WrapperAtFunc>
@@ -123,6 +119,23 @@ WrapperType* bc_vector_to_ctype(const VectorType& vector_obj,
         return bc_vector_to_ctype<bc_##wrappername##_t, itemtype>( \
             stack, bc_create_##wrappername, bc_##wrappername##_push_back); \
     }
+
+#define BC_DECLARE_VECTOR_INTERNAL( \
+    typename, itemtype, originaltype) \
+    \
+    extern "C" { \
+        BC_DECLARE_VECTOR_STRUCT(typename, itemtype); \
+    } \
+    BC_DECLARE_VECTOR_CONVERSION_FUNCTIONS(typename, originaltype);
+
+#define BC_IMPLEMENT_VECTOR( \
+    typename, itemtype, delete_function, originaltype) \
+    \
+    extern "C" { \
+        BC_IMPLEMENT_VECTOR_METHODS(typename, itemtype, delete_function); \
+    } \
+    BC_IMPLEMENT_VECTOR_CONVERSION_FUNCTIONS( \
+        typename, itemtype, originaltype);
 
 #include <bitcoin/bitcoin/c/internal/impl/utility/vector.ipp>
 

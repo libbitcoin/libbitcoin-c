@@ -23,12 +23,14 @@
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 
+BC_IMPLEMENT_VECTOR(point_list, bc_ec_compressed_t, bc_destroy_ec_compressed,
+    libbitcoin::point_list);
+
 extern "C" {
 
 BC_IMPLEMENT_BYTE_ARRAY(ec_secret);
 
 BC_IMPLEMENT_BYTE_ARRAY(ec_compressed);
-BC_IMPLEMENT_VECTOR(point_list, bc_ec_compressed_t, bc_destroy_ec_compressed);
 
 BC_IMPLEMENT_BYTE_ARRAY(ec_uncompressed);
 
@@ -230,7 +232,4 @@ bool recover_public_uncompressed(bc_ec_uncompressed_t* out,
 }
 
 } // extern C
-
-BC_IMPLEMENT_VECTOR_CONVERSION_FUNCTIONS(
-    point_list, bc_ec_compressed_t, libbitcoin::point_list);
 

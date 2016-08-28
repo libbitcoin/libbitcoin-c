@@ -17,32 +17,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPERATION_HPP
-#define LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPERATION_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_POINT_HPP
+#define LIBBITCOIN_C_INTERNAL_CHAIN_POINT_HPP
 
-#include <bitcoin/bitcoin/c/chain/script/operation.h>
+#include <bitcoin/bitcoin/c/chain/point.h>
 
-#include <vector>
-#include <bitcoin/bitcoin/chain/script/operation.hpp>
+#include <bitcoin/bitcoin/chain/point.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(operation_stack, bc_operation_t,
-    libbitcoin::chain::operation::stack);
+BC_DECLARE_VECTOR_INTERNAL(chain_point_list, bc_point_t,
+    libbitcoin::chain::point::list);
 
 extern "C" {
 
-struct bc_operation_t
+struct bc_point_indexes_t
 {
-    libbitcoin::chain::operation* obj;
+    libbitcoin::chain::point::indexes* obj;
+};
+
+struct bc_point_t
+{
+    libbitcoin::chain::point* obj;
 };
 
 } // extern C
-
-// C++ convenience functions
-bc_script_pattern_t bc_script_pattern_to_ctype(
-    libbitcoin::chain::script_pattern value);
-libbitcoin::chain::script_pattern bc_script_pattern_from_ctype(
-    bc_script_pattern_t value);
 
 #endif
 

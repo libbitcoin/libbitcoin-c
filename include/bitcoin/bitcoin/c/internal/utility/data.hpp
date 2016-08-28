@@ -23,14 +23,15 @@
 #include <bitcoin/bitcoin/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
+BC_DECLARE_VECTOR_INTERNAL(data_stack, bc_data_chunk_t,
+    libbitcoin::data_stack);
+
 extern "C" {
 
 struct bc_data_chunk_t
 {
     libbitcoin::data_chunk* obj;
 };
-
-BC_DECLARE_VECTOR_STRUCT(data_stack, bc_data_chunk_t);
 
 // For objects in the libbitcoin::wallet namespace
 #define BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(typename, namespace) \
@@ -69,9 +70,6 @@ BC_DECLARE_VECTOR_STRUCT(data_stack, bc_data_chunk_t);
     BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(typename, libbitcoin)
 
 } // extern C
-
-// C++ convenience functions
-BC_DECLARE_VECTOR_CONVERSION_FUNCTIONS(data_stack, libbitcoin::data_stack);
 
 bc_data_chunk_t* bc_create_data_chunk_Internal(
     const libbitcoin::data_chunk& data);
