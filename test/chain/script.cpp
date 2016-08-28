@@ -23,6 +23,7 @@
 #include <boost/test/unit_test.hpp>
 #include <bitcoin/bitcoin.hpp>
 #include <bitcoin/bitcoin.h>
+#include <bitcoin/bitcoin/c/internal/chain/script/script.hpp>
 #include "script.hpp"
 
 using namespace bc;
@@ -216,7 +217,7 @@ bool parse(chain::script& result_script, std::string format)
     return true;
 }
 
-bool run_script(const script_test& test, const chain::transaction& tx, uint32_t flags)
+bool run_script(const script_test& test, const bc_transaction_t* tx, uint32_t flags)
 {
     chain::script input;
     chain::script output;
@@ -227,10 +228,21 @@ bool run_script(const script_test& test, const chain::transaction& tx, uint32_t 
     if (!parse(output, test.output))
         return false;
 
+    // To avoid rewriting parsing code above, just directly us the C++ types.
+    bc_script_t* input_ctype = new bc_script_t{
+        new chain::script(input) };
+    bc_script_t* output_ctype = new bc_script_t{
+        new chain::script(output) };
+
     //log::debug() << test.input << " -> " << input;
     //log::debug() << test.output << " -> " << output;
 
-    return chain::script::verify(input, output, tx, 0, flags);
+    bool result = bc_script_verify(input_ctype, output_ctype, tx, 0, flags);
+
+    bc_destroy_script(input_ctype);
+    bc_destroy_script(output_ctype);
+
+    return result;
 }
 
 BOOST_AUTO_TEST_SUITE(script_tests_c)
@@ -384,126 +396,147 @@ BOOST_AUTO_TEST_CASE(script__factory_from_data_reader_test_c)
 // however after bip16 activation the scripts have additional constraints.
 BOOST_AUTO_TEST_CASE(script__bip16__valid_c)
 {
-    chain::transaction tx;
+    bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: valid_bip16_scripts)
     {
         // These are valid prior to and after BIP16 activation.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::bip16_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::all_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_bip16_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_all_enabled), test.description);
     }
+    bc_destroy_transaction(tx);
 }
 
 BOOST_AUTO_TEST_CASE(script__bip16__invalidated_c)
 {
-    chain::transaction tx;
+    bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: invalidated_bip16_scripts)
     {
         // These are valid prior to BIP16 activation and invalid after.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::bip16_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::all_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_bip16_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
     }
+    bc_destroy_transaction(tx);
 }
 
 // Prior to bip65 activation op_nop2 always returns true, but after it becomes a locktime comparer.
 BOOST_AUTO_TEST_CASE(script__bip65__valid_c)
 {
-    chain::transaction tx;
-    tx.locktime = 500000042;
-    chain::input input;
-    input.sequence = 42;
-    tx.inputs.push_back(input);
+    bc_transaction_t* tx = bc_create_transaction();
+    bc_transaction_set_locktime(tx, 500000042);
+
+    bc_input_list_t* inputs = bc_create_input_list();
+    bc_input_t* input = bc_create_input();
+    bc_input_set_sequence(input, 42);
+    bc_input_list_push_back(inputs, &input);
+    bc_transaction_set_inputs(tx, inputs);
+    bc_destroy_input_list(inputs);
 
     for (const auto& test: valid_bip65_scripts)
     {
         // These are valid prior to and after BIP65 activation.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::bip65_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::all_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_bip65_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_all_enabled), test.description);
     }
+    bc_destroy_transaction(tx);
 }
 
 BOOST_AUTO_TEST_CASE(script__bip65__invalid_c)
 {
-    chain::transaction tx;
-    tx.locktime = 99;
-    chain::input input;
-    input.sequence = 42;
-    tx.inputs.push_back(input);
+    bc_transaction_t* tx = bc_create_transaction();
+    bc_transaction_set_locktime(tx, 99);
+
+    bc_input_list_t* inputs = bc_create_input_list();
+    bc_input_t* input = bc_create_input();
+    bc_input_set_sequence(input, 42);
+    bc_input_list_push_back(inputs, &input);
+    bc_transaction_set_inputs(tx, inputs);
+    bc_destroy_input_list(inputs);
 
     for (const auto& test: invalid_bip65_scripts)
     {
         // These are invalid prior to and after BIP65 activation.
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::bip65_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::all_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_none_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_bip65_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
     }
+    bc_destroy_transaction(tx);
 }
 
 BOOST_AUTO_TEST_CASE(script__bip65__invalidated_c)
 {
-    chain::transaction tx;
-    tx.locktime = 99;
-    chain::input input;
-    input.sequence = 42;
-    tx.inputs.push_back(input);
+    bc_transaction_t* tx = bc_create_transaction();
+    bc_transaction_set_locktime(tx, 99);
+
+    bc_input_list_t* inputs = bc_create_input_list();
+    bc_input_t* input = bc_create_input();
+    bc_input_set_sequence(input, 42);
+    bc_input_list_push_back(inputs, &input);
+    bc_transaction_set_inputs(tx, inputs);
+    bc_destroy_input_list(inputs);
 
     for (const auto& test: invalidated_bip65_scripts)
     {
         // These are valid prior to BIP65 activation and invalid after.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::bip65_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::all_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_bip65_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
     }
+    bc_destroy_transaction(tx);
 }
 
 // These are scripts potentially affected by bip66 (but should not be).
 BOOST_AUTO_TEST_CASE(script__multisig__valid_c)
 {
-    chain::transaction tx;
+    bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: valid_multisig_scripts)
     {
         // These are always valid.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::bip66_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::all_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_bip66_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_all_enabled), test.description);
     }
+    bc_destroy_transaction(tx);
 }
 
 // These are scripts potentially affected by bip66 (but should not be).
 BOOST_AUTO_TEST_CASE(script__multisig__invalid_c)
 {
-    chain::transaction tx;
+    bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: invalid_multisig_scripts)
     {
         // These are always invalid.
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::bip66_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::all_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_none_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_bip66_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
     }
+    bc_destroy_transaction(tx);
 }
 
 BOOST_AUTO_TEST_CASE(script__context_free__valid_c)
 {
-    chain::transaction tx;
+    bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: valid_context_free_scripts)
     {
         // These are always valid.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, chain::script_context::all_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
+        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_all_enabled), test.description);
     }
+    bc_destroy_transaction(tx);
 }
 
 BOOST_AUTO_TEST_CASE(script__context_free__invalid_c)
 {
-    chain::transaction tx;
+    bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: invalid_context_free_scripts)
     {
         // These are always invalid.
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, chain::script_context::all_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_none_enabled), test.description);
+        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
     }
+    bc_destroy_transaction(tx);
 }
 
 // These are special tests for checksig.
