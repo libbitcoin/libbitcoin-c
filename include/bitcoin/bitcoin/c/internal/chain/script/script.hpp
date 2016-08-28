@@ -17,22 +17,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPCODE_HPP
-#define LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPCODE_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_SCRIPT_HPP
+#define LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_SCRIPT_HPP
 
-#include <bitcoin/bitcoin/c/chain/script/opcode.h>
+#include <bitcoin/bitcoin/c/chain/script/script.h>
 
-#include <bitcoin/bitcoin/chain/script/opcode.hpp>
+#include <bitcoin/bitcoin/chain/script/script.hpp>
 
-// C++ convenience function
-bc_opcode_t bc_opcode_to_ctype(libbitcoin::chain::opcode value);
-libbitcoin::chain::opcode bc_opcode_from_ctype(bc_opcode_t value);
+extern "C" {
 
-bc_script_context_t bc_script_context_to_ctype(
-    libbitcoin::chain::script_context context);
-libbitcoin::chain::script_context bc_script_context_from_ctype(
-    bc_script_context_t context);
+struct bc_script_t
+{
+    libbitcoin::chain::script* obj;
+};
+
+} // extern C
+
+// C++ convenience functions
+bc_signature_hash_algorithm_t bc_signature_hash_algorithm_to_ctype(
+    libbitcoin::chain::signature_hash_algorithm alg);
+
+libbitcoin::chain::signature_hash_algorithm
+    bc_signature_hash_algorithm_from_ctype(bc_signature_hash_algorithm_t alg);
+
+bc_script_parse_mode_t bc_script_parse_mode_to_ctype(
+    libbitcoin::chain::script::parse_mode mode);
+
+libbitcoin::chain::script::parse_mode bc_script_parse_mode_from_ctype(
+    bc_script_parse_mode_t mode);
 
 #endif
-
 

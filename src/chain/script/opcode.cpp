@@ -43,7 +43,7 @@ bc_opcode_t data_to_opcode(const bc_data_chunk_t* value)
         libbitcoin::chain::data_to_opcode(*value->obj));
 }
 
-}
+} // extern C
 
 bc_opcode_t bc_opcode_to_ctype(libbitcoin::chain::opcode value)
 {
@@ -52,5 +52,16 @@ bc_opcode_t bc_opcode_to_ctype(libbitcoin::chain::opcode value)
 libbitcoin::chain::opcode bc_opcode_from_ctype(bc_opcode_t value)
 {
     return static_cast<libbitcoin::chain::opcode>(value);
+}
+
+bc_script_context_t bc_script_context_to_ctype(
+    libbitcoin::chain::script_context context)
+{
+    return static_cast<bc_script_context_t>(context);
+}
+libbitcoin::chain::script_context bc_script_context_from_ctype(
+    bc_script_context_t context)
+{
+    return static_cast<libbitcoin::chain::script_context>(context);
 }
 

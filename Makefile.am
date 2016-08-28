@@ -45,7 +45,8 @@ src_libbitcoin_c_la_SOURCES = \
     src/wallet/hd_private.cpp \
     src/wallet/payment_address.cpp \
     src/chain/script/operation.cpp \
-    src/chain/script/opcode.cpp
+    src/chain/script/opcode.cpp \
+    src/chain/script/script.cpp
 
 # local: test/libbitcoin_network_test
 #------------------------------------------------------------------------------
@@ -78,7 +79,8 @@ include_bitcoin_HEADERS = \
 include_bitcoin_bitcoin_c_chain_scriptdir = ${includedir}/bitcoin/bitcoin/c/chain/script
 include_bitcoin_bitcoin_c_chain_script_HEADERS = \
     include/bitcoin/bitcoin/c/chain/script/opcode.h \
-    include/bitcoin/bitcoin/c/chain/script/operation.h
+    include/bitcoin/bitcoin/c/chain/script/operation.h \
+    include/bitcoin/bitcoin/c/chain/script/script.h
 
 include_bitcoin_bitcoin_c_mathdir = ${includedir}/bitcoin/bitcoin/c/math
 include_bitcoin_bitcoin_c_math_HEADERS = \
@@ -105,7 +107,8 @@ include_bitcoin_bitcoin_c_wallet_HEADERS = \
 include_bitcoin_bitcoin_c_internal_chain_scriptdir = ${includedir}/bitcoin/bitcoin/c/internal/chain/script
 include_bitcoin_bitcoin_c_internal_chain_script_HEADERS = \
     include/bitcoin/bitcoin/c/internal/chain/script/opcode.hpp \
-    include/bitcoin/bitcoin/c/internal/chain/script/operation.hpp
+    include/bitcoin/bitcoin/c/internal/chain/script/operation.hpp \
+    include/bitcoin/bitcoin/c/internal/chain/script/script.hpp
 
 include_bitcoin_bitcoin_c_internal_mathdir = ${includedir}/bitcoin/bitcoin/c/internal/math
 include_bitcoin_bitcoin_c_internal_math_HEADERS = \
