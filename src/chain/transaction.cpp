@@ -41,7 +41,9 @@ bc_transaction_t* bc_transaction_factory_from_data(
 }
 uint64_t bc_transaction_satoshi_fixed_size()
 {
-    return libbitcoin::chain::transaction::satoshi_fixed_size();
+    // TODO: missing impl in libbitcoin
+    //return libbitcoin::chain::transaction::satoshi_fixed_size();
+    return 0;
 }
 // Constructor
 bc_transaction_t* bc_create_transaction()

@@ -40,7 +40,9 @@ bc_input_t* bc_input_factory_from_data(const bc_data_chunk_t* data)
 }
 uint64_t bc_input_satoshi_fixed_size()
 {
-    return libbitcoin::chain::input::satoshi_fixed_size();
+    // TODO: missing impl in libbitcoin
+    //return libbitcoin::chain::input::satoshi_fixed_size();
+    return 0;
 }
 // Constructor
 bc_input_t* bc_create_input()
