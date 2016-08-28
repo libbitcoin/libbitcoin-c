@@ -229,5 +229,8 @@ bool recover_public_uncompressed(bc_ec_uncompressed_t* out,
         *out->obj, *recoverable->obj, *hash->obj);
 }
 
-}
+} // extern C
+
+BC_IMPLEMENT_VECTOR_CONVERSION_FUNCTIONS(
+    point_list, bc_ec_compressed_t, libbitcoin::point_list);
 

@@ -68,7 +68,13 @@ BC_DECLARE_VECTOR_STRUCT(data_stack, bc_data_chunk_t);
 #define BC_IMPLEMENT_BYTE_ARRAY(typename) \
     BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(typename, libbitcoin)
 
-}
+} // extern C
+
+// C++ convenience functions
+BC_DECLARE_VECTOR_CONVERSION_FUNCTIONS(data_stack, libbitcoin::data_stack);
+
+bc_data_chunk_t* bc_create_data_chunk_Internal(
+    const libbitcoin::data_chunk& data);
 
 #endif
 

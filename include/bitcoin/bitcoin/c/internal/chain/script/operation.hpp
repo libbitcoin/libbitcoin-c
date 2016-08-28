@@ -35,13 +35,16 @@ struct bc_operation_t
     libbitcoin::chain::operation* obj;
 };
 
-}
+} // extern C
 
-// C++ convenience function
+// C++ convenience functions
 bc_script_pattern_t bc_script_pattern_to_ctype(
     libbitcoin::chain::script_pattern value);
 libbitcoin::chain::script_pattern bc_script_pattern_from_ctype(
     bc_script_pattern_t value);
+
+BC_DECLARE_VECTOR_CONVERSION_FUNCTIONS(
+    operation_stack, libbitcoin::chain::operation::stack);
 
 #endif
 

@@ -89,5 +89,14 @@ size_t bc_range_constrain(size_t value, size_t minimum, size_t maximum)
     return libbitcoin::range_constrain(value, minimum, maximum);
 }
 
+} // extern C
+
+BC_IMPLEMENT_VECTOR_CONVERSION_FUNCTIONS(
+    data_stack, bc_data_chunk_t, libbitcoin::data_stack);
+
+bc_data_chunk_t* bc_create_data_chunk_Internal(
+    const libbitcoin::data_chunk& data)
+{
+    return bc_create_data_chunk_Array(data.data(), data.size());
 }
 

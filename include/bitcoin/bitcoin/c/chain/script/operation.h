@@ -21,6 +21,7 @@
 #define LIBBITCOIN_C_CHAIN_SCRIPT_OPERATION_H
 
 #include <bitcoin/bitcoin/c/chain/script/opcode.h>
+#include <bitcoin/bitcoin/c/math/elliptic_curve.h>
 #include <bitcoin/bitcoin/c/math/hash.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
@@ -99,9 +100,9 @@ bool bc_operation_is_sign_script_hash_pattern(const bc_operation_stack_t* ops);
 /// stack factories
 bc_operation_stack_t* bc_operation_to_null_data_pattern(
     const bc_data_chunk_t* data);
-//bc_operation_stack_t* bc_operation_to_pay_multisig_pattern(
-//    uint8_t signatures,
-//    const std::vector<ec_compressed>& points);
+bc_operation_stack_t* bc_operation_to_pay_multisig_pattern_PointList(
+    uint8_t signatures,
+    const bc_point_list_t* points);
 bc_operation_stack_t* bc_operation_to_pay_multisig_pattern(
     uint8_t signatures,
     const bc_data_stack_t* points);
@@ -118,13 +119,14 @@ void bc_destroy_operation(bc_operation_t* self);
 // Class members
 bool bc_operation_from_data(bc_operation_t* self, const bc_data_chunk_t* data);
 bc_data_chunk_t* bc_operation_to_data(const bc_operation_t* self);
-bc_string_t* bc_operation_to_string(const bc_operation_t* self);
+bc_string_t* bc_operation_to_string(
+    const bc_operation_t* self, uint32_t flags);
 bool bc_operation_is_valid(const bc_operation_t* self);
 void bc_operation_reset(bc_operation_t* self);
 uint64_t bc_operation_serialized_size(const bc_operation_t* self);
 
-bc_opcode_t bc_operation_opcode(const bc_operation_t* self);
-void bc_operation_set_opcode(bc_operation_t* self, bc_opcode_t code);
+bc_opcode_t bc_operation_code(const bc_operation_t* self);
+void bc_operation_set_code(bc_operation_t* self, bc_opcode_t code);
 bc_data_chunk_t* bc_operation_data(const bc_operation_t* self);
 void bc_operation_set_data(bc_operation_t* self, bc_data_chunk_t* data);
 

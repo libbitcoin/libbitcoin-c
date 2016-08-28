@@ -29,7 +29,7 @@ struct bc_string_t
     std::string* obj;
 };
 
-}
+} // extern C
 
 // C++ convenience function
 bc_string_t* bc_create_string_StdString(const std::string& string);

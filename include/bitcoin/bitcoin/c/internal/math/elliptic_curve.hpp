@@ -51,7 +51,10 @@ struct bc_recoverable_signature_t
     libbitcoin::recoverable_signature* obj;
 };
 
-}
+} // extern C
+
+// C++ convenience functions
+BC_DECLARE_VECTOR_CONVERSION_FUNCTIONS(point_list, libbitcoin::point_list);
 
 #endif
 

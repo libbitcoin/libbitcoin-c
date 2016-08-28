@@ -57,7 +57,7 @@ bool bc_string_equals_cstr(const bc_string_t* self, const char* other)
     return *self->obj == other;
 }
 
-}
+} // extern C
 
 bc_string_t* bc_create_string_StdString(const std::string& string)
 {

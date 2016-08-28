@@ -84,7 +84,47 @@ extern "C" {
         self->obj->resize(count); \
     }
 
-}
+} // extern C
+
+// C++ convenience functions
+template <typename ResultType, typename WrapperType,
+    typename WrapperSizeFunc, typename WrapperAtFunc>
+ResultType bc_vector_from_ctype(const WrapperType* c_vector,
+    WrapperSizeFunc size_func, WrapperAtFunc at_func);
+
+template <typename WrapperType, typename ItemType, typename VectorType,
+    typename CreateFunc, typename PushFunc>
+WrapperType* bc_vector_to_ctype(const VectorType& vector_obj,
+    CreateFunc create_func, PushFunc push_func);
+
+#define BC_DECLARE_VECTOR_CONVERSION_FUNCTIONS( \
+    wrappername, originaltype) \
+    \
+    originaltype bc_##wrappername##_from_ctype( \
+        const bc_##wrappername##_t* stack); \
+    \
+    bc_##wrappername##_t* bc_##wrappername##_to_ctype( \
+        const originaltype& stack);
+
+#define BC_IMPLEMENT_VECTOR_CONVERSION_FUNCTIONS( \
+    wrappername, itemtype, originaltype) \
+    \
+    originaltype bc_##wrappername##_from_ctype( \
+        const bc_##wrappername##_t* stack) \
+    { \
+        return bc_vector_from_ctype< \
+            originaltype, bc_##wrappername##_t>( \
+                stack, bc_##wrappername##_size, bc_##wrappername##_const_at); \
+    } \
+    \
+    bc_##wrappername##_t* bc_##wrappername##_to_ctype( \
+        const originaltype& stack) \
+    { \
+        return bc_vector_to_ctype<bc_##wrappername##_t, itemtype>( \
+            stack, bc_create_##wrappername, bc_##wrappername##_push_back); \
+    }
+
+#include <bitcoin/bitcoin/c/internal/impl/utility/vector.ipp>
 
 #endif
 
