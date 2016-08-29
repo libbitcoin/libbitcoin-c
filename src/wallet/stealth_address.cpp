@@ -21,6 +21,7 @@
 #include <bitcoin/bitcoin/c/internal/wallet/stealth_address.hpp>
 
 #include <bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/binary.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 
@@ -61,6 +62,15 @@ bc_stealth_address_t* bc_create_stealth_address_copy(
 {
     return new bc_stealth_address_t{ new libbitcoin::wallet::stealth_address(
         *other->obj) };
+}
+bc_stealth_address_t* bc_create_stealth_address_Options(
+    const bc_binary_t* filter, const bc_ec_compressed_t* scan_key,
+    const bc_point_list_t* spend_keys, uint8_t signatures, uint8_t version)
+{
+    const auto spend_keys_vector = bc_point_list_from_ctype(spend_keys);
+    return new bc_stealth_address_t{ new libbitcoin::wallet::stealth_address(
+        *filter->obj, *scan_key->obj, spend_keys_vector,
+        signatures, version) };
 }
 
 /// Destructor
@@ -125,7 +135,10 @@ uint8_t bc_stealth_address_signatures(const bc_stealth_address_t* self)
 {
     return self->obj->signatures();
 }
-// TODO: binary type needed for filter
+bc_binary_t* bc_stealth_address_filter(const bc_stealth_address_t* self)
+{
+    return new bc_binary_t{ new libbitcoin::binary(self->obj->filter()) };
+}
 
 /// Methods.
 bc_data_chunk_t* bc_stealth_address_to_chunk(

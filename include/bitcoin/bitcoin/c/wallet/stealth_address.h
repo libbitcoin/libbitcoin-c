@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <bitcoin/bitcoin/c/math/elliptic_curve.h>
+#include <bitcoin/bitcoin/c/utility/binary.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
 
@@ -44,8 +45,9 @@ bc_stealth_address_t* bc_create_stealth_address_Data(
 bc_stealth_address_t* bc_create_stealth_address_String(const char* encoded);
 bc_stealth_address_t* bc_create_stealth_address_copy(
     const bc_stealth_address_t* other);
-// TODO: need binary type
-//bc_stealth_address_t* bc_create_stealth_address_Options();
+bc_stealth_address_t* bc_create_stealth_address_Options(
+    const bc_binary_t* filter, const bc_ec_compressed_t* scan_key,
+    const bc_point_list_t* spend_keys, uint8_t signatures, uint8_t version);
 
 /// Destructor
 void bc_destroy_stealth_address(bc_stealth_address_t* self);
@@ -74,7 +76,7 @@ bc_ec_compressed_t* bc_stealth_address_scan_key(
 bc_point_list_t* bc_stealth_address_spend_keys(
     const bc_stealth_address_t* self);
 uint8_t bc_stealth_address_signatures(const bc_stealth_address_t* self);
-// TODO: binary type needed for filter
+bc_binary_t* bc_stealth_address_filter(const bc_stealth_address_t* self);
 
 /// Methods.
 bc_data_chunk_t* bc_stealth_address_to_chunk(

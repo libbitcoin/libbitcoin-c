@@ -133,43 +133,69 @@ BOOST_AUTO_TEST_CASE(bitcoin_uri__set_path__stealth_address__expected_encoding_c
 
 BOOST_AUTO_TEST_CASE(bitcoin_uri__set_path__reset_stealth_after_payment__expected_encoding_c)
 {
-    // TODO: payment and stealth for bitcoin uri class
     const auto expected_stealth = "hfFGUXFPKkQ5M6LC6aEUKMsURdhw93bUdYdacEtBA8XttLv7evZkira2i";
     const auto expected_uri = std::string("bitcoin:") + expected_stealth;
+    bc_bitcoin_uri_t* uri = bc_create_bitcoin_uri_default();
 
-    bitcoin_uri uri;
-    const auto payment = payment_address("113Pfw4sFqN1T5kXUnKbqZHMJHN9oyjtgD");
-    BOOST_REQUIRE(payment);
-    uri.set_address(payment);
-    uri.set_address(stealth_address(expected_stealth));
-    BOOST_REQUIRE_EQUAL(uri.encoded(), expected_uri);
+    // Set payment address
+    bc_payment_address_t* payment = bc_create_payment_address_String(
+        "113Pfw4sFqN1T5kXUnKbqZHMJHN9oyjtgD");
+    BOOST_REQUIRE(bc_payment_address_is_initialized(payment));
+    bc_bitcoin_uri_set_payment(uri, payment);
+    bc_destroy_payment_address(payment);
+    // Set stealth address
+    bc_stealth_address_t* stealth = bc_create_stealth_address_String(
+        expected_stealth);
+    BOOST_REQUIRE(bc_stealth_address_is_initialized(stealth));
+    bc_bitcoin_uri_set_stealth(uri, stealth);
+    bc_destroy_stealth_address(stealth);
+
+    bc_string_t* encoded = bc_bitcoin_uri_encoded(uri);
+    BOOST_REQUIRE(bc_string_equals_cstr(encoded, expected_uri.data()));
+    bc_destroy_string(encoded);
+    bc_destroy_bitcoin_uri(uri);
 }
 
 BOOST_AUTO_TEST_CASE(bitcoin_uri__set_path__reset_payment_after_stealth__expected_encoding_c)
 {
-    // TODO: payment and stealth for bitcoin uri class
     const auto expected_payment = "113Pfw4sFqN1T5kXUnKbqZHMJHN9oyjtgD";
     const auto expected_uri = std::string("bitcoin:") + expected_payment;
+    bc_bitcoin_uri_t* uri = bc_create_bitcoin_uri_default();
 
-    bitcoin_uri uri;
-    const auto stealth = stealth_address("hfFGUXFPKkQ5M6LC6aEUKMsURdhw93bUdYdacEtBA8XttLv7evZkira2i");
-    BOOST_REQUIRE(stealth);
-    uri.set_address(stealth);
-    uri.set_address(payment_address(expected_payment));
-    BOOST_REQUIRE_EQUAL(uri.encoded(), expected_uri);
+    // Set stealth address
+    bc_stealth_address_t* stealth = bc_create_stealth_address_String(
+        "hfFGUXFPKkQ5M6LC6aEUKMsURdhw93bUdYdacEtBA8XttLv7evZkira2i");
+    BOOST_REQUIRE(bc_stealth_address_is_initialized(stealth));
+    bc_bitcoin_uri_set_stealth(uri, stealth);
+    bc_destroy_stealth_address(stealth);
+    // Set payment address
+    bc_payment_address_t* payment = bc_create_payment_address_String(
+        expected_payment);
+    BOOST_REQUIRE(bc_payment_address_is_initialized(payment));
+    bc_bitcoin_uri_set_payment(uri, payment);
+    bc_destroy_payment_address(payment);
+
+    bc_string_t* encoded = bc_bitcoin_uri_encoded(uri);
+    BOOST_REQUIRE(bc_string_equals_cstr(encoded, expected_uri.data()));
+    bc_destroy_string(encoded);
+    bc_destroy_bitcoin_uri(uri);
 }
 
 BOOST_AUTO_TEST_CASE(bitcoin_uri__set_path__reset_path__false_c)
 {
-    // TODO: payment and stealth for bitcoin uri class
     const auto expected_payment = "113Pfw4sFqN1T5kXUnKbqZHMJHN9oyjtgD";
     const auto expected_uri = std::string("bitcoin:") + expected_payment;
+    bc_bitcoin_uri_t* uri = bc_create_bitcoin_uri_default();
 
-    bitcoin_uri uri;
-    uri.set_address(stealth_address("hfFGUXFPKkQ5M6LC6aEUKMsURdhw93bUdYdacEtBA8XttLv7evZkira2i"));
+    // Set stealth address
+    bc_stealth_address_t* stealth = bc_create_stealth_address_String(
+        "hfFGUXFPKkQ5M6LC6aEUKMsURdhw93bUdYdacEtBA8XttLv7evZkira2i");
+    BOOST_REQUIRE(bc_stealth_address_is_initialized(stealth));
+    bc_bitcoin_uri_set_stealth(uri, stealth);
+    bc_destroy_stealth_address(stealth);
 
-    // The set_path will not reset a path. This is necessary to catch failures in non-strict parsing.
-    BOOST_REQUIRE(!uri.set_path(expected_payment));
+    BOOST_REQUIRE(!bc_bitcoin_uri_set_path(uri, expected_payment));
+    bc_destroy_bitcoin_uri(uri);
 }
 
 BOOST_AUTO_TEST_CASE(bitcoin_uri__set_amount__reset_amount__latter_amount_c)
@@ -271,10 +297,15 @@ BOOST_AUTO_TEST_CASE(bitcoin_uri__payment__valid__expected_c)
 
 BOOST_AUTO_TEST_CASE(bitcoin_uri__stealth__valid__expected_c)
 {
-    // TODO: no stealth yet
     const auto expected_stealth = "hfFGUXFPKkQ5M6LC6aEUKMsURdhw93bUdYdacEtBA8XttLv7evZkira2i";
     const auto expected_uri = std::string("bitcoin:") + expected_stealth;
-    BOOST_REQUIRE_EQUAL(bitcoin_uri(expected_uri).stealth().encoded(), expected_stealth);
+    bc_bitcoin_uri_t* uri = bc_create_bitcoin_uri(expected_uri.data());
+    bc_stealth_address_t* stealth = bc_bitcoin_uri_stealth(uri);
+    bc_string_t* encoded = bc_stealth_address_encoded(stealth);
+    BOOST_REQUIRE(bc_string_equals_cstr(encoded, expected_stealth));
+    bc_destroy_string(encoded);
+    bc_destroy_stealth_address(stealth);
+    bc_destroy_bitcoin_uri(uri);
 }
 
 BOOST_AUTO_TEST_CASE(bitcoin_uri__address__payment__expected_c)
