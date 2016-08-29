@@ -44,6 +44,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/wallet/hd_public.cpp \
     src/wallet/hd_private.cpp \
     src/wallet/payment_address.cpp \
+    src/wallet/stealth_address.cpp \
     src/chain/point.cpp \
     src/chain/output.cpp \
     src/chain/input.cpp \
@@ -114,7 +115,8 @@ include_bitcoin_bitcoin_c_wallet_HEADERS = \
     include/bitcoin/bitcoin/c/wallet/bitcoin_uri.h \
     include/bitcoin/bitcoin/c/wallet/hd_public.h \
     include/bitcoin/bitcoin/c/wallet/hd_private.h \
-    include/bitcoin/bitcoin/c/wallet/payment_address.h
+    include/bitcoin/bitcoin/c/wallet/payment_address.h \
+    include/bitcoin/bitcoin/c/wallet/stealth_address.h
 
 include_bitcoin_bitcoin_c_internal_chaindir = ${includedir}/bitcoin/bitcoin/c/internal/chain
 include_bitcoin_bitcoin_c_internal_chain_HEADERS = \
@@ -145,7 +147,8 @@ include_bitcoin_bitcoin_c_internal_wallet_HEADERS = \
     include/bitcoin/bitcoin/c/internal/wallet/bitcoin_uri.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/hd_public.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/hd_private.hpp \
-    include/bitcoin/bitcoin/c/internal/wallet/payment_address.hpp
+    include/bitcoin/bitcoin/c/internal/wallet/payment_address.hpp \
+    include/bitcoin/bitcoin/c/internal/wallet/stealth_address.hpp
 
 include_bitcoin_bitcoin_c_internal_impl_utility_vectordir = ${includedir}/bitcoin/bitcoin/c/internal/impl/utility
 include_bitcoin_bitcoin_c_internal_impl_utility_vector_HEADERS = \

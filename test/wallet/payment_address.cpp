@@ -74,6 +74,7 @@ BOOST_AUTO_TEST_SUITE(payment_address_tests_c)
 
 BOOST_AUTO_TEST_CASE(payment_address__construct__default__invalid_c)
 {
+    // TODO: finish this unit test and add stealth addresses
     const payment_address address;
     BOOST_REQUIRE(!address);
     BOOST_REQUIRE_EQUAL(address.encoded(), UNINITIALIZED_ADDRESS);

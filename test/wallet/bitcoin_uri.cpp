@@ -258,7 +258,6 @@ BOOST_AUTO_TEST_CASE(bitcoin_uri__r__escaped__expected_c)
 
 BOOST_AUTO_TEST_CASE(bitcoin_uri__payment__valid__expected_c)
 {
-    // TODO: need payment addresses first
     const auto expected_payment = "113Pfw4sFqN1T5kXUnKbqZHMJHN9oyjtgD";
     const auto expected_uri = std::string("bitcoin:") + expected_payment;
     bc_bitcoin_uri_t* uri = bc_create_bitcoin_uri(expected_uri.data());
