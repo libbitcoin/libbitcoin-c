@@ -63,6 +63,13 @@ bc_stealth_address_t* bc_create_stealth_address_copy(
         *other->obj) };
 }
 
+/// Destructor
+void bc_destroy_stealth_address(bc_stealth_address_t* self)
+{
+    delete self->obj;
+    delete self;
+}
+
 /// Operators.
 bool bc_stealth_address_less_than(const bc_stealth_address_t* self,
     const bc_stealth_address_t* other)
