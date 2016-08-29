@@ -1,6 +1,7 @@
 #ifndef LIBBITCOIN_C_BITCOIN_H
 #define LIBBITCOIN_C_BITCOIN_H
 
+#include <bitcoin/bitcoin/c/utility/binary.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
 #include <bitcoin/bitcoin/c/utility/vector.h>
