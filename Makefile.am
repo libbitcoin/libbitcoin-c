@@ -41,6 +41,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/formats/base_16.cpp \
     src/math/hash.cpp \
     src/math/crypto.cpp \
+    src/math/stealth.cpp \
     src/math/elliptic_curve.cpp \
     src/wallet/bitcoin_uri.cpp \
     src/wallet/hd_public.cpp \
@@ -102,6 +103,7 @@ include_bitcoin_bitcoin_c_mathdir = ${includedir}/bitcoin/bitcoin/c/math
 include_bitcoin_bitcoin_c_math_HEADERS = \
     include/bitcoin/bitcoin/c/math/elliptic_curve.h \
     include/bitcoin/bitcoin/c/math/crypto.h \
+    include/bitcoin/bitcoin/c/math/stealth.h \
     include/bitcoin/bitcoin/c/math/hash.h
 
 include_bitcoin_bitcoin_c_utilitydir = ${includedir}/bitcoin/bitcoin/c/utility
