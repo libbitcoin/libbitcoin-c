@@ -35,6 +35,8 @@ extern "C" {
     typedef struct bc_##typename##_t bc_##typename##_t; \
     bc_##typename##_t* bc_create_##typename(); \
     bc_##typename##_t* bc_create_##typename##_Data(const uint8_t* data); \
+    bc_##typename##_t* bc_create_##typename##_Base16( \
+        const char* encoded_bytes); \
     void bc_destroy_##typename(bc_##typename##_t* self); \
     uint8_t* bc_##typename##_data(bc_##typename##_t* self); \
     const uint8_t* bc_##typename##_cdata(const bc_##typename##_t* self); \

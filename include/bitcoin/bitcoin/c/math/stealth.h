@@ -61,13 +61,13 @@ bool bc_shared_secret(bc_ec_secret_t* out_shared, const bc_ec_secret_t* secret,
     const bc_ec_compressed_t* point);
 
 /// Uncover the stealth public key.
-bool uncover_stealth_Public(bc_ec_compressed_t* out_stealth,
+bool bc_uncover_stealth_Public(bc_ec_compressed_t* out_stealth,
     const bc_ec_compressed_t* ephemeral_or_scan,
     const bc_ec_secret_t* scan_or_ephemeral,
     const bc_ec_compressed_t* spend);
 
 /// Uncover the stealth secret.
-bool uncover_stealth_Secret(bc_ec_secret_t* out_stealth,
+bool bc_uncover_stealth_Secret(bc_ec_secret_t* out_stealth,
     const bc_ec_compressed_t* ephemeral_or_scan,
     const bc_ec_secret_t* scan_or_ephemeral,
     const bc_ec_secret_t* spend);

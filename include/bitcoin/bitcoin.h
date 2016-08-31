@@ -15,6 +15,7 @@
 #include <bitcoin/bitcoin/c/chain/output.h>
 #include <bitcoin/bitcoin/c/math/elliptic_curve.h>
 #include <bitcoin/bitcoin/c/math/hash.h>
+#include <bitcoin/bitcoin/c/math/stealth.h>
 #include <bitcoin/bitcoin/c/wallet/hd_public.h>
 #include <bitcoin/bitcoin/c/wallet/bitcoin_uri.h>
 #include <bitcoin/bitcoin/c/wallet/payment_address.h>

@@ -53,6 +53,15 @@ struct bc_data_chunk_t
         std::copy_n(data, bc_##typename##_size(), self->obj->data()); \
         return self; \
     } \
+    bc_##typename##_t* bc_create_##typename##_Base16( \
+        const char* encoded_bytes) \
+    { \
+        bc_##typename##_t* self = new bc_##typename##_t{ \
+            new namespace::typename }; \
+        if (!libbitcoin::decode_base16(*self->obj, encoded_bytes)) \
+            return NULL; \
+        return self; \
+    } \
     void bc_destroy_##typename(bc_##typename##_t* self) \
     { \
         delete self->obj; \

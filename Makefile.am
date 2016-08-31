@@ -73,6 +73,7 @@ test_libbitcoin_c_test_SOURCES = \
     test/formats/base_16.cpp \
     test/math/hash.cpp \
     test/math/elliptic_curve.cpp \
+    test/math/stealth.cpp \
     test/wallet/bitcoin_uri.cpp \
     test/wallet/hd_public.cpp \
     test/wallet/hd_private.cpp \
