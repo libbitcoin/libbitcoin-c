@@ -39,6 +39,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/utility/string.cpp \
     src/utility/binary.cpp \
     src/formats/base_16.cpp \
+    src/formats/base_58.cpp \
     src/formats/base_10.cpp \
     src/math/hash.cpp \
     src/math/crypto.cpp \
@@ -122,6 +123,7 @@ include_bitcoin_bitcoin_c_utility_HEADERS = \
 include_bitcoin_bitcoin_c_formatsdir = ${includedir}/bitcoin/bitcoin/c/formats
 include_bitcoin_bitcoin_c_formats_HEADERS = \
     include/bitcoin/bitcoin/c/formats/base_16.h \
+    include/bitcoin/bitcoin/c/formats/base_58.h \
     include/bitcoin/bitcoin/c/formats/base_10.h
 
 include_bitcoin_bitcoin_c_walletdir = ${includedir}/bitcoin/bitcoin/c/wallet

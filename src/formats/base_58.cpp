@@ -17,42 +17,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <bitcoin/bitcoin/c/formats/base_10.h>
+#include <bitcoin/bitcoin/c/formats/base_58.h>
 
-#include <bitcoin/bitcoin/formats/base_10.hpp>
+#include <bitcoin/bitcoin/formats/base_58.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 
 extern "C" {
 
-uint8_t bc_btc_decimal_places()
+bool bc_is_base58_Char(const char ch)
 {
-    return libbitcoin::btc_decimal_places;
+    return libbitcoin::is_base58(ch);
 }
-uint8_t bc_mbtc_decimal_places()
+bool bc_is_base58(const char* text)
 {
-    return libbitcoin::mbtc_decimal_places;
-}
-uint8_t bc_ubtc_decimal_places()
-{
-    return libbitcoin::ubtc_decimal_places;
+    return libbitcoin::is_base58(text);
 }
 
-bool bc_decode_base10(uint64_t* out, const char* amount,
-    uint8_t decimal_places)
-{
-    return libbitcoin::decode_base10(*out, amount, decimal_places);
-}
-bool bc_decode_base10_nonstrict(uint64_t* out, const char* amount,
-    uint8_t decimal_places)
-{
-    return libbitcoin::decode_base10(*out, amount, decimal_places, false);
-}
-
-bc_string_t* bc_encode_base10(uint64_t amount, uint8_t decimal_places)
+bc_string_t* bc_encode_base58(const bc_data_chunk_t* unencoded)
 {
     return bc_create_string_StdString(
-        libbitcoin::encode_base10(amount, decimal_places));
+        libbitcoin::encode_base58(*unencoded->obj));
+}
+
+bool bc_decode_base58(bc_data_chunk_t* out, const char* in)
+{
+    return libbitcoin::decode_base58(*out->obj, in);
 }
 
 } // extern C
