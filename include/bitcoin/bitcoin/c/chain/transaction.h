@@ -33,18 +33,21 @@ extern "C" {
 
 typedef struct bc_transaction_t bc_transaction_t;
 BC_DECLARE_VECTOR(transaction_list, bc_transaction_t);
+
 // Static functions
 bc_transaction_t* bc_transaction_factory_from_data(
     const bc_data_chunk_t* data);
-uint64_t bc_transaction_satoshi_fixed_size();
+
 // Constructor
 bc_transaction_t* bc_create_transaction();
 bc_transaction_t* bc_create_transaction_copy(const bc_transaction_t* other);
 bc_transaction_t* bc_create_transaction_Parts(
     uint32_t version, uint32_t locktime,
     const bc_input_list_t* inputs, const bc_output_list_t* outputs);
+
 // Destructor
 void bc_destroy_transaction(bc_transaction_t* self);
+
 // Member functions
 bool bc_transaction_from_data(bc_transaction_t* self,
     const bc_data_chunk_t* data);
@@ -54,6 +57,7 @@ bc_string_t* bc_transaction_to_string(const bc_transaction_t* self,
 bool bc_transaction_is_valid(const bc_transaction_t* self);
 void bc_transaction_reset(bc_transaction_t* self);
 bc_hash_digest_t* bc_transaction_hash(const bc_transaction_t* self);
+
 // sighash_type is used by OP_CHECKSIG
 bc_hash_digest_t* bc_transaction_hash_Sighash(const bc_transaction_t* self,
     uint32_t sighash_type);
@@ -63,6 +67,7 @@ bool bc_transaction_is_final(const bc_transaction_t* self,
 bool bc_transaction_is_locktime_conflict(const bc_transaction_t* self);
 uint64_t bc_transaction_total_output_value(const bc_transaction_t* self);
 uint64_t bc_transaction_serialized_size(const bc_transaction_t* self);
+
 // Member variables
 uint32_t bc_transaction_version(const bc_transaction_t* self);
 void bc_transaction_set_version(bc_transaction_t* self, uint32_t version);

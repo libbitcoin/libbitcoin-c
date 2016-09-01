@@ -35,7 +35,6 @@ typedef struct bc_input_t bc_input_t;
 BC_DECLARE_VECTOR(input_list, bc_input_t);
 // Static functions
 bc_input_t* bc_input_factory_from_data(const bc_data_chunk_t* data);
-uint64_t bc_input_satoshi_fixed_size();
 // Constructor
 bc_input_t* bc_create_input();
 // Destructor

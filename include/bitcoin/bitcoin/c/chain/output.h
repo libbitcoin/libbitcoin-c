@@ -34,7 +34,6 @@ typedef struct bc_output_t bc_output_t;
 BC_DECLARE_VECTOR(output_list, bc_output_t);
 // Static functions
 bc_output_t* bc_output_factory_from_data(const bc_data_chunk_t* data);
-uint64_t bc_output_satoshi_fixed_size();
 // Constructor
 bc_output_t* bc_create_output();
 // Destructor

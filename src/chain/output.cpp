@@ -37,12 +37,6 @@ bc_output_t* bc_output_factory_from_data(const bc_data_chunk_t* data)
     return new bc_output_t{ new libbitcoin::chain::output(
         libbitcoin::chain::output::factory_from_data(*data->obj)) };
 }
-uint64_t bc_output_satoshi_fixed_size()
-{
-    // TODO: missing impl in libbitcoin
-    //return libbitcoin::chain::output::satoshi_fixed_size();
-    return 0;
-}
 // Constructor
 bc_output_t* bc_create_output()
 {
