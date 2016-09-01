@@ -48,6 +48,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/math/checksum.cpp \
     src/math/stealth.cpp \
     src/math/elliptic_curve.cpp \
+    src/math/hash_number.cpp \
     src/wallet/bitcoin_uri.cpp \
     src/wallet/hd_public.cpp \
     src/wallet/hd_private.cpp \
@@ -112,6 +113,7 @@ include_bitcoin_bitcoin_c_chain_script_HEADERS = \
 include_bitcoin_bitcoin_c_mathdir = ${includedir}/bitcoin/bitcoin/c/math
 include_bitcoin_bitcoin_c_math_HEADERS = \
     include/bitcoin/bitcoin/c/math/elliptic_curve.h \
+    include/bitcoin/bitcoin/c/math/hash_number.h \
     include/bitcoin/bitcoin/c/math/crypto.h \
     include/bitcoin/bitcoin/c/math/checksum.h \
     include/bitcoin/bitcoin/c/math/stealth.h \
@@ -159,7 +161,8 @@ include_bitcoin_bitcoin_c_internal_mathdir = ${includedir}/bitcoin/bitcoin/c/int
 include_bitcoin_bitcoin_c_internal_math_HEADERS = \
     include/bitcoin/bitcoin/c/internal/math/hash.hpp \
     include/bitcoin/bitcoin/c/internal/math/crypto.hpp \
-    include/bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp
+    include/bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp \
+    include/bitcoin/bitcoin/c/internal/math/hash_number.hpp
 
 include_bitcoin_bitcoin_c_internal_utilitydir = ${includedir}/bitcoin/bitcoin/c/internal/utility
 include_bitcoin_bitcoin_c_internal_utility_HEADERS = \
