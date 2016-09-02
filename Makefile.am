@@ -60,6 +60,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/wallet/payment_address.cpp \
     src/wallet/stealth_address.cpp \
     src/chain/point.cpp \
+    src/chain/point_iterator.cpp \
     src/chain/output.cpp \
     src/chain/input.cpp \
     src/chain/transaction.cpp \
@@ -113,6 +114,7 @@ include_bitcoin_bitcoin_c_chain_HEADERS = \
     include/bitcoin/bitcoin/c/chain/transaction.h \
     include/bitcoin/bitcoin/c/chain/header.h \
     include/bitcoin/bitcoin/c/chain/block.h \
+    include/bitcoin/bitcoin/c/chain/point_iterator.h \
     include/bitcoin/bitcoin/c/chain/point.h
 
 include_bitcoin_bitcoin_c_chain_scriptdir = ${includedir}/bitcoin/bitcoin/c/chain/script
@@ -162,7 +164,8 @@ include_bitcoin_bitcoin_c_internal_chain_HEADERS = \
     include/bitcoin/bitcoin/c/internal/chain/transaction.hpp \
     include/bitcoin/bitcoin/c/internal/chain/header.hpp \
     include/bitcoin/bitcoin/c/internal/chain/block.hpp \
-    include/bitcoin/bitcoin/c/internal/chain/point.hpp
+    include/bitcoin/bitcoin/c/internal/chain/point.hpp \
+    include/bitcoin/bitcoin/c/internal/chain/point_iterator.hpp
 
 include_bitcoin_bitcoin_c_internal_chain_scriptdir = ${includedir}/bitcoin/bitcoin/c/internal/chain/script
 include_bitcoin_bitcoin_c_internal_chain_script_HEADERS = \
