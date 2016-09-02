@@ -35,6 +35,8 @@ lib_LTLIBRARIES = src/libbitcoin-c.la
 src_libbitcoin_c_la_CPPFLAGS = -I${srcdir}/include ${bitcoin_CPPFLAGS}
 src_libbitcoin_c_la_LIBADD = ${bitcoin_LIBS}
 src_libbitcoin_c_la_SOURCES = \
+    src/version.cpp \
+    src/constants.cpp \
     src/utility/data.cpp \
     src/utility/string.cpp \
     src/utility/binary.cpp \
@@ -95,6 +97,11 @@ endif WITH_TESTS
 include_bitcoindir = ${includedir}/bitcoin
 include_bitcoin_HEADERS = \
     include/bitcoin/bitcoin.h
+
+include_bitcoin_bitcoin_cdir = ${includedir}/bitcoin/bitcoin/c/
+include_bitcoin_bitcoin_c_HEADERS = \
+    include/bitcoin/bitcoin/c/version.h \
+    include/bitcoin/bitcoin/c/constants.h
 
 include_bitcoin_bitcoin_c_chaindir = ${includedir}/bitcoin/bitcoin/c/chain
 include_bitcoin_bitcoin_c_chain_HEADERS = \
