@@ -31,9 +31,11 @@ extern "C" {
     typedef struct bc_##typename##_t bc_##typename##_t; \
     bc_##typename##_t* bc_create_##typename(); \
     void bc_destroy_##typename(bc_##typename##_t* self); \
+    /*****Do not delete the objects returned by these accessors.*****/ \
     itemtype* bc_##typename##_at(bc_##typename##_t* self, size_t pos); \
     const itemtype* bc_##typename##_const_at(const bc_##typename##_t* self, \
         size_t pos); \
+    /****************************************************************/ \
     size_t bc_##typename##_size(const bc_##typename##_t* self); \
     void bc_##typename##_clear(bc_##typename##_t* self); \
     void bc_##typename##_erase(bc_##typename##_t* self, size_t pos); \
