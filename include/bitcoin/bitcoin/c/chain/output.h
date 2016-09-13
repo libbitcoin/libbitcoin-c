@@ -47,9 +47,9 @@ void bc_output_reset(bc_output_t* self);
 uint64_t bc_output_serialized_size(const bc_output_t* self);
 // Member variables
 uint64_t bc_output_value(const bc_output_t* self);
-void bc_output_set_value(const bc_output_t* self, uint64_t value);
+void bc_output_set_value(bc_output_t* self, uint64_t value);
 bc_script_t* bc_output_script(const bc_output_t* self);
-void bc_output_set_script(const bc_output_t* self, const bc_script_t* script);
+void bc_output_set_script(bc_output_t* self, const bc_script_t* script);
 
 #ifdef __cplusplus
 }

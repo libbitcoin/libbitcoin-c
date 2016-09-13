@@ -49,12 +49,12 @@ bool bc_input_is_final(const bc_input_t* self);
 uint64_t bc_input_serialized_size(const bc_input_t* self);
 // Member variables
 bc_output_point_t* bc_input_previous_output(const bc_input_t* self);
-void bc_input_set_previous_output(const bc_input_t* self,
+void bc_input_set_previous_output(bc_input_t* self,
     bc_output_point_t* previous_output);
 bc_script_t* bc_input_script(const bc_input_t* self);
-void bc_input_set_script(const bc_input_t* self, const bc_script_t* script);
+void bc_input_set_script(bc_input_t* self, const bc_script_t* script);
 uint32_t bc_input_sequence(const bc_input_t* self);
-void bc_input_set_sequence(const bc_input_t* self, uint32_t sequence);
+void bc_input_set_sequence(bc_input_t* self, uint32_t sequence);
 
 #ifdef __cplusplus
 }

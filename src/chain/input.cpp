@@ -84,7 +84,7 @@ bc_output_point_t* bc_input_previous_output(const bc_input_t* self)
     return new bc_output_point_t{ new libbitcoin::chain::output_point(
         self->obj->previous_output) };
 }
-void bc_input_set_previous_output(const bc_input_t* self,
+void bc_input_set_previous_output(bc_input_t* self,
     bc_output_point_t* previous_output)
 {
     self->obj->previous_output = *previous_output->obj;
@@ -94,7 +94,7 @@ bc_script_t* bc_input_script(const bc_input_t* self)
     return new bc_script_t{ new libbitcoin::chain::script(
         self->obj->script) };
 }
-void bc_input_set_script(const bc_input_t* self, const bc_script_t* script)
+void bc_input_set_script(bc_input_t* self, const bc_script_t* script)
 {
     self->obj->script = *script->obj;
 }
@@ -102,7 +102,7 @@ uint32_t bc_input_sequence(const bc_input_t* self)
 {
     return self->obj->sequence;
 }
-void bc_input_set_sequence(const bc_input_t* self, uint32_t sequence)
+void bc_input_set_sequence(bc_input_t* self, uint32_t sequence)
 {
     self->obj->sequence = sequence;
 }
