@@ -60,9 +60,9 @@ void bc_point_reset(bc_point_t* self);
 uint64_t bc_point_serialized_size(const bc_point_t* self);
 // Member variables
 bc_hash_digest_t* bc_point_hash(const bc_point_t* self);
-void bc_point_set_hash(const bc_point_t* self, const bc_hash_digest_t* hash);
+void bc_point_set_hash(bc_point_t* self, const bc_hash_digest_t* hash);
 uint32_t bc_point_index(const bc_point_t* self);
-void bc_point_set_index(const bc_point_t* self, uint32_t index);
+void bc_point_set_index(bc_point_t* self, uint32_t index);
 // Operators
 bool bc_point_equals(const bc_point_t* left, const bc_point_t* right);
 bool bc_point_not_equals(const bc_point_t* left, const bc_point_t* right);

@@ -112,7 +112,7 @@ bc_hash_digest_t* bc_point_hash(const bc_point_t* self)
 {
     return bc_create_hash_digest_Internal(self->obj->hash);
 }
-void bc_point_set_hash(const bc_point_t* self, const bc_hash_digest_t* hash)
+void bc_point_set_hash(bc_point_t* self, const bc_hash_digest_t* hash)
 {
     self->obj->hash = *hash->obj;
 }
@@ -120,7 +120,7 @@ uint32_t bc_point_index(const bc_point_t* self)
 {
     return self->obj->index;
 }
-void bc_point_set_index(const bc_point_t* self, uint32_t index)
+void bc_point_set_index(bc_point_t* self, uint32_t index)
 {
     self->obj->index = index;
 }

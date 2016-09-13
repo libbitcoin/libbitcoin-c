@@ -90,6 +90,7 @@ test_libbitcoin_c_test_SOURCES = \
     test/chain/header.cpp \
     test/chain/input.cpp \
     test/chain/output.cpp \
+    test/chain/point.cpp \
     test/utility/binary.cpp \
     test/utility/data.cpp \
     test/formats/base_16.cpp \
