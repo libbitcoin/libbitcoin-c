@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE(checksum_tests_c)
 BOOST_AUTO_TEST_CASE(checksum__append_checksum__size__increased_by_checksum_size_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
-        bc_array_type{ 0, 0, 0, 0, 0 }, 5);
+        bc_data_array_t{ 0, 0, 0, 0, 0 }, 5);
     const size_t data_size = bc_data_chunk_size(data);
     bc_append_checksum(data);
     BOOST_REQUIRE_EQUAL(
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(checksum__append_checksum__size__increased_by_checksum_size
 BOOST_AUTO_TEST_CASE(checksum__append_checksum__empty__valid_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
-        bc_array_type{}, 0);
+        bc_data_array_t{}, 0);
     size_t checksum = bc_data_chunk_size(data);
     bc_append_checksum(data);
     const uint8_t* cdata = bc_data_chunk_cdata(data);
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(checksum__append_checksum__empty__valid_c)
 BOOST_AUTO_TEST_CASE(checksum__append_checksum__not_empty__valid_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
-        bc_array_type{ 0, 0, 0, 0, 0 }, 5);
+        bc_data_array_t{ 0, 0, 0, 0, 0 }, 5);
     size_t checksum = bc_data_chunk_size(data);
     bc_append_checksum(data);
     const uint8_t* cdata = bc_data_chunk_cdata(data);
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE(checksum__append_checksum__not_empty__valid_c)
 BOOST_AUTO_TEST_CASE(checksum__bitcoin_checksum__always__valid_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
-        bc_array_type{ 0, 0, 0, 0, 0 }, 5);
+        bc_data_array_t{ 0, 0, 0, 0, 0 }, 5);
     const uint32_t result = bc_bitcoin_checksum(data);
     BOOST_REQUIRE_EQUAL(result, 0x93af0179u);
     bc_destroy_data_chunk(data);
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE(checksum__insert_checksum__underflow__false_c)
 BOOST_AUTO_TEST_CASE(checksum__verify_checksum__underflow__false_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
-        bc_array_type{ 0, 0, 0 }, 3);
+        bc_data_array_t{ 0, 0, 0 }, 3);
     BOOST_REQUIRE(!bc_verify_checksum(data));
     bc_destroy_data_chunk(data);
 }
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE(checksum__verify_checksum__underflow__false_c)
 BOOST_AUTO_TEST_CASE(checksum__verify_checksum__not_set__false_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
-        bc_array_type{ 0, 0, 0, 0, 0 }, 5);
+        bc_data_array_t{ 0, 0, 0, 0, 0 }, 5);
     BOOST_REQUIRE(!bc_verify_checksum(data));
     bc_destroy_data_chunk(data);
 }
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(checksum__verify_checksum__not_set__false_c)
 BOOST_AUTO_TEST_CASE(checksum__verify_checksum__added__true_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
-        bc_array_type{ 0, 0, 0, 0, 0 }, 5);
+        bc_data_array_t{ 0, 0, 0, 0, 0 }, 5);
     bc_append_checksum(data);
     BOOST_REQUIRE(bc_verify_checksum(data));
     bc_destroy_data_chunk(data);
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE(checksum__verify_checksum__added__true_c)
 BOOST_AUTO_TEST_CASE(checksum__verify_checksum__invalidated__false_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
-        bc_array_type{ 0, 0, 0, 0, 0 }, 5);
+        bc_data_array_t{ 0, 0, 0, 0, 0 }, 5);
     const size_t data_size = bc_data_chunk_size(data);
     bc_append_checksum(data);
     bc_data_chunk_data(data)[data_size] = 42;

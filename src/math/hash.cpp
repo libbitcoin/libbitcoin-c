@@ -59,6 +59,12 @@ size_t bc_mini_hash_size()
         self->obj = new libbitcoin::hashtype; \
         return self; \
     } \
+    bc_##hashtype##_t* bc_create_##hashtype##_Array(const uint8_t* data) \
+    { \
+        bc_##hashtype##_t* self = bc_create_##hashtype(); \
+        std::copy(data, data + self->obj->size(), self->obj->begin()); \
+        return self; \
+    } \
     void bc_destroy_##hashtype(bc_##hashtype##_t* self) \
     { \
         delete self->obj; \
