@@ -60,6 +60,8 @@ BOOST_AUTO_TEST_CASE(roundtrip_to_data_factory_from_data_chunk_c)
     bc_header_set_bits(expected, 6523454);
     bc_header_set_nonce(expected, 68644);
 
+    bc_header_set_transaction_count(expected, 0);
+
     bc_data_chunk_t* data = bc_header_to_data_without_transaction_count(
         expected);
     bc_header_t* result =

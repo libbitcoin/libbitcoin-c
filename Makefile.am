@@ -88,6 +88,7 @@ test_libbitcoin_c_test_SOURCES = \
     test/chain/satoshi_words.cpp \
     test/chain/block.cpp \
     test/chain/header.cpp \
+    test/chain/input.cpp \
     test/utility/binary.cpp \
     test/utility/data.cpp \
     test/formats/base_16.cpp \
