@@ -86,6 +86,10 @@ uint32_t bc_header_transaction_count(const bc_header_t* self);
 void bc_header_set_transaction_count(const bc_header_t* self,
     uint32_t transaction_count);
 
+// Operators
+bool bc_header_equals(const bc_header_t* self, const bc_header_t* other);
+bool bc_header_not_equals(const bc_header_t* self, const bc_header_t* other);
+
 #ifdef __cplusplus
 }
 #endif

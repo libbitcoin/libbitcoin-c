@@ -46,7 +46,9 @@ size_t bc_mini_hash_size();
     uint8_t* bc_##hashtype##_data(bc_##hashtype##_t* self); \
     const uint8_t* bc_##hashtype##_cdata(const bc_##hashtype##_t* self); \
     bc_string_t* bc_##hashtype##_encode_base16( \
-        const bc_##hashtype##_t* self);
+        const bc_##hashtype##_t* self); \
+    bool bc_##hashtype##_equals(const bc_##hashtype##_t* self, \
+        const bc_##hashtype##_t* other);
 
 DECLARE_HASH_TYPE(hash_digest);
 DECLARE_HASH_TYPE(half_hash);

@@ -59,6 +59,8 @@ void bc_destroy_data_chunk(bc_data_chunk_t* self);
 size_t bc_data_chunk_size(const bc_data_chunk_t* self);
 // .empty()
 bool bc_data_chunk_empty(const bc_data_chunk_t* self);
+// .resize()
+void bc_data_chunk_resize(bc_data_chunk_t* self, size_t count);
 // .data()
 uint8_t* bc_data_chunk_data(bc_data_chunk_t* self);
 // const .data()

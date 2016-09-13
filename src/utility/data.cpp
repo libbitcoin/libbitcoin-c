@@ -62,6 +62,11 @@ bool bc_data_chunk_empty(const bc_data_chunk_t* self)
 {
     return self->obj->empty();
 }
+// .resize()
+void bc_data_chunk_resize(bc_data_chunk_t* self, size_t count)
+{
+    self->obj->resize(count);
+}
 // .data()
 uint8_t* bc_data_chunk_data(bc_data_chunk_t* self)
 {

@@ -68,9 +68,9 @@ uint64_t bc_block_serialized_size_without_transaction_count(
 
 // Member variables
 bc_header_t* bc_block_header(const bc_block_t* self);
-void bc_block_set_header(const bc_block_t* self, const bc_header_t* header);
+void bc_block_set_header(bc_block_t* self, const bc_header_t* header);
 bc_transaction_list_t* bc_block_transactions(const bc_block_t* self);
-void bc_block_set_transactions(const bc_block_t* self,
+void bc_block_set_transactions(bc_block_t* self,
     const bc_transaction_list_t* transactions);
 
 #ifdef __cplusplus

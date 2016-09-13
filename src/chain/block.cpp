@@ -125,7 +125,7 @@ bc_header_t* bc_block_header(const bc_block_t* self)
     return new bc_header_t{ new libbitcoin::chain::header(
         self->obj->header) };
 }
-void bc_block_set_header(const bc_block_t* self, const bc_header_t* header)
+void bc_block_set_header(bc_block_t* self, const bc_header_t* header)
 {
     self->obj->header = *header->obj;
 }
@@ -133,7 +133,7 @@ bc_transaction_list_t* bc_block_transactions(const bc_block_t* self)
 {
     return bc_transaction_list_to_ctype(self->obj->transactions);
 }
-void bc_block_set_transactions(const bc_block_t* self,
+void bc_block_set_transactions(bc_block_t* self,
     const bc_transaction_list_t* transactions)
 {
     self->obj->transactions = bc_transaction_list_from_ctype(transactions);

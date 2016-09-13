@@ -171,5 +171,15 @@ void bc_header_set_transaction_count(const bc_header_t* self,
     self->obj->transaction_count = transaction_count;
 }
 
+// Operators
+bool bc_header_equals(const bc_header_t* self, const bc_header_t* other)
+{
+    return *self->obj == *other->obj;
+}
+bool bc_header_not_equals(const bc_header_t* self, const bc_header_t* other)
+{
+    return *self->obj != *other->obj;
+}
+
 } // extern C
 

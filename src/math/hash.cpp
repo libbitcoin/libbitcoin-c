@@ -78,6 +78,11 @@ size_t bc_mini_hash_size()
         return bc_create_string_StdString( \
             libbitcoin::encode_base16(*self->obj)); \
     } \
+    bool bc_##hashtype##_equals(const bc_##hashtype##_t* self, \
+        const bc_##hashtype##_t* other) \
+    { \
+        return *self->obj == *other->obj; \
+    } \
     \
     /* Internal constructor for this unit. */ \
     bc_##hashtype##_t* bc_create_##hashtype##_Internal( \
