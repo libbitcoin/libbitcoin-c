@@ -43,6 +43,9 @@ extern "C" {
     bc_string_t* bc_##typename##_encode_base16( \
         const bc_##typename##_t* self);
 
+// Used for passing initializer lists to data_chunk constructor.
+typedef const uint8_t bc_array_type[];
+
 typedef struct bc_data_chunk_t bc_data_chunk_t;
 // Empty chunk
 bc_data_chunk_t* bc_create_data_chunk();

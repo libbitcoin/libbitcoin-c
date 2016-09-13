@@ -85,9 +85,11 @@ test_libbitcoin_c_test_LDADD = src/libbitcoin-c.la ${boost_unit_test_framework_L
 test_libbitcoin_c_test_SOURCES = \
     test/main.cpp \
     test/chain/script.cpp \
+    test/chain/satoshi_words.cpp \
     test/utility/binary.cpp \
     test/utility/data.cpp \
     test/formats/base_16.cpp \
+    test/math/checksum.cpp \
     test/math/hash.cpp \
     test/math/elliptic_curve.cpp \
     test/math/stealth.cpp \

@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_MATH_CRYPTO_H
-#define LIBBITCOIN_C_MATH_CRYPTO_H
+#ifndef LIBBITCOIN_C_MATH_STEALTH_H
+#define LIBBITCOIN_C_MATH_STEALTH_H
 
 #include <stdbool.h>
 #include <stdint.h>
