@@ -56,7 +56,11 @@ void bc_destroy_header(const bc_header_t* self);
 // Member functions
 bool bc_header_from_data(
     bc_header_t* self, const bc_data_chunk_t* data);
+bool bc_header_from_data_without_transaction_count(
+    bc_header_t* self, const bc_data_chunk_t* data);
 bc_data_chunk_t* bc_header_to_data(const bc_header_t* self);
+bc_data_chunk_t* bc_header_to_data_without_transaction_count(
+    const bc_header_t* self);
 bc_hash_digest_t* bc_header_hash(const bc_header_t* self);
 bool bc_header_is_valid(const bc_header_t* self);
 void bc_header_reset(bc_header_t* self);

@@ -81,9 +81,19 @@ bool bc_header_from_data(
 {
     return self->obj->from_data(*data->obj);
 }
+bool bc_header_from_data_without_transaction_count(
+    bc_header_t* self, const bc_data_chunk_t* data)
+{
+    return self->obj->from_data(*data->obj, false);
+}
 bc_data_chunk_t* bc_header_to_data(const bc_header_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->to_data());
+}
+bc_data_chunk_t* bc_header_to_data_without_transaction_count(
+    const bc_header_t* self)
+{
+    return bc_create_data_chunk_Internal(self->obj->to_data(false));
 }
 bc_hash_digest_t* bc_header_hash(const bc_header_t* self)
 {

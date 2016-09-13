@@ -59,7 +59,11 @@ void bc_destroy_block(const bc_block_t* self);
 // Member functions
 bool bc_block_from_data(
     bc_block_t* self, const bc_data_chunk_t* data);
+bool bc_block_from_data_without_transaction_count(
+    bc_block_t* self, const bc_data_chunk_t* data);
 bc_data_chunk_t* bc_block_to_data(const bc_block_t* self);
+bc_data_chunk_t* bc_block_to_data_without_transaction_count(
+    const bc_block_t* self);
 bool bc_block_is_valid(const bc_block_t* self);
 void bc_block_reset(bc_block_t* self);
 uint64_t bc_block_serialized_size(const bc_block_t* self);

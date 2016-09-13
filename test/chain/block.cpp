@@ -17,12 +17,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <boost/iostreams/stream.hpp>
 #include <boost/test/unit_test.hpp>
-#include <bitcoin/bitcoin.hpp>
 #include <bitcoin/bitcoin.h>
-
-using namespace bc;
 
 BOOST_AUTO_TEST_SUITE(block_tests_c)
 
@@ -144,31 +140,7 @@ BOOST_AUTO_TEST_CASE(roundtrip_mainnet_genesis_block_serialization_factory_data_
 
 BOOST_AUTO_TEST_CASE(roundtrip_mainnet_genesis_block_serialization_factory_stream_c)
 {
-    const auto genesis = bc::chain::block::genesis_mainnet();
-    BOOST_REQUIRE_EQUAL(genesis.serialized_size(), 285u);
-    BOOST_REQUIRE_EQUAL(genesis.header.serialized_size(false), 80u);
-
-    // Save genesis block.
-    auto raw_block = genesis.to_data();
-    BOOST_REQUIRE_EQUAL(std::distance(raw_block.begin(), raw_block.end()), 285u);
-    BOOST_REQUIRE_EQUAL(raw_block.size(), 285u);
-
-    // Reload genesis block.
-    data_source stream(raw_block);
-    const auto block = chain::block::factory_from_data(stream);
-
-    BOOST_REQUIRE(block.is_valid());
-    BOOST_REQUIRE(genesis.header.version == block.header.version);
-    BOOST_REQUIRE(genesis.header.previous_block_hash == block.header.previous_block_hash);
-    BOOST_REQUIRE(genesis.header.merkle == block.header.merkle);
-    BOOST_REQUIRE(genesis.header.timestamp == block.header.timestamp);
-    BOOST_REQUIRE(genesis.header.bits == block.header.bits);
-    BOOST_REQUIRE(genesis.header.nonce == block.header.nonce);
-    BOOST_REQUIRE(genesis.header == block.header);
-
-    // Verify merkle root from transactions.
-    const auto merkle = chain::block::generate_merkle_root(block.transactions);
-    BOOST_REQUIRE(genesis.header.merkle == merkle);
+    // Skipped stream test. Not implemented in C layer.
 }
 
 BOOST_AUTO_TEST_CASE(roundtrip_mainnet_genesis_block_serialization_factory_reader_c)

@@ -97,9 +97,19 @@ bool bc_block_from_data(
 {
     return self->obj->from_data(*data->obj);
 }
+bool bc_block_from_data_without_transaction_count(
+    bc_block_t* self, const bc_data_chunk_t* data)
+{
+    return self->obj->from_data(*data->obj, false);
+}
 bc_data_chunk_t* bc_block_to_data(const bc_block_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->to_data());
+}
+bc_data_chunk_t* bc_block_to_data_without_transaction_count(
+    const bc_block_t* self)
+{
+    return bc_create_data_chunk_Internal(self->obj->to_data(false));
 }
 bool bc_block_is_valid(const bc_block_t* self)
 {
