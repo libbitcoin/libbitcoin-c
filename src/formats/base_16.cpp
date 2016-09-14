@@ -44,6 +44,7 @@ bool bc_decode_base16(bc_data_chunk_t* out, const char* in)
 bc_string_t* bc_encode_hash(const bc_hash_digest_t* hash)
 {
     auto encoded = libbitcoin::encode_hash(*hash->obj);
+    return bc_create_string_Length(encoded.data(), encoded.length());
 }
 
 bool bc_decode_hash(bc_hash_digest_t* out, const char* in)
