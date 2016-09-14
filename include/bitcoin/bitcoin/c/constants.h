@@ -52,11 +52,11 @@ uint32_t bc_initial_block_reward();
 uint32_t bc_max_work_bits();
 uint32_t bc_max_input_sequence();
 
-// Ignore constexpr functions
-
 // Threshold for nLockTime: below this value it is interpreted as block number,
 // otherwise as UNIX timestamp. [Tue Nov 5 00:53:20 1985 UTC]
 uint32_t bc_locktime_threshold();
+
+uint64_t bc_max_money();
 
 // For configuration settings initialization.
 // settings enum ignored for now.

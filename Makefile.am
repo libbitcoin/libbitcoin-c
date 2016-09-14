@@ -94,7 +94,9 @@ test_libbitcoin_c_test_SOURCES = \
     test/chain/transaction.cpp \
     test/utility/binary.cpp \
     test/utility/data.cpp \
+    test/formats/base_10.cpp \
     test/formats/base_16.cpp \
+    test/formats/base_58.cpp \
     test/math/checksum.cpp \
     test/math/hash.cpp \
     test/math/elliptic_curve.cpp \

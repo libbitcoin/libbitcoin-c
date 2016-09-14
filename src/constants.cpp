@@ -108,6 +108,11 @@ uint32_t bc_locktime_threshold()
     return libbitcoin::locktime_threshold;
 }
 
+uint64_t bc_max_money()
+{
+    return libbitcoin::max_money();
+}
+
 uint32_t bc_no_timestamp()
 {
     return libbitcoin::no_timestamp;
