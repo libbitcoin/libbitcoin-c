@@ -74,11 +74,11 @@ void bc_transaction_set_version(bc_transaction_t* self, uint32_t version);
 uint32_t bc_transaction_locktime(const bc_transaction_t* self);
 void bc_transaction_set_locktime(bc_transaction_t* self, uint32_t locktime);
 bc_input_list_t* bc_transaction_inputs(const bc_transaction_t* self);
-void bc_transaction_set_inputs(const bc_transaction_t* self,
-    bc_input_list_t* inputs);
+void bc_transaction_set_inputs(bc_transaction_t* self,
+    const bc_input_list_t* inputs);
 bc_output_list_t* bc_transaction_outputs(const bc_transaction_t* self);
-void bc_transaction_set_outputs(const bc_transaction_t* self,
-    bc_output_list_t* outputs);
+void bc_transaction_set_outputs(bc_transaction_t* self,
+    const bc_output_list_t* outputs);
 
 #ifdef __cplusplus
 }

@@ -139,8 +139,8 @@ bc_input_list_t* bc_transaction_inputs(const bc_transaction_t* self)
 {
     return bc_input_list_to_ctype(self->obj->inputs);
 }
-void bc_transaction_set_inputs(const bc_transaction_t* self,
-    bc_input_list_t* inputs)
+void bc_transaction_set_inputs(bc_transaction_t* self,
+    const bc_input_list_t* inputs)
 {
     self->obj->inputs = bc_input_list_from_ctype(inputs);
 }
@@ -148,8 +148,8 @@ bc_output_list_t* bc_transaction_outputs(const bc_transaction_t* self)
 {
     return bc_output_list_to_ctype(self->obj->outputs);
 }
-void bc_transaction_set_outputs(const bc_transaction_t* self,
-    bc_output_list_t* outputs)
+void bc_transaction_set_outputs(bc_transaction_t* self,
+    const bc_output_list_t* outputs)
 {
     self->obj->outputs = bc_output_list_from_ctype(outputs);
 }
