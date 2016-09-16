@@ -33,6 +33,11 @@ bc_hash_number_t* bc_create_hash_number_Value(uint64_t value)
 {
     return new bc_hash_number_t{ new libbitcoin::hash_number(value) };
 }
+void bc_destroy_hash_number(bc_hash_number_t* self)
+{
+    delete self->obj;
+    delete self;
+}
 
 // Returns false if negative or overflowed.
 bool bc_hash_number_set_compact(bc_hash_number_t* self, uint32_t compact)

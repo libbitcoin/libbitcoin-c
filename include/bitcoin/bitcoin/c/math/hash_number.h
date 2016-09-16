@@ -32,6 +32,7 @@ extern "C" {
 typedef struct bc_hash_number_t bc_hash_number_t;
 bc_hash_number_t* bc_create_hash_number();
 bc_hash_number_t* bc_create_hash_number_Value(uint64_t value);
+void bc_destroy_hash_number(bc_hash_number_t* self);
 
 // Returns false if negative or overflowed.
 bool bc_hash_number_set_compact(bc_hash_number_t* self, uint32_t compact);

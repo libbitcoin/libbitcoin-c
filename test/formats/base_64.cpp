@@ -18,10 +18,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <boost/test/unit_test.hpp>
-#include <bitcoin/bitcoin.hpp>
 #include <bitcoin/bitcoin.h>
-
-using namespace bc;
 
 BOOST_AUTO_TEST_SUITE(base_64_tests_c)
 

@@ -122,7 +122,7 @@ uint16_t bc_unspecified_ip_port()
     return libbitcoin::unspecified_ip_port;
 }
 
-bc_hash_number_t* max_target()
+bc_hash_number_t* bc_max_target()
 {
     return new bc_hash_number_t{ new libbitcoin::hash_number(
         libbitcoin::max_target()) };

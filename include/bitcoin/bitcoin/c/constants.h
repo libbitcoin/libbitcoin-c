@@ -81,7 +81,7 @@ uint16_t bc_unspecified_ip_port();
 // TODO: message::ip_address unspecified_ip_address
 // TODO: message::network_address unspecified_network_address
 
-bc_hash_number_t* max_target();
+bc_hash_number_t* bc_max_target();
 
 #ifdef __cplusplus
 }
