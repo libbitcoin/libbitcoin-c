@@ -23,6 +23,10 @@
 
 extern "C" {
 
+bc_string_t* bc_create_string_default()
+{
+    return new bc_string_t{ new std::string };
+}
 bc_string_t* bc_create_string(const char* data)
 {
     return new bc_string_t{ new std::string(data) };
@@ -39,6 +43,10 @@ void bc_destroy_string(bc_string_t* self)
 const char* bc_string_data(const bc_string_t* self)
 {
     return self->obj->data();
+}
+bool bc_string_empty(const bc_string_t* self)
+{
+    return self->obj->empty();
 }
 size_t bc_string_length(const bc_string_t* self)
 {

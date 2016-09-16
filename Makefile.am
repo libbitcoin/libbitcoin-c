@@ -98,6 +98,7 @@ test_libbitcoin_c_test_SOURCES = \
     test/formats/base_16.cpp \
     test/formats/base_58.cpp \
     test/formats/base_64.cpp \
+    test/formats/base_85.cpp \
     test/math/checksum.cpp \
     test/math/hash.cpp \
     test/math/elliptic_curve.cpp \
