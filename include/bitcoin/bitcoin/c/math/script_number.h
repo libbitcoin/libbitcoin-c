@@ -58,6 +58,8 @@ bc_data_chunk_t* bc_script_number_data(const bc_script_number_t* self);
 int32_t bc_script_number_int32(const bc_script_number_t* self);
 int64_t bc_script_number_int64(const bc_script_number_t* self);
 
+void bc_destroy_script_number(bc_script_number_t* self);
+
 // Arithmetic with a number.
 bc_script_number_t* bc_script_number_add(
     const bc_script_number_t* self, int64_t value);

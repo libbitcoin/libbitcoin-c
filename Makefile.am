@@ -102,6 +102,7 @@ test_libbitcoin_c_test_SOURCES = \
     test/math/checksum.cpp \
     test/math/hash.cpp \
     test/math/hash_number.cpp \
+    test/math/script_number.cpp \
     test/math/elliptic_curve.cpp \
     test/math/stealth.cpp \
     test/wallet/bitcoin_uri.cpp \

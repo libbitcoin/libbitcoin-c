@@ -59,6 +59,12 @@ int64_t bc_script_number_int64(const bc_script_number_t* self)
     return self->obj->int64();
 }
 
+void bc_destroy_script_number(bc_script_number_t* self)
+{
+    delete self->obj;
+    delete self;
+}
+
 // Arithmetic with a number.
 bc_script_number_t* bc_script_number_add(
     const bc_script_number_t* self, int64_t value)
