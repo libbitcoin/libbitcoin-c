@@ -62,6 +62,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/wallet/hd_private.cpp \
     src/wallet/payment_address.cpp \
     src/wallet/stealth_address.cpp \
+    src/wallet/select_outputs.cpp \
     src/chain/point.cpp \
     src/chain/stealth.cpp \
     src/chain/history.cpp \

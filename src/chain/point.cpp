@@ -134,5 +134,32 @@ bool bc_point_not_equals(const bc_point_t* left, const bc_point_t* right)
     return *left->obj != *right->obj;
 }
 
+bc_points_info_t* bc_create_points_info()
+{
+    return new bc_points_info_t{ new libbitcoin::chain::points_info };
+}
+void bc_destroy_points_info(bc_points_info_t* self)
+{
+    delete self->obj;
+    delete self;
+}
+bc_chain_point_list_t* bc_points_info_points(const bc_points_info_t* self)
+{
+    return bc_chain_point_list_to_ctype(self->obj->points);
+}
+void bc_points_info_set_points(bc_points_info_t* self,
+    const bc_chain_point_list_t* points)
+{
+    self->obj->points = bc_chain_point_list_from_ctype(points);
+}
+uint64_t bc_points_info_change(const bc_points_info_t* self)
+{
+    return self->obj->change;
+}
+void bc_points_info_set_change(bc_points_info_t* self, uint64_t change)
+{
+    self->obj->change = change;
+}
+
 } // extern C
 

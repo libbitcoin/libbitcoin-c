@@ -40,6 +40,11 @@ struct bc_point_t
     libbitcoin::chain::point* obj;
 };
 
+struct bc_points_info_t
+{
+    libbitcoin::chain::points_info* obj;
+};
+
 } // extern C
 
 #endif

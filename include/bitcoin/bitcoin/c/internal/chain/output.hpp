@@ -28,11 +28,19 @@
 BC_DECLARE_VECTOR_INTERNAL(output_list, bc_output_t,
     libbitcoin::chain::output::list);
 
+BC_DECLARE_VECTOR_INTERNAL(output_info_list, bc_output_info_t,
+    libbitcoin::chain::output_info::list);
+
 extern "C" {
 
 struct bc_output_t
 {
     libbitcoin::chain::output* obj;
+};
+
+struct bc_output_info_t
+{
+    libbitcoin::chain::output_info* obj;
 };
 
 } // extern C

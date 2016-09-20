@@ -20,14 +20,18 @@
 #include <bitcoin/bitcoin/c/chain/output.h>
 #include <bitcoin/bitcoin/c/internal/chain/output.hpp>
 
+#include <bitcoin/bitcoin/c/internal/chain/point.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/script/script.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_IMPLEMENT_VECTOR(output_list, bc_output_t, bc_destroy_output,
-    libbitcoin::chain::output::list);
+BC_IMPLEMENT_VECTOR(output_list, bc_output_t,
+    bc_destroy_output, libbitcoin::chain::output::list);
+
+BC_IMPLEMENT_VECTOR(output_info_list, bc_output_info_t,
+    bc_destroy_output_info, libbitcoin::chain::output_info::list);
 
 extern "C" {
 
@@ -90,6 +94,34 @@ bc_script_t* bc_output_script(const bc_output_t* self)
 void bc_output_set_script(bc_output_t* self, const bc_script_t* script)
 {
     self->obj->script = *script->obj;
+}
+
+bc_output_info_t* bc_create_output_info()
+{
+    return new bc_output_info_t{ new libbitcoin::chain::output_info };
+}
+void bc_destroy_output_info(bc_output_info_t* self)
+{
+    delete self->obj;
+    delete self;
+}
+bc_output_point_t* bc_output_info_point(const bc_output_info_t* self)
+{
+    return new bc_output_point_t{ new libbitcoin::chain::output_point(
+        self->obj->point) };
+}
+void bc_output_info_set_point(bc_output_info_t* self,
+    const bc_output_point_t* point)
+{
+    self->obj->point = *point->obj;
+}
+uint64_t bc_output_info_value(const bc_output_info_t* self)
+{
+    return self->obj->value;
+}
+void bc_output_info_set_value(bc_output_info_t* self, uint64_t value)
+{
+    self->obj->value = value;
 }
 
 } // extern C
