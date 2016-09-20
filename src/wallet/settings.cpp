@@ -18,7 +18,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <bitcoin/bitcoin/c/wallet/settings.h>
-#include <bitcoin/bitcoin/c/internal/wallet/settings.h>
+#include <bitcoin/bitcoin/c/internal/wallet/settings.hpp>
 
 extern "C" {
 
