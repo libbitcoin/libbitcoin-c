@@ -56,6 +56,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/math/script_number.cpp \
     src/wallet/bitcoin_uri.cpp \
     src/wallet/dictionary.cpp \
+    src/wallet/mini_keys.cpp \
     src/wallet/ec_private.cpp \
     src/wallet/ec_public.cpp \
     src/wallet/hd_public.cpp \
@@ -181,6 +182,7 @@ include_bitcoin_bitcoin_c_wallet_HEADERS = \
     include/bitcoin/bitcoin/c/wallet/ec_public.h \
     include/bitcoin/bitcoin/c/wallet/hd_public.h \
     include/bitcoin/bitcoin/c/wallet/hd_private.h \
+    include/bitcoin/bitcoin/c/wallet/mini_keys.h \
     include/bitcoin/bitcoin/c/wallet/payment_address.h \
     include/bitcoin/bitcoin/c/wallet/stealth_address.h
 
