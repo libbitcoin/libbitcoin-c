@@ -57,6 +57,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/wallet/bitcoin_uri.cpp \
     src/wallet/dictionary.cpp \
     src/wallet/ek_token.cpp \
+    src/wallet/ek_private.cpp \
     src/wallet/encrypted_keys.cpp \
     src/wallet/message.cpp \
     src/wallet/mnemonic.cpp \
@@ -183,6 +184,7 @@ include_bitcoin_bitcoin_c_walletdir = ${includedir}/bitcoin/bitcoin/c/wallet
 include_bitcoin_bitcoin_c_wallet_HEADERS = \
     include/bitcoin/bitcoin/c/wallet/bitcoin_uri.h \
     include/bitcoin/bitcoin/c/wallet/ek_token.h \
+    include/bitcoin/bitcoin/c/wallet/ek_private.h \
     include/bitcoin/bitcoin/c/wallet/dictionary.h \
     include/bitcoin/bitcoin/c/wallet/encrypted_keys.h \
     include/bitcoin/bitcoin/c/wallet/message.h \
@@ -235,6 +237,7 @@ include_bitcoin_bitcoin_c_internal_walletdir = ${includedir}/bitcoin/bitcoin/c/i
 include_bitcoin_bitcoin_c_internal_wallet_HEADERS = \
     include/bitcoin/bitcoin/c/internal/wallet/bitcoin_uri.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/ek_token.hpp \
+    include/bitcoin/bitcoin/c/internal/wallet/ek_private.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/dictionary.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/encrypted_keys.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/message.hpp \
