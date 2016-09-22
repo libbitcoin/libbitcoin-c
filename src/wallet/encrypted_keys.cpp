@@ -28,6 +28,7 @@ namespace libbitcoin {
 namespace wallet {
     BC_CONSTEXPR uint8_t encrypted_token_size = encrypted_token_decoded_size;
     BC_CONSTEXPR uint8_t encrypted_private_size = ek_private_decoded_size;
+    BC_CONSTEXPR uint8_t encrypted_public_size = encrypted_public_decoded_size;
 } // namespace wallet
 } // namespace libbitcoin
 
@@ -60,6 +61,17 @@ size_t bc_ek_private_decoded_size()
 }
 BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(
     encrypted_private, libbitcoin::wallet);
+
+size_t bc_encrypted_public_encoded_size()
+{
+    return libbitcoin::wallet::encrypted_public_encoded_size;
+}
+size_t bc_encrypted_public_decoded_size()
+{
+    return libbitcoin::wallet::encrypted_public_decoded_size;
+}
+BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(
+    encrypted_public, libbitcoin::wallet);
 
 // TODO: these calls require ICU
 #if 0

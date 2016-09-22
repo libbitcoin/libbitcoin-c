@@ -65,6 +65,15 @@ size_t bc_ek_private_encoded_size();
 size_t bc_ek_private_decoded_size();
 BC_DECLARE_BYTE_ARRAY(encrypted_private);
 
+/**
+ * DEPRECATED
+ * An encrypted public key type (checked but not base58 encoded).
+ * This is refered to as a confirmation code in bip38.
+ */
+size_t bc_encrypted_public_encoded_size();
+size_t bc_encrypted_public_decoded_size();
+BC_DECLARE_BYTE_ARRAY(encrypted_public);
+
 // BIP38
 // It is requested that the unused flag bytes NOT be used for denoting that
 // the key belongs to an alt-chain [This shoud read "flag bits"].

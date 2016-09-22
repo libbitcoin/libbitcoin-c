@@ -17,44 +17,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_WALLET_ENCRYPTED_KEYS_HPP
-#define LIBBITCOIN_C_INTERNAL_WALLET_ENCRYPTED_KEYS_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_EK_PUBLIC_HPP
+#define LIBBITCOIN_C_INTERNAL_EK_PUBLIC_HPP
 
-#include <bitcoin/bitcoin/wallet/encrypted_keys.hpp>
+#include <bitcoin/bitcoin/wallet/ek_public.hpp>
 
 extern "C" {
 
-struct bc_ek_salt_t
+struct bc_ek_public_t
 {
-    libbitcoin::wallet::ek_salt* obj;
-};
-
-struct bc_ek_entropy_t
-{
-    libbitcoin::wallet::ek_entropy* obj;
-};
-
-struct bc_ek_seed_t
-{
-    libbitcoin::wallet::ek_seed* obj;
-};
-
-struct bc_encrypted_token_t
-{
-    libbitcoin::wallet::encrypted_token* obj;
-};
-
-struct bc_encrypted_private_t
-{
-    libbitcoin::wallet::encrypted_private* obj;
-};
-
-struct bc_encrypted_public_t
-{
-    libbitcoin::wallet::encrypted_public* obj;
+    libbitcoin::wallet::ek_public* obj;
 };
 
 }
 
 #endif
+
 
