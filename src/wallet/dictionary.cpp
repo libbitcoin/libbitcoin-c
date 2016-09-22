@@ -18,8 +18,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <bitcoin/bitcoin/c/wallet/dictionary.h>
-
-#include <bitcoin/bitcoin/wallet/dictionary.hpp>
+#include <bitcoin/bitcoin/c/internal/wallet/dictionary.hpp>
 
 extern "C" {
 
@@ -28,34 +27,39 @@ size_t bc_dictionary_size()
     return libbitcoin::wallet::dictionary_size;
 }
 
-const char* bc_dictionary_en_get(size_t i)
+void bc_destroy_dictionary(bc_dictionary_t* self)
 {
-    return libbitcoin::wallet::language::en[i];
+    delete self;
 }
-const char* bc_dictionary_es_get(size_t i)
+
+bc_dictionary_t* bc_dictionary_en()
 {
-    return libbitcoin::wallet::language::es[i];
+    return new bc_dictionary_t{ &libbitcoin::wallet::language::en };
 }
-const char* bc_dictionary_ja_get(size_t i)
+bc_dictionary_t* bc_dictionary_es()
 {
-    return libbitcoin::wallet::language::ja[i];
+    return new bc_dictionary_t{ &libbitcoin::wallet::language::es };
 }
-const char* bc_dictionary_zh_Hans_get(size_t i)
+bc_dictionary_t* bc_dictionary_ja()
 {
-    return libbitcoin::wallet::language::zh_Hans[i];
+    return new bc_dictionary_t{ &libbitcoin::wallet::language::ja };
 }
-const char* bc_dictionary_zh_Hant_get(size_t i)
+bc_dictionary_t* bc_dictionary_zh_Hans()
 {
-    return libbitcoin::wallet::language::zh_Hant[i];
+    return new bc_dictionary_t{ &libbitcoin::wallet::language::zh_Hans };
+}
+bc_dictionary_t* bc_dictionary_zh_Hant()
+{
+    return new bc_dictionary_t{ &libbitcoin::wallet::language::zh_Hant };
 }
 
 size_t bc_all_dictionaries_size()
 {
     return libbitcoin::wallet::language::all.size();
 }
-const char* bc_all_dictionaries_get(size_t dict_i, size_t i)
+bc_dictionary_t* bc_all_dictionaries_get(size_t i)
 {
-    return (*libbitcoin::wallet::language::all[dict_i])[i];
+    return new bc_dictionary_t{ libbitcoin::wallet::language::all[i] };
 }
 
 }

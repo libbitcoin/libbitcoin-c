@@ -56,6 +56,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/math/script_number.cpp \
     src/wallet/bitcoin_uri.cpp \
     src/wallet/dictionary.cpp \
+    src/wallet/mnemonic.cpp \
     src/wallet/settings.cpp \
     src/wallet/mini_keys.cpp \
     src/wallet/ec_private.cpp \
@@ -186,6 +187,7 @@ include_bitcoin_bitcoin_c_wallet_HEADERS = \
     include/bitcoin/bitcoin/c/wallet/mini_keys.h \
     include/bitcoin/bitcoin/c/wallet/settings.h \
     include/bitcoin/bitcoin/c/wallet/payment_address.h \
+    include/bitcoin/bitcoin/c/wallet/mnemonic.h \
     include/bitcoin/bitcoin/c/wallet/stealth_address.h
 
 include_bitcoin_bitcoin_c_internal_chaindir = ${includedir}/bitcoin/bitcoin/c/internal/chain
@@ -226,9 +228,11 @@ include_bitcoin_bitcoin_c_internal_utility_HEADERS = \
 include_bitcoin_bitcoin_c_internal_walletdir = ${includedir}/bitcoin/bitcoin/c/internal/wallet
 include_bitcoin_bitcoin_c_internal_wallet_HEADERS = \
     include/bitcoin/bitcoin/c/internal/wallet/bitcoin_uri.hpp \
+    include/bitcoin/bitcoin/c/internal/wallet/dictionary.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/ec_private.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/ec_public.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/hd_public.hpp \
+    include/bitcoin/bitcoin/c/internal/wallet/mnemonic.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/hd_private.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/settings.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/payment_address.hpp \

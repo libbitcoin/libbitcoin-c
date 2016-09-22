@@ -31,16 +31,25 @@ extern "C" {
  */
 size_t bc_dictionary_size();
 
+/**
+ * A dictionary for creating mnemonics.
+ * The bip39 spec calls this a "wordlist".
+ * This is a POD type, which means the compiler can write it directly
+ * to static memory with no run-time overhead.
+ */
+typedef struct bc_dictionary_t bc_dictionary_t;
+void bc_destroy_dictionary(bc_dictionary_t* self);
+
 // Individual built-in languages:
-const char* bc_dictionary_en_get(size_t i);
-const char* bc_dictionary_es_get(size_t i);
-const char* bc_dictionary_ja_get(size_t i);
-const char* bc_dictionary_zh_Hans_get(size_t i);
-const char* bc_dictionary_zh_Hant_get(size_t i);
+bc_dictionary_t* bc_dictionary_en();
+bc_dictionary_t* bc_dictionary_es();
+bc_dictionary_t* bc_dictionary_ja();
+bc_dictionary_t* bc_dictionary_zh_Hans();
+bc_dictionary_t* bc_dictionary_zh_Hant();
 
 // All built-in languages:
 size_t bc_all_dictionaries_size();
-const char* bc_all_dictionaries_get(size_t dict_i, size_t i);
+bc_dictionary_t* bc_all_dictionaries_get(size_t i);
 
 #ifdef __cplusplus
 }
