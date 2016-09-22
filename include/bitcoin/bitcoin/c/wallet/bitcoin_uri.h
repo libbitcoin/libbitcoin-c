@@ -48,7 +48,7 @@ bc_bitcoin_uri_t* bc_bitcoin_uri_copy(
     bc_bitcoin_uri_t* self, const bc_bitcoin_uri_t* other);
 // stream operators ignored
 /// Test whether the URI has been initialized.
-bool bc_bitcoin_uri_is_initialized(const bc_bitcoin_uri_t* self);
+bool bc_bitcoin_uri_is_valid(const bc_bitcoin_uri_t* self);
 /// Get the serialized URI representation.
 bc_string_t* bc_bitcoin_uri_encoded(const bc_bitcoin_uri_t* self);
 /// Property getters.

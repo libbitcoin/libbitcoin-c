@@ -73,7 +73,7 @@ bc_bitcoin_uri_t* bc_bitcoin_uri_copy(
 }
 // stream operators ignored
 /// Test whether the URI has been initialized.
-bool bc_bitcoin_uri_is_initialized(const bc_bitcoin_uri_t* self)
+bool bc_bitcoin_uri_is_valid(const bc_bitcoin_uri_t* self)
 {
     return static_cast<bool>(*self->obj);
 }

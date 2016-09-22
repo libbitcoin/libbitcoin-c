@@ -104,7 +104,7 @@ bc_stealth_address_t* bc_stealth_address_copy(
 }
 
 /// Cast operators.
-bool bc_stealth_address_is_initialized(const bc_stealth_address_t* self)
+bool bc_stealth_address_is_valid(const bc_stealth_address_t* self)
 {
     return static_cast<bool>(*self->obj);
 }

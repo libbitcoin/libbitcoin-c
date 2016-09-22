@@ -92,7 +92,7 @@ bool bc_ec_private_not_equals(const bc_ec_private_t* self,
     const bc_ec_private_t* other);
 void bc_ec_private_copy(bc_ec_private_t* self, const bc_ec_private_t* other);
 // Skipping stream operators
-bool bc_ec_private_is_initialized(const bc_ec_private_t* self);
+bool bc_ec_private_is_valid(const bc_ec_private_t* self);
 
 /// Serializer.
 bc_string_t* bc_ec_private_encoded(const bc_ec_private_t* self);

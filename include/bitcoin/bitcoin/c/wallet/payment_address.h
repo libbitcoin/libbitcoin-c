@@ -84,7 +84,7 @@ bc_payment_address_t* bc_payment_address_copy(
 // stream operators ignored.
 
 /// Cast operators.
-bool bc_payment_address_is_initialized(const bc_payment_address_t* self);
+bool bc_payment_address_is_valid(const bc_payment_address_t* self);
 
 /// Serializer.
 bc_string_t* bc_payment_address_encoded(const bc_payment_address_t* self);

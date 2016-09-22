@@ -64,7 +64,7 @@ bc_stealth_address_t* bc_stealth_address_copy(
 // Stream operators ignored.
 
 /// Cast operators.
-bool bc_stealth_address_is_initialized(const bc_stealth_address_t* self);
+bool bc_stealth_address_is_valid(const bc_stealth_address_t* self);
 
 /// Serializer.
 bc_string_t* bc_stealth_address_encoded(const bc_stealth_address_t* self);

@@ -121,7 +121,7 @@ void bc_ec_public_copy(bc_ec_public_t* self, const bc_ec_public_t* other)
     *self->obj = *other->obj;
 }
 // Skipping stream operators.
-bool bc_ec_public_is_initialized(const bc_ec_public_t* self)
+bool bc_ec_public_is_valid(const bc_ec_public_t* self)
 {
     return static_cast<bool>(*self->obj);
 }

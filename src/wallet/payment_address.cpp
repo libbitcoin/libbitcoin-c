@@ -139,7 +139,7 @@ bc_payment_address_t* bc_payment_address_copy(
 // stream operators ignored.
 
 /// Cast operators.
-bool bc_payment_address_is_initialized(const bc_payment_address_t* self)
+bool bc_payment_address_is_valid(const bc_payment_address_t* self)
 {
     return static_cast<bool>(*self->obj);
 }

@@ -65,7 +65,7 @@ bool bc_ec_public_not_equals(const bc_ec_public_t* self,
     const bc_ec_public_t* other);
 void bc_ec_public_copy(bc_ec_public_t* self, const bc_ec_public_t* other);
 // Skipping stream operators.
-bool bc_ec_public_is_initialized(const bc_ec_public_t* self);
+bool bc_ec_public_is_valid(const bc_ec_public_t* self);
 /// Serializer.
 bc_string_t* bc_ec_public_encoded(const bc_ec_public_t* self);
 /// Accessors.
