@@ -35,7 +35,7 @@ typedef struct bc_bitcoin_uri_t bc_bitcoin_uri_t;
 bc_bitcoin_uri_t* bc_create_bitcoin_uri_default();
 bc_bitcoin_uri_t* bc_create_bitcoin_uri_copy(const bc_bitcoin_uri_t* other);
 bc_bitcoin_uri_t* bc_create_bitcoin_uri(const char* uri);
-bc_bitcoin_uri_t* bc_create_bitcoin_uri_nonstrict(const char* uri);
+bc_bitcoin_uri_t* bc_create_bitcoin_uri_nostrict(const char* uri);
 void bc_destroy_bitcoin_uri(bc_bitcoin_uri_t* self);
 /// Operators.
 bool bc_bitcoin_uri_less_than(

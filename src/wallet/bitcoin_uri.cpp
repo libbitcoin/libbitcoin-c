@@ -39,7 +39,7 @@ bc_bitcoin_uri_t* bc_create_bitcoin_uri(const char* uri)
 {
     return new bc_bitcoin_uri_t{ new libbitcoin::wallet::bitcoin_uri(uri) };
 }
-bc_bitcoin_uri_t* bc_create_bitcoin_uri_nonstrict(const char* uri)
+bc_bitcoin_uri_t* bc_create_bitcoin_uri_nostrict(const char* uri)
 {
     return new bc_bitcoin_uri_t{ new libbitcoin::wallet::bitcoin_uri(
         uri, false) };

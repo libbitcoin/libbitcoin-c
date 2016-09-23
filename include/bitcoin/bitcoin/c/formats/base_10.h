@@ -43,7 +43,7 @@ uint8_t bc_ubtc_decimal_places();
  */
 bool bc_decode_base10(uint64_t* out, const char* amount,
     uint8_t decimal_places);
-bool bc_decode_base10_nonstrict(uint64_t* out, const char* amount,
+bool bc_decode_base10_nostrict(uint64_t* out, const char* amount,
     uint8_t decimal_places);
 
 /**

@@ -17,16 +17,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_EK_PUBLIC_HPP
-#define LIBBITCOIN_C_INTERNAL_EK_PUBLIC_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_URI_HPP
+#define LIBBITCOIN_C_INTERNAL_URI_HPP
 
-#include <bitcoin/bitcoin/wallet/ek_public.hpp>
+#include <bitcoin/bitcoin/wallet/uri.hpp>
 
 extern "C" {
 
-struct bc_ek_public_t
+struct bc_uri_t
 {
-    libbitcoin::wallet::ek_public* obj;
+    libbitcoin::wallet::uri* obj;
 };
 
 }

@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(bitcoin_uri__construct__strict__test_c)
 
 BOOST_AUTO_TEST_CASE(bitcoin_uri__construct__not_strict__test_c)
 {
-    bc_bitcoin_uri_t* uri = bc_create_bitcoin_uri_nonstrict(
+    bc_bitcoin_uri_t* uri = bc_create_bitcoin_uri_nostrict(
         "bitcoin:?label=Some テスト");
     BOOST_REQUIRE(bc_bitcoin_uri_is_valid(uri));
     bc_destroy_bitcoin_uri(uri);

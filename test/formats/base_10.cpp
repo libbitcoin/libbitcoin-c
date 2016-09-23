@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(parse_amount_##NAME##_test) \
 BOOST_AUTO_TEST_CASE(parse_amount_##NAME##_test) \
 { \
     uint64_t result, expected = EXPECTED; \
-    BOOST_REQUIRE(bc_decode_base10_nonstrict(&result, AMOUNT, DECIMAL_PLACES)); \
+    BOOST_REQUIRE(bc_decode_base10_nostrict(&result, AMOUNT, DECIMAL_PLACES)); \
     BOOST_REQUIRE_EQUAL(result, expected); \
 }
 
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE(parse_amount_overflow_test)
 BOOST_AUTO_TEST_CASE(parse_amount_rounding_overflow_test)
 {
     uint64_t result;
-    BOOST_REQUIRE(!bc_decode_base10_nonstrict(
+    BOOST_REQUIRE(!bc_decode_base10_nostrict(
         &result, "18446744073709551615.1", 0));
 }
 BOOST_AUTO_TEST_CASE(parse_amount_fractional_amount_test)
