@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_SUITE(base_10_tests)
 BOOST_AUTO_TEST_CASE(parse_amount_##NAME##_test) \
 { \
     uint64_t result, expected = EXPECTED; \
-    BOOST_REQUIRE(bc_decode_base10(&result, AMOUNT, 0)); \
+    BOOST_REQUIRE(bc_decode_base10(&result, AMOUNT)); \
     BOOST_REQUIRE_EQUAL(result, expected); \
 }
 
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(parse_amount_##NAME##_test) \
 BOOST_AUTO_TEST_CASE(parse_amount_##NAME##_test) \
 { \
     uint64_t result, expected = EXPECTED; \
-    BOOST_REQUIRE(bc_decode_base10(&result, AMOUNT, DECIMAL_PLACES)); \
+    BOOST_REQUIRE(bc_decode_base10_Places(&result, AMOUNT, DECIMAL_PLACES)); \
     BOOST_REQUIRE_EQUAL(result, expected); \
 }
 
@@ -45,15 +45,16 @@ BOOST_AUTO_TEST_CASE(parse_amount_##NAME##_test) \
 BOOST_AUTO_TEST_CASE(parse_amount_##NAME##_test) \
 { \
     uint64_t result, expected = EXPECTED; \
-    BOOST_REQUIRE(bc_decode_base10_nostrict(&result, AMOUNT, DECIMAL_PLACES)); \
+    BOOST_REQUIRE(bc_decode_base10_Places_nostrict( \
+        &result, AMOUNT, DECIMAL_PLACES)); \
     BOOST_REQUIRE_EQUAL(result, expected); \
 }
 
 #define TEST_FORMAT(NAME, EXPECTED, ...) \
 BOOST_AUTO_TEST_CASE(format_amount_##NAME##_test) \
 { \
-    bc_string_t* result = bc_encode_base10(__VA_ARGS__); \
-    BOOST_REQUIRE(bc_string_equals_cstr(result, EXPECTED)); \
+    bc_string_t* result = bc_encode_base10_Places(__VA_ARGS__); \
+    BOOST_REQUIRE(bc_string__equals_cstr(result, EXPECTED)); \
     bc_destroy_string(result); \
 }
 
@@ -85,35 +86,35 @@ TEST_AMOUNT(zero_past_max, max_uint64, "18446744073709551615.0")
 BOOST_AUTO_TEST_CASE(parse_amount_lexical_cast_fail_test)
 {
     uint64_t result;
-    BOOST_REQUIRE(!bc_decode_base10(&result, "0.-1", 0));
+    BOOST_REQUIRE(!bc_decode_base10(&result, "0.-1"));
 }
 BOOST_AUTO_TEST_CASE(parse_amount_extra_decimal_test)
 {
     uint64_t result;
-    BOOST_REQUIRE(!bc_decode_base10(&result, "0.0.0", 0));
+    BOOST_REQUIRE(!bc_decode_base10(&result, "0.0.0"));
 }
 BOOST_AUTO_TEST_CASE(parse_amount_bad_characters_test)
 {
     uint64_t result;
-    BOOST_REQUIRE(!bc_decode_base10(&result, "0x0ff", 0));
+    BOOST_REQUIRE(!bc_decode_base10(&result, "0x0ff"));
 }
 
 // Numeric errors:
 BOOST_AUTO_TEST_CASE(parse_amount_overflow_test)
 {
     uint64_t result;
-    BOOST_REQUIRE(!bc_decode_base10(&result, "18446744073709551616", 0));
+    BOOST_REQUIRE(!bc_decode_base10(&result, "18446744073709551616"));
 }
 BOOST_AUTO_TEST_CASE(parse_amount_rounding_overflow_test)
 {
     uint64_t result;
-    BOOST_REQUIRE(!bc_decode_base10_nostrict(
+    BOOST_REQUIRE(!bc_decode_base10_Places_nostrict(
         &result, "18446744073709551615.1", 0));
 }
 BOOST_AUTO_TEST_CASE(parse_amount_fractional_amount_test)
 {
     uint64_t result;
-    BOOST_REQUIRE(!bc_decode_base10(
+    BOOST_REQUIRE(!bc_decode_base10_Places(
         &result, "0.999999999", bc_btc_decimal_places()));
 }
 

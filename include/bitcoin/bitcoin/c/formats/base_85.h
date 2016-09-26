@@ -33,7 +33,7 @@ extern "C" {
  * Encode data as base85 (Z85).
  * @return false if the input is not of base85 size (% 4).
  */
-bool bc_encode_base85(bc_string_t* out, const bc_data_chunk_t* unencoded);
+bool bc_encode_base85(bc_string_t* out, const bc_data_chunk_t* in);
 
 /**
  * Attempt to decode base85 (Z85) data.

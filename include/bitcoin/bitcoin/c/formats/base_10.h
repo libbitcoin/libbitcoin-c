@@ -41,9 +41,10 @@ uint8_t bc_ubtc_decimal_places();
  * or false to round them upwards.
  * @return false for failure.
  */
-bool bc_decode_base10(uint64_t* out, const char* amount,
+bool bc_decode_base10(uint64_t* out, const char* amount);
+bool bc_decode_base10_Places(uint64_t* out, const char* amount,
     uint8_t decimal_places);
-bool bc_decode_base10_nostrict(uint64_t* out, const char* amount,
+bool bc_decode_base10_Places_nostrict(uint64_t* out, const char* amount,
     uint8_t decimal_places);
 
 /**
@@ -52,7 +53,8 @@ bool bc_decode_base10_nostrict(uint64_t* out, const char* amount,
  * @param decmial_places the location of the decimal point.
  * The default is 0, which treats the input as a normal integer.
  */
-bc_string_t* bc_encode_base10(uint64_t amount, uint8_t decimal_places);
+bc_string_t* bc_encode_base10(uint64_t amount);
+bc_string_t* bc_encode_base10_Places(uint64_t amount, uint8_t decimal_places);
 
 #ifdef __cplusplus
 }

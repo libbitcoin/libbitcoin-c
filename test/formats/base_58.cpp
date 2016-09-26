@@ -31,11 +31,11 @@ void encdec_test(const char* hex, const char* encoded)
     BOOST_REQUIRE(bc_decode_base16(data, hex));
 
     bc_string_t* reencoded = bc_encode_base58(data);
-    BOOST_REQUIRE(bc_string_equals_cstr(reencoded, encoded));
+    BOOST_REQUIRE(bc_string__equals_cstr(reencoded, encoded));
     bc_destroy_string(reencoded);
 
     BOOST_REQUIRE(bc_decode_base58(decoded, encoded));
-    BOOST_REQUIRE(bc_data_chunk_equals(decoded, data));
+    BOOST_REQUIRE(bc_data_chunk__equals(decoded, data));
 
     bc_destroy_data_chunk(data);
     bc_destroy_data_chunk(decoded);
@@ -71,12 +71,12 @@ BOOST_AUTO_TEST_CASE(base58_address_test_c)
 
     const char* address = "19TbMSWwHvnxAKy12iNm3KdbGfzfaMFViT";
     bc_string_t* encoded = bc_encode_base58(pubkey);
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded, address));
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded, address));
     bc_destroy_string(encoded);
 
     bc_data_chunk_t* decoded = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base58(decoded, address));
-    BOOST_REQUIRE(bc_data_chunk_equals(decoded, pubkey));
+    BOOST_REQUIRE(bc_data_chunk__equals(decoded, pubkey));
 
     bc_destroy_data_chunk(decoded);
     bc_destroy_data_chunk(pubkey);

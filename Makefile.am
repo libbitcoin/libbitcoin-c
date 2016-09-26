@@ -44,10 +44,10 @@ src_libbitcoin_c_la_SOURCES = \
     src/math/limits.cpp \
     src/math/hash.cpp \
     src/formats/base_16.cpp \
-    # src/formats/base_85.cpp \
-    # src/formats/base_64.cpp \
-    # src/formats/base_58.cpp \
-    # src/formats/base_10.cpp \
+    src/formats/base_85.cpp \
+    src/formats/base_64.cpp \
+    src/formats/base_58.cpp \
+    src/formats/base_10.cpp \
     # src/math/uint256.cpp \
     # src/math/crypto.cpp \
     # src/math/checksum.cpp \
@@ -103,6 +103,10 @@ test_libbitcoin_c_test_SOURCES = \
     test/utility/data.cpp \
     test/math/hash.cpp \
     test/formats/base_16.cpp \
+    test/formats/base_58.cpp \
+    test/formats/base_64.cpp \
+    test/formats/base_85.cpp \
+    test/formats/base_10.cpp \
     # test/chain/script.cpp \
     # test/chain/satoshi_words.cpp \
     # test/chain/block.cpp \
@@ -111,10 +115,6 @@ test_libbitcoin_c_test_SOURCES = \
     # test/chain/output.cpp \
     # test/chain/point.cpp \
     # test/chain/transaction.cpp \
-    # test/formats/base_10.cpp \
-    # test/formats/base_58.cpp \
-    # test/formats/base_64.cpp \
-    # test/formats/base_85.cpp \
     # test/math/checksum.cpp \
     # test/math/hash_number.cpp \
     # test/math/script_number.cpp \

@@ -38,18 +38,27 @@ uint8_t bc_ubtc_decimal_places()
     return libbitcoin::ubtc_decimal_places;
 }
 
-bool bc_decode_base10(uint64_t* out, const char* amount,
+bool bc_decode_base10(uint64_t* out, const char* amount)
+{
+    return libbitcoin::decode_base10(*out, amount);
+}
+bool bc_decode_base10_Places(uint64_t* out, const char* amount,
     uint8_t decimal_places)
 {
     return libbitcoin::decode_base10(*out, amount, decimal_places);
 }
-bool bc_decode_base10_nostrict(uint64_t* out, const char* amount,
+bool bc_decode_base10_Places_nostrict(uint64_t* out, const char* amount,
     uint8_t decimal_places)
 {
     return libbitcoin::decode_base10(*out, amount, decimal_places, false);
 }
 
-bc_string_t* bc_encode_base10(uint64_t amount, uint8_t decimal_places)
+bc_string_t* bc_encode_base10(uint64_t amount)
+{
+    return bc_create_string_StdString(
+        libbitcoin::encode_base10(amount));
+}
+bc_string_t* bc_encode_base10_Places(uint64_t amount, uint8_t decimal_places)
 {
     return bc_create_string_StdString(
         libbitcoin::encode_base10(amount, decimal_places));

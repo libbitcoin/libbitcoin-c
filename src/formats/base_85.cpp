@@ -25,9 +25,9 @@
 
 extern "C" {
 
-bool bc_encode_base85(bc_string_t* out, const bc_data_chunk_t* unencoded)
+bool bc_encode_base85(bc_string_t* out, const bc_data_chunk_t* in)
 {
-    return libbitcoin::encode_base85(*out->obj, *unencoded->obj);
+    return libbitcoin::encode_base85(*out->obj, *in->obj);
 }
 
 bool bc_decode_base85(bc_data_chunk_t* out, const char* in)

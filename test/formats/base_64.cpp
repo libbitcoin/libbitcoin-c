@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE(encode_base64_empty_test_c)
 {
     bc_data_chunk_t* decoded = bc_create_data_chunk();
     bc_string_t* encoded = bc_encode_base64(decoded);
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded, ""));
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded, ""));
     bc_destroy_string(encoded);
     bc_destroy_data_chunk(decoded);
 }
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(decode_base64_empty_test_c)
     bc_data_chunk_t* result = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base64(result, ""));
     bc_data_chunk_t* empty_data = bc_create_data_chunk();
-    BOOST_REQUIRE(bc_data_chunk_equals(result, empty_data));
+    BOOST_REQUIRE(bc_data_chunk__equals(result, empty_data));
     bc_destroy_data_chunk(empty_data);
     bc_destroy_data_chunk(result);
 }
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(encode_base64_test_c)
     bc_data_chunk_t* decoded = bc_create_data_chunk_Array(
         decoded_data, sizeof(decoded_data));
     bc_string_t* encoded = bc_encode_base64(decoded);
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded, BASE64_MURRAY));
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded, BASE64_MURRAY));
     bc_destroy_string(encoded);
     bc_destroy_data_chunk(decoded);
 }
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(decode_base64_valid_test_c)
     const uint8_t decoded_data[] = BASE64_DATA_MURRAY;
     bc_data_chunk_t* decoded = bc_create_data_chunk_Array(
         decoded_data, sizeof(decoded_data));
-    BOOST_REQUIRE(bc_data_chunk_equals(result, decoded));
+    BOOST_REQUIRE(bc_data_chunk__equals(result, decoded));
     bc_destroy_data_chunk(decoded);
     bc_destroy_data_chunk(result);
 }
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE(encode_base64_padded_test_c)
     bc_data_chunk_t* decoded = bc_create_data_chunk_Array(
         decoded_data, sizeof(decoded_data));
     bc_string_t* encoded = bc_encode_base64(decoded);
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded, BASE64_BOOK));
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded, BASE64_BOOK));
     bc_destroy_string(encoded);
     bc_destroy_data_chunk(decoded);
 }
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE(decode_base64_padded_valid_test_c)
     const uint8_t decoded_data[] = BASE64_DATA_BOOK;
     bc_data_chunk_t* decoded = bc_create_data_chunk_Array(
         decoded_data, sizeof(decoded_data));
-    BOOST_REQUIRE(bc_data_chunk_equals(result, decoded));
+    BOOST_REQUIRE(bc_data_chunk__equals(result, decoded));
     bc_destroy_data_chunk(decoded);
     bc_destroy_data_chunk(result);
 }
