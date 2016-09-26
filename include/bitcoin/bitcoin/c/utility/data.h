@@ -38,9 +38,9 @@ extern "C" {
     bc_##typename##_t* bc_create_##typename##_Base16( \
         const char* encoded_bytes); \
     void bc_destroy_##typename(bc_##typename##_t* self); \
-    uint8_t* bc_##typename##_data(bc_##typename##_t* self); \
-    const uint8_t* bc_##typename##_cdata(const bc_##typename##_t* self); \
-    bc_string_t* bc_##typename##_encode_base16( \
+    uint8_t* bc_##typename##__data(bc_##typename##_t* self); \
+    const uint8_t* bc_##typename##__cdata(const bc_##typename##_t* self); \
+    bc_string_t* bc_##typename##__encode_base16( \
         const bc_##typename##_t* self);
 
 // Used for passing initializer lists to data_chunk constructor.

@@ -48,11 +48,11 @@ src_libbitcoin_c_la_SOURCES = \
     src/formats/base_64.cpp \
     src/formats/base_58.cpp \
     src/formats/base_10.cpp \
+    src/math/stealth.cpp \
+    src/math/elliptic_curve.cpp \
     # src/math/uint256.cpp \
     # src/math/crypto.cpp \
     # src/math/checksum.cpp \
-    # src/math/stealth.cpp \
-    # src/math/elliptic_curve.cpp \
     # src/math/hash_number.cpp \
     # src/math/script_number.cpp \
     # src/wallet/bitcoin_uri.cpp \
@@ -107,6 +107,7 @@ test_libbitcoin_c_test_SOURCES = \
     test/formats/base_64.cpp \
     test/formats/base_85.cpp \
     test/formats/base_10.cpp \
+    test/math/stealth.cpp \
     # test/chain/script.cpp \
     # test/chain/satoshi_words.cpp \
     # test/chain/block.cpp \
@@ -119,7 +120,6 @@ test_libbitcoin_c_test_SOURCES = \
     # test/math/hash_number.cpp \
     # test/math/script_number.cpp \
     # test/math/elliptic_curve.cpp \
-    # test/math/stealth.cpp \
     # test/wallet/bitcoin_uri.cpp \
     # test/wallet/hd_public.cpp \
     # test/wallet/hd_private.cpp \

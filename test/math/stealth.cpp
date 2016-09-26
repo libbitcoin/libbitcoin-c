@@ -57,8 +57,8 @@ BOOST_AUTO_TEST_CASE(stealth_round_trip_c)
     BOOST_REQUIRE(bc_secret_to_public_compressed(scan_public, scan_private));
 
     bc_string_t* scan_public_encoded =
-        bc_ec_compressed_encode_base16(scan_public);
-    BOOST_REQUIRE(bc_string_equals_cstr(scan_public_encoded, SCAN_PUBLIC));
+        bc_ec_compressed__encode_base16(scan_public);
+    BOOST_REQUIRE(bc_string__equals_cstr(scan_public_encoded, SCAN_PUBLIC));
     bc_destroy_string(scan_public_encoded);
 
     // Receiver generates a new spend private.
@@ -69,8 +69,8 @@ BOOST_AUTO_TEST_CASE(stealth_round_trip_c)
     BOOST_REQUIRE(bc_secret_to_public_compressed(spend_public, spend_private));
 
     bc_string_t* spend_public_encoded =
-        bc_ec_compressed_encode_base16(spend_public);
-    BOOST_REQUIRE(bc_string_equals_cstr(spend_public_encoded, SPEND_PUBLIC));
+        bc_ec_compressed__encode_base16(spend_public);
+    BOOST_REQUIRE(bc_string__equals_cstr(spend_public_encoded, SPEND_PUBLIC));
     bc_destroy_string(spend_public_encoded);
 
     // Sender generates a new ephemeral key.
@@ -83,17 +83,17 @@ BOOST_AUTO_TEST_CASE(stealth_round_trip_c)
         ephemeral_public, ephemeral_private));
 
     bc_string_t* ephemeral_public_encoded =
-        bc_ec_compressed_encode_base16(ephemeral_public);
-    BOOST_REQUIRE(bc_string_equals_cstr(ephemeral_public_encoded, EPHEMERAL_PUBLIC));
+        bc_ec_compressed__encode_base16(ephemeral_public);
+    BOOST_REQUIRE(bc_string__equals_cstr(ephemeral_public_encoded, EPHEMERAL_PUBLIC));
     bc_destroy_string(ephemeral_public_encoded);
 
     // Sender derives stealth public, requiring ephemeral private.
     bc_ec_compressed_t* sender_public = bc_create_ec_compressed();
     BOOST_REQUIRE(bc_uncover_stealth_Public(
         sender_public, scan_public, ephemeral_private, spend_public));
-    bc_string_t* sender_public_encoded = bc_ec_compressed_encode_base16(
+    bc_string_t* sender_public_encoded = bc_ec_compressed__encode_base16(
         sender_public);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    BOOST_REQUIRE(bc_string__equals_cstr(
         sender_public_encoded, STEALTH_PUBLIC));
     bc_destroy_string(sender_public_encoded);
     bc_destroy_ec_compressed(sender_public);
@@ -102,9 +102,9 @@ BOOST_AUTO_TEST_CASE(stealth_round_trip_c)
     bc_ec_compressed_t* receiver_public = bc_create_ec_compressed();
     BOOST_REQUIRE(bc_uncover_stealth_Public(
         receiver_public, ephemeral_public, scan_private, spend_public));
-    bc_string_t* receiver_public_encoded = bc_ec_compressed_encode_base16(
+    bc_string_t* receiver_public_encoded = bc_ec_compressed__encode_base16(
         receiver_public);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    BOOST_REQUIRE(bc_string__equals_cstr(
         receiver_public_encoded, STEALTH_PUBLIC));
     bc_destroy_string(receiver_public_encoded);
     bc_destroy_ec_compressed(receiver_public);
@@ -119,9 +119,9 @@ BOOST_AUTO_TEST_CASE(stealth_round_trip_c)
     bc_ec_compressed_t* stealth_public = bc_create_ec_compressed();
     BOOST_REQUIRE(bc_secret_to_public_compressed(
         stealth_public, stealth_private));
-    bc_string_t* stealth_public_encoded = bc_ec_compressed_encode_base16(
+    bc_string_t* stealth_public_encoded = bc_ec_compressed__encode_base16(
         stealth_public);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    BOOST_REQUIRE(bc_string__equals_cstr(
         stealth_public_encoded, STEALTH_PUBLIC));
     bc_destroy_string(stealth_public_encoded);
 
@@ -148,11 +148,11 @@ BOOST_AUTO_TEST_CASE(verify_string_constructor_c)
 {
     const std::string value = "01100110000";
     bc_binary_t* prefix = bc_create_binary_String(value.data());
-    BOOST_REQUIRE_EQUAL(value.size(), bc_binary_size(prefix));
+    BOOST_REQUIRE_EQUAL(value.size(), bc_binary__size(prefix));
     for (size_t i = 0; i < value.size(); ++i)
     {
         const auto comparison = value[i] == '1';
-        BOOST_REQUIRE_EQUAL(bc_binary_at(prefix, i), comparison);
+        BOOST_REQUIRE_EQUAL(bc_binary__at(prefix, i), comparison);
     }
     bc_destroy_binary(prefix);
 }
@@ -162,12 +162,12 @@ BOOST_AUTO_TEST_CASE(compare_constructor_results_c)
 {
     std::string value = "01100111000";
     bc_binary_t* prefix = bc_create_binary_String(value.data());
-    BOOST_REQUIRE_EQUAL(value.size(), bc_binary_size(prefix));
+    BOOST_REQUIRE_EQUAL(value.size(), bc_binary__size(prefix));
     const uint8_t blocks_data[] = { 0x67, 0x00 };
     bc_data_chunk_t* blocks = bc_create_data_chunk_Array(blocks_data, 2);
     bc_binary_t* prefix2 = bc_create_binary_Blocks(
-        value.size(), bc_data_chunk_cdata(blocks));
-    BOOST_REQUIRE(bc_binary_equals(prefix, prefix2));
+        value.size(), bc_data_chunk__cdata(blocks));
+    BOOST_REQUIRE(bc_binary__equals(prefix, prefix2));
     bc_destroy_data_chunk(blocks);
     bc_destroy_binary(prefix);
     bc_destroy_binary(prefix2);
@@ -177,10 +177,10 @@ BOOST_AUTO_TEST_CASE(bitfield_test1_c)
 {
     bc_binary_t* prefix = bc_create_binary_String("01100111001");
     const uint8_t raw_bitfield[] = { 0x67, 0x20, 0x00, 0x0 };
-    BOOST_REQUIRE_GE(sizeof(raw_bitfield) * 8, bc_binary_size(prefix));
+    BOOST_REQUIRE_GE(sizeof(raw_bitfield) * 8, bc_binary__size(prefix));
     bc_binary_t* compare = bc_create_binary_Blocks(
-        bc_binary_size(prefix), raw_bitfield);
-    BOOST_REQUIRE(bc_binary_equals(prefix, compare));
+        bc_binary__size(prefix), raw_bitfield);
+    BOOST_REQUIRE(bc_binary__equals(prefix, compare));
     bc_destroy_binary(compare);
     bc_destroy_binary(prefix);
 }
@@ -190,10 +190,10 @@ BOOST_AUTO_TEST_CASE(bitfield_test2_c)
     const uint8_t blocks[] = { 0x8b, 0xf4, 0x1c, 0x69 };
     bc_binary_t* prefix = bc_create_binary_Blocks(27, blocks);
     const uint8_t raw_bitfield[] = { 0x8b, 0xf4, 0x1c, 0x79 };
-    BOOST_REQUIRE_GE(sizeof(raw_bitfield) * 8, bc_binary_size(prefix));
+    BOOST_REQUIRE_GE(sizeof(raw_bitfield) * 8, bc_binary__size(prefix));
     bc_binary_t* compare = bc_create_binary_Blocks(
-        bc_binary_size(prefix), raw_bitfield);
-    BOOST_REQUIRE(bc_binary_equals(prefix, compare));
+        bc_binary__size(prefix), raw_bitfield);
+    BOOST_REQUIRE(bc_binary__equals(prefix, compare));
     bc_destroy_binary(compare);
     bc_destroy_binary(prefix);
 }
@@ -204,8 +204,8 @@ BOOST_AUTO_TEST_CASE(bitfield_test3_c)
     bc_binary_t* prefix = bc_create_binary_Blocks(32, blocks);
     const uint8_t raw_bitfield[] = { 0x69, 0x1c, 0xf4, 0x8b };
     bc_binary_t* compare = bc_create_binary_Blocks(
-        bc_binary_size(prefix), raw_bitfield);
-    BOOST_REQUIRE(bc_binary_equals(prefix, compare));
+        bc_binary__size(prefix), raw_bitfield);
+    BOOST_REQUIRE(bc_binary__equals(prefix, compare));
     bc_destroy_binary(compare);
     bc_destroy_binary(prefix);
 }
@@ -216,8 +216,8 @@ BOOST_AUTO_TEST_CASE(bitfield_test4_c)
     bc_binary_t* prefix = bc_create_binary_Blocks(29, blocks);
     const uint8_t raw_bitfield[] = { 0x69, 0x1c, 0xf4, 0x8b };
     bc_binary_t* compare = bc_create_binary_Blocks(
-        bc_binary_size(prefix), raw_bitfield);
-    BOOST_REQUIRE(bc_binary_equals(prefix, compare));
+        bc_binary__size(prefix), raw_bitfield);
+    BOOST_REQUIRE(bc_binary__equals(prefix, compare));
     bc_destroy_binary(compare);
     bc_destroy_binary(prefix);
 }

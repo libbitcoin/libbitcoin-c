@@ -56,7 +56,16 @@ typedef struct bc_data_chunk_t bc_endorsement_t;
 
 /// Recoverable ecdsa signature for message signing:
 typedef struct bc_recoverable_signature_t bc_recoverable_signature_t;
+bc_recoverable_signature_t* bc_create_recoverable_signature();
 void bc_destroy_recoverable_signature(bc_recoverable_signature_t* self);
+bc_ec_signature_t* bc_recoverable_signature__signature(
+    const bc_recoverable_signature_t* self);
+void bc_recoverable_signature__set_signature(
+    bc_recoverable_signature_t* self, const bc_ec_signature_t* signature);
+uint8_t bc_recoverable_signature__recovery_id(
+    const bc_recoverable_signature_t* self);
+void bc_recoverable_signature__set_recovery_id(
+    const bc_recoverable_signature_t* self, uint8_t recovery_id);
 
 bc_ec_compressed_t* null_compressed_point();
 bc_ec_uncompressed_t* null_uncompressed_point();

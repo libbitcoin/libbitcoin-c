@@ -67,15 +67,15 @@ struct bc_data_chunk_t
         delete self->obj; \
         delete self; \
     } \
-    uint8_t* bc_##typename##_data(bc_##typename##_t* self) \
+    uint8_t* bc_##typename##__data(bc_##typename##_t* self) \
     { \
         return self->obj->data(); \
     } \
-    const uint8_t* bc_##typename##_cdata(const bc_##typename##_t* self) \
+    const uint8_t* bc_##typename##__cdata(const bc_##typename##_t* self) \
     { \
         return self->obj->data(); \
     } \
-    bc_string_t* bc_##typename##_encode_base16( \
+    bc_string_t* bc_##typename##__encode_base16( \
         const bc_##typename##_t* self) \
     { \
         return bc_create_string_StdString( \

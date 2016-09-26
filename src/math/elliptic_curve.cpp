@@ -46,10 +46,36 @@ size_t bc_max_endorsement_size()
     return libbitcoin::max_endorsement_size;
 }
 
+bc_recoverable_signature_t* bc_create_recoverable_signature()
+{
+    return new bc_recoverable_signature_t{
+        new libbitcoin::recoverable_signature };
+}
 void bc_destroy_recoverable_signature(bc_recoverable_signature_t* self)
 {
     delete self->obj;
     delete self;
+}
+bc_ec_signature_t* bc_recoverable_signature__signature(
+    const bc_recoverable_signature_t* self)
+{
+    return new bc_ec_signature_t{ new libbitcoin::ec_signature(
+        self->obj->signature) };
+}
+void bc_recoverable_signature__set_signature(
+    bc_recoverable_signature_t* self, const bc_ec_signature_t* signature)
+{
+    self->obj->signature = *signature->obj;
+}
+uint8_t bc_recoverable_signature__recovery_id(
+    const bc_recoverable_signature_t* self)
+{
+    return self->obj->recovery_id;
+}
+void bc_recoverable_signature__set_recovery_id(
+    const bc_recoverable_signature_t* self, uint8_t recovery_id)
+{
+    self->obj->recovery_id = recovery_id;
 }
 
 bc_ec_compressed_t* null_compressed_point()

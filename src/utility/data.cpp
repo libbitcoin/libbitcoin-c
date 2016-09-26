@@ -73,7 +73,7 @@ uint8_t* bc_data_chunk__data(bc_data_chunk_t* self)
     return self->obj->data();
 }
 // const .data()
-const uint8_t* bc_data__chunk_cdata(const bc_data_chunk_t* self)
+const uint8_t* bc_data_chunk__cdata(const bc_data_chunk_t* self)
 {
     return self->obj->data();
 }
