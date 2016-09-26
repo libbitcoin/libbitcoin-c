@@ -53,46 +53,41 @@ void bc_destroy_data_chunk(bc_data_chunk_t* self)
     delete self;
 }
 // .size()
-size_t bc_data_chunk_size(const bc_data_chunk_t* self)
+size_t bc_data_chunk__size(const bc_data_chunk_t* self)
 {
     return self->obj->size();
 }
 // .empty()
-bool bc_data_chunk_empty(const bc_data_chunk_t* self)
+bool bc_data_chunk__empty(const bc_data_chunk_t* self)
 {
     return self->obj->empty();
 }
 // .resize()
-void bc_data_chunk_resize(bc_data_chunk_t* self, size_t count)
+void bc_data_chunk__resize(bc_data_chunk_t* self, size_t count)
 {
     self->obj->resize(count);
 }
 // .data()
-uint8_t* bc_data_chunk_data(bc_data_chunk_t* self)
+uint8_t* bc_data_chunk__data(bc_data_chunk_t* self)
 {
     return self->obj->data();
 }
 // const .data()
-const uint8_t* bc_data_chunk_cdata(const bc_data_chunk_t* self)
+const uint8_t* bc_data__chunk_cdata(const bc_data_chunk_t* self)
 {
     return self->obj->data();
 }
 // extend_data()
-void bc_data_chunk_extend_data(
+void bc_data_chunk__extend_data(
     bc_data_chunk_t* self, const bc_data_chunk_t* other)
 {
     libbitcoin::extend_data(*self->obj, *other->obj);
 }
 // a == b
-bool bc_data_chunk_equals(
+bool bc_data_chunk__equals(
     const bc_data_chunk_t* self, const bc_data_chunk_t* other)
 {
     return *self->obj == *other->obj;
-}
-
-size_t bc_range_constrain(size_t value, size_t minimum, size_t maximum)
-{
-    return libbitcoin::range_constrain(value, minimum, maximum);
 }
 
 } // extern C

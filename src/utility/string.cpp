@@ -42,29 +42,59 @@ void bc_destroy_string(bc_string_t* self)
     delete self->obj;
     delete self;
 }
-const char* bc_string_data(const bc_string_t* self)
+const char* bc_string__data(const bc_string_t* self)
 {
     return self->obj->data();
 }
-bool bc_string_empty(const bc_string_t* self)
+bool bc_string__empty(const bc_string_t* self)
 {
     return self->obj->empty();
 }
-size_t bc_string_length(const bc_string_t* self)
+size_t bc_string__length(const bc_string_t* self)
 {
     return self->obj->length();
 }
-int bc_string_compare(const bc_string_t* self, const bc_string_t* other)
+int bc_string__compare(const bc_string_t* self, const bc_string_t* other)
 {
     return self->obj->compare(*other->obj);
 }
-bool bc_string_equals(const bc_string_t* self, const bc_string_t* other)
+bool bc_string__equals(const bc_string_t* self, const bc_string_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_string_equals_cstr(const bc_string_t* self, const char* other)
+bool bc_string__equals_cstr(const bc_string_t* self, const char* other)
 {
     return *self->obj == other;
+}
+
+bc_string_t* bc_join(const bc_string_list_t* words)
+{
+    return bc_create_string_StdString(
+        libbitcoin::join(bc_string_list_from_ctype(words)));
+}
+bc_string_t* bc_join_Delim(const bc_string_list_t* words,
+    const char* delimiter)
+{
+    return bc_create_string_StdString(
+        libbitcoin::join(bc_string_list_from_ctype(words), delimiter));
+}
+
+bc_string_list_t* bc_split(const char* sentence)
+{
+    return bc_string_list_to_ctype(
+        libbitcoin::split(sentence));
+}
+bc_string_list_t* bc_split_Delim(const char* sentence,
+    const char* delimiter)
+{
+    return bc_string_list_to_ctype(
+        libbitcoin::split(sentence, delimiter));
+}
+bc_string_list_t* bc_split_Delim_notrim(const char* sentence,
+    const char* delimiter)
+{
+    return bc_string_list_to_ctype(
+        libbitcoin::split(sentence, delimiter, false));
 }
 
 } // extern C

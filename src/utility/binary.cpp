@@ -26,17 +26,17 @@
 extern "C" {
 
 /// Static values
-size_t bc_binary_bits_per_block()
+size_t bc_binary__bits_per_block()
 {
     return libbitcoin::binary::bits_per_block;
 }
 
 /// Static methods
-size_t bc_binary_blocks_size(size_t bit_size)
+size_t bc_binary__blocks_size(size_t bit_size)
 {
     return libbitcoin::binary::blocks_size(bit_size);
 }
-bool bc_binary_is_base2(const char* text)
+bool bc_binary__is_base2(const char* text)
 {
     return libbitcoin::binary::is_base2(text);
 }
@@ -56,7 +56,7 @@ bc_binary_t* bc_create_binary_String(const char* bit_string)
 }
 bc_binary_t* bc_create_binary_Blocks(size_t size, const uint8_t* blocks)
 {
-    const auto blocks_end = blocks + bc_binary_blocks_size(size);
+    const auto blocks_end = blocks + bc_binary__blocks_size(size);
     const libbitcoin::data_slice slice(blocks, blocks_end);
     return new bc_binary_t{ new libbitcoin::binary(size, slice) };
 }
@@ -69,89 +69,88 @@ void bc_destroy_binary(bc_binary_t* self)
 }
 
 /// Methods
-size_t bc_binary_resize(bc_binary_t* self, size_t size)
+size_t bc_binary__resize(bc_binary_t* self, size_t size)
 {
     self->obj->resize(size);
 }
-bool bc_binary_at(const bc_binary_t* self, size_t index)
+bool bc_binary__at(const bc_binary_t* self, size_t index)
 {
     return (*self->obj)[index];
 }
-bc_data_chunk_t* bc_binary_blocks(const bc_binary_t* self)
+bc_data_chunk_t* bc_binary__blocks(const bc_binary_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->blocks());
 }
-bc_string_t* bc_binary_encoded(const bc_binary_t* self)
+bc_string_t* bc_binary__encoded(const bc_binary_t* self)
 {
     return bc_create_string_StdString(self->obj->encoded());
 }
 
 // size in bits
-size_t bc_binary_size(const bc_binary_t* self)
+size_t bc_binary__size(const bc_binary_t* self)
 {
     return self->obj->size();
 }
-void bc_binary_append(bc_binary_t* self, const bc_binary_t* post)
+void bc_binary__append(bc_binary_t* self, const bc_binary_t* post)
 {
     self->obj->append(*post->obj);
 }
-void bc_binary_prepend(bc_binary_t* self, const bc_binary_t* prior)
+void bc_binary__prepend(bc_binary_t* self, const bc_binary_t* prior)
 {
     self->obj->prepend(*prior->obj);
 }
-void bc_binary_shift_left(bc_binary_t* self, size_t distance)
+void bc_binary__shift_left(bc_binary_t* self, size_t distance)
 {
     self->obj->shift_left(distance);
 }
-void bc_binary_shift_right(bc_binary_t* self, size_t distance)
+void bc_binary__shift_right(bc_binary_t* self, size_t distance)
 {
     self->obj->shift_right(distance);
 }
-bc_binary_t* bc_binary_substring(bc_binary_t* self, size_t first)
+bc_binary_t* bc_binary__substring(bc_binary_t* self, size_t first)
 {
     return new bc_binary_t{ new libbitcoin::binary(
         self->obj->substring(first)) };
 }
-bc_binary_t* bc_binary_substring_Length(bc_binary_t* self,
+bc_binary_t* bc_binary__substring_Length(bc_binary_t* self,
     size_t first, size_t length)
 {
     return new bc_binary_t{ new libbitcoin::binary(
         self->obj->substring(first, length)) };
 }
 
-bool bc_binary_is_prefix_of(const bc_binary_t* self,
+bool bc_binary__is_prefix_of(const bc_binary_t* self,
     const uint8_t* field_begin, const uint8_t* field_end)
 {
     const libbitcoin::data_slice slice(field_begin, field_end);
     return self->obj->is_prefix_of(slice);
 }
-bool bc_binary_is_prefix_of_Uint32(const bc_binary_t* self, uint32_t field)
+bool bc_binary__is_prefix_of_Uint32(const bc_binary_t* self, uint32_t field)
 {
     return self->obj->is_prefix_of(field);
 }
-bool bc_binary_is_prefix_of_Binary(const bc_binary_t* self,
+bool bc_binary__is_prefix_of_Binary(const bc_binary_t* self,
     const bc_binary_t* field)
 {
     return self->obj->is_prefix_of(*field->obj);
 }
 
 /// Operators.
-bool bc_binary_less_than(const bc_binary_t* self, const bc_binary_t* other)
+bool bc_binary__less_than(const bc_binary_t* self, const bc_binary_t* other)
 {
     return *self->obj < *other->obj;
 }
-bool bc_binary_equals(const bc_binary_t* self, const bc_binary_t* other)
+bool bc_binary__equals(const bc_binary_t* self, const bc_binary_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_binary_not_equals(const bc_binary_t* self, const bc_binary_t* other)
+bool bc_binary__not_equals(const bc_binary_t* self, const bc_binary_t* other)
 {
     return *self->obj != *other->obj;
 }
-bc_binary_t* bc_binary_copy(bc_binary_t* self, const bc_binary_t* other)
+void bc_binary__copy(bc_binary_t* self, const bc_binary_t* other)
 {
     *self->obj = *other->obj;
-    return self;
 }
 // Stream operators ignored.
 

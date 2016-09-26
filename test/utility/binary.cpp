@@ -31,8 +31,8 @@ BOOST_AUTO_TEST_CASE(prefix_encoded__32_bits__expected_value_c)
 {
     const uint8_t blocks[] = { 0xba, 0xad, 0xf0, 0x0d };
     bc_binary_t* prefix = bc_create_binary_Blocks(32, blocks);
-    bc_string_t* encoded = bc_binary_encoded(prefix);
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded,
+    bc_string_t* encoded = bc_binary__encoded(prefix);
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded,
         "10111010101011011111000000001101"));
     bc_destroy_string(encoded);
     bc_destroy_binary(prefix);
@@ -58,8 +58,8 @@ BOOST_AUTO_TEST_CASE(shift_left_by_zero_c)
     const uint8_t expected_blocks[] = { 0xAA, 0xAA };
     bc_binary_t* instance = bc_create_binary_Blocks(16, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(16, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -71,8 +71,8 @@ BOOST_AUTO_TEST_CASE(shift_left_alternate_initial_c)
     const uint8_t expected_blocks[] = { 0xEF };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(8, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -84,8 +84,8 @@ BOOST_AUTO_TEST_CASE(shift_left_by_less_than_byte_c)
     const uint8_t expected_blocks[] = { 0x55, 0x55, 0x40 };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(19, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -97,8 +97,8 @@ BOOST_AUTO_TEST_CASE(shift_left_by_less_than_byte_to_byte_align_c)
     const uint8_t expected_blocks[] = { 0x55, 0x55 };
     bc_binary_t* instance = bc_create_binary_Blocks(21, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(16, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -110,8 +110,8 @@ BOOST_AUTO_TEST_CASE(shift_left_by_byte_single_c)
     const uint8_t expected_blocks[] = { 0xAA, 0xAA };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(16, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -123,8 +123,8 @@ BOOST_AUTO_TEST_CASE(shift_left_by_greater_than_byte_c)
     const uint8_t expected_blocks[] = { 0x55, 0x40 };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(11, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -136,8 +136,8 @@ BOOST_AUTO_TEST_CASE(shift_left_by_greater_than_byte_not_initially_aligned_c)
     const uint8_t expected_blocks[] = { 0x50 };
     bc_binary_t* instance = bc_create_binary_Blocks(18, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(5, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -149,8 +149,8 @@ BOOST_AUTO_TEST_CASE(shift_left_by_byte_multiple_c)
     const uint8_t expected_blocks[] = { 0xAA };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(8, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -162,8 +162,8 @@ BOOST_AUTO_TEST_CASE(shift_left_by_size_c)
     const uint8_t expected_blocks[] = { };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(0, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -175,8 +175,8 @@ BOOST_AUTO_TEST_CASE(shift_left_by_greater_than_size_c)
     const uint8_t expected_blocks[] = { };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(0, expected_blocks);
-    bc_binary_shift_left(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_left(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -192,8 +192,8 @@ BOOST_AUTO_TEST_CASE(shift_right_by_zero_c)
     const uint8_t expected_blocks[] = { 0xAA, 0xAA };
     bc_binary_t* instance = bc_create_binary_Blocks(16, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(16, expected_blocks);
-    bc_binary_shift_right(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_right(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -205,8 +205,8 @@ BOOST_AUTO_TEST_CASE(shift_right_by_less_than_byte_c)
     const uint8_t expected_blocks[] = { 0x05, 0x55, 0x55, 0x50 };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(29, expected_blocks);
-    bc_binary_shift_right(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_right(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -218,8 +218,8 @@ BOOST_AUTO_TEST_CASE(shift_right_by_less_than_byte_to_byte_align_c)
     const uint8_t expected_blocks[] = { 0x15, 0x55, 0x55 };
     bc_binary_t* instance = bc_create_binary_Blocks(21, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(24, expected_blocks);
-    bc_binary_shift_right(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_right(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -231,8 +231,8 @@ BOOST_AUTO_TEST_CASE(shift_right_by_byte_single_c)
     const uint8_t expected_blocks[] = { 0x00, 0xAA, 0xAA, 0xAA };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(32, expected_blocks);
-    bc_binary_shift_right(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_right(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -244,8 +244,8 @@ BOOST_AUTO_TEST_CASE(shift_right_by_greater_than_byte_c)
     const uint8_t expected_blocks[] = { 0x00, 0x05, 0x55, 0x55, 0x50 };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(37, expected_blocks);
-    bc_binary_shift_right(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_right(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -257,8 +257,8 @@ BOOST_AUTO_TEST_CASE(shift_right_by_greater_than_byte_not_initially_aligned_c)
     const uint8_t expected_blocks[] = { 0x00, 0x05, 0x55, 0x55, 0x54 };
     bc_binary_t* instance = bc_create_binary_Blocks(18, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(31, expected_blocks);
-    bc_binary_shift_right(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_right(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -270,8 +270,8 @@ BOOST_AUTO_TEST_CASE(shift_right_by_byte_multiple_c)
     const uint8_t expected_blocks[] = { 0x00, 0x00, 0xAA, 0xAA, 0xAA };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(40, expected_blocks);
-    bc_binary_shift_right(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_right(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -283,8 +283,8 @@ BOOST_AUTO_TEST_CASE(shift_right_by_size_c)
     const uint8_t expected_blocks[] = { 0x00, 0x00, 0x00, 0xAA, 0xAA, 0xAA };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(48, expected_blocks);
-    bc_binary_shift_right(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_right(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -296,8 +296,8 @@ BOOST_AUTO_TEST_CASE(shift_right_by_greater_than_size_c)
     const uint8_t expected_blocks[] = { 0x00, 0x00, 0x00, 0x02, 0xAA, 0xAA, 0xA8 };
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(54, expected_blocks);
-    bc_binary_shift_right(instance, distance);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__shift_right(instance, distance);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
 }
@@ -314,8 +314,8 @@ BOOST_AUTO_TEST_CASE(append_to_zero_length_c)
     bc_binary_t* instance = bc_create_binary_Blocks(0, instance_blocks);
     bc_binary_t* augment = bc_create_binary_Blocks(24, augment_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(24, expected_blocks);
-    bc_binary_append(instance, augment);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__append(instance, augment);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(augment);
     bc_destroy_binary(expected);
@@ -329,8 +329,8 @@ BOOST_AUTO_TEST_CASE(append_zero_length_to_content_c)
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* augment = bc_create_binary_Blocks(0, augment_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(24, expected_blocks);
-    bc_binary_append(instance, augment);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__append(instance, augment);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(augment);
     bc_destroy_binary(expected);
@@ -344,8 +344,8 @@ BOOST_AUTO_TEST_CASE(append_byte_aligned_instances_c)
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* augment = bc_create_binary_Blocks(24, augment_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(48, expected_blocks);
-    bc_binary_append(instance, augment);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__append(instance, augment);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(augment);
     bc_destroy_binary(expected);
@@ -359,8 +359,8 @@ BOOST_AUTO_TEST_CASE(append_byte_nonaligned_instances_c)
     bc_binary_t* instance = bc_create_binary_Blocks(20, instance_blocks);
     bc_binary_t* augment = bc_create_binary_Blocks(13, augment_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(33, expected_blocks);
-    bc_binary_append(instance, augment);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__append(instance, augment);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(augment);
     bc_destroy_binary(expected);
@@ -377,8 +377,8 @@ BOOST_AUTO_TEST_CASE(prepend_to_zero_length_c)
     bc_binary_t* instance = bc_create_binary_Blocks(0, instance_blocks);
     bc_binary_t* augment = bc_create_binary_Blocks(24, augment_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(24, expected_blocks);
-    bc_binary_prepend(instance, augment);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__prepend(instance, augment);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(augment);
     bc_destroy_binary(expected);
@@ -392,8 +392,8 @@ BOOST_AUTO_TEST_CASE(prepend_zero_length_to_content_c)
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* augment = bc_create_binary_Blocks(0, augment_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(24, expected_blocks);
-    bc_binary_prepend(instance, augment);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__prepend(instance, augment);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(augment);
     bc_destroy_binary(expected);
@@ -407,8 +407,8 @@ BOOST_AUTO_TEST_CASE(prepend_byte_aligned_instances_c)
     bc_binary_t* instance = bc_create_binary_Blocks(24, instance_blocks);
     bc_binary_t* augment = bc_create_binary_Blocks(24, augment_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(48, expected_blocks);
-    bc_binary_prepend(instance, augment);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__prepend(instance, augment);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(augment);
     bc_destroy_binary(expected);
@@ -422,8 +422,8 @@ BOOST_AUTO_TEST_CASE(prepend_byte_nonaligned_instances_c)
     bc_binary_t* instance = bc_create_binary_Blocks(20, instance_blocks);
     bc_binary_t* augment = bc_create_binary_Blocks(13, augment_blocks);
     bc_binary_t* expected = bc_create_binary_Blocks(33, expected_blocks);
-    bc_binary_prepend(instance, augment);
-    BOOST_REQUIRE(bc_binary_equals(expected, instance));
+    bc_binary__prepend(instance, augment);
+    BOOST_REQUIRE(bc_binary__equals(expected, instance));
     bc_destroy_binary(instance);
     bc_destroy_binary(augment);
     bc_destroy_binary(expected);
@@ -444,8 +444,8 @@ BOOST_AUTO_TEST_CASE(substring_start_after_end_c)
     const uint8_t expected_blocks[] = {};
     bc_binary_t* expected = bc_create_binary_Blocks(0, expected_blocks);
     // Substring result
-    bc_binary_t* result = bc_binary_substring_Length(instance, start, length);
-    BOOST_REQUIRE(bc_binary_equals(expected, result));
+    bc_binary_t* result = bc_binary__substring_Length(instance, start, length);
+    BOOST_REQUIRE(bc_binary__equals(expected, result));
     bc_destroy_binary(result);
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
@@ -462,8 +462,8 @@ BOOST_AUTO_TEST_CASE(substring_length_zero_c)
     const uint8_t expected_blocks[] = {};
     bc_binary_t* expected = bc_create_binary_Blocks(0, expected_blocks);
     // Substring result
-    bc_binary_t* result = bc_binary_substring_Length(instance, start, length);
-    BOOST_REQUIRE(bc_binary_equals(expected, result));
+    bc_binary_t* result = bc_binary__substring_Length(instance, start, length);
+    BOOST_REQUIRE(bc_binary__equals(expected, result));
     bc_destroy_binary(result);
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
@@ -480,8 +480,8 @@ BOOST_AUTO_TEST_CASE(substring_byte_aligned_start_c)
     const uint8_t expected_blocks[] = { 0xBB, 0xC0 };
     bc_binary_t* expected = bc_create_binary_Blocks(10, expected_blocks);
     // Substring result
-    bc_binary_t* result = bc_binary_substring_Length(instance, start, length);
-    BOOST_REQUIRE(bc_binary_equals(expected, result));
+    bc_binary_t* result = bc_binary__substring_Length(instance, start, length);
+    BOOST_REQUIRE(bc_binary__equals(expected, result));
     bc_destroy_binary(result);
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
@@ -498,8 +498,8 @@ BOOST_AUTO_TEST_CASE(substring_byte_nonaligned_start_c)
     const uint8_t expected_blocks[] = { 0xEF, 0x00 };
     bc_binary_t* expected = bc_create_binary_Blocks(10, expected_blocks);
     // Substring result
-    bc_binary_t* result = bc_binary_substring_Length(instance, start, length);
-    BOOST_REQUIRE(bc_binary_equals(expected, result));
+    bc_binary_t* result = bc_binary__substring_Length(instance, start, length);
+    BOOST_REQUIRE(bc_binary__equals(expected, result));
     bc_destroy_binary(result);
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
@@ -516,8 +516,8 @@ BOOST_AUTO_TEST_CASE(substring_request_exceeds_string_c)
     const uint8_t expected_blocks[] = { 0xEF, 0x00 };
     bc_binary_t* expected = bc_create_binary_Blocks(10, expected_blocks);
     // Substring result
-    bc_binary_t* result = bc_binary_substring_Length(instance, start, length);
-    BOOST_REQUIRE(bc_binary_equals(expected, result));
+    bc_binary_t* result = bc_binary__substring_Length(instance, start, length);
+    BOOST_REQUIRE(bc_binary__equals(expected, result));
     bc_destroy_binary(result);
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
@@ -533,8 +533,8 @@ BOOST_AUTO_TEST_CASE(substring_implicit_length_c)
     const uint8_t expected_blocks[] = { 0xEF, 0x00 };
     bc_binary_t* expected = bc_create_binary_Blocks(10, expected_blocks);
     // Substring result
-    bc_binary_t* result = bc_binary_substring(instance, start);
-    BOOST_REQUIRE(bc_binary_equals(expected, result));
+    bc_binary_t* result = bc_binary__substring(instance, start);
+    BOOST_REQUIRE(bc_binary__equals(expected, result));
     bc_destroy_binary(result);
     bc_destroy_binary(instance);
     bc_destroy_binary(expected);
@@ -552,8 +552,8 @@ BOOST_AUTO_TEST_CASE(string_to_prefix__32_bits__expected_value_c)
     bc_binary_t* prefix = bc_create_binary_String(
         "10111010101011011111000000001101");
 
-    bc_data_chunk_t* prefix_blocks = bc_binary_blocks(prefix);
-    BOOST_REQUIRE(bc_data_chunk_equals(prefix_blocks, blocks));
+    bc_data_chunk_t* prefix_blocks = bc_binary__blocks(prefix);
+    BOOST_REQUIRE(bc_data_chunk__equals(prefix_blocks, blocks));
 
     bc_destroy_data_chunk(prefix_blocks);
     bc_destroy_binary(prefix);
@@ -567,8 +567,8 @@ BOOST_AUTO_TEST_CASE(prefix_to_bytes__32_bits__expected_value_c)
 
     bc_binary_t* prefix = bc_create_binary_Blocks(32, blocks_data);
 
-    bc_data_chunk_t* prefix_blocks = bc_binary_blocks(prefix);
-    BOOST_REQUIRE(bc_data_chunk_equals(prefix_blocks, blocks));
+    bc_data_chunk_t* prefix_blocks = bc_binary__blocks(prefix);
+    BOOST_REQUIRE(bc_data_chunk__equals(prefix_blocks, blocks));
 
     bc_destroy_data_chunk(prefix_blocks);
     bc_destroy_binary(prefix);

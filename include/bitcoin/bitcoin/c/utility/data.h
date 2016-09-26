@@ -56,28 +56,23 @@ bc_data_chunk_t* bc_create_data_chunk_Array(const uint8_t* data, size_t size);
 // Destructor
 void bc_destroy_data_chunk(bc_data_chunk_t* self);
 // .size()
-size_t bc_data_chunk_size(const bc_data_chunk_t* self);
+size_t bc_data_chunk__size(const bc_data_chunk_t* self);
 // .empty()
-bool bc_data_chunk_empty(const bc_data_chunk_t* self);
+bool bc_data_chunk__empty(const bc_data_chunk_t* self);
 // .resize()
-void bc_data_chunk_resize(bc_data_chunk_t* self, size_t count);
+void bc_data_chunk__resize(bc_data_chunk_t* self, size_t count);
 // .data()
-uint8_t* bc_data_chunk_data(bc_data_chunk_t* self);
+uint8_t* bc_data_chunk__data(bc_data_chunk_t* self);
 // const .data()
-const uint8_t* bc_data_chunk_cdata(const bc_data_chunk_t* self);
+const uint8_t* bc_data_chunk__cdata(const bc_data_chunk_t* self);
 // extend_data()
-void bc_data_chunk_extend_data(
+void bc_data_chunk__extend_data(
     bc_data_chunk_t* self, const bc_data_chunk_t* other);
 // a == b
-bool bc_data_chunk_equals(
+bool bc_data_chunk__equals(
     const bc_data_chunk_t* self, const bc_data_chunk_t* other);
 
 BC_DECLARE_VECTOR(data_stack, bc_data_chunk_t);
-
-/**
- * Constrain a numeric value within a given range.
- */
-size_t bc_range_constrain(size_t value, size_t minimum, size_t maximum);
 
 #ifdef __cplusplus
 }
