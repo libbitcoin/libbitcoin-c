@@ -25,6 +25,7 @@
 #include <stdint.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
+#include <bitcoin/bitcoin/c/utility/vector.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,26 +40,34 @@ size_t bc_short_hash_size();
 size_t bc_mini_hash_size();
 
 // Common bitcoin hash containers.
-#define DECLARE_HASH_TYPE(hashtype) \
+#define BC_DECLARE_HASH_TYPE(hashtype) \
     typedef struct bc_##hashtype##_t bc_##hashtype##_t; \
     bc_##hashtype##_t* bc_create_##hashtype(); \
     bc_##hashtype##_t* bc_create_##hashtype##_Array(const uint8_t* data); \
     void bc_destroy_##hashtype(bc_##hashtype##_t* self); \
-    uint8_t* bc_##hashtype##_data(bc_##hashtype##_t* self); \
-    const uint8_t* bc_##hashtype##_cdata(const bc_##hashtype##_t* self); \
-    bc_string_t* bc_##hashtype##_encode_base16( \
+    uint8_t* bc_##hashtype##__data(bc_##hashtype##_t* self); \
+    const uint8_t* bc_##hashtype##__cdata(const bc_##hashtype##_t* self); \
+    bc_string_t* bc_##hashtype##__encode_base16( \
         const bc_##hashtype##_t* self); \
-    bool bc_##hashtype##_equals(const bc_##hashtype##_t* self, \
-        const bc_##hashtype##_t* other);
+    bool bc_##hashtype##__equals(const bc_##hashtype##_t* self, \
+        const bc_##hashtype##_t* other); \
 
-DECLARE_HASH_TYPE(hash_digest);
-DECLARE_HASH_TYPE(half_hash);
-DECLARE_HASH_TYPE(quarter_hash);
-DECLARE_HASH_TYPE(long_hash);
-DECLARE_HASH_TYPE(short_hash);
-DECLARE_HASH_TYPE(mini_hash);
+BC_DECLARE_HASH_TYPE(hash_digest);
+BC_DECLARE_HASH_TYPE(half_hash);
+BC_DECLARE_HASH_TYPE(quarter_hash);
+BC_DECLARE_HASH_TYPE(long_hash);
+BC_DECLARE_HASH_TYPE(short_hash);
+BC_DECLARE_HASH_TYPE(mini_hash);
 
-#undef DECLARE_HASH_TYPE
+#undef BC_DECLARE_HASH_TYPE
+
+// Lists of common bitcoin hashes.
+BC_DECLARE_VECTOR(hash_list, bc_hash_digest_t);
+BC_DECLARE_VECTOR(half_hash_list, bc_half_hash_t);
+BC_DECLARE_VECTOR(quarter_hash_list, bc_quarter_hash_t);
+BC_DECLARE_VECTOR(long_hash_list, bc_long_hash_t);
+BC_DECLARE_VECTOR(short_hash_list, bc_short_hash_t);
+BC_DECLARE_VECTOR(mini_hash_list, bc_mini_hash_t);
 
 // You must use bc_destroy_hash_digest() to delete the result.
 bc_hash_digest_t* bc_null_hash();

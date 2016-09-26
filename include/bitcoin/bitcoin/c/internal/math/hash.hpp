@@ -22,6 +22,21 @@
 
 #include <bitcoin/bitcoin/math/hash.hpp>
 
+#include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
+
+BC_DECLARE_VECTOR_INTERNAL(hash_list, bc_hash_digest_t,
+    libbitcoin::hash_list);
+BC_DECLARE_VECTOR_INTERNAL(half_hash_list, bc_half_hash_t,
+    libbitcoin::half_hash_list);
+BC_DECLARE_VECTOR_INTERNAL(quarter_hash_list, bc_quarter_hash_t,
+    libbitcoin::quarter_hash_list);
+BC_DECLARE_VECTOR_INTERNAL(long_hash_list, bc_long_hash_t,
+    libbitcoin::long_hash_list);
+BC_DECLARE_VECTOR_INTERNAL(short_hash_list, bc_short_hash_t,
+    libbitcoin::short_hash_list);
+BC_DECLARE_VECTOR_INTERNAL(mini_hash_list, bc_mini_hash_t,
+    libbitcoin::mini_hash_list);
+
 extern "C" {
 
 #define BC_DECLARE_HASH_INTERNAL(hashtype) \

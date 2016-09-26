@@ -37,11 +37,11 @@ BOOST_AUTO_TEST_CASE(sha1_hash_test_c)
         bc_short_hash_t* hash = bc_sha1_hash(data);
 
         bc_data_chunk_t* hash_chunk = bc_create_data_chunk_Array(
-            bc_short_hash_data(hash), bc_short_hash_size());
+            bc_short_hash__data(hash), bc_short_hash_size());
         bc_string_t* encoded = bc_encode_base16(hash_chunk);
         bc_destroy_data_chunk(hash_chunk);
 
-        BOOST_REQUIRE(bc_string_equals_cstr(encoded, result.result.data()));
+        BOOST_REQUIRE(bc_string__equals_cstr(encoded, result.result.data()));
 
         bc_destroy_string(encoded);
         bc_destroy_short_hash(hash);
@@ -59,11 +59,11 @@ BOOST_AUTO_TEST_CASE(ripemd_hash_test_c)
         bc_short_hash_t* hash = bc_ripemd160_hash(data);
 
         bc_data_chunk_t* hash_chunk = bc_create_data_chunk_Array(
-            bc_short_hash_data(hash), bc_short_hash_size());
+            bc_short_hash__data(hash), bc_short_hash_size());
         bc_string_t* encoded = bc_encode_base16(hash_chunk);
         bc_destroy_data_chunk(hash_chunk);
 
-        BOOST_REQUIRE(bc_string_equals_cstr(encoded, result.result.data()));
+        BOOST_REQUIRE(bc_string__equals_cstr(encoded, result.result.data()));
 
         bc_destroy_string(encoded);
         bc_destroy_short_hash(hash);
@@ -76,11 +76,11 @@ BOOST_AUTO_TEST_CASE(ripemd_hash_test_c)
         bc_short_hash_t* ripemd_hash1 = bc_bitcoin_short_hash(chunk1);
 
         bc_data_chunk_t* hash_chunk = bc_create_data_chunk_Array(
-            bc_short_hash_data(ripemd_hash1), bc_short_hash_size());
+            bc_short_hash__data(ripemd_hash1), bc_short_hash_size());
         bc_string_t* encoded = bc_encode_base16(hash_chunk);
         bc_destroy_data_chunk(hash_chunk);
 
-        BOOST_REQUIRE(bc_string_equals_cstr(encoded,
+        BOOST_REQUIRE(bc_string__equals_cstr(encoded,
             "17d040b739d639c729daaf627eaff88cfe4207f4"));
 
         bc_destroy_string(encoded);
@@ -95,11 +95,11 @@ BOOST_AUTO_TEST_CASE(ripemd_hash_test_c)
         bc_short_hash_t* ripemd_hash2 = bc_bitcoin_short_hash(chunk2);
 
         bc_data_chunk_t* hash_chunk = bc_create_data_chunk_Array(
-            bc_short_hash_data(ripemd_hash2), bc_short_hash_size());
+            bc_short_hash__data(ripemd_hash2), bc_short_hash_size());
         bc_string_t* encoded = bc_encode_base16(hash_chunk);
         bc_destroy_data_chunk(hash_chunk);
 
-        BOOST_REQUIRE(bc_string_equals_cstr(encoded,
+        BOOST_REQUIRE(bc_string__equals_cstr(encoded,
             "c23e37c6fad06deab545f952992c8f28cb02bbe5"));
 
         bc_destroy_string(encoded);
@@ -118,11 +118,11 @@ BOOST_AUTO_TEST_CASE(sha256_hash_test_c)
         bc_hash_digest_t* hash = bc_sha256_hash(data);
 
         bc_data_chunk_t* hash_chunk = bc_create_data_chunk_Array(
-            bc_hash_digest_data(hash), bc_hash_size());
+            bc_hash_digest__data(hash), bc_hash_size());
         bc_string_t* encoded = bc_encode_base16(hash_chunk);
         bc_destroy_data_chunk(hash_chunk);
 
-        BOOST_REQUIRE(bc_string_equals_cstr(encoded, result.result.data()));
+        BOOST_REQUIRE(bc_string__equals_cstr(encoded, result.result.data()));
 
         bc_destroy_string(encoded);
         bc_destroy_hash_digest(hash);
@@ -146,11 +146,11 @@ BOOST_AUTO_TEST_CASE(hmac_sha256_hash_test_c)
     bc_hash_digest_t* hash = bc_hmac_sha256_hash(data, key);
 
     bc_data_chunk_t* hash_chunk = bc_create_data_chunk_Array(
-        bc_hash_digest_data(hash), bc_hash_size());
+        bc_hash_digest__data(hash), bc_hash_size());
     bc_string_t* encoded = bc_encode_base16(hash_chunk);
     bc_destroy_data_chunk(hash_chunk);
 
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded,
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded,
         "5031fe3d989c6d1537a013fa6e739da23463fdaec3b70137d828e36ace221bd0"));
 
     bc_destroy_string(encoded);
@@ -170,11 +170,11 @@ BOOST_AUTO_TEST_CASE(hmac_sha512_hash_test_c)
     bc_long_hash_t* hash = bc_hmac_sha512_hash(data, key);
 
     bc_data_chunk_t* hash_chunk = bc_create_data_chunk_Array(
-        bc_long_hash_data(hash), bc_long_hash_size());
+        bc_long_hash__data(hash), bc_long_hash_size());
     bc_string_t* encoded = bc_encode_base16(hash_chunk);
     bc_destroy_data_chunk(hash_chunk);
 
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded,
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded,
         "3c5953a18f7303ec653ba170ae334fafa08e3846f2efe317b87efce82376253cb52a8c31ddcde5a3a2eee183c2b34cb91f85e64ddbc325f7692b199473579c58"));
 
     bc_destroy_string(encoded);
@@ -191,11 +191,11 @@ BOOST_AUTO_TEST_CASE(sha512_hash_test_c)
     bc_long_hash_t* hash = bc_sha512_hash(data);
 
     bc_data_chunk_t* hash_chunk = bc_create_data_chunk_Array(
-        bc_long_hash_data(hash), bc_long_hash_size());
+        bc_long_hash__data(hash), bc_long_hash_size());
     bc_string_t* encoded = bc_encode_base16(hash_chunk);
     bc_destroy_data_chunk(hash_chunk);
 
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded,
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded,
         "77c7ce9a5d86bb386d443bb96390faa120633158699c8844c30b13ab0bf92760b7e4416aea397db91b4ac0e5dd56b8ef7e4b066162ab1fdc088319ce6defc876"));
 
     bc_destroy_string(encoded);
@@ -218,11 +218,11 @@ BOOST_AUTO_TEST_CASE(pkcs5_pbkdf2_hmac_sha512_test_c)
             passphrase, salt, result.iterations);
 
         bc_data_chunk_t* hash_chunk = bc_create_data_chunk_Array(
-            bc_long_hash_data(hash), bc_long_hash_size());
+            bc_long_hash__data(hash), bc_long_hash_size());
         bc_string_t* encoded = bc_encode_base16(hash_chunk);
         bc_destroy_data_chunk(hash_chunk);
 
-        BOOST_REQUIRE(bc_string_equals_cstr(encoded, result.result.data()));
+        BOOST_REQUIRE(bc_string__equals_cstr(encoded, result.result.data()));
 
         bc_destroy_string(encoded);
         bc_destroy_long_hash(hash);

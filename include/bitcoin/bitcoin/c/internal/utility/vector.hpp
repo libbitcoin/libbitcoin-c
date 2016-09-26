@@ -45,41 +45,41 @@
         delete self->obj; \
         delete self; \
     } \
-    itemtype* bc_##typename##_at(bc_##typename##_t* self, size_t pos) \
+    itemtype* bc_##typename##__at(bc_##typename##_t* self, size_t pos) \
     { \
         return self->obj->at(pos).get(); \
     } \
-    const itemtype* bc_##typename##_const_at(const bc_##typename##_t* self, \
+    const itemtype* bc_##typename##__const_at(const bc_##typename##_t* self, \
         size_t pos) \
     { \
         return self->obj->at(pos).get(); \
     } \
-    size_t bc_##typename##_size(const bc_##typename##_t* self) \
+    size_t bc_##typename##__size(const bc_##typename##_t* self) \
     { \
         return self->obj->size(); \
     } \
-    void bc_##typename##_clear(bc_##typename##_t* self) \
+    void bc_##typename##__clear(bc_##typename##_t* self) \
     { \
         self->obj->clear(); \
     } \
-    void bc_##typename##_erase(bc_##typename##_t* self, size_t pos) \
+    void bc_##typename##__erase(bc_##typename##_t* self, size_t pos) \
     { \
         self->obj->erase(self->obj->begin() + pos); \
     } \
-    void bc_##typename##_insert(bc_##typename##_t* self, \
+    void bc_##typename##__insert(bc_##typename##_t* self, \
         size_t pos, itemtype** obj) \
     { \
         bc_##typename##_t::uniqptr_type item(*obj, delete_function); \
         self->obj->insert(self->obj->begin() + pos, std::move(item)); \
         *obj = NULL; \
     } \
-    void bc_##typename##_push_back(bc_##typename##_t* self, itemtype** obj) \
+    void bc_##typename##__push_back(bc_##typename##_t* self, itemtype** obj) \
     { \
         bc_##typename##_t::uniqptr_type item(*obj, delete_function); \
         self->obj->push_back(std::move(item)); \
         *obj = NULL; \
     } \
-    void bc_##typename##_resize(bc_##typename##_t* self, size_t count) \
+    void bc_##typename##__resize(bc_##typename##_t* self, size_t count) \
     { \
         self->obj->resize(count); \
     }
@@ -112,14 +112,18 @@ WrapperType* bc_vector_to_ctype(const VectorType& vector_obj,
     { \
         return bc_vector_from_ctype< \
             originaltype, bc_##wrappername##_t>( \
-                stack, bc_##wrappername##_size, bc_##wrappername##_const_at); \
+                stack, \
+                bc_##wrappername##__size, \
+                bc_##wrappername##__const_at); \
     } \
     \
     bc_##wrappername##_t* bc_##wrappername##_to_ctype( \
         const originaltype& stack) \
     { \
         return bc_vector_to_ctype<bc_##wrappername##_t, itemtype>( \
-            stack, bc_create_##wrappername, bc_##wrappername##_push_back); \
+                stack, \
+                bc_create_##wrappername, \
+                bc_##wrappername##__push_back); \
     }
 
 #define BC_DECLARE_VECTOR_INTERNAL( \

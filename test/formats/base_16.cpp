@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(base16_short_hash_test_c)
 
     bc_string_t* encoded = bc_encode_base16(hash);
     bc_string_t* hex = bc_create_string(hex_str);
-    BOOST_REQUIRE(bc_string_equals(encoded, hex));
+    BOOST_REQUIRE(bc_string__equals(encoded, hex));
     bc_destroy_string(encoded);
     bc_destroy_string(hex);
 
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE(base16_short_hash_test_c)
     };
     bc_data_chunk_t* expected = bc_create_data_chunk_Array(
         expected_data, bc_short_hash_size());
-    BOOST_REQUIRE(bc_data_chunk_equals(hash, expected));
+    BOOST_REQUIRE(bc_data_chunk__equals(hash, expected));
     bc_destroy_data_chunk(expected);
     bc_destroy_data_chunk(hash);
 }
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(base16_round_trip_test_c)
 
     bc_string_t* encoded = bc_encode_base16(data);
     bc_string_t* hex = bc_create_string(hex_str);
-    BOOST_REQUIRE(bc_string_equals(encoded, hex));
+    BOOST_REQUIRE(bc_string__equals(encoded, hex));
     bc_destroy_string(encoded);
     bc_destroy_string(hex);
 

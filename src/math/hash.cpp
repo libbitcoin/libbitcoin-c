@@ -24,6 +24,19 @@
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 
+BC_IMPLEMENT_VECTOR(hash_list, bc_hash_digest_t,
+    bc_destroy_hash_digest, libbitcoin::hash_list);
+BC_IMPLEMENT_VECTOR(half_hash_list, bc_half_hash_t,
+    bc_destroy_half_hash, libbitcoin::half_hash_list);
+BC_IMPLEMENT_VECTOR(quarter_hash_list, bc_quarter_hash_t,
+    bc_destroy_quarter_hash, libbitcoin::quarter_hash_list);
+BC_IMPLEMENT_VECTOR(long_hash_list, bc_long_hash_t,
+    bc_destroy_long_hash, libbitcoin::long_hash_list);
+BC_IMPLEMENT_VECTOR(short_hash_list, bc_short_hash_t,
+    bc_destroy_short_hash, libbitcoin::short_hash_list);
+BC_IMPLEMENT_VECTOR(mini_hash_list, bc_mini_hash_t,
+    bc_destroy_mini_hash, libbitcoin::mini_hash_list);
+
 extern "C" {
 
 size_t bc_hash_size()
@@ -51,7 +64,7 @@ size_t bc_mini_hash_size()
     return libbitcoin::mini_hash_size;
 }
 
-#define HASH_IMPL(hashtype) \
+#define BC_HASH_IMPL(hashtype) \
     \
     bc_##hashtype##_t* bc_create_##hashtype() \
     { \
@@ -70,21 +83,21 @@ size_t bc_mini_hash_size()
         delete self->obj; \
         delete self; \
     } \
-    uint8_t* bc_##hashtype##_data(bc_##hashtype##_t* self) \
+    uint8_t* bc_##hashtype##__data(bc_##hashtype##_t* self) \
     { \
         return self->obj->data(); \
     } \
-    const uint8_t* bc_##hashtype##_cdata(const bc_##hashtype##_t* self) \
+    const uint8_t* bc_##hashtype##__cdata(const bc_##hashtype##_t* self) \
     { \
         return self->obj->data(); \
     } \
-    bc_string_t* bc_##hashtype##_encode_base16( \
+    bc_string_t* bc_##hashtype##__encode_base16( \
         const bc_##hashtype##_t* self) \
     { \
         return bc_create_string_StdString( \
             libbitcoin::encode_base16(*self->obj)); \
     } \
-    bool bc_##hashtype##_equals(const bc_##hashtype##_t* self, \
+    bool bc_##hashtype##__equals(const bc_##hashtype##_t* self, \
         const bc_##hashtype##_t* other) \
     { \
         return *self->obj == *other->obj; \
@@ -99,14 +112,14 @@ size_t bc_mini_hash_size()
         return self; \
     }
 
-HASH_IMPL(hash_digest);
-HASH_IMPL(half_hash);
-HASH_IMPL(quarter_hash);
-HASH_IMPL(long_hash);
-HASH_IMPL(short_hash);
-HASH_IMPL(mini_hash);
+BC_HASH_IMPL(hash_digest);
+BC_HASH_IMPL(half_hash);
+BC_HASH_IMPL(quarter_hash);
+BC_HASH_IMPL(long_hash);
+BC_HASH_IMPL(short_hash);
+BC_HASH_IMPL(mini_hash);
 
-#undef HASH_IMPL
+#undef BC_HASH_IMPL
 
 bc_hash_digest_t* bc_null_hash()
 {

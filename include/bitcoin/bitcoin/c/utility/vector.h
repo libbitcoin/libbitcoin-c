@@ -32,17 +32,17 @@ extern "C" {
     bc_##typename##_t* bc_create_##typename(); \
     void bc_destroy_##typename(bc_##typename##_t* self); \
     /*****Do not delete the objects returned by these accessors.*****/ \
-    itemtype* bc_##typename##_at(bc_##typename##_t* self, size_t pos); \
-    const itemtype* bc_##typename##_const_at(const bc_##typename##_t* self, \
+    itemtype* bc_##typename##__at(bc_##typename##_t* self, size_t pos); \
+    const itemtype* bc_##typename##__const_at(const bc_##typename##_t* self, \
         size_t pos); \
     /****************************************************************/ \
-    size_t bc_##typename##_size(const bc_##typename##_t* self); \
-    void bc_##typename##_clear(bc_##typename##_t* self); \
-    void bc_##typename##_erase(bc_##typename##_t* self, size_t pos); \
-    void bc_##typename##_insert(bc_##typename##_t* self, \
+    size_t bc_##typename##__size(const bc_##typename##_t* self); \
+    void bc_##typename##__clear(bc_##typename##_t* self); \
+    void bc_##typename##__erase(bc_##typename##_t* self, size_t pos); \
+    void bc_##typename##__insert(bc_##typename##_t* self, \
         size_t pos, itemtype** obj); \
-    void bc_##typename##_push_back(bc_##typename##_t* self, itemtype** obj); \
-    void bc_##typename##_resize(bc_##typename##_t* self, size_t count);
+    void bc_##typename##__push_back(bc_##typename##_t* self, itemtype** obj); \
+    void bc_##typename##__resize(bc_##typename##_t* self, size_t count);
 
 #ifdef __cplusplus
 }

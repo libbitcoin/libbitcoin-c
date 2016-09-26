@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(data__to_byte__value__expected_size_and_value_c)
 BOOST_AUTO_TEST_CASE(data__build_chunk__empty__empty_c)
 {
     bc_data_chunk_t* result = bc_create_data_chunk();
-    BOOST_REQUIRE(bc_data_chunk_empty(result));
+    BOOST_REQUIRE(bc_data_chunk__empty(result));
     bc_destroy_data_chunk(result);
 }
 
@@ -55,11 +55,11 @@ BOOST_AUTO_TEST_CASE(data__build_chunk__one_slice__expected_size_and_value_c)
     bc_data_chunk_t* chunk3 = bc_create_data_chunk_Array(chunk3_data, 1);
 
     bc_data_chunk_t* result = bc_create_data_chunk();
-    bc_data_chunk_extend_data(result, chunk1);
-    bc_data_chunk_extend_data(result, chunk2);
-    bc_data_chunk_extend_data(result, chunk3);
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_size(result), 3);
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_data(result)[1], expected);
+    bc_data_chunk__extend_data(result, chunk1);
+    bc_data_chunk__extend_data(result, chunk2);
+    bc_data_chunk__extend_data(result, chunk3);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__size(result), 3);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__data(result)[1], expected);
 
     bc_destroy_data_chunk(result);
     bc_destroy_data_chunk(chunk3);
@@ -81,11 +81,11 @@ BOOST_AUTO_TEST_CASE(data__build_chunk__three_slices__expected_size_and_value_c)
     bc_data_chunk_t* chunk3 = bc_create_data_chunk_Array(chunk3_data, size3);
 
     bc_data_chunk_t* result = bc_create_data_chunk();
-    bc_data_chunk_extend_data(result, chunk1);
-    bc_data_chunk_extend_data(result, chunk2);
-    bc_data_chunk_extend_data(result, chunk3);
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_size(result), size1 + size2 + size3);
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_data(result)[size1], expected);
+    bc_data_chunk__extend_data(result, chunk1);
+    bc_data_chunk__extend_data(result, chunk2);
+    bc_data_chunk__extend_data(result, chunk3);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__size(result), size1 + size2 + size3);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__data(result)[size1], expected);
 
     bc_destroy_data_chunk(result);
     bc_destroy_data_chunk(chunk3);
@@ -126,20 +126,20 @@ BOOST_AUTO_TEST_CASE(data__extend_data__twice__expected_c)
 
     bc_hash_digest_t* null_hash = bc_null_hash();
     bc_data_chunk_t* null_hash_chunk = bc_create_data_chunk_Array(
-        bc_hash_digest_data(null_hash), bc_hash_size());
-    bc_data_chunk_extend_data(buffer1, null_hash_chunk);
+        bc_hash_digest__data(null_hash), bc_hash_size());
+    bc_data_chunk__extend_data(buffer1, null_hash_chunk);
 
     bc_destroy_hash_digest(null_hash);
 
     uint8_t buffer2_data[] = { expected };
     bc_data_chunk_t* buffer2 = bc_create_data_chunk_Array(buffer2_data, 1);
 
-    bc_data_chunk_extend_data(buffer1, buffer2);
-    bc_data_chunk_extend_data(buffer1, null_hash_chunk);
+    bc_data_chunk__extend_data(buffer1, buffer2);
+    bc_data_chunk__extend_data(buffer1, null_hash_chunk);
 
     BOOST_REQUIRE_EQUAL(hash_size, bc_hash_size());
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_size(buffer1), 2u * hash_size + 2u);
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_data(buffer1)[hash_size + 1], expected);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__size(buffer1), 2u * hash_size + 2u);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__data(buffer1)[hash_size + 1], expected);
 
     bc_destroy_data_chunk(null_hash_chunk);
     bc_destroy_data_chunk(buffer2);
@@ -226,8 +226,8 @@ BOOST_AUTO_TEST_CASE(data__to_chunk__long_hash__expected_c)
 
     bc_data_chunk_t* result = bc_create_data_chunk_Array(
         source, bc_long_hash_size());
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_data(result)[0], l);
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_data(result)[32], u);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__data(result)[0], l);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__data(result)[32], u);
     bc_destroy_data_chunk(result);
 }
 

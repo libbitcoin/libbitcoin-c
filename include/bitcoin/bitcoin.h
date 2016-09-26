@@ -26,6 +26,7 @@
 #include <bitcoin/bitcoin/c/chain/block.h>
 #include <bitcoin/bitcoin/c/chain/output.h>
 #include <bitcoin/bitcoin/c/version.h>
+#include <bitcoin/bitcoin/c/math/limits.h>
 #include <bitcoin/bitcoin/c/math/hash_number.h>
 #include <bitcoin/bitcoin/c/math/script_number.h>
 #include <bitcoin/bitcoin/c/math/uint256.h>
