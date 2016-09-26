@@ -32,10 +32,10 @@ BOOST_AUTO_TEST_CASE(checksum__append_checksum__size__increased_by_checksum_size
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
         bc_data_array_t{ 0, 0, 0, 0, 0 }, 5);
-    const size_t data_size = bc_data_chunk_size(data);
+    const size_t data_size = bc_data_chunk__size(data);
     bc_append_checksum(data);
     BOOST_REQUIRE_EQUAL(
-        bc_data_chunk_size(data), data_size + bc_checksum_size());
+        bc_data_chunk__size(data), data_size + bc_checksum_size());
     bc_destroy_data_chunk(data);
 }
 
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(checksum__append_checksum__empty__valid_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
         bc_data_array_t{}, 0);
-    size_t checksum = bc_data_chunk_size(data);
+    size_t checksum = bc_data_chunk__size(data);
     bc_append_checksum(data);
-    const uint8_t* cdata = bc_data_chunk_cdata(data);
+    const uint8_t* cdata = bc_data_chunk__cdata(data);
     BOOST_REQUIRE_EQUAL(cdata[checksum++], 0x5du);
     BOOST_REQUIRE_EQUAL(cdata[checksum++], 0xf6u);
     BOOST_REQUIRE_EQUAL(cdata[checksum++], 0xe0u);
@@ -57,9 +57,9 @@ BOOST_AUTO_TEST_CASE(checksum__append_checksum__not_empty__valid_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
         bc_data_array_t{ 0, 0, 0, 0, 0 }, 5);
-    size_t checksum = bc_data_chunk_size(data);
+    size_t checksum = bc_data_chunk__size(data);
     bc_append_checksum(data);
-    const uint8_t* cdata = bc_data_chunk_cdata(data);
+    const uint8_t* cdata = bc_data_chunk__cdata(data);
     BOOST_REQUIRE_EQUAL(cdata[checksum++], 0x79u);
     BOOST_REQUIRE_EQUAL(cdata[checksum++], 0x01u);
     BOOST_REQUIRE_EQUAL(cdata[checksum++], 0xafu);
@@ -141,9 +141,9 @@ BOOST_AUTO_TEST_CASE(checksum__verify_checksum__invalidated__false_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk_Array(
         bc_data_array_t{ 0, 0, 0, 0, 0 }, 5);
-    const size_t data_size = bc_data_chunk_size(data);
+    const size_t data_size = bc_data_chunk__size(data);
     bc_append_checksum(data);
-    bc_data_chunk_data(data)[data_size] = 42;
+    bc_data_chunk__data(data)[data_size] = 42;
     BOOST_REQUIRE(!bc_verify_checksum(data));
     bc_destroy_data_chunk(data);
 }
