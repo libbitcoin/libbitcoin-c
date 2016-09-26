@@ -18,8 +18,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <bitcoin/bitcoin/c/utility/string.h>
-
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
+
+BC_IMPLEMENT_VECTOR(string_list, bc_string_t, bc_destroy_string,
+    libbitcoin::string_list);
 
 extern "C" {
 

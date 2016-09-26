@@ -26,6 +26,7 @@
 extern "C" {
 #endif
 
+/*
 typedef struct bc_spend_t bc_spend_t;
 
 // Constructor
@@ -54,6 +55,7 @@ void bc_spend_info_set_point(bc_spend_info_t* self,
 bc_output_point_t* bc_spend_info_previous_output(const bc_spend_info_t* self);
 void bc_spend_info_set_previous_output(bc_spend_info_t* self,
     const bc_output_point_t* previous_output);
+*/
 
 #ifdef __cplusplus
 }

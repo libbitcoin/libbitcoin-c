@@ -70,6 +70,7 @@ bool bc_point_not_equals(const bc_point_t* left, const bc_point_t* right);
 typedef bc_point_t bc_input_point_t;
 typedef bc_point_t bc_output_point_t;
 
+/*
 typedef struct bc_points_info_t bc_points_info_t;
 bc_points_info_t* bc_create_points_info();
 void bc_destroy_points_info(bc_points_info_t* self);
@@ -78,6 +79,7 @@ void bc_points_info_set_points(bc_points_info_t* self,
     const bc_chain_point_list_t* points);
 uint64_t bc_points_info_change(const bc_points_info_t* self);
 void bc_points_info_set_change(bc_points_info_t* self, uint64_t change);
+*/
 
 #ifdef __cplusplus
 }

@@ -21,10 +21,6 @@
 #define LIBBITCOIN_C_INTERNAL_MNEMONIC_HPP
 
 #include <bitcoin/bitcoin/wallet/mnemonic.hpp>
-#include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
-
-BC_DECLARE_VECTOR_INTERNAL(word_list, bc_string_t,
-    libbitcoin::wallet::word_list);
 
 extern "C" {
 

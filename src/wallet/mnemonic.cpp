@@ -25,9 +25,6 @@
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/wallet/dictionary.hpp>
 
-BC_IMPLEMENT_VECTOR(word_list, bc_string_t, bc_destroy_string,
-    libbitcoin::wallet::word_list);
-
 extern "C" {
 
 size_t bc_mnemonic_word_multiple()
@@ -42,13 +39,13 @@ size_t bc_mnemonic_seed_multiple()
 
 bc_word_list_t* bc_create_mnemonic(const bc_data_chunk_t* entropy)
 {
-    return bc_word_list_to_ctype(
+    return bc_string_list_to_ctype(
         libbitcoin::wallet::create_mnemonic(*entropy->obj));
 }
 bc_word_list_t* bc_create_mnemonic_Dict(const bc_data_chunk_t* entropy,
     const bc_dictionary_t* lexicon)
 {
-    return bc_word_list_to_ctype(
+    return bc_string_list_to_ctype(
         libbitcoin::wallet::create_mnemonic(*entropy->obj, *lexicon->obj));
 }
 
@@ -56,20 +53,20 @@ bool bc_validate_mnemonic(const bc_word_list_t* mnemonic,
     const bc_dictionary_t* lexicon)
 {
     return libbitcoin::wallet::validate_mnemonic(
-        bc_word_list_from_ctype(mnemonic), *lexicon->obj);
+        bc_string_list_from_ctype(mnemonic), *lexicon->obj);
 }
 
 bool bc_validate_mnemonic_all_languages(const bc_word_list_t* mnemonic)
 {
     return libbitcoin::wallet::validate_mnemonic(
-        bc_word_list_from_ctype(mnemonic));
+        bc_string_list_from_ctype(mnemonic));
 }
 
 bc_long_hash_t* bc_decode_mnemonic(const bc_word_list_t* mnemonic)
 {
     return bc_create_long_hash_Internal(
         libbitcoin::wallet::decode_mnemonic(
-            bc_word_list_from_ctype(mnemonic)));
+            bc_string_list_from_ctype(mnemonic)));
 }
 
 }

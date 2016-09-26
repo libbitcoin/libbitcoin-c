@@ -36,11 +36,6 @@ bc_script_number_t* bc_create_script_number_default()
     return new bc_script_number_t{ new libbitcoin::script_number };
 }
 bool bc_script_number_set_data(const bc_script_number_t* self,
-    const bc_data_chunk_t* data)
-{
-    return self->obj->set_data(*data->obj);
-}
-bool bc_script_number_set_data_MaxSize(const bc_script_number_t* self,
     const bc_data_chunk_t* data, uint8_t max_size)
 {
     return self->obj->set_data(*data->obj, max_size);

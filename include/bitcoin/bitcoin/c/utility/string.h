@@ -22,16 +22,22 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <bitcoin/bitcoin/c/utility/vector.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef struct bc_string_t bc_string_t;
+BC_DECLARE_VECTOR(string_list, bc_string_t);
+
+/// Constructors
 bc_string_t* bc_create_string_default();
 bc_string_t* bc_create_string(const char* data);
 bc_string_t* bc_create_string_Length(const char* data, size_t length);
+/// Destructor
 void bc_destroy_string(bc_string_t* self);
+/// Methods
 const char* bc_string_data(const bc_string_t* self);
 bool bc_string_empty(const bc_string_t* self);
 size_t bc_string_length(const bc_string_t* self);

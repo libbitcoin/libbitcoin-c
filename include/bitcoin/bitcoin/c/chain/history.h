@@ -26,6 +26,7 @@
 extern "C" {
 #endif
 
+/*
 /// Use "kind" for union differentiation.
 typedef enum bc_point_kind_t
 {
@@ -98,6 +99,7 @@ void bc_history_set_spend_height(bc_history_t* self, uint64_t spend_height);
 uint64_t bc_history_temporary_checksum(const bc_history_t* self);
 void bc_history_set_temporary_checksum(bc_history_t* self,
     uint64_t temporary_checksum);
+*/
 
 #ifdef __cplusplus
 }

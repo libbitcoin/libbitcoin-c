@@ -22,14 +22,17 @@
 
 #include <bitcoin/bitcoin/c/internal/chain/point.hpp>
 
+/*
 BC_IMPLEMENT_VECTOR(history_compact_list, bc_history_compact_t,
     bc_destroy_history_compact, libbitcoin::chain::history_compact::list);
 
 BC_IMPLEMENT_VECTOR(history_list, bc_history_t,
     bc_destroy_history, libbitcoin::chain::history::list);
+*/
 
 extern "C" {
 
+/*
 // Constructor
 bc_history_compact_t* bc_create_history_compact()
 {
@@ -165,6 +168,7 @@ void bc_history_set_temporary_checksum(bc_history_t* self,
 {
     self->obj->temporary_checksum = temporary_checksum;
 }
+*/
 
 } // extern C
 

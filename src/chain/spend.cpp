@@ -23,11 +23,14 @@
 #include <bitcoin/bitcoin/c/internal/chain/point.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 
+/*
 BC_IMPLEMENT_VECTOR(spend_info_list, bc_spend_info_t,
     bc_destroy_spend_info, libbitcoin::chain::spend_info::list);
+*/
 
 extern "C" {
 
+/*
 // Constructor
 bc_spend_t* bc_create_spend()
 {
@@ -97,6 +100,7 @@ void bc_spend_info_set_previous_output(bc_spend_info_t* self,
 {
     self->obj->previous_output = *previous_output->obj;
 }
+*/
 
 } // extern C
 

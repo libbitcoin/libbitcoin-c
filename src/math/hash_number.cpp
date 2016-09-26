@@ -48,11 +48,6 @@ uint32_t bc_hash_number_compact(const bc_hash_number_t* self)
 {
     return self->obj->compact();
 }
-void bc_hash_number_set_hash(bc_hash_number_t* self, 
-    const bc_hash_digest_t* hash)
-{
-    self->obj->set_hash(*hash->obj);
-}
 bc_hash_digest_t* bc_hash_number_hash(const bc_hash_number_t* self)
 {
     return bc_create_hash_digest_Internal(self->obj->hash());

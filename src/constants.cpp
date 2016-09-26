@@ -30,12 +30,6 @@ const char* bc_user_agent()
 }
 
 // Generic constants.
-
-size_t bc_command_size()
-{
-    return libbitcoin::command_size;
-}
-
 int64_t bc_min_int64()
 {
     return libbitcoin::min_int64;
@@ -77,55 +71,190 @@ uint8_t bc_byte_bits()
     return libbitcoin::byte_bits;
 }
 
-// Consensus constants.
-uint32_t bc_reward_interval()
+// Consensus sentinels.
+
+uint32_t bc_no_previous_output()
+{
+    return libbitcoin::no_previous_output;
+}
+
+// Various consensus constants.
+
+size_t bc_min_coinbase_size()
+{
+    return libbitcoin::min_coinbase_size;
+}
+size_t bc_max_coinbase_size()
+{
+    return libbitcoin::max_coinbase_size;
+}
+size_t bc_median_time_past_blocks()
+{
+    return libbitcoin::median_time_past_blocks;
+}
+size_t bc_max_block_size()
+{
+    return libbitcoin::max_block_size;
+}
+size_t bc_max_block_sigops()
+{
+    return libbitcoin::max_block_sigops;
+}
+size_t bc_reward_interval()
 {
     return libbitcoin::reward_interval;
 }
-uint32_t bc_coinbase_maturity()
+size_t bc_coinbase_maturity()
 {
     return libbitcoin::coinbase_maturity;
 }
-uint32_t bc_initial_block_reward()
+size_t bc_time_stamp_future_hours()
 {
-    return libbitcoin::initial_block_reward;
+    return libbitcoin::time_stamp_future_hours;
 }
-uint32_t bc_max_work_bits()
+size_t bc_max_work_bits()
 {
     return libbitcoin::max_work_bits;
 }
-uint32_t bc_max_input_sequence()
-{
-    return libbitcoin::max_input_sequence;
-}
-
-// Ignore constexpr functions
-
-// Threshold for nLockTime: below this value it is interpreted as block number,
-// otherwise as UNIX timestamp. [Tue Nov 5 00:53:20 1985 UTC]
-uint32_t bc_locktime_threshold()
+size_t bc_locktime_threshold()
 {
     return libbitcoin::locktime_threshold;
+}
+
+size_t bc_retargeting_factor()
+{
+    return libbitcoin::retargeting_factor;
+}
+size_t bc_target_spacing_seconds()
+{
+    return libbitcoin::target_spacing_seconds;
+}
+size_t bc_target_timespan_seconds()
+{
+    return libbitcoin::target_timespan_seconds;
+}
+
+// The target number of blocks for 2 weeks of work (2016 blocks).
+size_t bc_retargeting_interval()
+{
+    return libbitcoin::retargeting_interval;
+}
+
+// The upper and lower bounds for the retargeting timespan.
+size_t bc_timespan_lower_bound()
+{
+    return libbitcoin::timespan_lower_bound;
+}
+size_t bc_timespan_upper_bound()
+{
+    return libbitcoin::timespan_upper_bound;
+}
+
+// Fork constants.
+//-----------------------------------------------------------------------------
+
+// Consensus rule change activation and enforcement parameters.
+size_t bc_bip65_version()
+{
+    return libbitcoin::bip65_version;
+}
+size_t bc_bip66_version()
+{
+    return libbitcoin::bip66_version;
+}
+size_t bc_bip34_version()
+{
+    return libbitcoin::bip34_version;
+}
+size_t bc_first_version()
+{
+    return libbitcoin::first_version;
+}
+
+// Testnet activation parameters.
+size_t bc_testnet_active()
+{
+    return libbitcoin::testnet_active;
+}
+size_t bc_testnet_enforce()
+{
+    return libbitcoin::testnet_enforce;
+}
+size_t bc_testnet_sample()
+{
+    return libbitcoin::testnet_sample;
+}
+
+// Mainnet activation parameters.
+size_t bc_mainnet_active()
+{
+    return libbitcoin::mainnet_active;
+}
+size_t bc_mainnet_enforce()
+{
+    return libbitcoin::mainnet_enforce;
+}
+size_t bc_mainnet_sample()
+{
+    return libbitcoin::mainnet_sample;
+}
+
+// Block 173805 is the first mainnet block after date-based activation.
+// Block 514 is the first testnet block after date-based activation.
+size_t bc_mainnet_bip16_activation_height()
+{
+    return libbitcoin::mainnet_bip16_activation_height;
+}
+size_t bc_testnet_bip16_activation_height()
+{
+    return libbitcoin::testnet_bip16_activation_height;
+}
+
+// github.com/bitcoin/bips/blob/master/bip-0030.mediawiki#specification
+size_t bc_mainnet_bip30_exception_height1()
+{
+    return libbitcoin::mainnet_bip30_exception_height1;
+}
+size_t bc_mainnet_bip30_exception_height2()
+{
+    return libbitcoin::mainnet_bip30_exception_height2;
+}
+size_t bc_testnet_bip30_exception_height1()
+{
+    return libbitcoin::testnet_bip30_exception_height1;
+}
+size_t bc_testnet_bip30_exception_height2()
+{
+    return libbitcoin::testnet_bip30_exception_height2;
+}
+
+// Network protocol constants.
+//-----------------------------------------------------------------------------
+
+size_t bc_command_size()
+{
+    return libbitcoin::command_size;
+}
+size_t bc_max_inventory_count()
+{
+    return libbitcoin::max_inventory_count;
+}
+
+// Currency unit constants (uint64_t).
+//-----------------------------------------------------------------------------
+
+uint64_t bc_initial_block_reward()
+{
+    return libbitcoin::initial_block_reward;
+}
+uint64_t bc_satoshi_per_bitcoin()
+{
+    return libbitcoin::satoshi_per_bitcoin;
 }
 
 uint64_t bc_max_money()
 {
     return libbitcoin::max_money();
-}
-
-uint32_t bc_no_timestamp()
-{
-    return libbitcoin::no_timestamp;
-}
-uint16_t bc_unspecified_ip_port()
-{
-    return libbitcoin::unspecified_ip_port;
-}
-
-bc_hash_number_t* bc_max_target()
-{
-    return new bc_hash_number_t{ new libbitcoin::hash_number(
-        libbitcoin::max_target()) };
 }
 
 } // extern C

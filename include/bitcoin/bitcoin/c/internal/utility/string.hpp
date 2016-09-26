@@ -20,7 +20,10 @@
 #ifndef LIBBITCOIN_C_INTERNAL_STRING_HPP
 #define LIBBITCOIN_C_INTERNAL_STRING_HPP
 
-#include <string>
+#include <bitcoin/bitcoin/utility/string.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
+
+BC_DECLARE_VECTOR_INTERNAL(string_list, bc_string_t, libbitcoin::string_list);
 
 extern "C" {
 

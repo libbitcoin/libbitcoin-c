@@ -25,7 +25,6 @@
 #include <bitcoin/bitcoin/c/math/hash.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
-#include <bitcoin/bitcoin/c/utility/vector.h>
 #include <bitcoin/bitcoin/c/wallet/dictionary.h>
 
 #ifdef __cplusplus
@@ -45,7 +44,7 @@ size_t bc_mnemonic_seed_multiple();
 /**
  * Represents a mnemonic word list.
  */
-BC_DECLARE_VECTOR(word_list, bc_string_t);
+typedef struct bc_string_list_t bc_word_list_t;
 
 /**
  * Create a new mnenomic (list of words) from provided entropy and a dictionary

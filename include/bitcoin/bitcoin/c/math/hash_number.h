@@ -37,8 +37,6 @@ void bc_destroy_hash_number(bc_hash_number_t* self);
 // Returns false if negative or overflowed.
 bool bc_hash_number_set_compact(bc_hash_number_t* self, uint32_t compact);
 uint32_t bc_hash_number_compact(const bc_hash_number_t* self);
-void bc_hash_number_set_hash(bc_hash_number_t* self, 
-    const bc_hash_digest_t* hash);
 bc_hash_digest_t* bc_hash_number_hash(const bc_hash_number_t* self);
 
 bc_hash_number_t* bc_hash_number_negate(const bc_hash_number_t* self);

@@ -47,11 +47,10 @@ typedef struct bc_script_number_t bc_script_number_t;
 
 bc_script_number_t* bc_create_script_number(int64_t value);
 
-// Undefined state. set_data() must be called after.
+/// Construct with zero value, may call set_data() after.
 bc_script_number_t* bc_create_script_number_default();
+/// Set the value from a byte vector with LSB first ordering.
 bool bc_script_number_set_data(const bc_script_number_t* self,
-    const bc_data_chunk_t* data);
-bool bc_script_number_set_data_MaxSize(const bc_script_number_t* self,
     const bc_data_chunk_t* data, uint8_t max_size);
 
 bc_data_chunk_t* bc_script_number_data(const bc_script_number_t* self);

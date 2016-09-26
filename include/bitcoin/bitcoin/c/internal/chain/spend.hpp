@@ -25,8 +25,10 @@
 #include <bitcoin/bitcoin/chain/spend.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
+/*
 BC_DECLARE_VECTOR_INTERNAL(spend_info_list, bc_spend_info_t,
     libbitcoin::chain::spend_info::list);
+*/
 
 extern "C" {
 
