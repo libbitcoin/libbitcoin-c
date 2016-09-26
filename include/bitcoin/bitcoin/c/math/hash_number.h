@@ -29,34 +29,47 @@
 extern "C" {
 #endif
 
+/**
+ * Represents a target hash or proof of work sum.
+ * Used for block proof of works to calculate whether they reach
+ * a certain target or which chain is longest.
+ */
 typedef struct bc_hash_number_t bc_hash_number_t;
+/// Constructors.
 bc_hash_number_t* bc_create_hash_number();
 bc_hash_number_t* bc_create_hash_number_Value(uint64_t value);
+bc_hash_number_t* bc_create_hash_number_Hash(const bc_hash_digest_t* value);
+/// Destructors
 void bc_destroy_hash_number(bc_hash_number_t* self);
 
-// Returns false if negative or overflowed.
-bool bc_hash_number_set_compact(bc_hash_number_t* self, uint32_t compact);
-uint32_t bc_hash_number_compact(const bc_hash_number_t* self);
-bc_hash_digest_t* bc_hash_number_hash(const bc_hash_number_t* self);
+/// Properties.
+bc_hash_digest_t* bc_hash_number__hash(const bc_hash_number_t* self);
+bool bc_hash_number__set_compact(bc_hash_number_t* self, uint32_t compact);
+uint32_t bc_hash_number__compact(const bc_hash_number_t* self);
 
-bc_hash_number_t* bc_hash_number_negate(const bc_hash_number_t* self);
+/// Copy Operators.
+bc_hash_number_t* bc_hash_number__negate(const bc_hash_number_t* self);
 
-// int64_t resolves to this in Satoshi's GetNextWorkRequired()
-void bc_hash_number_multiply(bc_hash_number_t* self, uint32_t value);
-void bc_hash_number_divide(bc_hash_number_t* self, uint32_t value);
-void bc_hash_number_shift_left(bc_hash_number_t* self, uint32_t shift);
+/// Change Operators.
+void bc_hash_number__shift_left(bc_hash_number_t* self, uint32_t shift);
+void bc_hash_number__multiply(bc_hash_number_t* self, uint32_t value);
+void bc_hash_number__divide(bc_hash_number_t* self, uint32_t value);
+void bc_hash_number__divide_HashNumber(bc_hash_number_t* self,
+    const bc_hash_number_t* value);
+void bc_hash_number__add(bc_hash_number_t* self,
+    const bc_hash_number_t* value);
 
-// Operators
-void bc_hash_number_divide_HashNumber(bc_hash_number_t* self,
-    const bc_hash_number_t* number_b);
-void bc_hash_number_add(bc_hash_number_t* self,
-    const bc_hash_number_t* number_b);
-
-bool bc_hash_number_greater_than(const bc_hash_number_t* self,
-    const bc_hash_number_t* other);
-bool bc_hash_number_less_than_or_equals(const bc_hash_number_t* self,
-    const bc_hash_number_t* other);
-bool bc_hash_number_equals(const bc_hash_number_t* self, uint64_t value);
+/// Comparison Operators.
+bool bc_hash_number__equals(const bc_hash_number_t* self, uint64_t value);
+bool bc_hash_number__not_equals(const bc_hash_number_t* self, uint64_t value);
+bool bc_hash_number__greater_than(const bc_hash_number_t* self,
+    const bc_hash_number_t* value);
+bool bc_hash_number__less_than(const bc_hash_number_t* self,
+    const bc_hash_number_t* value);
+bool bc_hash_number__greater_than_or_equals(const bc_hash_number_t* self,
+    const bc_hash_number_t* value);
+bool bc_hash_number__less_than_or_equals(const bc_hash_number_t* self,
+    const bc_hash_number_t* value);
 
 #ifdef __cplusplus
 }

@@ -29,23 +29,21 @@ BOOST_AUTO_TEST_CASE(hash_number__simple__test_c)
 {
     bc_hash_number_t* target = bc_create_hash_number();
     uint32_t bits = 486604799;
-    bc_hash_number_set_compact(target, bits);
+    bc_hash_number__set_compact(target, bits);
     bc_hash_digest_t* block_hash = bc_hash_literal(
         &"00000000b873e79784647a6c82962c70d228557d24a747ea4d1b8bbe878e1206");
 
-    bc_hash_number_t* value;
-
-    value = bc_create_hash_number_Value(0);
-    BOOST_REQUIRE(!bc_hash_number_less_than_or_equals(target, value));
+    bc_hash_number_t* value = bc_create_hash_number_Value(0);
+    BOOST_REQUIRE(!bc_hash_number__less_than_or_equals(target, value));
     bc_destroy_hash_number(value);
 
-    value = bc_max_target();
-    BOOST_REQUIRE(!bc_hash_number_greater_than(target, value));
-    bc_destroy_hash_number(value);
+    bc_hash_number_t* maximum = bc_create_hash_number();
+    BOOST_REQUIRE(bc_hash_number__set_compact(maximum, bc_max_work_bits()));
+    BOOST_REQUIRE(!bc_hash_number__greater_than(target, maximum));
+    bc_destroy_hash_number(maximum);
 
-    bc_hash_number_t* our_value = bc_create_hash_number();
-    bc_hash_number_set_hash(our_value, block_hash);
-    BOOST_REQUIRE(!bc_hash_number_greater_than(our_value, target));
+    bc_hash_number_t* our_value = bc_create_hash_number_Hash(block_hash);
+    BOOST_REQUIRE(!bc_hash_number__greater_than(our_value, target));
     bc_destroy_hash_number(our_value);
 
     bc_destroy_hash_digest(block_hash);
