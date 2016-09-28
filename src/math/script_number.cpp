@@ -25,33 +25,13 @@
 
 extern "C" {
 
-bc_script_number_t* bc_create_script_number(int64_t value)
-{
-    return new bc_script_number_t{ new libbitcoin::script_number(value) };
-}
-
-// Undefined state. set_data() must be called after.
 bc_script_number_t* bc_create_script_number_default()
 {
     return new bc_script_number_t{ new libbitcoin::script_number };
 }
-bool bc_script_number_set_data(const bc_script_number_t* self,
-    const bc_data_chunk_t* data, uint8_t max_size)
+bc_script_number_t* bc_create_script_number(int64_t value)
 {
-    return self->obj->set_data(*data->obj, max_size);
-}
-
-bc_data_chunk_t* bc_script_number_data(const bc_script_number_t* self)
-{
-    return bc_create_data_chunk_Internal(self->obj->data());
-}
-int32_t bc_script_number_int32(const bc_script_number_t* self)
-{
-    return self->obj->int32();
-}
-int64_t bc_script_number_int64(const bc_script_number_t* self)
-{
-    return self->obj->int64();
+    return new bc_script_number_t{ new libbitcoin::script_number(value) };
 }
 
 void bc_destroy_script_number(bc_script_number_t* self)
@@ -60,14 +40,33 @@ void bc_destroy_script_number(bc_script_number_t* self)
     delete self;
 }
 
+bool bc_script_number__set_data(const bc_script_number_t* self,
+    const bc_data_chunk_t* data, uint8_t max_size)
+{
+    return self->obj->set_data(*data->obj, max_size);
+}
+
+bc_data_chunk_t* bc_script_number__data(const bc_script_number_t* self)
+{
+    return bc_create_data_chunk_Internal(self->obj->data());
+}
+int32_t bc_script_number__int32(const bc_script_number_t* self)
+{
+    return self->obj->int32();
+}
+int64_t bc_script_number__int64(const bc_script_number_t* self)
+{
+    return self->obj->int64();
+}
+
 // Arithmetic with a number.
-bc_script_number_t* bc_script_number_add(
+bc_script_number_t* bc_script_number__add(
     const bc_script_number_t* self, int64_t value)
 {
     return new bc_script_number_t{ new libbitcoin::script_number(
         *self->obj + value) };
 }
-bc_script_number_t* bc_script_number_subtract(
+bc_script_number_t* bc_script_number__subtract(
     const bc_script_number_t* self, int64_t value)
 {
     return new bc_script_number_t{ new libbitcoin::script_number(
@@ -75,13 +74,13 @@ bc_script_number_t* bc_script_number_subtract(
 }
 
 // Arithmetic with another script_number.
-bc_script_number_t* bc_script_number_add_ScriptNumber(
+bc_script_number_t* bc_script_number__add_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other)
 {
     return new bc_script_number_t{ new libbitcoin::script_number(
         *self->obj + *other->obj) };
 }
-bc_script_number_t* bc_script_number_subtract_ScriptNumber(
+bc_script_number_t* bc_script_number__subtract_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other)
 {
     return new bc_script_number_t{ new libbitcoin::script_number(
@@ -89,71 +88,71 @@ bc_script_number_t* bc_script_number_subtract_ScriptNumber(
 }
 
 // -script_number
-bc_script_number_t* bc_script_number_negate(const bc_script_number_t* self)
+bc_script_number_t* bc_script_number__negate(const bc_script_number_t* self)
 {
     return new bc_script_number_t{ new libbitcoin::script_number(
         -*self->obj) };
 }
 
 // Comparison operators with a number.
-bool bc_script_number_equals(
+bool bc_script_number__equals(
     const bc_script_number_t* self, int64_t value)
 {
     return *self->obj == value;
 }
-bool bc_script_number_not_equals(
+bool bc_script_number__not_equals(
     const bc_script_number_t* self, int64_t value)
 {
     return *self->obj != value;
 }
-bool bc_script_number_less_than_or_equals(
+bool bc_script_number__less_than_or_equals(
     const bc_script_number_t* self, int64_t value)
 {
     return *self->obj <= value;
 }
-bool bc_script_number_less_than(
+bool bc_script_number__less_than(
     const bc_script_number_t* self, int64_t value)
 {
     return *self->obj < value;
 }
-bool bc_script_number_greater_than_or_equals(
+bool bc_script_number__greater_than_or_equals(
     const bc_script_number_t* self, int64_t value)
 {
     return *self->obj >= value;
 }
-bool bc_script_number_greater_than(
+bool bc_script_number__greater_than(
     const bc_script_number_t* self, int64_t value)
 {
     return *self->obj > value;
 }
 
 // Comparison operators with another script_number.
-bool bc_script_number_equals_ScriptNumber(
+bool bc_script_number__equals_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_script_number_not_equals_ScriptNumber(
+bool bc_script_number__not_equals_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other)
 {
     return *self->obj != *other->obj;
 }
-bool bc_script_number_less_than_or_equals_ScriptNumber(
+bool bc_script_number__less_than_or_equals_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other)
 {
     return *self->obj <= *other->obj;
 }
-bool bc_script_number_less_than_ScriptNumber(
+bool bc_script_number__less_than_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other)
 {
     return *self->obj < *other->obj;
 }
-bool bc_script_number_greater_than_or_equals_ScriptNumber(
+bool bc_script_number__greater_than_or_equals_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other)
 {
     return *self->obj >= *other->obj;
 }
-bool bc_script_number_greater_than_ScriptNumber(
+bool bc_script_number__greater_than_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other)
 {
     return *self->obj > *other->obj;

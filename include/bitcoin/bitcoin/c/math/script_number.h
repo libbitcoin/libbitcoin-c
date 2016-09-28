@@ -45,61 +45,67 @@ size_t bc_cltv_max_script_number_size();
  */
 typedef struct bc_script_number_t bc_script_number_t;
 
-bc_script_number_t* bc_create_script_number(int64_t value);
-
 /// Construct with zero value, may call set_data() after.
 bc_script_number_t* bc_create_script_number_default();
-/// Set the value from a byte vector with LSB first ordering.
-bool bc_script_number_set_data(const bc_script_number_t* self,
-    const bc_data_chunk_t* data, uint8_t max_size);
-
-bc_data_chunk_t* bc_script_number_data(const bc_script_number_t* self);
-int32_t bc_script_number_int32(const bc_script_number_t* self);
-int64_t bc_script_number_int64(const bc_script_number_t* self);
+/// Construct with specified value.
+bc_script_number_t* bc_create_script_number(int64_t value);
 
 void bc_destroy_script_number(bc_script_number_t* self);
 
+/// Set the value from a byte vector with LSB first ordering.
+bool bc_script_number__set_data(const bc_script_number_t* self,
+    const bc_data_chunk_t* data, uint8_t max_size);
+
+/// Return the value as a byte vector with LSB first ordering.
+bc_data_chunk_t* bc_script_number__data(const bc_script_number_t* self);
+
+/// Return the value bounded by the limits of int32.
+int32_t bc_script_number__int32(const bc_script_number_t* self);
+
+/// Return the value.
+int64_t bc_script_number__int64(const bc_script_number_t* self);
+
 // Arithmetic with a number.
-bc_script_number_t* bc_script_number_add(
+bc_script_number_t* bc_script_number__add(
     const bc_script_number_t* self, int64_t value);
-bc_script_number_t* bc_script_number_subtract(
+bc_script_number_t* bc_script_number__subtract(
     const bc_script_number_t* self, int64_t value);
 
 // Arithmetic with another script_number.
-bc_script_number_t* bc_script_number_add_ScriptNumber(
+bc_script_number_t* bc_script_number__add_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other);
-bc_script_number_t* bc_script_number_subtract_ScriptNumber(
+bc_script_number_t* bc_script_number__subtract_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other);
 
-// -script_number
-bc_script_number_t* bc_script_number_negate(const bc_script_number_t* self);
+/// Math-negated copy of this script_number (throws on minimum value).
+bc_script_number_t* bc_script_number__negate(const bc_script_number_t* self);
 
 // Comparison operators with a number.
-bool bc_script_number_equals(
+bool bc_script_number__equals(
     const bc_script_number_t* self, int64_t value);
-bool bc_script_number_not_equals(
+bool bc_script_number__not_equals(
     const bc_script_number_t* self, int64_t value);
-bool bc_script_number_less_than_or_equals(
+bool bc_script_number__less_than_or_equals(
     const bc_script_number_t* self, int64_t value);
-bool bc_script_number_less_than(
+bool bc_script_number__less_than(
     const bc_script_number_t* self, int64_t value);
-bool bc_script_number_greater_than_or_equals(
+bool bc_script_number__greater_than_or_equals(
     const bc_script_number_t* self, int64_t value);
-bool bc_script_number_greater_than(
+bool bc_script_number__greater_than(
     const bc_script_number_t* self, int64_t value);
 
 // Comparison operators with another script_number.
-bool bc_script_number_equals_ScriptNumber(
+bool bc_script_number__equals_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other);
-bool bc_script_number_not_equals_ScriptNumber(
+bool bc_script_number__not_equals_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other);
-bool bc_script_number_less_than_or_equals_ScriptNumber(
+bool bc_script_number__less_than_or_equals_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other);
-bool bc_script_number_less_than_ScriptNumber(
+bool bc_script_number__less_than_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other);
-bool bc_script_number_greater_than_or_equals_ScriptNumber(
+bool bc_script_number__greater_than_or_equals_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other);
-bool bc_script_number_greater_than_ScriptNumber(
+bool bc_script_number__greater_than_ScriptNumber(
     const bc_script_number_t* self, const bc_script_number_t* other);
 
 #ifdef __cplusplus

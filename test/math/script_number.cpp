@@ -43,12 +43,12 @@ BOOST_AUTO_TEST_SUITE(script_number_tests_c)
     { \
     bc_data_chunk_t* buffer_data = bc_create_data_chunk_Internal( \
         (buffer_num).bytes); \
-    bc_data_chunk_t* script_data = bc_script_number_data((script_num)); \
+    bc_data_chunk_t* script_data = bc_script_number__data((script_num)); \
     bc_string_t* buffer_str = bc_encode_base16(buffer_data); \
     bc_string_t* script_str = bc_encode_base16(script_data); \
-    BOOST_CHECK(bc_string_equals(buffer_str, script_str)); \
+    BOOST_CHECK(bc_string__equals(buffer_str, script_str)); \
     BOOST_CHECK_EQUAL((buffer_num).number, \
-        bc_script_number_int32((script_num))); \
+        bc_script_number__int32((script_num))); \
     bc_destroy_string(buffer_str); \
     bc_destroy_string(script_str); \
     bc_destroy_data_chunk(buffer_data); \
@@ -93,15 +93,15 @@ static void CheckAdd(const int64_t num1, const int64_t num2,
     {
         bc_script_number_t* result = NULL;
 
-        result = bc_script_number_add_ScriptNumber(scriptnum1, scriptnum2);
+        result = bc_script_number__add_ScriptNumber(scriptnum1, scriptnum2);
         BC_SCRIPT_NUMBER_CHECK_EQ(add, result);
         bc_destroy_script_number(result);
 
-        result = bc_script_number_add(scriptnum1, num2);
+        result = bc_script_number__add(scriptnum1, num2);
         BC_SCRIPT_NUMBER_CHECK_EQ(add, result);
         bc_destroy_script_number(result);
 
-        result = bc_script_number_add(scriptnum2, num1);
+        result = bc_script_number__add(scriptnum2, num1);
         BC_SCRIPT_NUMBER_CHECK_EQ(add, result);
         bc_destroy_script_number(result);
     }
@@ -117,7 +117,7 @@ static void CheckNegate(const int64_t number,
 
     if (!negate_overflow64(number))
     {
-        bc_script_number_t* result = bc_script_number_negate(scriptnum);
+        bc_script_number_t* result = bc_script_number__negate(scriptnum);
         BC_SCRIPT_NUMBER_CHECK_EQ(negated, result);
         bc_destroy_script_number(result);
     }
@@ -135,12 +135,26 @@ static void CheckSubtract(const int64_t num1, const int64_t num2,
     {
         bc_script_number_t* result = NULL;
 
-        result = bc_script_number_subtract_ScriptNumber(scriptnum1, scriptnum2);
+        result = bc_script_number__subtract_ScriptNumber(scriptnum1, scriptnum2);
         BC_SCRIPT_NUMBER_CHECK_EQ(subtract.forward, result);
         bc_destroy_script_number(result);
 
-        result = bc_script_number_subtract(scriptnum1, num2);
+        result = bc_script_number__subtract(scriptnum1, num2);
         BC_SCRIPT_NUMBER_CHECK_EQ(subtract.forward, result);
+        {
+            std::cout << num1 << " + " << num2 << std::endl;
+            bc_data_chunk_t* buffer_data = bc_create_data_chunk_Internal(
+                (subtract.forward).bytes);
+            bc_data_chunk_t* script_data = bc_script_number__data((result));
+            bc_string_t* buffer_str = bc_encode_base16(buffer_data);
+            bc_string_t* script_str = bc_encode_base16(script_data);
+            std::cout << bc_string__data(buffer_str) << std::endl;
+            std::cout << bc_string__data(script_str) << std::endl;
+            bc_destroy_string(buffer_str);
+            bc_destroy_string(script_str);
+            bc_destroy_data_chunk(buffer_data);
+            bc_destroy_data_chunk(script_data);
+        }
         bc_destroy_script_number(result);
     }
 
@@ -148,11 +162,11 @@ static void CheckSubtract(const int64_t num1, const int64_t num2,
     {
         bc_script_number_t* result = NULL;
 
-        result = bc_script_number_subtract_ScriptNumber(scriptnum2, scriptnum1);
+        result = bc_script_number__subtract_ScriptNumber(scriptnum2, scriptnum1);
         BC_SCRIPT_NUMBER_CHECK_EQ(subtract.reverse, result);
         bc_destroy_script_number(result);
 
-        result = bc_script_number_subtract(scriptnum2, num1);
+        result = bc_script_number__subtract(scriptnum2, num1);
         BC_SCRIPT_NUMBER_CHECK_EQ(subtract.reverse, result);
         bc_destroy_script_number(result);
     }
@@ -167,68 +181,68 @@ static void CheckCompare(const int64_t num1, const int64_t num2,
     bc_script_number_t* scriptnum1 = bc_create_script_number(num1);
     bc_script_number_t* scriptnum2 = bc_create_script_number(num2);
 
-    BOOST_CHECK(bc_script_number_equals_ScriptNumber(
+    BOOST_CHECK(bc_script_number__equals_ScriptNumber(
         scriptnum1, scriptnum1));
-    BOOST_CHECK(bc_script_number_greater_than_or_equals_ScriptNumber(
+    BOOST_CHECK(bc_script_number__greater_than_or_equals_ScriptNumber(
         scriptnum1, scriptnum1));
-    BOOST_CHECK(bc_script_number_less_than_or_equals_ScriptNumber(
+    BOOST_CHECK(bc_script_number__less_than_or_equals_ScriptNumber(
         scriptnum1, scriptnum1));
-    BOOST_CHECK(!bc_script_number_not_equals_ScriptNumber(
+    BOOST_CHECK(!bc_script_number__not_equals_ScriptNumber(
         scriptnum1, scriptnum1));
-    BOOST_CHECK(!bc_script_number_less_than_ScriptNumber(
+    BOOST_CHECK(!bc_script_number__less_than_ScriptNumber(
         scriptnum1, scriptnum1));
-    BOOST_CHECK(!bc_script_number_greater_than_ScriptNumber(
+    BOOST_CHECK(!bc_script_number__greater_than_ScriptNumber(
         scriptnum1, scriptnum1));
 
-    BOOST_CHECK(bc_script_number_equals(
+    BOOST_CHECK(bc_script_number__equals(
         scriptnum1, num1));
-    BOOST_CHECK(bc_script_number_greater_than_or_equals(
+    BOOST_CHECK(bc_script_number__greater_than_or_equals(
         scriptnum1, num1));
-    BOOST_CHECK(bc_script_number_less_than_or_equals(
+    BOOST_CHECK(bc_script_number__less_than_or_equals(
         scriptnum1, num1));
-    BOOST_CHECK(!bc_script_number_not_equals(
+    BOOST_CHECK(!bc_script_number__not_equals(
         scriptnum1, num1));
-    BOOST_CHECK(!bc_script_number_less_than(
+    BOOST_CHECK(!bc_script_number__less_than(
         scriptnum1, num1));
-    BOOST_CHECK(!bc_script_number_greater_than(
+    BOOST_CHECK(!bc_script_number__greater_than(
         scriptnum1, num1));
-
-    BOOST_CHECK_EQUAL(is(compare.eq),
-        bc_script_number_equals_ScriptNumber(
-            scriptnum1, scriptnum2));
-    BOOST_CHECK_EQUAL(is(compare.ge),
-        bc_script_number_greater_than_or_equals_ScriptNumber(
-            scriptnum1, scriptnum2));
-    BOOST_CHECK_EQUAL(is(compare.le),
-        bc_script_number_less_than_or_equals_ScriptNumber(
-            scriptnum1, scriptnum2));
-    BOOST_CHECK_EQUAL(is(compare.ne),
-        bc_script_number_not_equals_ScriptNumber(
-            scriptnum1, scriptnum2));
-    BOOST_CHECK_EQUAL(is(compare.lt),
-        bc_script_number_less_than_ScriptNumber(
-            scriptnum1, scriptnum2));
-    BOOST_CHECK_EQUAL(is(compare.gt),
-        bc_script_number_greater_than_ScriptNumber(
-            scriptnum1, scriptnum2));
 
     BOOST_CHECK_EQUAL(is(compare.eq),
-        bc_script_number_equals(
+        bc_script_number__equals_ScriptNumber(
+            scriptnum1, scriptnum2));
+    BOOST_CHECK_EQUAL(is(compare.ge),
+        bc_script_number__greater_than_or_equals_ScriptNumber(
+            scriptnum1, scriptnum2));
+    BOOST_CHECK_EQUAL(is(compare.le),
+        bc_script_number__less_than_or_equals_ScriptNumber(
+            scriptnum1, scriptnum2));
+    BOOST_CHECK_EQUAL(is(compare.ne),
+        bc_script_number__not_equals_ScriptNumber(
+            scriptnum1, scriptnum2));
+    BOOST_CHECK_EQUAL(is(compare.lt),
+        bc_script_number__less_than_ScriptNumber(
+            scriptnum1, scriptnum2));
+    BOOST_CHECK_EQUAL(is(compare.gt),
+        bc_script_number__greater_than_ScriptNumber(
+            scriptnum1, scriptnum2));
+
+    BOOST_CHECK_EQUAL(is(compare.eq),
+        bc_script_number__equals(
             scriptnum1, num2));
     BOOST_CHECK_EQUAL(is(compare.ge),
-        bc_script_number_greater_than_or_equals(
+        bc_script_number__greater_than_or_equals(
             scriptnum1, num2));
     BOOST_CHECK_EQUAL(is(compare.le),
-        bc_script_number_less_than_or_equals(
+        bc_script_number__less_than_or_equals(
             scriptnum1, num2));
     BOOST_CHECK_EQUAL(is(compare.ne),
-        bc_script_number_not_equals(
+        bc_script_number__not_equals(
             scriptnum1, num2));
     BOOST_CHECK_EQUAL(is(compare.lt),
-        bc_script_number_less_than(
+        bc_script_number__less_than(
             scriptnum1, num2));
     BOOST_CHECK_EQUAL(is(compare.gt),
-        bc_script_number_greater_than(
+        bc_script_number__greater_than(
             scriptnum1, num2));
 
     bc_destroy_script_number(scriptnum1);
