@@ -25,10 +25,12 @@
 #include <bitcoin/bitcoin/chain/block.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(block_list, bc_block_t,
-    libbitcoin::chain::block::list);
-
 extern "C" {
+
+struct bc_block_indexes_t
+{
+    libbitcoin::chain::block::indexes* obj;
+};
 
 struct bc_block_t
 {
