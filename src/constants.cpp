@@ -77,6 +77,10 @@ uint32_t bc_no_previous_output()
 {
     return libbitcoin::no_previous_output;
 }
+uint32_t bc_max_input_sequence()
+{
+    return libbitcoin::max_input_sequence;
+}
 
 // Various consensus constants.
 

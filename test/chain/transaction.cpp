@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_SUITE(transaction_tests_c)
 BOOST_AUTO_TEST_CASE(is_coinbase_returns_false_c)
 {
     bc_transaction_t* instance = bc_create_transaction();
-    BOOST_REQUIRE_EQUAL(false, bc_transaction_is_coinbase(instance));
+    BOOST_REQUIRE_EQUAL(false, bc_transaction__is_coinbase(instance));
     bc_destroy_transaction(instance);
 }
 
@@ -39,18 +39,17 @@ BOOST_AUTO_TEST_CASE(is_coinbase_returns_true_c)
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
     // previous output point
-    bc_output_point_t* prevout = bc_create_point();
-    bc_point_set_index(prevout, bc_max_input_sequence());
     bc_hash_digest_t* null_hash = bc_null_hash();
-    bc_point_set_hash(prevout, null_hash);
+    bc_output_point_t* prevout = bc_create_output_point_Tuple(
+        null_hash, bc_max_input_sequence());
     bc_destroy_hash_digest(null_hash);
-    bc_input_set_previous_output(input, prevout);
-    bc_destroy_point(prevout);
+    bc_input__set_previous_output(input, prevout);
+    bc_destroy_output_point(prevout);
     // Add to list of inputs
-    bc_input_list_push_back(inputs, &input);
-    bc_transaction_set_inputs(instance, inputs);
+    bc_input_list__push_back(inputs, &input);
+    bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
-    BOOST_REQUIRE_EQUAL(true, bc_transaction_is_coinbase(instance));
+    BOOST_REQUIRE_EQUAL(true, bc_transaction__is_coinbase(instance));
     bc_destroy_transaction(instance);
 }
 
@@ -59,8 +58,8 @@ BOOST_AUTO_TEST_CASE(is_final_locktime_zero_returns_true_c)
     uint64_t height = 100;
     uint32_t time = 100;
     bc_transaction_t* instance = bc_create_transaction();
-    bc_transaction_set_locktime(instance, 0);
-    BOOST_REQUIRE_EQUAL(true, bc_transaction_is_final(instance, height, time));
+    bc_transaction__set_locktime(instance, 0);
+    BOOST_REQUIRE_EQUAL(true, bc_transaction__is_final(instance, height, time));
     bc_destroy_transaction(instance);
 }
 
@@ -69,8 +68,8 @@ BOOST_AUTO_TEST_CASE(is_final_locktime_less_block_time_greater_threshold_returns
     uint64_t height = bc_locktime_threshold() + 100;
     uint32_t time = 100;
     bc_transaction_t* instance = bc_create_transaction();
-    bc_transaction_set_locktime(instance, bc_locktime_threshold() + 50);
-    BOOST_REQUIRE_EQUAL(true, bc_transaction_is_final(instance, height, time));
+    bc_transaction__set_locktime(instance, bc_locktime_threshold() + 50);
+    BOOST_REQUIRE_EQUAL(true, bc_transaction__is_final(instance, height, time));
     bc_destroy_transaction(instance);
 }
 
@@ -79,8 +78,8 @@ BOOST_AUTO_TEST_CASE(is_final_locktime_less_block_height_less_threshold_returns_
     uint64_t height = 100;
     uint32_t time = 100;
     bc_transaction_t* instance = bc_create_transaction();
-    bc_transaction_set_locktime(instance, 50);
-    BOOST_REQUIRE_EQUAL(true, bc_transaction_is_final(instance, height, time));
+    bc_transaction__set_locktime(instance, 50);
+    BOOST_REQUIRE_EQUAL(true, bc_transaction__is_final(instance, height, time));
     bc_destroy_transaction(instance);
 }
 
@@ -89,15 +88,15 @@ BOOST_AUTO_TEST_CASE(is_final_locktime_input_not_final_returns_false_c)
     uint64_t height = 100;
     uint32_t time = 100;
     bc_transaction_t* instance = bc_create_transaction();
-    bc_transaction_set_locktime(instance, 101);
+    bc_transaction__set_locktime(instance, 101);
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
-    bc_input_set_sequence(input, 1);
+    bc_input__set_sequence(input, 1);
     // Add to list of inputs
-    bc_input_list_push_back(inputs, &input);
-    bc_transaction_set_inputs(instance, inputs);
+    bc_input_list__push_back(inputs, &input);
+    bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
-    BOOST_REQUIRE_EQUAL(false, bc_transaction_is_final(instance, height, time));
+    BOOST_REQUIRE_EQUAL(false, bc_transaction__is_final(instance, height, time));
     bc_destroy_transaction(instance);
 }
 
@@ -106,68 +105,68 @@ BOOST_AUTO_TEST_CASE(is_final_locktime_inputs_final_returns_true_c)
     uint64_t height = 100;
     uint32_t time = 100;
     bc_transaction_t* instance = bc_create_transaction();
-    bc_transaction_set_locktime(instance, 101);
+    bc_transaction__set_locktime(instance, 101);
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
-    bc_input_set_sequence(input, bc_max_input_sequence());
+    bc_input__set_sequence(input, bc_max_input_sequence());
     // Add to list of inputs
-    bc_input_list_push_back(inputs, &input);
-    bc_transaction_set_inputs(instance, inputs);
+    bc_input_list__push_back(inputs, &input);
+    bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
-    BOOST_REQUIRE_EQUAL(true, bc_transaction_is_final(instance, height, time));
+    BOOST_REQUIRE_EQUAL(true, bc_transaction__is_final(instance, height, time));
     bc_destroy_transaction(instance);
 }
 
 BOOST_AUTO_TEST_CASE(is_locktime_conflict_locktime_zero_returns_false_c)
 {
     bc_transaction_t* instance = bc_create_transaction();
-    bc_transaction_set_locktime(instance, 0);
-    BOOST_REQUIRE_EQUAL(false, bc_transaction_is_locktime_conflict(instance));
+    bc_transaction__set_locktime(instance, 0);
+    BOOST_REQUIRE_EQUAL(false, bc_transaction__is_locktime_conflict(instance));
     bc_destroy_transaction(instance);
 }
 
 BOOST_AUTO_TEST_CASE(is_locktime_conflict_input_sequence_not_maximum_returns_false_c)
 {
     bc_transaction_t* instance = bc_create_transaction();
-    bc_transaction_set_locktime(instance, 2143);
+    bc_transaction__set_locktime(instance, 2143);
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
-    bc_input_set_sequence(input, 1);
+    bc_input__set_sequence(input, 1);
     // Add to list of inputs
-    bc_input_list_push_back(inputs, &input);
-    bc_transaction_set_inputs(instance, inputs);
+    bc_input_list__push_back(inputs, &input);
+    bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
-    BOOST_REQUIRE_EQUAL(false, bc_transaction_is_locktime_conflict(instance));
+    BOOST_REQUIRE_EQUAL(false, bc_transaction__is_locktime_conflict(instance));
     bc_destroy_transaction(instance);
 }
 
 BOOST_AUTO_TEST_CASE(is_locktime_conflict_no_inputs_returns_true_c)
 {
     bc_transaction_t* instance = bc_create_transaction();
-    bc_transaction_set_locktime(instance, 2143);
-    BOOST_REQUIRE_EQUAL(true, bc_transaction_is_locktime_conflict(instance));
+    bc_transaction__set_locktime(instance, 2143);
+    BOOST_REQUIRE_EQUAL(true, bc_transaction__is_locktime_conflict(instance));
     bc_destroy_transaction(instance);
 }
 
 BOOST_AUTO_TEST_CASE(is_locktime_conflict_input_max_sequence_returns_true_c)
 {
     bc_transaction_t* instance = bc_create_transaction();
-    bc_transaction_set_locktime(instance, 2143);
+    bc_transaction__set_locktime(instance, 2143);
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
-    bc_input_set_sequence(input, bc_max_input_sequence());
+    bc_input__set_sequence(input, bc_max_input_sequence());
     // Add to list of inputs
-    bc_input_list_push_back(inputs, &input);
-    bc_transaction_set_inputs(instance, inputs);
+    bc_input_list__push_back(inputs, &input);
+    bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
-    BOOST_REQUIRE_EQUAL(true, bc_transaction_is_locktime_conflict(instance));
+    BOOST_REQUIRE_EQUAL(true, bc_transaction__is_locktime_conflict(instance));
     bc_destroy_transaction(instance);
 }
 
 BOOST_AUTO_TEST_CASE(total_output_value_returns_zero_c)
 {
     bc_transaction_t* instance = bc_create_transaction();
-    BOOST_REQUIRE_EQUAL(0u, bc_transaction_total_output_value(instance));
+    BOOST_REQUIRE_EQUAL(0u, bc_transaction__total_output_value(instance));
     bc_destroy_transaction(instance);
 }
 
@@ -179,27 +178,27 @@ BOOST_AUTO_TEST_CASE(total_output_value_returns_positive_c)
     bc_output_t* output;
     // Output 1
     output = bc_create_output();
-    bc_output_set_value(output, 1200);
-    bc_output_list_push_back(outputs, &output);
+    bc_output__set_value(output, 1200);
+    bc_output_list__push_back(outputs, &output);
     // Output 2
     output = bc_create_output();
-    bc_output_set_value(output, 34);
-    bc_output_list_push_back(outputs, &output);
-    bc_transaction_set_outputs(instance, outputs);
+    bc_output__set_value(output, 34);
+    bc_output_list__push_back(outputs, &output);
+    bc_transaction__set_outputs(instance, outputs);
     bc_destroy_output_list(outputs);
-    BOOST_REQUIRE_EQUAL(expected, bc_transaction_total_output_value(instance));
+    BOOST_REQUIRE_EQUAL(expected, bc_transaction__total_output_value(instance));
     bc_destroy_transaction(instance);
 }
 
 BOOST_AUTO_TEST_CASE(from_data_fails_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk();
-    bc_data_chunk_resize(data, 2);
+    bc_data_chunk__resize(data, 2);
 
     bc_transaction_t* instance = bc_create_transaction();
 
-    BOOST_REQUIRE_EQUAL(false, bc_transaction_from_data(instance, data));
-    BOOST_REQUIRE_EQUAL(false, bc_transaction_is_valid(instance));
+    BOOST_REQUIRE_EQUAL(false, bc_transaction__from_data(instance, data));
+    BOOST_REQUIRE_EQUAL(false, bc_transaction__is_valid(instance));
 
     bc_destroy_transaction(instance);
     bc_destroy_data_chunk(data);
@@ -213,7 +212,7 @@ BOOST_AUTO_TEST_CASE(from_data_valid_junk_c)
         "000000000000005739943a9c29a1955dfae2b3f37de547005bfb9535192e5fb0");
 
     bc_transaction_t* tx = bc_create_transaction();
-    BOOST_REQUIRE(bc_transaction_from_data(tx, junk));
+    BOOST_REQUIRE(bc_transaction__from_data(tx, junk));
     bc_destroy_transaction(tx);
 
     bc_destroy_data_chunk(junk);
@@ -234,20 +233,20 @@ BOOST_AUTO_TEST_CASE(case_1_factory_data_chunk_c)
         "001976a914d9d78e26df4e4601cf9b26d09c7b280ee764469f88ac80c4600f00"
         "0000001976a9141ee32412020a324b93b1a1acfdfff6ab9ca8fac288ac000000"
         "00");
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_size(raw_tx), 225u);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__size(raw_tx), 225u);
 
-    bc_transaction_t* tx = bc_transaction_factory_from_data(raw_tx);
-    BOOST_REQUIRE(bc_transaction_is_valid(tx));
-    BOOST_REQUIRE_EQUAL(bc_transaction_serialized_size(tx), 225u);
-    bc_hash_digest_t* tx_hash_cmp = bc_transaction_hash(tx);
-    BOOST_REQUIRE(bc_hash_digest_equals(tx_hash_cmp, tx_hash));
+    bc_transaction_t* tx = bc_transaction__factory_from_data(raw_tx);
+    BOOST_REQUIRE(bc_transaction__is_valid(tx));
+    BOOST_REQUIRE_EQUAL(bc_transaction__serialized_size(tx), 225u);
+    bc_hash_digest_t* tx_hash_cmp = bc_transaction__hash(tx);
+    BOOST_REQUIRE(bc_hash_digest__equals(tx_hash_cmp, tx_hash));
     bc_destroy_hash_digest(tx_hash_cmp);
 
     // Re-save tx and compare against original.
-    BOOST_REQUIRE_EQUAL(bc_transaction_serialized_size(tx),
-        bc_data_chunk_size(raw_tx));
-    bc_data_chunk_t* resave = bc_transaction_to_data(tx);
-    BOOST_REQUIRE(bc_data_chunk_equals(resave, raw_tx));
+    BOOST_REQUIRE_EQUAL(bc_transaction__serialized_size(tx),
+        bc_data_chunk__size(raw_tx));
+    bc_data_chunk_t* resave = bc_transaction__to_data(tx);
+    BOOST_REQUIRE(bc_data_chunk__equals(resave, raw_tx));
     bc_destroy_data_chunk(resave);
 
     bc_destroy_transaction(tx);
@@ -279,19 +278,19 @@ BOOST_AUTO_TEST_CASE(case_2_factory_data_chunk_c)
         "ffff02c0e1e400000000001976a914884c09d7e1f6420976c40e040c30b2b622"
         "10c3d488ac20300500000000001976a914905f933de850988603aafeeb2fd7fc"
         "e61e66fe5d88ac00000000");
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_size(raw_tx), 523u);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__size(raw_tx), 523u);
 
-    bc_transaction_t* tx = bc_transaction_factory_from_data(raw_tx);
-    BOOST_REQUIRE(bc_transaction_is_valid(tx));
-    bc_hash_digest_t* tx_hash_cmp = bc_transaction_hash(tx);
-    BOOST_REQUIRE(bc_hash_digest_equals(tx_hash_cmp, tx_hash));
+    bc_transaction_t* tx = bc_transaction__factory_from_data(raw_tx);
+    BOOST_REQUIRE(bc_transaction__is_valid(tx));
+    bc_hash_digest_t* tx_hash_cmp = bc_transaction__hash(tx);
+    BOOST_REQUIRE(bc_hash_digest__equals(tx_hash_cmp, tx_hash));
     bc_destroy_hash_digest(tx_hash_cmp);
 
     // Re-save tx and compare against original.
-    BOOST_REQUIRE_EQUAL(bc_transaction_serialized_size(tx),
-        bc_data_chunk_size(raw_tx));
-    bc_data_chunk_t* resave = bc_transaction_to_data(tx);
-    BOOST_REQUIRE(bc_data_chunk_equals(resave, raw_tx));
+    BOOST_REQUIRE_EQUAL(bc_transaction__serialized_size(tx),
+        bc_data_chunk__size(raw_tx));
+    bc_data_chunk_t* resave = bc_transaction__to_data(tx);
+    BOOST_REQUIRE(bc_data_chunk__equals(resave, raw_tx));
     bc_destroy_data_chunk(resave);
 
     bc_destroy_transaction(tx);

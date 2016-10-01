@@ -20,24 +20,20 @@
 #ifndef LIBBITCOIN_C_INTERNAL_CHAIN_POINT_HPP
 #define LIBBITCOIN_C_INTERNAL_CHAIN_POINT_HPP
 
-#include <bitcoin/bitcoin/c/chain/point.h>
+#include <bitcoin/bitcoin/c/chain/chain_state.h>
 
-#include <bitcoin/bitcoin/chain/point.hpp>
-#include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
-
-BC_DECLARE_VECTOR_INTERNAL(chain_point_list, bc_point_t,
-    libbitcoin::chain::point::list);
+#include <bitcoin/bitcoin/chain/chain_state.hpp>
 
 extern "C" {
 
-struct bc_point_indexes_t
+struct bc_chain_state_versions_t
 {
-    libbitcoin::chain::point::indexes* obj;
+    libbitcoin::chain::chain_state::versions* obj;
 };
 
-struct bc_point_t
+struct bc_chain_state_t
 {
-    libbitcoin::chain::point* obj;
+    libbitcoin::chain::chain_state* obj;
 };
 
 } // extern C

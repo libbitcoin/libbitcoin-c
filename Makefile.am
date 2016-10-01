@@ -62,6 +62,8 @@ src_libbitcoin_c_la_SOURCES = \
     src/chain/input.cpp \
     src/chain/output_point.cpp \
     src/chain/output.cpp \
+    src/chain/transaction.cpp \
+    src/chain/chain_state.cpp \
     # src/wallet/dictionary.cpp \
     # src/wallet/uri.cpp \
     # src/wallet/ek_token.cpp \
@@ -80,7 +82,6 @@ src_libbitcoin_c_la_SOURCES = \
     # src/wallet/select_outputs.cpp \
     # src/chain/stealth.cpp \
     # src/chain/history.cpp \
-    # src/chain/transaction.cpp \
     # src/chain/block.cpp \
     # src/chain/script/operation.cpp \
     # src/chain/script/opcode.cpp \
@@ -112,11 +113,11 @@ test_libbitcoin_c_test_SOURCES = \
     test/chain/header.cpp \
     test/chain/input.cpp \
     test/chain/output.cpp \
+    test/chain/transaction.cpp \
     # test/chain/script.cpp \
     # test/chain/satoshi_words.cpp \
     # test/chain/block.cpp \
     # test/chain/point.cpp \
-    # test/chain/transaction.cpp \
     # test/math/elliptic_curve.cpp \
     # test/wallet/bitcoin_uri.cpp \
     # test/wallet/hd_public.cpp \
@@ -142,6 +143,7 @@ include_bitcoin_bitcoin_c_chain_HEADERS = \
     include/bitcoin/bitcoin/c/chain/output.h \
     include/bitcoin/bitcoin/c/chain/output_point.h \
     include/bitcoin/bitcoin/c/chain/input.h \
+    include/bitcoin/bitcoin/c/chain/chain_state.h \
     include/bitcoin/bitcoin/c/chain/input_point.h \
     include/bitcoin/bitcoin/c/chain/transaction.h \
     include/bitcoin/bitcoin/c/chain/header.h \
@@ -208,6 +210,7 @@ include_bitcoin_bitcoin_c_internal_chain_HEADERS = \
     include/bitcoin/bitcoin/c/internal/chain/output.hpp \
     include/bitcoin/bitcoin/c/internal/chain/output_point.hpp \
     include/bitcoin/bitcoin/c/internal/chain/input.hpp \
+    include/bitcoin/bitcoin/c/internal/chain/chain_state.hpp \
     include/bitcoin/bitcoin/c/internal/chain/transaction.hpp \
     include/bitcoin/bitcoin/c/internal/chain/header.hpp \
     include/bitcoin/bitcoin/c/internal/chain/block.hpp \
