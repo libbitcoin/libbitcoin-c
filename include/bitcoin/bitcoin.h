@@ -15,6 +15,7 @@
 #include <bitcoin/bitcoin/c/chain/header.h>
 #include <bitcoin/bitcoin/c/chain/history.h>
 #include <bitcoin/bitcoin/c/chain/input.h>
+#include <bitcoin/bitcoin/c/chain/input_point.h>
 #include <bitcoin/bitcoin/c/chain/point.h>
 #include <bitcoin/bitcoin/c/chain/transaction.h>
 #include <bitcoin/bitcoin/c/chain/script/operation.h>

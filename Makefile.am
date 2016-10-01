@@ -142,6 +142,7 @@ include_bitcoin_bitcoin_c_chain_HEADERS = \
     include/bitcoin/bitcoin/c/chain/output.h \
     include/bitcoin/bitcoin/c/chain/output_point.h \
     include/bitcoin/bitcoin/c/chain/input.h \
+    include/bitcoin/bitcoin/c/chain/input_point.h \
     include/bitcoin/bitcoin/c/chain/transaction.h \
     include/bitcoin/bitcoin/c/chain/header.h \
     include/bitcoin/bitcoin/c/chain/block.h \
