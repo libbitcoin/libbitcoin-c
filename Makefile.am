@@ -57,6 +57,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/math/uint256.cpp \
     src/chain/point.cpp \
     src/wallet/bitcoin_uri.cpp \
+    src/chain/header.cpp \
     # src/chain/output_point.cpp \
     # src/wallet/dictionary.cpp \
     # src/wallet/uri.cpp \
@@ -80,7 +81,6 @@ src_libbitcoin_c_la_SOURCES = \
     # src/chain/output.cpp \
     # src/chain/input.cpp \
     # src/chain/transaction.cpp \
-    # src/chain/header.cpp \
     # src/chain/block.cpp \
     # src/chain/script/operation.cpp \
     # src/chain/script/opcode.cpp \
@@ -109,10 +109,10 @@ test_libbitcoin_c_test_SOURCES = \
     test/math/checksum.cpp \
     test/math/hash_number.cpp \
     test/math/script_number.cpp \
+    test/chain/header.cpp \
     # test/chain/script.cpp \
     # test/chain/satoshi_words.cpp \
     # test/chain/block.cpp \
-    # test/chain/header.cpp \
     # test/chain/input.cpp \
     # test/chain/output.cpp \
     # test/chain/point.cpp \

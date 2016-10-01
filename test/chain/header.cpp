@@ -29,11 +29,11 @@ BOOST_AUTO_TEST_SUITE(header_tests_c)
 BOOST_AUTO_TEST_CASE(from_data_fails_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk();
-    bc_data_chunk_resize(data, 10);
+    bc_data_chunk__resize(data, 10);
     bc_header_t* header = bc_create_header();
 
-    BOOST_REQUIRE_EQUAL(false, bc_header_from_data(header, data));
-    BOOST_REQUIRE_EQUAL(false, bc_header_is_valid(header));
+    BOOST_REQUIRE_EQUAL(false, bc_header__from_data(header, data));
+    BOOST_REQUIRE_EQUAL(false, bc_header__is_valid(header));
 
     bc_destroy_header(header);
     bc_destroy_data_chunk(data);
@@ -42,34 +42,34 @@ BOOST_AUTO_TEST_CASE(from_data_fails_c)
 BOOST_AUTO_TEST_CASE(roundtrip_to_data_factory_from_data_chunk_c)
 {
     bc_header_t* expected = bc_create_header();
-    bc_header_set_version(expected, 10);
+    bc_header__set_version(expected, 10);
 
     bc_hash_digest_t* prevblkhash = bc_create_hash_digest();
     bc_decode_hash(prevblkhash,
         "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f");
-    bc_header_set_previous_block_hash(expected, prevblkhash);
+    bc_header__set_previous_block_hash(expected, prevblkhash);
     bc_destroy_hash_digest(prevblkhash);
 
     bc_hash_digest_t* merkle = bc_create_hash_digest();
     bc_decode_hash(merkle,
         "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b");
-    bc_header_set_merkle(expected, merkle);
+    bc_header__set_merkle(expected, merkle);
     bc_destroy_hash_digest(merkle);
 
-    bc_header_set_timestamp(expected, 531234);
-    bc_header_set_bits(expected, 6523454);
-    bc_header_set_nonce(expected, 68644);
+    bc_header__set_timestamp(expected, 531234);
+    bc_header__set_bits(expected, 6523454);
+    bc_header__set_nonce(expected, 68644);
 
-    bc_header_set_transaction_count(expected, 0);
+    bc_header__set_transaction_count(expected, 0);
 
-    bc_data_chunk_t* data = bc_header_to_data_without_transaction_count(
+    bc_data_chunk_t* data = bc_header__to_data_without_transaction_count(
         expected);
     bc_header_t* result =
-        bc_header_factory_from_data_without_transaction_count(data);
+        bc_header__factory_from_data_without_transaction_count(data);
     bc_destroy_data_chunk(data);
 
-    BOOST_REQUIRE(bc_header_is_valid(result));
-    BOOST_REQUIRE(bc_header_equals(expected, result));
+    BOOST_REQUIRE(bc_header__is_valid(result));
+    BOOST_REQUIRE(bc_header__equals(expected, result));
 
     bc_destroy_header(expected);
     bc_destroy_header(result);
