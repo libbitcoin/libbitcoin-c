@@ -20,6 +20,7 @@
 #include <bitcoin/bitcoin/c/chain/point.h>
 #include <bitcoin/bitcoin/c/internal/chain/point.hpp>
 
+#include <bitcoin/bitcoin/c/internal/chain/point_iterator.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
@@ -42,6 +43,15 @@ void bc_destroy_point_indexes(bc_point_indexes_t* self)
 {
     delete self->obj;
     delete self;
+}
+// Operators
+bool bc_point__equals(const bc_point_t* left, const bc_point_t* right)
+{
+    return *left->obj == *right->obj;
+}
+bool bc_point__not_equals(const bc_point_t* left, const bc_point_t* right)
+{
+    return *left->obj != *right->obj;
 }
 // Member functions
 size_t bc_point_indexes_size(const bc_point_indexes_t* self)
@@ -113,6 +123,16 @@ uint64_t bc_point__serialized_size(const bc_point_t* self)
 {
     return self->obj->serialized_size();
 }
+bc_point_iterator_t* bc_point__begin(const bc_point_t* self)
+{
+    return new bc_point_iterator_t{ new libbitcoin::chain::point_iterator(
+        self->obj->begin()) };
+}
+bc_point_iterator_t* bc_point__end(const bc_point_t* self)
+{
+    return new bc_point_iterator_t{ new libbitcoin::chain::point_iterator(
+        self->obj->end()) };
+}
 // Member variables
 bc_hash_digest_t* bc_point__hash(const bc_point_t* self)
 {
@@ -129,15 +149,6 @@ uint32_t bc_point__index(const bc_point_t* self)
 void bc_point__set_index(bc_point_t* self, uint32_t index)
 {
     self->obj->index = index;
-}
-// Operators
-bool bc_point__equals(const bc_point_t* left, const bc_point_t* right)
-{
-    return *left->obj == *right->obj;
-}
-bool bc_point__not_equals(const bc_point_t* left, const bc_point_t* right)
-{
-    return *left->obj != *right->obj;
 }
 
 } // extern C

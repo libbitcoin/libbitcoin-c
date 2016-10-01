@@ -50,29 +50,29 @@ void bc_destroy_point_iterator(bc_point_iterator_t* self)
 }
 
 // Operators
-bool bc_point_iterator_is_valid(const bc_point_iterator_t* self)
+bool bc_point_iterator__is_valid(const bc_point_iterator_t* self)
 {
     return static_cast<bool>(*self->obj);
 }
-uint8_t bc_point_iterator_access(const bc_point_iterator_t* self)
+uint8_t bc_point_iterator__access(const bc_point_iterator_t* self)
 {
     return *(*self->obj);
 }
-bool bc_point_iterator_equals(
+bool bc_point_iterator__equals(
     const bc_point_iterator_t* self, const bc_point_iterator_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_point_iterator_not_equals(
+bool bc_point_iterator__not_equals(
     const bc_point_iterator_t* self, const bc_point_iterator_t* other)
 {
     return *self->obj != *other->obj;
 }
-void bc_point_iterator_increment(bc_point_iterator_t* self)
+void bc_point_iterator__increment(bc_point_iterator_t* self)
 {
     ++(*self->obj);
 }
-void bc_point_iterator_decrement(bc_point_iterator_t* self)
+void bc_point_iterator__decrement(bc_point_iterator_t* self)
 {
     --(*self->obj);
 }
