@@ -20,6 +20,7 @@
 #include <bitcoin/bitcoin/c/chain/input.h>
 #include <bitcoin/bitcoin/c/internal/chain/input.hpp>
 
+#include <bitcoin/bitcoin/c/internal/chain/output_point.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/point.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/script/script.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
@@ -33,7 +34,7 @@ BC_IMPLEMENT_VECTOR(input_list, bc_input_t, bc_destroy_input,
 extern "C" {
 
 // Static functions
-bc_input_t* bc_input_factory_from_data(const bc_data_chunk_t* data)
+bc_input_t* bc_input__factory_from_data(const bc_data_chunk_t* data)
 {
     return new bc_input_t{ new libbitcoin::chain::input(
         libbitcoin::chain::input::factory_from_data(*data->obj)) };
@@ -50,59 +51,71 @@ void bc_destroy_input(bc_input_t* self)
     delete self;
 }
 // Member functions
-bool bc_input_from_data(bc_input_t* self, const bc_data_chunk_t* data)
+bool bc_input__from_data(bc_input_t* self, const bc_data_chunk_t* data)
 {
     return self->obj->from_data(*data->obj);
 }
-bc_data_chunk_t* bc_input_to_data(const bc_input_t* self)
+bc_data_chunk_t* bc_input__to_data(const bc_input_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->to_data());
 }
-bc_string_t* bc_input_to_string(const bc_input_t* self, uint32_t flags)
+bc_string_t* bc_input__to_string(const bc_input_t* self, uint32_t flags)
 {
     return bc_create_string_StdString(self->obj->to_string(flags));
 }
-bool bc_input_is_valid(const bc_input_t* self)
+bool bc_input__is_valid(const bc_input_t* self)
 {
     return self->obj->is_valid();
 }
-void bc_input_reset(bc_input_t* self)
-{
-    self->obj->reset();
-}
-bool bc_input_is_final(const bc_input_t* self)
+bool bc_input__is_final(const bc_input_t* self)
 {
     return self->obj->is_final();
 }
-uint64_t bc_input_serialized_size(const bc_input_t* self)
+/*
+TODO: Disabled because implementation missing in libbitcoin
+bool bc_input_is_output_mature(const bc_input_t* self, size_t target_height)
+{
+    return self->obj->is_output_mature(target_height);
+}
+*/
+void bc_input__reset(bc_input_t* self)
+{
+    self->obj->reset();
+}
+uint64_t bc_input__serialized_size(const bc_input_t* self)
 {
     return self->obj->serialized_size();
 }
+size_t bc_input__signature_operations(
+    const bc_input_t* self, bool bip16_active)
+{
+    return self->obj->signature_operations(bip16_active);
+}
 // Member variables
-bc_output_point_t* bc_input_previous_output(const bc_input_t* self)
+bc_output_point_t* bc_input__previous_output(const bc_input_t* self)
 {
     return new bc_output_point_t{ new libbitcoin::chain::output_point(
         self->obj->previous_output) };
 }
-void bc_input_set_previous_output(bc_input_t* self,
+void bc_input__set_previous_output(bc_input_t* self,
     bc_output_point_t* previous_output)
 {
     self->obj->previous_output = *previous_output->obj;
 }
-bc_script_t* bc_input_script(const bc_input_t* self)
+bc_script_t* bc_input__script(const bc_input_t* self)
 {
     return new bc_script_t{ new libbitcoin::chain::script(
         self->obj->script) };
 }
-void bc_input_set_script(bc_input_t* self, const bc_script_t* script)
+void bc_input__set_script(bc_input_t* self, const bc_script_t* script)
 {
     self->obj->script = *script->obj;
 }
-uint32_t bc_input_sequence(const bc_input_t* self)
+uint32_t bc_input__sequence(const bc_input_t* self)
 {
     return self->obj->sequence;
 }
-void bc_input_set_sequence(bc_input_t* self, uint32_t sequence)
+void bc_input__set_sequence(bc_input_t* self, uint32_t sequence)
 {
     self->obj->sequence = sequence;
 }

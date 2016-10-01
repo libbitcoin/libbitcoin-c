@@ -58,7 +58,10 @@ src_libbitcoin_c_la_SOURCES = \
     src/chain/point.cpp \
     src/wallet/bitcoin_uri.cpp \
     src/chain/header.cpp \
-    # src/chain/output_point.cpp \
+    src/chain/point_iterator.cpp \
+    src/chain/input.cpp \
+    src/chain/output_point.cpp \
+    src/chain/output.cpp \
     # src/wallet/dictionary.cpp \
     # src/wallet/uri.cpp \
     # src/wallet/ek_token.cpp \
@@ -77,9 +80,6 @@ src_libbitcoin_c_la_SOURCES = \
     # src/wallet/select_outputs.cpp \
     # src/chain/stealth.cpp \
     # src/chain/history.cpp \
-    # src/chain/point_iterator.cpp \
-    # src/chain/output.cpp \
-    # src/chain/input.cpp \
     # src/chain/transaction.cpp \
     # src/chain/block.cpp \
     # src/chain/script/operation.cpp \
@@ -110,11 +110,11 @@ test_libbitcoin_c_test_SOURCES = \
     test/math/hash_number.cpp \
     test/math/script_number.cpp \
     test/chain/header.cpp \
+    test/chain/input.cpp \
+    test/chain/output.cpp \
     # test/chain/script.cpp \
     # test/chain/satoshi_words.cpp \
     # test/chain/block.cpp \
-    # test/chain/input.cpp \
-    # test/chain/output.cpp \
     # test/chain/point.cpp \
     # test/chain/transaction.cpp \
     # test/math/elliptic_curve.cpp \

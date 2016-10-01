@@ -17,22 +17,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_OUTPUT_HPP
-#define LIBBITCOIN_C_INTERNAL_CHAIN_OUTPUT_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_OUTPUT_POINT_HPP
+#define LIBBITCOIN_C_INTERNAL_CHAIN_OUTPUT_POINT_HPP
 
-#include <bitcoin/bitcoin/c/chain/output.h>
+#include <bitcoin/bitcoin/c/chain/output_point.h>
 
-#include <bitcoin/bitcoin/chain/output.hpp>
+#include <bitcoin/bitcoin/chain/output_point.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(output_list, bc_output_t,
-    libbitcoin::chain::output::list);
+BC_DECLARE_VECTOR_INTERNAL(output_info_list, bc_output_info_t,
+    libbitcoin::chain::output_info::list);
 
 extern "C" {
 
-struct bc_output_t
+struct bc_output_point_t
 {
-    libbitcoin::chain::output* obj;
+    libbitcoin::chain::output_point* obj;
+};
+
+struct bc_points_info_t
+{
+    libbitcoin::chain::points_info* obj;
+};
+
+struct bc_output_info_t
+{
+    libbitcoin::chain::output_info* obj;
 };
 
 } // extern C

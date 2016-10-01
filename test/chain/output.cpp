@@ -28,12 +28,12 @@ BOOST_AUTO_TEST_SUITE(output_tests_c)
 BOOST_AUTO_TEST_CASE(from_data_fails_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk();
-    bc_data_chunk_resize(data, 2);
+    bc_data_chunk__resize(data, 2);
 
     bc_output_t* instance = bc_create_output();
 
-    BOOST_REQUIRE_EQUAL(false, bc_output_from_data(instance, data));
-    BOOST_REQUIRE_EQUAL(false, bc_output_is_valid(instance));
+    BOOST_REQUIRE_EQUAL(false, bc_output__from_data(instance, data));
+    BOOST_REQUIRE_EQUAL(false, bc_output__is_valid(instance));
 
     bc_destroy_output(instance);
     bc_destroy_data_chunk(data);
@@ -44,16 +44,16 @@ BOOST_AUTO_TEST_CASE(factory_data_chunk_success_c)
     bc_data_chunk_t* valid_raw_output = bc_create_data_chunk();
     bc_decode_base16(valid_raw_output, valid_raw_output_hex);
 
-    bc_output_t* instance = bc_output_factory_from_data(valid_raw_output);
-    BOOST_REQUIRE(bc_output_is_valid(instance));
-    BOOST_REQUIRE_EQUAL(bc_output_serialized_size(instance),
-        bc_data_chunk_size(valid_raw_output));
+    bc_output_t* instance = bc_output__factory_from_data(valid_raw_output);
+    BOOST_REQUIRE(bc_output__is_valid(instance));
+    BOOST_REQUIRE_EQUAL(bc_output__serialized_size(instance),
+        bc_data_chunk__size(valid_raw_output));
 
     // Re-save and compare against original.
-    bc_data_chunk_t* resave = bc_output_to_data(instance);
-    BOOST_REQUIRE_EQUAL(bc_data_chunk_size(resave),
-        bc_data_chunk_size(valid_raw_output));
-    BOOST_REQUIRE(bc_data_chunk_equals(resave, valid_raw_output));
+    bc_data_chunk_t* resave = bc_output__to_data(instance);
+    BOOST_REQUIRE_EQUAL(bc_data_chunk__size(resave),
+        bc_data_chunk__size(valid_raw_output));
+    BOOST_REQUIRE(bc_data_chunk__equals(resave, valid_raw_output));
 
     bc_destroy_output(instance);
     bc_destroy_data_chunk(valid_raw_output);
