@@ -32,10 +32,10 @@ extern "C" {
 /// v3 eliminates the subscription type, which we map to 'unspecified'.
 typedef enum bc_subscribe_type_t
 {
-    bc_subscribe_type_payment = 0,
-    bc_subscribe_type_stealth = 1,
-    bc_subscribe_type_unspecified = 2,
-    bc_subscribe_type_unsubscribe = 3
+    bc_subscribe_type__payment = 0,
+    bc_subscribe_type__stealth = 1,
+    bc_subscribe_type__unspecified = 2,
+    bc_subscribe_type__unsubscribe = 3
 
 } bc_subscribe_type_t;
 
@@ -48,17 +48,17 @@ bc_stealth_compact_t* bc_create_stealth_compact();
 // Destructor
 void bc_destroy_stealth_compact(bc_stealth_compact_t* self);
 // Member variables
-bc_hash_digest_t* bc_stealth_compact_ephemeral_public_key_hash(
+bc_hash_digest_t* bc_stealth_compact__ephemeral_public_key_hash(
     const bc_stealth_compact_t* self);
-void bc_stealth_compact_set_ephemeral_public_key_hash(
+void bc_stealth_compact__set_ephemeral_public_key_hash(
     bc_stealth_compact_t* self, const bc_hash_digest_t* hash);
-bc_short_hash_t* bc_stealth_compact_public_key_hash(
+bc_short_hash_t* bc_stealth_compact__public_key_hash(
     const bc_stealth_compact_t* self);
-void bc_stealth_compact_set_public_key_hash(
+void bc_stealth_compact__set_public_key_hash(
     bc_stealth_compact_t* self, const bc_short_hash_t* hash);
-bc_hash_digest_t* bc_stealth_compact_transaction_hash(
+bc_hash_digest_t* bc_stealth_compact__transaction_hash(
     const bc_stealth_compact_t* self);
-void bc_stealth_compact_set_transaction_hash(
+void bc_stealth_compact__set_transaction_hash(
     bc_stealth_compact_t* self, const bc_hash_digest_t* hash);
 
 /// This structure is used between client and API callers in v2/v3.
@@ -70,17 +70,17 @@ bc_stealth_t* bc_create_stealth();
 // Destructor
 void bc_destroy_stealth(bc_stealth_t* self);
 // Member variables
-bc_ec_compressed_t* bc_stealth_ephemeral_public_key(
+bc_ec_compressed_t* bc_stealth__ephemeral_public_key(
     const bc_stealth_t* self);
-void bc_stealth_set_ephemeral_public_key(
+void bc_stealth__set_ephemeral_public_key(
     bc_stealth_t* self, const bc_ec_compressed_t* key);
-bc_short_hash_t* bc_stealth_public_key_hash(
+bc_short_hash_t* bc_stealth__public_key_hash(
     const bc_stealth_t* self);
-void bc_stealth_set_public_key_hash(
+void bc_stealth__set_public_key_hash(
     bc_stealth_t* self, const bc_short_hash_t* hash);
-bc_hash_digest_t* bc_stealth_transaction_hash(
+bc_hash_digest_t* bc_stealth__transaction_hash(
     const bc_stealth_t* self);
-void bc_stealth_set_transaction_hash(
+void bc_stealth__set_transaction_hash(
     bc_stealth_t* self, const bc_hash_digest_t* hash);
 
 #ifdef __cplusplus

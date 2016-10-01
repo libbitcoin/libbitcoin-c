@@ -64,6 +64,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/chain/output.cpp \
     src/chain/transaction.cpp \
     src/chain/chain_state.cpp \
+    src/chain/stealth.cpp \
     # src/wallet/dictionary.cpp \
     # src/wallet/uri.cpp \
     # src/wallet/ek_token.cpp \
@@ -80,7 +81,6 @@ src_libbitcoin_c_la_SOURCES = \
     # src/wallet/payment_address.cpp \
     # src/wallet/stealth_address.cpp \
     # src/wallet/select_outputs.cpp \
-    # src/chain/stealth.cpp \
     # src/chain/history.cpp \
     # src/chain/block.cpp \
     # src/chain/script/operation.cpp \

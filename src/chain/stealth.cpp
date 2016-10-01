@@ -43,35 +43,35 @@ void bc_destroy_stealth_compact(bc_stealth_compact_t* self)
     delete self;
 }
 // Member variables
-bc_hash_digest_t* bc_stealth_compact_ephemeral_public_key_hash(
+bc_hash_digest_t* bc_stealth_compact__ephemeral_public_key_hash(
     const bc_stealth_compact_t* self)
 {
     return bc_create_hash_digest_Internal(
         self->obj->ephemeral_public_key_hash);
 }
-void bc_stealth_compact_set_ephemeral_public_key_hash(
+void bc_stealth_compact__set_ephemeral_public_key_hash(
     bc_stealth_compact_t* self, const bc_hash_digest_t* hash)
 {
     self->obj->ephemeral_public_key_hash = *hash->obj;
 }
-bc_short_hash_t* bc_stealth_compact_public_key_hash(
+bc_short_hash_t* bc_stealth_compact__public_key_hash(
     const bc_stealth_compact_t* self)
 {
     return bc_create_short_hash_Internal(
         self->obj->public_key_hash);
 }
-void bc_stealth_compact_set_public_key_hash(
+void bc_stealth_compact__set_public_key_hash(
     bc_stealth_compact_t* self, const bc_short_hash_t* hash)
 {
     self->obj->public_key_hash = *hash->obj;
 }
-bc_hash_digest_t* bc_stealth_compact_transaction_hash(
+bc_hash_digest_t* bc_stealth_compact__transaction_hash(
     const bc_stealth_compact_t* self)
 {
     return bc_create_hash_digest_Internal(
         self->obj->transaction_hash);
 }
-void bc_stealth_compact_set_transaction_hash(
+void bc_stealth_compact__set_transaction_hash(
     bc_stealth_compact_t* self, const bc_hash_digest_t* hash)
 {
     self->obj->transaction_hash = *hash->obj;
@@ -89,33 +89,33 @@ void bc_destroy_stealth(bc_stealth_t* self)
     delete self;
 }
 // Member variables
-bc_ec_compressed_t* bc_stealth_ephemeral_public_key(
+bc_ec_compressed_t* bc_stealth__ephemeral_public_key(
     const bc_stealth_t* self)
 {
     return new bc_ec_compressed_t{ new libbitcoin::ec_compressed(
         self->obj->ephemeral_public_key) };
 }
-void bc_stealth_set_ephemeral_public_key(
+void bc_stealth__set_ephemeral_public_key(
     bc_stealth_t* self, const bc_ec_compressed_t* key)
 {
     self->obj->ephemeral_public_key = *key->obj;
 }
-bc_short_hash_t* bc_stealth_public_key_hash(
+bc_short_hash_t* bc_stealth__public_key_hash(
     const bc_stealth_t* self)
 {
     return bc_create_short_hash_Internal(self->obj->public_key_hash);
 }
-void bc_stealth_set_public_key_hash(
+void bc_stealth__set_public_key_hash(
     bc_stealth_t* self, const bc_short_hash_t* hash)
 {
     self->obj->public_key_hash = *hash->obj;
 }
-bc_hash_digest_t* bc_stealth_transaction_hash(
+bc_hash_digest_t* bc_stealth__transaction_hash(
     const bc_stealth_t* self)
 {
     return bc_create_hash_digest_Internal(self->obj->transaction_hash);
 }
-void bc_stealth_set_transaction_hash(
+void bc_stealth__set_transaction_hash(
     bc_stealth_t* self, const bc_hash_digest_t* hash)
 {
     self->obj->transaction_hash = *hash->obj;
