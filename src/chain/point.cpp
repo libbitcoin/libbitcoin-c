@@ -53,13 +53,19 @@ uint32_t bc_point_indexes_at(const bc_point_indexes_t* self, size_t pos)
     return self->obj->at(pos);
 }
 
+// Static values
+uint32_t bc_point__null_index()
+{
+    return libbitcoin::chain::point::null_index;
+}
+
 // Static functions
-bc_point_t* bc_point_factory_from_data(const bc_data_chunk_t* data)
+bc_point_t* bc_point__factory_from_data(const bc_data_chunk_t* data)
 {
     return new bc_point_t{ new libbitcoin::chain::point(
         libbitcoin::chain::point::factory_from_data(*data->obj)) };
 }
-uint64_t bc_point_satoshi_fixed_size()
+uint64_t bc_point__satoshi_fixed_size()
 {
     return libbitcoin::chain::point::satoshi_fixed_size();
 }
@@ -75,61 +81,61 @@ void bc_destroy_point(bc_point_t* self)
     delete self;
 }
 // Member functions
-uint64_t bc_point_checksum(const bc_point_t* self)
+uint64_t bc_point__checksum(const bc_point_t* self)
 {
     return self->obj->checksum();
 }
-bool bc_point_is_null(const bc_point_t* self)
+bool bc_point__is_null(const bc_point_t* self)
 {
     return self->obj->is_null();
 }
-bool bc_point_from_data(bc_point_t* self, const bc_data_chunk_t* data)
+bool bc_point__from_data(bc_point_t* self, const bc_data_chunk_t* data)
 {
     return self->obj->from_data(*data->obj);
 }
-bc_data_chunk_t* bc_point_to_data(const bc_point_t* self)
+bc_data_chunk_t* bc_point__to_data(const bc_point_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->to_data());
 }
-bc_string_t* bc_point_to_string(const bc_point_t* self)
+bc_string_t* bc_point__to_string(const bc_point_t* self)
 {
     return bc_create_string_StdString(self->obj->to_string());
 }
-bool bc_point_is_valid(const bc_point_t* self)
+bool bc_point__is_valid(const bc_point_t* self)
 {
     return self->obj->is_valid();
 }
-void bc_point_reset(bc_point_t* self)
+void bc_point__reset(bc_point_t* self)
 {
     self->obj->reset();
 }
-uint64_t bc_point_serialized_size(const bc_point_t* self)
+uint64_t bc_point__serialized_size(const bc_point_t* self)
 {
     return self->obj->serialized_size();
 }
 // Member variables
-bc_hash_digest_t* bc_point_hash(const bc_point_t* self)
+bc_hash_digest_t* bc_point__hash(const bc_point_t* self)
 {
     return bc_create_hash_digest_Internal(self->obj->hash);
 }
-void bc_point_set_hash(bc_point_t* self, const bc_hash_digest_t* hash)
+void bc_point__set_hash(bc_point_t* self, const bc_hash_digest_t* hash)
 {
     self->obj->hash = *hash->obj;
 }
-uint32_t bc_point_index(const bc_point_t* self)
+uint32_t bc_point__index(const bc_point_t* self)
 {
     return self->obj->index;
 }
-void bc_point_set_index(bc_point_t* self, uint32_t index)
+void bc_point__set_index(bc_point_t* self, uint32_t index)
 {
     self->obj->index = index;
 }
 // Operators
-bool bc_point_equals(const bc_point_t* left, const bc_point_t* right)
+bool bc_point__equals(const bc_point_t* left, const bc_point_t* right)
 {
     return *left->obj == *right->obj;
 }
-bool bc_point_not_equals(const bc_point_t* left, const bc_point_t* right)
+bool bc_point__not_equals(const bc_point_t* left, const bc_point_t* right)
 {
     return *left->obj != *right->obj;
 }

@@ -20,7 +20,7 @@
 #ifndef LIBBITCOIN_C_CHAIN_INPUT_H
 #define LIBBITCOIN_C_CHAIN_INPUT_H
 
-#include <bitcoin/bitcoin/c/chain/point.h>
+#include <bitcoin/bitcoin/c/chain/output_point.h>
 #include <bitcoin/bitcoin/c/chain/script/script.h>
 #include <bitcoin/bitcoin/c/math/hash.h>
 #include <bitcoin/bitcoin/c/utility/data.h>

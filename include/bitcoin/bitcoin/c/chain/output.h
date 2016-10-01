@@ -52,16 +52,6 @@ void bc_output_set_value(bc_output_t* self, uint64_t value);
 bc_script_t* bc_output_script(const bc_output_t* self);
 void bc_output_set_script(bc_output_t* self, const bc_script_t* script);
 
-typedef struct bc_output_info_t bc_output_info_t;
-BC_DECLARE_VECTOR(output_info_list, bc_output_info_t);
-bc_output_info_t* bc_create_output_info();
-void bc_destroy_output_info(bc_output_info_t* self);
-bc_output_point_t* bc_output_info_point(const bc_output_info_t* self);
-void bc_output_info_set_point(bc_output_info_t* self,
-    const bc_output_point_t* point);
-uint64_t bc_output_info_value(const bc_output_info_t* self);
-void bc_output_info_set_value(bc_output_info_t* self, uint64_t value);
-
 #ifdef __cplusplus
 }
 #endif

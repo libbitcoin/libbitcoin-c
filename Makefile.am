@@ -55,7 +55,9 @@ src_libbitcoin_c_la_SOURCES = \
     src/math/script_number.cpp \
     src/math/crypto.cpp \
     src/math/uint256.cpp \
-    # src/wallet/bitcoin_uri.cpp \
+    src/chain/point.cpp \
+    src/wallet/bitcoin_uri.cpp \
+    # src/chain/output_point.cpp \
     # src/wallet/dictionary.cpp \
     # src/wallet/uri.cpp \
     # src/wallet/ek_token.cpp \
@@ -72,12 +74,10 @@ src_libbitcoin_c_la_SOURCES = \
     # src/wallet/payment_address.cpp \
     # src/wallet/stealth_address.cpp \
     # src/wallet/select_outputs.cpp \
-    # src/chain/point.cpp \
     # src/chain/stealth.cpp \
     # src/chain/history.cpp \
     # src/chain/point_iterator.cpp \
     # src/chain/output.cpp \
-    # src/chain/output_point.cpp \
     # src/chain/input.cpp \
     # src/chain/transaction.cpp \
     # src/chain/header.cpp \
