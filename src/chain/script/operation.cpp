@@ -32,80 +32,80 @@ BC_IMPLEMENT_VECTOR(operation_stack, bc_operation_t, bc_destroy_operation,
 
 extern "C" {
 
-size_t bc_operation_max_null_data_size()
+size_t bc_operation__max_null_data_size()
 {
     return libbitcoin::chain::operation::max_null_data_size;
 }
-bc_operation_t* bc_operation_factory_from_data(const bc_data_chunk_t* data)
+bc_operation_t* bc_operation__factory_from_data(const bc_data_chunk_t* data)
 {
     return new bc_operation_t{ new libbitcoin::chain::operation(
         libbitcoin::chain::operation::factory_from_data(*data->obj)) };
 }
-bool bc_operation_is_push_only(const bc_operation_stack_t* operations)
+bool bc_operation__is_push_only(const bc_operation_stack_t* operations)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(operations);
     return libbitcoin::chain::operation::is_push_only(ops_vector);
 }
 /// unspendable pattern (standard)
-bool bc_operation_is_null_data_pattern(const bc_operation_stack_t* ops)
+bool bc_operation__is_null_data_pattern(const bc_operation_stack_t* ops)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_null_data_pattern(ops_vector);
 }
 /// payment script patterns (standard)
-bool bc_operation_is_pay_multisig_pattern(const bc_operation_stack_t* ops)
+bool bc_operation__is_pay_multisig_pattern(const bc_operation_stack_t* ops)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_pay_multisig_pattern(ops_vector);
 }
-bool bc_operation_is_pay_public_key_pattern(const bc_operation_stack_t* ops)
+bool bc_operation__is_pay_public_key_pattern(const bc_operation_stack_t* ops)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_pay_public_key_pattern(ops_vector);
 }
-bool bc_operation_is_pay_key_hash_pattern(const bc_operation_stack_t* ops)
+bool bc_operation__is_pay_key_hash_pattern(const bc_operation_stack_t* ops)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_pay_key_hash_pattern(ops_vector);
 }
-bool bc_operation_is_pay_script_hash_pattern(const bc_operation_stack_t* ops)
+bool bc_operation__is_pay_script_hash_pattern(const bc_operation_stack_t* ops)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_pay_script_hash_pattern(
         ops_vector);
 }
 /// signature script patterns (standard)
-bool bc_operation_is_sign_multisig_pattern(const bc_operation_stack_t* ops)
+bool bc_operation__is_sign_multisig_pattern(const bc_operation_stack_t* ops)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_sign_multisig_pattern(ops_vector);
 }
-bool bc_operation_is_sign_public_key_pattern(const bc_operation_stack_t* ops)
+bool bc_operation__is_sign_public_key_pattern(const bc_operation_stack_t* ops)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_sign_public_key_pattern(
         ops_vector);
 }
-bool bc_operation_is_sign_key_hash_pattern(const bc_operation_stack_t* ops)
+bool bc_operation__is_sign_key_hash_pattern(const bc_operation_stack_t* ops)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_sign_key_hash_pattern(ops_vector);
 }
-bool bc_operation_is_sign_script_hash_pattern(const bc_operation_stack_t* ops)
+bool bc_operation__is_sign_script_hash_pattern(const bc_operation_stack_t* ops)
 {
     const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_sign_script_hash_pattern(
         ops_vector);
 }
 /// stack factories
-bc_operation_stack_t* bc_operation_to_null_data_pattern(
+bc_operation_stack_t* bc_operation__to_null_data_pattern(
     const bc_data_chunk_t* data)
 {
     const auto ops =
         libbitcoin::chain::operation::to_null_data_pattern(*data->obj);
     return bc_operation_stack_to_ctype(ops);
 }
-bc_operation_stack_t* bc_operation_to_pay_multisig_pattern_PointList(
+bc_operation_stack_t* bc_operation__to_pay_multisig_pattern_PointList(
     uint8_t signatures,
     const bc_point_list_t* points)
 {
@@ -114,7 +114,7 @@ bc_operation_stack_t* bc_operation_to_pay_multisig_pattern_PointList(
         signatures, points_vector);
     return bc_operation_stack_to_ctype(result);
 }
-bc_operation_stack_t* bc_operation_to_pay_multisig_pattern(
+bc_operation_stack_t* bc_operation__to_pay_multisig_pattern(
     uint8_t signatures,
     const bc_data_stack_t* points)
 {
@@ -123,21 +123,21 @@ bc_operation_stack_t* bc_operation_to_pay_multisig_pattern(
         signatures, stack);
     return bc_operation_stack_to_ctype(result);
 }
-bc_operation_stack_t* bc_operation_to_pay_public_key_pattern(
+bc_operation_stack_t* bc_operation__to_pay_public_key_pattern(
     const bc_data_chunk_t* point)
 {
     const auto ops = libbitcoin::chain::operation::to_pay_public_key_pattern(
         *point->obj);
     return bc_operation_stack_to_ctype(ops);
 }
-bc_operation_stack_t* bc_operation_to_pay_key_hash_pattern(
+bc_operation_stack_t* bc_operation__to_pay_key_hash_pattern(
     const bc_short_hash_t* hash)
 {
     const auto ops = libbitcoin::chain::operation::to_pay_key_hash_pattern(
         *hash->obj);
     return bc_operation_stack_to_ctype(ops);
 }
-bc_operation_stack_t* bc_operation_to_pay_script_hash_pattern(
+bc_operation_stack_t* bc_operation__to_pay_script_hash_pattern(
     const bc_short_hash_t* hash)
 {
     const auto ops = libbitcoin::chain::operation::to_pay_script_hash_pattern(
@@ -156,45 +156,45 @@ void bc_destroy_operation(bc_operation_t* self)
 }
 
 // Class members
-bool bc_operation_from_data(bc_operation_t* self, const bc_data_chunk_t* data)
+bool bc_operation__from_data(bc_operation_t* self, const bc_data_chunk_t* data)
 {
     return self->obj->from_data(*data->obj);
 }
-bc_data_chunk_t* bc_operation_to_data(const bc_operation_t* self)
+bc_data_chunk_t* bc_operation__to_data(const bc_operation_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->to_data());
 }
-bc_string_t* bc_operation_to_string(
+bc_string_t* bc_operation__to_string(
     const bc_operation_t* self, uint32_t flags)
 {
     return bc_create_string_StdString(self->obj->to_string(flags));
 }
-bool bc_operation_is_valid(const bc_operation_t* self)
+bool bc_operation__is_valid(const bc_operation_t* self)
 {
     return self->obj->is_valid();
 }
-void bc_operation_reset(bc_operation_t* self)
+void bc_operation__reset(bc_operation_t* self)
 {
     self->obj->reset();
 }
-uint64_t bc_operation_serialized_size(const bc_operation_t* self)
+uint64_t bc_operation__serialized_size(const bc_operation_t* self)
 {
     return self->obj->serialized_size();
 }
 
-bc_opcode_t bc_operation_code(const bc_operation_t* self)
+bc_opcode_t bc_operation__code(const bc_operation_t* self)
 {
     return bc_opcode_to_ctype(self->obj->code);
 }
-void bc_operation_set_code(bc_operation_t* self, bc_opcode_t code)
+void bc_operation__set_code(bc_operation_t* self, bc_opcode_t code)
 {
     self->obj->code = bc_opcode_from_ctype(code);
 }
-bc_data_chunk_t* bc_operation_data(const bc_operation_t* self)
+bc_data_chunk_t* bc_operation__data(const bc_operation_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->data);
 }
-void bc_operation_set_data(bc_operation_t* self, bc_data_chunk_t* data)
+void bc_operation__set_data(bc_operation_t* self, bc_data_chunk_t* data)
 {
     self->obj->data = *data->obj;
 }
@@ -207,34 +207,34 @@ bc_script_pattern_t bc_script_pattern_to_ctype(
     switch (value)
     {
         case libbitcoin::chain::script_pattern::null_data:
-            return bc_script_pattern_null_data;
+            return bc_script_pattern__null_data;
 
         case libbitcoin::chain::script_pattern::pay_multisig:
-            return bc_script_pattern_pay_multisig;
+            return bc_script_pattern__pay_multisig;
 
         case libbitcoin::chain::script_pattern::pay_public_key:
-            return bc_script_pattern_pay_public_key;
+            return bc_script_pattern__pay_public_key;
 
         case libbitcoin::chain::script_pattern::pay_key_hash:
-            return bc_script_pattern_pay_key_hash;
+            return bc_script_pattern__pay_key_hash;
 
         case libbitcoin::chain::script_pattern::pay_script_hash:
-            return bc_script_pattern_pay_script_hash;
+            return bc_script_pattern__pay_script_hash;
 
         case libbitcoin::chain::script_pattern::sign_multisig:
-            return bc_script_pattern_sign_multisig;
+            return bc_script_pattern__sign_multisig;
 
         case libbitcoin::chain::script_pattern::sign_public_key:
-            return bc_script_pattern_sign_public_key;
+            return bc_script_pattern__sign_public_key;
 
         case libbitcoin::chain::script_pattern::sign_key_hash:
-            return bc_script_pattern_sign_key_hash;
+            return bc_script_pattern__sign_key_hash;
 
         case libbitcoin::chain::script_pattern::sign_script_hash:
-            return bc_script_pattern_sign_script_hash;
+            return bc_script_pattern__sign_script_hash;
 
         case libbitcoin::chain::script_pattern::non_standard:
-            return bc_script_pattern_non_standard;
+            return bc_script_pattern__non_standard;
     }
 }
 
@@ -243,34 +243,34 @@ libbitcoin::chain::script_pattern bc_script_pattern_from_ctype(
 {
     switch (value)
     {
-        case bc_script_pattern_null_data:
+        case bc_script_pattern__null_data:
             return libbitcoin::chain::script_pattern::null_data;
 
-        case bc_script_pattern_pay_multisig:
+        case bc_script_pattern__pay_multisig:
             return libbitcoin::chain::script_pattern::pay_multisig;
 
-        case bc_script_pattern_pay_public_key:
+        case bc_script_pattern__pay_public_key:
             return libbitcoin::chain::script_pattern::pay_public_key;
 
-        case bc_script_pattern_pay_key_hash:
+        case bc_script_pattern__pay_key_hash:
             return libbitcoin::chain::script_pattern::pay_key_hash;
 
-        case bc_script_pattern_pay_script_hash:
+        case bc_script_pattern__pay_script_hash:
             return libbitcoin::chain::script_pattern::pay_script_hash;
 
-        case bc_script_pattern_sign_multisig:
+        case bc_script_pattern__sign_multisig:
             return libbitcoin::chain::script_pattern::sign_multisig;
 
-        case bc_script_pattern_sign_public_key:
+        case bc_script_pattern__sign_public_key:
             return libbitcoin::chain::script_pattern::sign_public_key;
 
-        case bc_script_pattern_sign_key_hash:
+        case bc_script_pattern__sign_key_hash:
             return libbitcoin::chain::script_pattern::sign_key_hash;
 
-        case bc_script_pattern_sign_script_hash:
+        case bc_script_pattern__sign_script_hash:
             return libbitcoin::chain::script_pattern::sign_script_hash;
 
-        case bc_script_pattern_non_standard:
+        case bc_script_pattern__non_standard:
             return libbitcoin::chain::script_pattern::non_standard;
     }
 }

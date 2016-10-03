@@ -30,151 +30,162 @@ extern "C" {
 
 typedef enum bc_opcode_t
 {
-    bc_opcode_zero = 0,
-    bc_opcode_special = 1,
-    bc_opcode_pushdata1 = 76,
-    bc_opcode_pushdata2 = 77,
-    bc_opcode_pushdata4 = 78,
-    bc_opcode_negative_1 = 79,
+    bc_opcode__zero = 0,
+    bc_opcode__special = 1,
+    bc_opcode__pushdata1 = 76,
+    bc_opcode__pushdata2 = 77,
+    bc_opcode__pushdata4 = 78,
+    bc_opcode__negative_1 = 79,
     // reserved does nothing
-    bc_opcode_reserved = 80,
-    bc_opcode_1 = 81,
-    bc_opcode_2 = 82,
-    bc_opcode_3 = 83,
-    bc_opcode_4 = 84,
-    bc_opcode_5 = 85,
-    bc_opcode_6 = 86,
-    bc_opcode_7 = 87,
-    bc_opcode_8 = 88,
-    bc_opcode_9 = 89,
-    bc_opcode_10 = 90,
-    bc_opcode_11 = 91,
-    bc_opcode_12 = 92,
-    bc_opcode_13 = 93,
-    bc_opcode_14 = 94,
-    bc_opcode_15 = 95,
-    bc_opcode_16 = 96,
-    bc_opcode_nop = 97,
-    bc_opcode_ver = 98,
-    bc_opcode_if_ = 99,
-    bc_opcode_notif = 100,
-    bc_opcode_verif = 101,
-    bc_opcode_vernotif = 102,
-    bc_opcode_else = 103,
-    bc_opcode_endif = 104,
-    bc_opcode_verify = 105,
-    bc_opcode_return_ = 106,
-    bc_opcode_toaltstack = 107,
-    bc_opcode_fromaltstack = 108,
-    bc_opcode_2drop = 109,
-    bc_opcode_2dup = 110,
-    bc_opcode_3dup = 111,
-    bc_opcode_2over = 112,
-    bc_opcode_2rot = 113,
-    bc_opcode_2swap = 114,
-    bc_opcode_ifdup = 115,
-    bc_opcode_depth = 116,
-    bc_opcode_drop = 117,
-    bc_opcode_dup = 118,
-    bc_opcode_nip = 119,
-    bc_opcode_over = 120,
-    bc_opcode_pick = 121,
-    bc_opcode_roll = 122,
-    bc_opcode_rot = 123,
-    bc_opcode_swap = 124,
-    bc_opcode_tuck = 125,
-    bc_opcode_cat = 126,          // disabled
-    bc_opcode_substr = 127,       // disabled
-    bc_opcode_left = 128,         // disabled
-    bc_opcode_right = 129,        // disabled
-    bc_opcode_size = 130,
-    bc_opcode_invert = 131,       // disabled
-    bc_opcode_and = 132,         // disabled
-    bc_opcode_or = 133,          // disabled
-    bc_opcode_xor = 134,         // disabled
-    bc_opcode_equal = 135,
-    bc_opcode_equalverify = 136,
-    bc_opcode_reserved1 = 137,
-    bc_opcode_reserved2 = 138,
-    bc_opcode_1add = 139,
-    bc_opcode_1sub = 140,
-    bc_opcode_2mul = 141,      // disabled
-    bc_opcode_2div = 142,      // disabled
-    bc_opcode_negate = 143,
-    bc_opcode_abs = 144,
-    bc_opcode_not = 145,
-    bc_opcode_0notequal = 146,
-    bc_opcode_add = 147,
-    bc_opcode_sub = 148,
-    bc_opcode_mul = 149,          // disabled
-    bc_opcode_div = 150,          // disabled
-    bc_opcode_mod = 151,          // disabled
-    bc_opcode_lshift = 152,       // disabled
-    bc_opcode_rshift = 153,       // disabled
-    bc_opcode_booland = 154,
-    bc_opcode_boolor = 155,
-    bc_opcode_numequal = 156,
-    bc_opcode_numequalverify = 157,
-    bc_opcode_numnotequal = 158,
-    bc_opcode_lessthan = 159,
-    bc_opcode_greaterthan = 160,
-    bc_opcode_lessthanorequal = 161,
-    bc_opcode_greaterthanorequal = 162,
-    bc_opcode_min = 163,
-    bc_opcode_max = 164,
-    bc_opcode_within = 165,
-    bc_opcode_ripemd160 = 166,
-    bc_opcode_sha1 = 167,
-    bc_opcode_sha256 = 168,
-    bc_opcode_hash160 = 169,
-    bc_opcode_hash256 = 170,
-    bc_opcode_codeseparator = 171,
-    bc_opcode_checksig = 172,
-    bc_opcode_checksigverify = 173,
-    bc_opcode_checkmultisig = 174,
-    bc_opcode_checkmultisigverify = 175,
-    bc_opcode_nop1 = 176,
-    bc_opcode_nop2 = 177,
-    bc_opcode_checklocktimeverify = bc_opcode_nop2,
-    bc_opcode_nop3 = 178,
-    bc_opcode_nop4 = 179,
-    bc_opcode_nop5 = 180,
-    bc_opcode_nop6 = 181,
-    bc_opcode_nop7 = 182,
-    bc_opcode_nop8 = 183,
-    bc_opcode_nop9 = 184,
-    bc_opcode_nop10 = 185,
-    bc_opcode_bad_operation,
-    bc_opcode_raw_data
+    bc_opcode__reserved = 80,
+    bc_opcode__1 = 81,
+    bc_opcode__2 = 82,
+    bc_opcode__3 = 83,
+    bc_opcode__4 = 84,
+    bc_opcode__5 = 85,
+    bc_opcode__6 = 86,
+    bc_opcode__7 = 87,
+    bc_opcode__8 = 88,
+    bc_opcode__9 = 89,
+    bc_opcode__10 = 90,
+    bc_opcode__11 = 91,
+    bc_opcode__12 = 92,
+    bc_opcode__13 = 93,
+    bc_opcode__14 = 94,
+    bc_opcode__15 = 95,
+    bc_opcode__16 = 96,
+    bc_opcode__nop = 97,
+    bc_opcode__ver = 98,
+    bc_opcode__if = 99,
+    bc_opcode__notif = 100,
+    bc_opcode__verif = 101,
+    bc_opcode__vernotif = 102,
+    bc_opcode__else = 103,
+    bc_opcode__endif = 104,
+    bc_opcode__verify = 105,
+    bc_opcode__return = 106,
+    bc_opcode__toaltstack = 107,
+    bc_opcode__fromaltstack = 108,
+    bc_opcode__2drop = 109,
+    bc_opcode__2dup = 110,
+    bc_opcode__3dup = 111,
+    bc_opcode__2over = 112,
+    bc_opcode__2rot = 113,
+    bc_opcode__2swap = 114,
+    bc_opcode__ifdup = 115,
+    bc_opcode__depth = 116,
+    bc_opcode__drop = 117,
+    bc_opcode__dup = 118,
+    bc_opcode__nip = 119,
+    bc_opcode__over = 120,
+    bc_opcode__pick = 121,
+    bc_opcode__roll = 122,
+    bc_opcode__rot = 123,
+    bc_opcode__swap = 124,
+    bc_opcode__tuck = 125,
+    bc_opcode__cat = 126,          // disabled
+    bc_opcode__substr = 127,       // disabled
+    bc_opcode__left = 128,         // disabled
+    bc_opcode__right = 129,        // disabled
+    bc_opcode__size = 130,
+    bc_opcode__invert = 131,       // disabled
+    bc_opcode__and = 132,         // disabled
+    bc_opcode__or = 133,          // disabled
+    bc_opcode__xor = 134,         // disabled
+    bc_opcode__equal = 135,
+    bc_opcode__equalverify = 136,
+    bc_opcode__reserved1 = 137,
+    bc_opcode__reserved2 = 138,
+    bc_opcode__1add = 139,
+    bc_opcode__1sub = 140,
+    bc_opcode__2mul = 141,      // disabled
+    bc_opcode__2div = 142,      // disabled
+    bc_opcode__negate = 143,
+    bc_opcode__abs = 144,
+    bc_opcode__not = 145,
+    bc_opcode__0notequal = 146,
+    bc_opcode__add = 147,
+    bc_opcode__sub = 148,
+    bc_opcode__mul = 149,          // disabled
+    bc_opcode__div = 150,          // disabled
+    bc_opcode__mod = 151,          // disabled
+    bc_opcode__lshift = 152,       // disabled
+    bc_opcode__rshift = 153,       // disabled
+    bc_opcode__booland = 154,
+    bc_opcode__boolor = 155,
+    bc_opcode__numequal = 156,
+    bc_opcode__numequalverify = 157,
+    bc_opcode__numnotequal = 158,
+    bc_opcode__lessthan = 159,
+    bc_opcode__greaterthan = 160,
+    bc_opcode__lessthanorequal = 161,
+    bc_opcode__greaterthanorequal = 162,
+    bc_opcode__min = 163,
+    bc_opcode__max = 164,
+    bc_opcode__within = 165,
+    bc_opcode__ripemd160 = 166,
+    bc_opcode__sha1 = 167,
+    bc_opcode__sha256 = 168,
+    bc_opcode__hash160 = 169,
+    bc_opcode__hash256 = 170,
+    bc_opcode__codeseparator = 171,
+    bc_opcode__checksig = 172,
+    bc_opcode__checksigverify = 173,
+    bc_opcode__checkmultisig = 174,
+    bc_opcode__checkmultisigverify = 175,
+    bc_opcode__nop1 = 176,
+    bc_opcode__nop2 = 177,
+    bc_opcode__checklocktimeverify = bc_opcode__nop2,
+    bc_opcode__nop3 = 178,
+    bc_opcode__nop4 = 179,
+    bc_opcode__nop5 = 180,
+    bc_opcode__nop6 = 181,
+    bc_opcode__nop7 = 182,
+    bc_opcode__nop8 = 183,
+    bc_opcode__nop9 = 184,
+    bc_opcode__nop10 = 185,
+    bc_opcode__bad_operation,
+    bc_opcode__raw_data
 
 } bc_opcode_t;
 
-typedef enum bc_script_context_t
+typedef enum bc_rule_fork_t
 {
-    bc_script_context_none_enabled = 0,
+    bc_rule_fork__no_rules = 0,
 
     /// pay-to-script-hash enabled
-    bc_script_context_bip16_enabled = 1 << 0,
+    bc_rule_fork__bip16_rule = 1 << 0,
 
     /// no duplicated unspent transaction ids
-    bc_script_context_bip30_enabled = 1 << 1,
+    bc_rule_fork__bip30_rule = 1 << 1,
 
     /// coinbase must include height
-    bc_script_context_bip34_enabled = 1 << 2,
+    bc_rule_fork__bip34_rule = 1 << 2,
 
     /// strict DER signatures required
-    bc_script_context_bip66_enabled = 1 << 3,
+    bc_rule_fork__bip66_rule = 1 << 3,
 
     /// nop2 becomes check locktime verify
-    bc_script_context_bip65_enabled = 1 << 4,
+    bc_rule_fork__bip65_rule = 1 << 4,
 
-    bc_script_context_all_enabled = 0xffffffff
+    bc_rule_fork__all_rules = 0xffffffff
 
 } bc_script_context_t;
 
-bc_string_t* opcode_to_string(bc_opcode_t value, uint32_t flags);
-bc_opcode_t string_to_opcode(const char* value);
-bc_opcode_t data_to_opcode(const bc_data_chunk_t* value);
+/// Determine if code is in the op_n range.
+bool bc_within_op_n(bc_opcode_t code);
+
+/// Return the op_n index (i.e. value of n).
+uint8_t bc_decode_op_n(bc_opcode_t code);
+
+/// Convert data to an opcode.
+bc_opcode_t bc_data_to_opcode(const bc_data_chunk_t* value);
+
+/// Convert a string to an opcode.
+bc_opcode_t bc_string_to_opcode(const char* value);
+
+/// Convert an opcode to a string.
+bc_string_t* bc_opcode_to_string(bc_opcode_t value, uint32_t flags);
 
 #ifdef __cplusplus
 }

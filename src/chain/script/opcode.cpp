@@ -26,21 +26,31 @@
 
 extern "C" {
 
-bc_string_t* opcode_to_string(bc_opcode_t value, uint32_t flags)
+bool bc_within_op_n(bc_opcode_t code)
 {
-    const auto value_converted = bc_opcode_from_ctype(value);
-    return bc_create_string_StdString(
-        libbitcoin::chain::opcode_to_string(value_converted, flags));
+    return libbitcoin::chain::within_op_n(
+        static_cast<libbitcoin::chain::opcode>(code));
 }
-bc_opcode_t string_to_opcode(const char* value)
+uint8_t bc_decode_op_n(bc_opcode_t code)
+{
+    return libbitcoin::chain::decode_op_n(
+        static_cast<libbitcoin::chain::opcode>(code));
+}
+bc_opcode_t bc_data_to_opcode(const bc_data_chunk_t* value)
+{
+    return bc_opcode_to_ctype(
+        libbitcoin::chain::data_to_opcode(*value->obj));
+}
+bc_opcode_t bc_string_to_opcode(const char* value)
 {
     return bc_opcode_to_ctype(
         libbitcoin::chain::string_to_opcode(value));
 }
-bc_opcode_t data_to_opcode(const bc_data_chunk_t* value)
+bc_string_t* bc_opcode_to_string(bc_opcode_t value, uint32_t flags)
 {
-    return bc_opcode_to_ctype(
-        libbitcoin::chain::data_to_opcode(*value->obj));
+    const auto value_converted = bc_opcode_from_ctype(value);
+    return bc_create_string_StdString(
+        libbitcoin::chain::opcode_to_string(value_converted, flags));
 }
 
 } // extern C
@@ -54,14 +64,14 @@ libbitcoin::chain::opcode bc_opcode_from_ctype(bc_opcode_t value)
     return static_cast<libbitcoin::chain::opcode>(value);
 }
 
-bc_script_context_t bc_script_context_to_ctype(
-    libbitcoin::chain::script_context context)
+bc_rule_fork_t bc_rule_fork_to_ctype(
+    libbitcoin::chain::rule_fork rule)
 {
-    return static_cast<bc_script_context_t>(context);
+    return static_cast<bc_rule_fork_t>(rule);
 }
-libbitcoin::chain::script_context bc_script_context_from_ctype(
-    bc_script_context_t context)
+libbitcoin::chain::rule_fork bc_rule_fork_from_ctype(
+    bc_rule_fork_t rule)
 {
-    return static_cast<libbitcoin::chain::script_context>(context);
+    return static_cast<libbitcoin::chain::rule_fork>(rule);
 }
 

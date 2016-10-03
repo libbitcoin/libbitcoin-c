@@ -23,6 +23,7 @@
 #include <bitcoin/bitcoin/c/internal/chain/script/opcode.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/script/operation.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/transaction.hpp>
+#include <bitcoin/bitcoin/c/internal/error.hpp>
 #include <bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
@@ -31,22 +32,20 @@
 extern "C" {
 
 // Static functions
-bc_script_t* bc_script_factory_from_data(const bc_data_chunk_t* data,
+bc_script_t* bc_script__factory_from_data(const bc_data_chunk_t* data,
     bool prefix, bc_script_parse_mode_t mode)
 {
     const auto script = libbitcoin::chain::script::factory_from_data(
         *data->obj, prefix, bc_script_parse_mode_from_ctype(mode));
     return new bc_script_t{ new libbitcoin::chain::script(script) };
 }
-bool bc_script_verify(
-    const bc_script_t* input_script, const bc_script_t* output_script,
-    const bc_transaction_t* parent_tx, uint32_t input_index, uint32_t flags)
+
+bool bc_script__is_enabled(uint32_t active_forks, bc_rule_fork_t flag)
 {
-    return libbitcoin::chain::script::verify(
-        *input_script->obj, *output_script->obj, *parent_tx->obj,
-        input_index, flags);
+    return libbitcoin::chain::script::is_enabled(
+        active_forks, bc_rule_fork_from_ctype(flag));
 }
-bc_hash_digest_t* bc_script_generate_signature_hash(
+bc_hash_digest_t* bc_script__generate_signature_hash(
     const bc_transaction_t* parent_tx, uint32_t input_index,
     const bc_script_t* script_code, uint8_t sighash_type)
 {
@@ -54,7 +53,7 @@ bc_hash_digest_t* bc_script_generate_signature_hash(
         *parent_tx->obj, input_index, *script_code->obj, sighash_type);
     return bc_create_hash_digest_Internal(hash);
 }
-bool bc_script_create_endorsement(
+bool bc_script__create_endorsement(
     bc_endorsement_t* out, const bc_ec_secret_t* secret,
     const bc_script_t* prevout_script, const bc_transaction_t* new_tx,
     uint32_t input_index, uint8_t sighash_type)
@@ -63,12 +62,7 @@ bool bc_script_create_endorsement(
         *out->obj, *secret->obj, *prevout_script->obj, *new_tx->obj,
         input_index, sighash_type);
 }
-bool bc_script_is_active(uint32_t flags, bc_script_context_t flag)
-{
-    return libbitcoin::chain::script::is_active(
-        flags, bc_script_context_from_ctype(flag));
-}
-bool bc_script_check_signature(const bc_ec_signature_t* signature,
+bool bc_script__check_signature(const bc_ec_signature_t* signature,
     uint8_t sighash_type, const bc_data_chunk_t* public_key,
     const bc_script_t* script_code, const bc_transaction_t* parent_tx,
     uint32_t input_index)
@@ -77,6 +71,22 @@ bool bc_script_check_signature(const bc_ec_signature_t* signature,
         *signature->obj, sighash_type, *public_key->obj,
         *script_code->obj, *parent_tx->obj, input_index);
 }
+bc_error_code_t* bc_script__verify(
+    const bc_transaction_t* tx, uint32_t input_index,
+    uint32_t flags)
+{
+    return new bc_error_code_t{ new std::error_code(
+        libbitcoin::chain::script::verify(*tx->obj, input_index, flags)) };
+}
+bc_error_code_t* bc_script__verify_Script(
+    const bc_transaction_t* tx, uint32_t input_index,
+    const bc_script_t* prevout_script, uint32_t flags)
+{
+    return new bc_error_code_t{ new std::error_code(
+        libbitcoin::chain::script::verify(
+            *tx->obj, input_index, *prevout_script->obj, flags)) };
+}
+
 // Constructor
 bc_script_t* bc_create_script()
 {
@@ -89,54 +99,65 @@ void bc_destroy_script(bc_script_t* self)
     delete self;
 }
 // Member functions
-bc_script_pattern_t bc_script_pattern(const bc_script_t* self)
+bc_script_pattern_t bc_script__pattern(const bc_script_t* self)
 {
     return bc_script_pattern_to_ctype(self->obj->pattern());
 }
-bool bc_script_is_raw_data(const bc_script_t* self)
+bool bc_script__is_raw_data(const bc_script_t* self)
 {
     return self->obj->is_raw_data();
 }
-bool bc_script_from_data(bc_script_t* self, const bc_data_chunk_t* data,
+bool bc_script__from_data(bc_script_t* self, const bc_data_chunk_t* data,
     bool prefix, bc_script_parse_mode_t mode)
 {
     return self->obj->from_data(*data->obj, prefix,
         bc_script_parse_mode_from_ctype(mode));
 }
-bc_data_chunk_t* bc_script_to_data(const bc_script_t* self, bool prefix)
+bc_data_chunk_t* bc_script__to_data(const bc_script_t* self, bool prefix)
 {
     return bc_create_data_chunk_Internal(self->obj->to_data(prefix));
 }
-bool bc_script_from_string(bc_script_t* self, const char* human_readable)
+
+bool bc_script__from_string(bc_script_t* self, const char* human_readable)
 {
     return self->obj->from_string(human_readable);
 }
-bc_string_t* bc_script_to_string(const bc_script_t* self, uint32_t flags)
+bc_string_t* bc_script__to_string(const bc_script_t* self, uint32_t flags)
 {
     return bc_create_string_StdString(self->obj->to_string(flags));
 }
-bool bc_script_is_valid(const bc_script_t* self)
+bool bc_script__is_valid(const bc_script_t* self)
 {
     return self->obj->is_valid();
 }
-void bc_script_reset(bc_script_t* self)
+void bc_script__reset(bc_script_t* self)
 {
     self->obj->reset();
 }
-uint64_t bc_script_satoshi_content_size(const bc_script_t* self)
+size_t bc_script__pay_script_hash_sigops(const bc_script_t* self,
+    const bc_script_t* prevout)
+{
+    return self->obj->pay_script_hash_sigops(*prevout->obj);
+}
+size_t bc_script__sigops(const bc_script_t* self, bool serialized_script)
+{
+    return self->obj->sigops(serialized_script);
+}
+uint64_t bc_script__satoshi_content_size(const bc_script_t* self)
 {
     return self->obj->satoshi_content_size();
 }
-uint64_t bc_script_serialized_size(const bc_script_t* self, bool prefix)
+uint64_t bc_script__serialized_size(const bc_script_t* self, bool prefix)
 {
     return self->obj->serialized_size(prefix);
 }
+
 // Member variables
-bc_operation_stack_t* bc_script_operations(const bc_script_t* self)
+bc_operation_stack_t* bc_script__operations(const bc_script_t* self)
 {
     return bc_operation_stack_to_ctype(self->obj->operations);
 }
-void bc_script_set_operations(bc_script_t* self,
+void bc_script__set_operations(bc_script_t* self,
     const bc_operation_stack_t* operations)
 {
     self->obj->operations = bc_operation_stack_from_ctype(operations);
@@ -162,13 +183,13 @@ bc_script_parse_mode_t bc_script_parse_mode_to_ctype(
     switch (mode)
     {
         case libbitcoin::chain::script::parse_mode::strict:
-            return bc_script_parse_mode_strict;
+            return bc_script_parse_mode__strict;
 
         case libbitcoin::chain::script::parse_mode::raw_data:
-            return bc_script_parse_mode_raw_data;
+            return bc_script_parse_mode__raw_data;
 
         case libbitcoin::chain::script::parse_mode::raw_data_fallback:
-            return bc_script_parse_mode_raw_data_fallback;
+            return bc_script_parse_mode__raw_data_fallback;
     }
 }
 
@@ -177,13 +198,13 @@ libbitcoin::chain::script::parse_mode bc_script_parse_mode_from_ctype(
 {
     switch (mode)
     {
-        case bc_script_parse_mode_strict:
+        case bc_script_parse_mode__strict:
             return libbitcoin::chain::script::parse_mode::strict;
 
-        case bc_script_parse_mode_raw_data:
+        case bc_script_parse_mode__raw_data:
             return libbitcoin::chain::script::parse_mode::raw_data;
 
-        case bc_script_parse_mode_raw_data_fallback:
+        case bc_script_parse_mode__raw_data_fallback:
             return libbitcoin::chain::script::parse_mode::raw_data_fallback;
     }
 }

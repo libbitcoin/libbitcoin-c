@@ -28,10 +28,10 @@
 bc_opcode_t bc_opcode_to_ctype(libbitcoin::chain::opcode value);
 libbitcoin::chain::opcode bc_opcode_from_ctype(bc_opcode_t value);
 
-bc_script_context_t bc_script_context_to_ctype(
-    libbitcoin::chain::script_context context);
-libbitcoin::chain::script_context bc_script_context_from_ctype(
-    bc_script_context_t context);
+bc_rule_fork_t bc_rule_fork_to_ctype(
+    libbitcoin::chain::rule_fork rule);
+libbitcoin::chain::rule_fork bc_rule_fork_from_ctype(
+    bc_rule_fork_t rule);
 
 #endif
 

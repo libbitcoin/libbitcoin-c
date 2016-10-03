@@ -67,6 +67,9 @@ src_libbitcoin_c_la_SOURCES = \
     src/chain/stealth.cpp \
     src/chain/history.cpp \
     src/chain/block.cpp \
+    src/chain/script/opcode.cpp \
+    src/chain/script/operation.cpp \
+    src/chain/script/script.cpp \
     # src/wallet/dictionary.cpp \
     # src/wallet/uri.cpp \
     # src/wallet/ek_token.cpp \
@@ -82,10 +85,7 @@ src_libbitcoin_c_la_SOURCES = \
     # src/wallet/hd_private.cpp \
     # src/wallet/payment_address.cpp \
     # src/wallet/stealth_address.cpp \
-    # src/wallet/select_outputs.cpp \
-    # src/chain/script/operation.cpp \
-    # src/chain/script/opcode.cpp \
-    # src/chain/script/script.cpp
+    # src/wallet/select_outputs.cpp
 
 # local: test/libbitcoin_network_test
 #------------------------------------------------------------------------------
@@ -115,9 +115,9 @@ test_libbitcoin_c_test_SOURCES = \
     test/chain/output.cpp \
     test/chain/transaction.cpp \
     test/chain/block.cpp \
+    test/chain/point.cpp \
     # test/chain/script.cpp \
     # test/chain/satoshi_words.cpp \
-    # test/chain/point.cpp \
     # test/math/elliptic_curve.cpp \
     # test/wallet/bitcoin_uri.cpp \
     # test/wallet/hd_public.cpp \

@@ -30,12 +30,12 @@ BOOST_AUTO_TEST_CASE(begin_end_test_c)
 BOOST_AUTO_TEST_CASE(from_data_fails_c)
 {
     bc_data_chunk_t* data = bc_create_data_chunk();
-    bc_data_chunk_resize(data, 10);
+    bc_data_chunk__resize(data, 10);
 
     bc_point_t* instance = bc_create_point();
 
-    BOOST_REQUIRE_EQUAL(false, bc_point_from_data(instance, data));
-    BOOST_REQUIRE_EQUAL(false, bc_point_is_valid(instance));
+    BOOST_REQUIRE_EQUAL(false, bc_point__from_data(instance, data));
+    BOOST_REQUIRE_EQUAL(false, bc_point__is_valid(instance));
 
     bc_destroy_point(instance);
     bc_destroy_data_chunk(data);
@@ -53,22 +53,22 @@ BOOST_AUTO_TEST_CASE(to_data_from_data_roundtrip_c)
         });
 
     bc_point_t* initial = bc_create_point();
-    bc_point_set_hash(initial, hash);
-    bc_point_set_index(initial, index);
+    bc_point__set_hash(initial, hash);
+    bc_point__set_index(initial, index);
 
-    BOOST_REQUIRE(bc_point_is_valid(initial));
-    bc_hash_digest_t* initial_hash = bc_point_hash(initial);
-    BOOST_REQUIRE(bc_hash_digest_equals(hash, initial_hash));
+    BOOST_REQUIRE(bc_point__is_valid(initial));
+    bc_hash_digest_t* initial_hash = bc_point__hash(initial);
+    BOOST_REQUIRE(bc_hash_digest__equals(hash, initial_hash));
     bc_destroy_hash_digest(initial_hash);
-    BOOST_REQUIRE(index == bc_point_index(initial));
+    BOOST_REQUIRE(index == bc_point__index(initial));
 
     bc_point_t* point = bc_create_point();
-    BOOST_REQUIRE(bc_point_not_equals(point, initial));
-    bc_data_chunk_t* initial_data = bc_point_to_data(initial);
-    BOOST_REQUIRE(bc_point_from_data(point, initial_data));
+    BOOST_REQUIRE(bc_point__not_equals(point, initial));
+    bc_data_chunk_t* initial_data = bc_point__to_data(initial);
+    BOOST_REQUIRE(bc_point__from_data(point, initial_data));
     bc_destroy_data_chunk(initial_data);
-    BOOST_REQUIRE(bc_point_is_valid(point));
-    BOOST_REQUIRE(bc_point_equals(point, initial));
+    BOOST_REQUIRE(bc_point__is_valid(point));
+    BOOST_REQUIRE(bc_point__equals(point, initial));
 
     bc_destroy_point(point);
     bc_destroy_point(initial);
@@ -88,24 +88,24 @@ BOOST_AUTO_TEST_CASE(from_data_to_data_roundtrip_factory_data_chunk_c)
     };
     bc_data_chunk_t* rawdata_cmp = bc_create_data_chunk_Array(
         rawbytes, sizeof(rawbytes));
-    BOOST_REQUIRE(bc_data_chunk_equals(rawdata_cmp, rawdata));
+    BOOST_REQUIRE(bc_data_chunk__equals(rawdata_cmp, rawdata));
     bc_destroy_data_chunk(rawdata_cmp);
 
-    bc_point_t* point = bc_point_factory_from_data(rawdata);
+    bc_point_t* point = bc_point__factory_from_data(rawdata);
 
-    BOOST_REQUIRE(bc_point_is_valid(point));
+    BOOST_REQUIRE(bc_point__is_valid(point));
 
-    bc_hash_digest_t* point_hash = bc_point_hash(point);
+    bc_hash_digest_t* point_hash = bc_point__hash(point);
     bc_string_t* hash_str = bc_encode_hash(point_hash);
-    BOOST_REQUIRE(bc_string_equals_cstr(hash_str,
+    BOOST_REQUIRE(bc_string__equals_cstr(hash_str,
         "8ed5a0af151cdbc8c0c546cde29334f15b4472bba105394a1221a7f088246846"));
     bc_destroy_string(hash_str);
     bc_destroy_hash_digest(point_hash);
 
-    BOOST_REQUIRE(bc_point_index(point) == 0);
+    BOOST_REQUIRE(bc_point__index(point) == 0);
 
-    bc_data_chunk_t* output = bc_point_to_data(point);
-    BOOST_REQUIRE(bc_data_chunk_equals(output, rawdata));
+    bc_data_chunk_t* output = bc_point__to_data(point);
+    BOOST_REQUIRE(bc_data_chunk__equals(output, rawdata));
     bc_destroy_data_chunk(output);
 
     bc_destroy_point(point);
