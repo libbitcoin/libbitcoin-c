@@ -41,6 +41,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/utility/binary.cpp \
     src/utility/string.cpp \
     src/utility/data.cpp \
+    src/utility/variable_uint_size.cpp \
     src/math/limits.cpp \
     src/math/hash.cpp \
     src/formats/base_16.cpp \
@@ -70,22 +71,22 @@ src_libbitcoin_c_la_SOURCES = \
     src/chain/script/opcode.cpp \
     src/chain/script/operation.cpp \
     src/chain/script/script.cpp \
-    # src/wallet/dictionary.cpp \
-    # src/wallet/uri.cpp \
-    # src/wallet/ek_token.cpp \
-    # src/wallet/ek_private.cpp \
-    # src/wallet/ek_public.cpp \
-    # src/wallet/encrypted_keys.cpp \
-    # src/wallet/message.cpp \
-    # src/wallet/mnemonic.cpp \
-    # src/wallet/mini_keys.cpp \
-    # src/wallet/ec_private.cpp \
-    # src/wallet/ec_public.cpp \
-    # src/wallet/hd_public.cpp \
-    # src/wallet/hd_private.cpp \
-    # src/wallet/payment_address.cpp \
-    # src/wallet/stealth_address.cpp \
-    # src/wallet/select_outputs.cpp
+    src/wallet/encrypted_keys.cpp \
+    src/wallet/ek_public.cpp \
+    src/wallet/ek_private.cpp \
+    src/wallet/mini_keys.cpp \
+    src/wallet/uri.cpp \
+    src/wallet/ec_private.cpp \
+    src/wallet/mnemonic.cpp \
+    src/wallet/ek_token.cpp \
+    src/wallet/message.cpp \
+    src/wallet/ec_public.cpp \
+    src/wallet/hd_public.cpp \
+    src/wallet/hd_private.cpp \
+    src/wallet/stealth_address.cpp \
+    src/wallet/payment_address.cpp \
+    src/wallet/dictionary.cpp \
+    src/wallet/select_outputs.cpp
 
 # local: test/libbitcoin_network_test
 #------------------------------------------------------------------------------
@@ -176,6 +177,7 @@ include_bitcoin_bitcoin_c_utility_HEADERS = \
     include/bitcoin/bitcoin/c/utility/binary.h \
     include/bitcoin/bitcoin/c/utility/data.h \
     include/bitcoin/bitcoin/c/utility/string.h \
+    include/bitcoin/bitcoin/c/utility/variable_uint_size.h \
     include/bitcoin/bitcoin/c/utility/vector.h
 
 include_bitcoin_bitcoin_c_formatsdir = ${includedir}/bitcoin/bitcoin/c/formats

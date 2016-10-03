@@ -40,45 +40,45 @@ void bc_destroy_uri(bc_uri_t* self);
  * Decodes a URI from a string.
  * @param strict Set to false to tolerate unescaped special characters.
  */
-bool bc_uri_decode(bc_uri_t* self, const char* encoded);
-bool bc_uri_decode_nostrict(bc_uri_t* self, const char* encoded);
-bc_string_t* bc_uri_encoded(const bc_uri_t* self);
+bool bc_uri__decode(bc_uri_t* self, const char* encoded);
+bool bc_uri__decode_nostrict(bc_uri_t* self, const char* encoded);
+bc_string_t* bc_uri__encoded(const bc_uri_t* self);
 
 /**
  * Returns the lowercased URI scheme.
  */
-bc_string_t* bc_uri_scheme(const bc_uri_t* self);
-void bc_uri_set_scheme(bc_uri_t* self, const char* scheme);
+bc_string_t* bc_uri__scheme(const bc_uri_t* self);
+void bc_uri__set_scheme(bc_uri_t* self, const char* scheme);
 
 /**
  * Obtains the unescaped authority part, if any (user@server:port).
  */
-bc_string_t* bc_uri_authority(const bc_uri_t* self);
-bool bc_uri_has_authority(const bc_uri_t* self);
-void bc_uri_set_authority(bc_uri_t* self, const char* authority);
-void bc_uri_remove_authority(bc_uri_t* self);
+bc_string_t* bc_uri__authority(const bc_uri_t* self);
+bool bc_uri__has_authority(const bc_uri_t* self);
+void bc_uri__set_authority(bc_uri_t* self, const char* authority);
+void bc_uri__remove_authority(bc_uri_t* self);
 
 /**
  * Obtains the unescaped path part.
  */
-bc_string_t* bc_uri_path(const bc_uri_t* self);
-void bc_uri_set_path(bc_uri_t* self, const char* path);
+bc_string_t* bc_uri__path(const bc_uri_t* self);
+void bc_uri__set_path(bc_uri_t* self, const char* path);
 
 /**
  * Returns the unescaped query string, if any.
  */
-bc_string_t* bc_uri_query(const bc_uri_t* self);
-bool bc_uri_has_query(const bc_uri_t* self);
-void bc_uri_set_query(bc_uri_t* self, const char* query);
-void bc_uri_remove_query(bc_uri_t* self);
+bc_string_t* bc_uri__query(const bc_uri_t* self);
+bool bc_uri__has_query(const bc_uri_t* self);
+void bc_uri__set_query(bc_uri_t* self, const char* query);
+void bc_uri__remove_query(bc_uri_t* self);
 
 /**
  * Returns the unescaped fragment string, if any.
  */
-bc_string_t* bc_uri_fragment(const bc_uri_t* self);
-bool bc_uri_has_fragment(const bc_uri_t* self);
-void bc_uri_set_fragment(bc_uri_t* self, const char* fragment);
-void bc_uri_remove_fragment(bc_uri_t* self);
+bc_string_t* bc_uri__fragment(const bc_uri_t* self);
+bool bc_uri__has_fragment(const bc_uri_t* self);
+void bc_uri__set_fragment(bc_uri_t* self, const char* fragment);
+void bc_uri__remove_fragment(bc_uri_t* self);
 
 #ifdef __cplusplus
 }

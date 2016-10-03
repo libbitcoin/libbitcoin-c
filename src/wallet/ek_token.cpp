@@ -50,37 +50,37 @@ void bc_destroy_ek_token(bc_ek_token_t* self)
     delete self;
 }
 
-bool bc_ek_token_less_than(
+bool bc_ek_token__less_than(
     const bc_ek_token_t* self, const bc_ek_token_t* other)
 {
     return *self->obj < *other->obj;
 }
-bool bc_ek_token_equals(
+bool bc_ek_token__equals(
     const bc_ek_token_t* self, const bc_ek_token_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_ek_token_not_equals(
+bool bc_ek_token__not_equals(
     const bc_ek_token_t* self, const bc_ek_token_t* other)
 {
     return *self->obj != *other->obj;
 }
-void bc_ek_token_copy(bc_ek_token_t* self, const bc_ek_token_t* other)
+void bc_ek_token__copy(bc_ek_token_t* self, const bc_ek_token_t* other)
 {
     *self->obj = *other->obj;
 }
 
-bool bc_ek_token_is_valid(const bc_ek_token_t* self)
+bool bc_ek_token__is_valid(const bc_ek_token_t* self)
 {
     return static_cast<bool>(*self->obj);
 }
 
-bc_string_t* bc_ek_token_encoded(const bc_ek_token_t* self)
+bc_string_t* bc_ek_token__encoded(const bc_ek_token_t* self)
 {
     return bc_create_string_StdString(self->obj->encoded());
 }
 
-bc_encrypted_token_t* bc_ek_token_token(const bc_ek_token_t* self)
+bc_encrypted_token_t* bc_ek_token__token(const bc_ek_token_t* self)
 {
     return new bc_encrypted_token_t{ new libbitcoin::wallet::encrypted_token(
         self->obj->token()) };

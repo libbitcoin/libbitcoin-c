@@ -29,15 +29,15 @@ extern "C" {
 
 BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(payment, libbitcoin::wallet);
 
-uint8_t bc_payment_address_mainnet_p2kh()
+uint8_t bc_payment_address__mainnet_p2kh()
 {
     return libbitcoin::wallet::payment_address::mainnet_p2kh;
 }
-uint8_t bc_payment_address_mainnet_p2sh()
+uint8_t bc_payment_address__mainnet_p2sh()
 {
     return libbitcoin::wallet::payment_address::mainnet_p2sh;
 }
-bc_payment_address_t* bc_payment_address_extract(
+bc_payment_address_t* bc_payment_address__extract(
     const bc_script_t* script)
 {
     const auto& address = libbitcoin::wallet::payment_address::extract(
@@ -45,7 +45,7 @@ bc_payment_address_t* bc_payment_address_extract(
     return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
         address) };
 }
-bc_payment_address_t* bc_payment_address_extract_Options(
+bc_payment_address_t* bc_payment_address__extract_Options(
     const bc_script_t* script, uint8_t p2kh_version, uint8_t p2sh_version)
 {
     const auto& address = libbitcoin::wallet::payment_address::extract(
@@ -115,22 +115,22 @@ void bc_destroy_payment_address(bc_payment_address_t* self)
 }
 
 /// Operators.
-bool bc_payment_address_less_than(
+bool bc_payment_address__less_than(
     const bc_payment_address_t* self, const bc_payment_address_t* other)
 {
     return *self->obj < *other->obj;
 }
-bool bc_payment_address_equals(
+bool bc_payment_address__equals(
     const bc_payment_address_t* self, const bc_payment_address_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_payment_address_not_equals(
+bool bc_payment_address__not_equals(
     const bc_payment_address_t* self, const bc_payment_address_t* other)
 {
     return *self->obj != *other->obj;
 }
-bc_payment_address_t* bc_payment_address_copy(
+bc_payment_address_t* bc_payment_address__copy(
     bc_payment_address_t* self, const bc_payment_address_t* other)
 {
     *self->obj = *other->obj;
@@ -139,30 +139,30 @@ bc_payment_address_t* bc_payment_address_copy(
 // stream operators ignored.
 
 /// Cast operators.
-bool bc_payment_address_is_valid(const bc_payment_address_t* self)
+bool bc_payment_address__is_valid(const bc_payment_address_t* self)
 {
     return static_cast<bool>(*self->obj);
 }
 
 /// Serializer.
-bc_string_t* bc_payment_address_encoded(const bc_payment_address_t* self)
+bc_string_t* bc_payment_address__encoded(const bc_payment_address_t* self)
 {
     return bc_create_string_StdString(self->obj->encoded());
 }
 
 /// Accessors.
-uint8_t bc_payment_address_version(const bc_payment_address_t* self)
+uint8_t bc_payment_address__version(const bc_payment_address_t* self)
 {
     return self->obj->version();
 }
-bc_short_hash_t* bc_payment_address_hash(const bc_payment_address_t* self)
+bc_short_hash_t* bc_payment_address__hash(const bc_payment_address_t* self)
 {
     return new bc_short_hash_t{ new libbitcoin::short_hash(
         self->obj->hash()) };
 }
 
 /// Methods.
-bc_payment_t* bc_payment_address_payment(const bc_payment_address_t* self)
+bc_payment_t* bc_payment_address__payment(const bc_payment_address_t* self)
 {
     return new bc_payment_t{ new libbitcoin::wallet::payment(
         self->obj->to_payment()) };

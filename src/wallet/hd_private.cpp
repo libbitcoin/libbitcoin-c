@@ -27,15 +27,15 @@
 
 extern "C" {
 
-uint64_t bc_hd_private_mainnet()
+uint64_t bc_hd_private__mainnet()
 {
     return libbitcoin::wallet::hd_private::mainnet;
 }
-uint32_t bc_hd_private_to_prefix(uint64_t prefixes)
+uint32_t bc_hd_private__to_prefix(uint64_t prefixes)
 {
     return libbitcoin::wallet::hd_private::to_prefix(prefixes);
 }
-uint64_t bc_hd_private_to_prefixes(
+uint64_t bc_hd_private__to_prefixes(
     uint32_t private_prefix, uint32_t public_prefix)
 {
     return libbitcoin::wallet::hd_private::to_prefixes(
@@ -99,58 +99,59 @@ void bc_destroy_hd_private(bc_hd_private_t* self)
     delete self;
 }
 /// Operators.
-bool bc_hd_private_less_than(
+bool bc_hd_private__less_than(
     bc_hd_private_t* self, const bc_hd_private_t* other)
 {
     return *self->obj < *other->obj;
 }
-bool bc_hd_private_equals(
+bool bc_hd_private__equals(
     bc_hd_private_t* self, const bc_hd_private_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_hd_private_not_equals(
+bool bc_hd_private__not_equals(
     bc_hd_private_t* self, const bc_hd_private_t* other)
 {
     return *self->obj != *other->obj;
 }
 // Simply returns itself again
-bc_hd_private_t* bc_hd_private_copy(
+bc_hd_private_t* bc_hd_private__copy(
     bc_hd_private_t* self, const bc_hd_private_t* other)
 {
     *self->obj = *other->obj;
     return self;
 }
 // istream and ostream operators ignored.
-/// Cast operators.
-bc_ec_secret_t* bc_hd_private_ec_secret(const bc_hd_private_t* self)
-{
-    return new bc_ec_secret_t{ new libbitcoin::ec_secret(
-        self->obj->secret()) };
-}
-bc_string_t* bc_hd_private_encoded(const bc_hd_private_t* self)
+/// Serializer.
+bc_string_t* bc_hd_private__encoded(const bc_hd_private_t* self)
 {
     std::string encoded = self->obj->encoded();
     return bc_create_string_Length(encoded.data(), encoded.length());
 }
+/// Accessors.
+bc_ec_secret_t* bc_hd_private__ec_secret(const bc_hd_private_t* self)
+{
+    return new bc_ec_secret_t{ new libbitcoin::ec_secret(
+        self->obj->secret()) };
+}
 /// Methods.
-bc_hd_key_t* bc_hd_private_to_hd_key(const bc_hd_private_t* self)
+bc_hd_key_t* bc_hd_private__to_hd_key(const bc_hd_private_t* self)
 {
     return new bc_hd_key_t{ new libbitcoin::wallet::hd_key(
         self->obj->to_hd_key()) };
 }
-bc_hd_public_t* bc_hd_private_to_public(const bc_hd_private_t* self)
+bc_hd_public_t* bc_hd_private__to_public(const bc_hd_private_t* self)
 {
     return new bc_hd_public_t{ new libbitcoin::wallet::hd_public(
         self->obj->to_public()) };
 }
-bc_hd_private_t* bc_hd_private_derive_private(
+bc_hd_private_t* bc_hd_private__derive_private(
     const bc_hd_private_t* self, uint32_t index)
 {
     return new bc_hd_private_t{ new libbitcoin::wallet::hd_private(
         self->obj->derive_private(index)) };
 }
-bc_hd_public_t* bc_hd_private_derive_public(
+bc_hd_public_t* bc_hd_private__derive_public(
     const bc_hd_private_t* self, uint32_t index)
 {
     return new bc_hd_public_t{ new libbitcoin::wallet::hd_public(

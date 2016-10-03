@@ -39,21 +39,21 @@ bc_ek_public_t* bc_create_ek_public_copy(const bc_ek_public_t* other);
 void bc_destroy_ek_public(bc_ek_public_t* self);
 
 /// Operators.
-bool bc_ek_public_less_than(
+bool bc_ek_public__less_than(
     const bc_ek_public_t* self, const bc_ek_public_t* other);
-bool bc_ek_public_equals(
+bool bc_ek_public__equals(
     const bc_ek_public_t* self, const bc_ek_public_t* other);
-bool bc_ek_public_not_equals(
+bool bc_ek_public__not_equals(
     const bc_ek_public_t* self, const bc_ek_public_t* other);
-void bc_ek_public_copy(bc_ek_public_t* self, const bc_ek_public_t* other);
+void bc_ek_public__copy(bc_ek_public_t* self, const bc_ek_public_t* other);
 
-bool bc_ek_public_is_valid(const bc_ek_public_t* self);
+bool bc_ek_public__is_valid(const bc_ek_public_t* self);
 
 /// Serializer.
-bc_string_t* bc_ek_public_encoded(const bc_ek_public_t* self);
+bc_string_t* bc_ek_public__encoded(const bc_ek_public_t* self);
 
 /// Accessors.
-bc_encrypted_public_t* bc_ek_public_public_key(const bc_ek_public_t* self);
+bc_encrypted_public_t* bc_ek_public__public_key(const bc_ek_public_t* self);
 
 #ifdef __cplusplus
 }

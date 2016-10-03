@@ -41,21 +41,21 @@ bc_ek_token_t* bc_create_ek_token_copy(const bc_ek_token_t* other);
 void bc_destroy_ek_token(bc_ek_token_t* self);
 
 /// Operators.
-bool bc_ek_token_less_than(
+bool bc_ek_token__less_than(
     const bc_ek_token_t* self, const bc_ek_token_t* other);
-bool bc_ek_token_equals(
+bool bc_ek_token__equals(
     const bc_ek_token_t* self, const bc_ek_token_t* other);
-bool bc_ek_token_not_equals(
+bool bc_ek_token__not_equals(
     const bc_ek_token_t* self, const bc_ek_token_t* other);
-void bc_ek_token_copy(bc_ek_token_t* self, const bc_ek_token_t* other);
+void bc_ek_token__copy(bc_ek_token_t* self, const bc_ek_token_t* other);
 
-bool bc_ek_token_is_valid(const bc_ek_token_t* self);
+bool bc_ek_token__is_valid(const bc_ek_token_t* self);
 
 /// Serializer.
-bc_string_t* bc_ek_token_encoded(const bc_ek_token_t* self);
+bc_string_t* bc_ek_token__encoded(const bc_ek_token_t* self);
 
 /// Accessors.
-bc_encrypted_token_t* bc_ek_token_token(const bc_ek_token_t* self);
+bc_encrypted_token_t* bc_ek_token__token(const bc_ek_token_t* self);
 
 #ifdef __cplusplus
 }

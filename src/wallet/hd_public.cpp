@@ -52,60 +52,60 @@ void bc_destroy_hd_key(bc_hd_key_t* self)
 }
 
 // prefixes
-uint64_t bc_hd_lineage_get_prefixes(bc_hd_lineage_t* self)
+uint64_t bc_hd_lineage__get_prefixes(bc_hd_lineage_t* self)
 {
     return self->obj->prefixes;
 }
-void bc_hd_lineage_set_prefixes(
+void bc_hd_lineage__set_prefixes(
     bc_hd_lineage_t* self, uint64_t prefixes)
 {
     self->obj->prefixes = prefixes;
 }
 // depth
-uint8_t bc_hd_lineage_get_depth(bc_hd_lineage_t* self)
+uint8_t bc_hd_lineage__get_depth(bc_hd_lineage_t* self)
 {
     return self->obj->depth;
 }
-void bc_hd_lineage_set_depth(
+void bc_hd_lineage__set_depth(
     bc_hd_lineage_t* self, uint8_t depth)
 {
     self->obj->depth = depth;
 }
 // parent_fingerprint
-uint32_t bc_hd_lineage_get_parent_fingerprint(bc_hd_lineage_t* self)
+uint32_t bc_hd_lineage__get_parent_fingerprint(bc_hd_lineage_t* self)
 {
     return self->obj->parent_fingerprint;
 }
-void bc_hd_lineage_set_parent_fingerprint(
+void bc_hd_lineage__set_parent_fingerprint(
     bc_hd_lineage_t* self,uint32_t parent_fingerprint)
 {
     self->obj->parent_fingerprint = parent_fingerprint;
 }
 // child_number
-uint32_t bc_hd_lineage_get_child_number(bc_hd_lineage_t* self)
+uint32_t bc_hd_lineage__get_child_number(bc_hd_lineage_t* self)
 {
     return self->obj->child_number;
 }
-void bc_hd_lineage_set_child_number(
+void bc_hd_lineage__set_child_number(
     bc_hd_lineage_t* self, uint32_t child_number)
 {
     self->obj->child_number = child_number;
 }
 // Comparison operators
-bool bc_hd_lineage_equals(bc_hd_lineage_t* a, bc_hd_lineage_t* b)
+bool bc_hd_lineage__equals(bc_hd_lineage_t* a, bc_hd_lineage_t* b)
 {
     return *a->obj == *b->obj;
 }
-bool bc_hd_lineage_not_equals(bc_hd_lineage_t* a, bc_hd_lineage_t* b)
+bool bc_hd_lineage__not_equals(bc_hd_lineage_t* a, bc_hd_lineage_t* b)
 {
     return *a->obj != *b->obj;
 }
 
-uint32_t bc_hd_public_mainnet()
+uint32_t bc_hd_public__mainnet()
 {
     return libbitcoin::wallet::hd_public::mainnet;
 }
-uint32_t bc_hd_public_to_prefix(uint64_t prefixes)
+uint32_t bc_hd_public__to_prefix(uint64_t prefixes)
 {
     return libbitcoin::wallet::hd_public::to_prefix(prefixes);
 }
@@ -152,62 +152,62 @@ void bc_destroy_hd_public(bc_hd_public_t* self)
     delete self->obj;
     delete self;
 }
-bool bc_hd_public_less_than(
+bool bc_hd_public__less_than(
     const bc_hd_public_t* self, const bc_hd_public_t* other)
 {
     return *self->obj < *other->obj;
 }
-bool bc_hd_public_equals(
+bool bc_hd_public__equals(
     const bc_hd_public_t* self, const bc_hd_public_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_hd_public_not_equals(
+bool bc_hd_public__not_equals(
     const bc_hd_public_t* self, const bc_hd_public_t* other)
 {
     return *self->obj != *other->obj;
 }
-bc_hd_public_t* bc_hd_public_copy(
+bc_hd_public_t* bc_hd_public__copy(
     bc_hd_public_t* self, const bc_hd_public_t* other)
 {
     *self->obj = *other->obj;
 }
-bool bc_hd_public_to_bool(const bc_hd_public_t* self)
+bool bc_hd_public__to_bool(const bc_hd_public_t* self)
 {
     return static_cast<bool>(*self->obj);
 }
-bc_string_t* bc_hd_public_encoded(const bc_hd_public_t* self)
+bc_string_t* bc_hd_public__encoded(const bc_hd_public_t* self)
 {
     std::string encoded = self->obj->encoded();
     return bc_create_string_Length(encoded.data(), encoded.length());
 }
-bc_hd_chain_code_t* bc_hd_public_chain_code(const bc_hd_public_t* self)
+bc_hd_chain_code_t* bc_hd_public__chain_code(const bc_hd_public_t* self)
 {
     auto &chain_code = self->obj->chain_code();
     bc_hd_chain_code_t* result = new bc_hd_chain_code_t;
     result->obj = new libbitcoin::wallet::hd_chain_code(chain_code);
     return result;
 }
-bc_hd_lineage_t* bc_hd_public_lineage(const bc_hd_public_t* self)
+bc_hd_lineage_t* bc_hd_public__lineage(const bc_hd_public_t* self)
 {
     auto &lineage = self->obj->lineage();
     bc_hd_lineage_t* result = new bc_hd_lineage_t;
     result->obj = new libbitcoin::wallet::hd_lineage(lineage);
     return result;
 }
-bc_ec_compressed_t* bc_hd_public_point(const bc_hd_public_t* self)
+bc_ec_compressed_t* bc_hd_public__point(const bc_hd_public_t* self)
 {
     return new bc_ec_compressed_t{ new libbitcoin::ec_compressed(
         self->obj->point()) };
 }
-bc_hd_key_t* bc_hd_public_to_hd_key(const bc_hd_public_t* self)
+bc_hd_key_t* bc_hd_public__to_hd_key(const bc_hd_public_t* self)
 {
     auto key = self->obj->to_hd_key();
     bc_hd_key_t* result = new bc_hd_key_t;
     result->obj = new libbitcoin::wallet::hd_key(key);
     return result;
 }
-bc_hd_public_t* bc_hd_public_derive_public(
+bc_hd_public_t* bc_hd_public__derive_public(
     const bc_hd_public_t* self, uint32_t index)
 {
     bc_hd_public_t* derived = new bc_hd_public_t;

@@ -79,14 +79,14 @@ BC_DECLARE_BYTE_ARRAY(encrypted_public);
 // the key belongs to an alt-chain [This shoud read "flag bits"].
 typedef enum bc_ek_flag_t
 {
-    bc_ek_flag_lot_sequence_key = 1 << 2,
-    bc_ek_flag_ec_compressed_key = 1 << 5,
-    bc_ek_flag_ec_non_multiplied_low = 1 << 6,
-    bc_ek_flag_ec_non_multiplied_high = 1 << 7,
+    bc_ek_flag__lot_sequence_key = 1 << 2,
+    bc_ek_flag__ec_compressed_key = 1 << 5,
+    bc_ek_flag__ec_non_multiplied_low = 1 << 6,
+    bc_ek_flag__ec_non_multiplied_high = 1 << 7,
 
     /// Two bits are used to represent "not multiplied".
-    bc_ek_flag_ec_non_multiplied = (
-        bc_ek_flag_ec_non_multiplied_low | bc_ek_flag_ec_non_multiplied_high)
+    bc_ek_flag__ec_non_multiplied = (
+        bc_ek_flag__ec_non_multiplied_low | bc_ek_flag__ec_non_multiplied_high)
 
 } bc_ek_flag_t;
 

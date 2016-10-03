@@ -28,15 +28,15 @@
 extern "C" {
 
 /// Static values
-uint8_t bc_stealth_address_mainnet_p2kh()
+uint8_t bc_stealth_address__mainnet_p2kh()
 {
     return libbitcoin::wallet::stealth_address::mainnet_p2kh;
 }
-uint8_t bc_stealth_address_reuse_key_flag()
+uint8_t bc_stealth_address__reuse_key_flag()
 {
     return libbitcoin::wallet::stealth_address::reuse_key_flag;
 }
-uint8_t bc_stealth_address_max_filter_bits()
+uint8_t bc_stealth_address__max_filter_bits()
 {
     return libbitcoin::wallet::stealth_address::max_filter_bits;
 }
@@ -81,22 +81,22 @@ void bc_destroy_stealth_address(bc_stealth_address_t* self)
 }
 
 /// Operators.
-bool bc_stealth_address_less_than(const bc_stealth_address_t* self,
+bool bc_stealth_address__less_than(const bc_stealth_address_t* self,
     const bc_stealth_address_t* other)
 {
     return *self->obj < *other->obj;
 }
-bool bc_stealth_address_equals(const bc_stealth_address_t* self,
+bool bc_stealth_address__equals(const bc_stealth_address_t* self,
     const bc_stealth_address_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_stealth_address_not_equals(const bc_stealth_address_t* self,
+bool bc_stealth_address__not_equals(const bc_stealth_address_t* self,
     const bc_stealth_address_t* other)
 {
     return *self->obj != *other->obj;
 }
-bc_stealth_address_t* bc_stealth_address_copy(
+bc_stealth_address_t* bc_stealth_address__copy(
     bc_stealth_address_t* self, const bc_stealth_address_t* other)
 {
     *self->obj = *other->obj;
@@ -104,44 +104,44 @@ bc_stealth_address_t* bc_stealth_address_copy(
 }
 
 /// Cast operators.
-bool bc_stealth_address_is_valid(const bc_stealth_address_t* self)
+bool bc_stealth_address__is_valid(const bc_stealth_address_t* self)
 {
     return static_cast<bool>(*self->obj);
 }
 
 /// Serializer.
-bc_string_t* bc_stealth_address_encoded(const bc_stealth_address_t* self)
+bc_string_t* bc_stealth_address__encoded(const bc_stealth_address_t* self)
 {
     return bc_create_string_StdString(self->obj->encoded());
 }
 
 /// Accessors.
-uint8_t bc_stealth_address_version(const bc_stealth_address_t* self)
+uint8_t bc_stealth_address__version(const bc_stealth_address_t* self)
 {
     return self->obj->version();
 }
-bc_ec_compressed_t* bc_stealth_address_scan_key(
+bc_ec_compressed_t* bc_stealth_address__scan_key(
     const bc_stealth_address_t* self)
 {
     return new bc_ec_compressed_t{ new libbitcoin::ec_compressed(
         self->obj->scan_key()) };
 }
-bc_point_list_t* bc_stealth_address_spend_keys(
+bc_point_list_t* bc_stealth_address__spend_keys(
     const bc_stealth_address_t* self)
 {
     return bc_point_list_to_ctype(self->obj->spend_keys());
 }
-uint8_t bc_stealth_address_signatures(const bc_stealth_address_t* self)
+uint8_t bc_stealth_address__signatures(const bc_stealth_address_t* self)
 {
     return self->obj->signatures();
 }
-bc_binary_t* bc_stealth_address_filter(const bc_stealth_address_t* self)
+bc_binary_t* bc_stealth_address__filter(const bc_stealth_address_t* self)
 {
     return new bc_binary_t{ new libbitcoin::binary(self->obj->filter()) };
 }
 
 /// Methods.
-bc_data_chunk_t* bc_stealth_address_to_chunk(
+bc_data_chunk_t* bc_stealth_address__to_chunk(
     const bc_stealth_address_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->to_chunk());

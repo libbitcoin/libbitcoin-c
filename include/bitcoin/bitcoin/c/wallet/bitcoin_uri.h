@@ -38,47 +38,47 @@ bc_bitcoin_uri_t* bc_create_bitcoin_uri(const char* uri);
 bc_bitcoin_uri_t* bc_create_bitcoin_uri_nostrict(const char* uri);
 void bc_destroy_bitcoin_uri(bc_bitcoin_uri_t* self);
 /// Operators.
-bool bc_bitcoin_uri_less_than(
+bool bc_bitcoin_uri__less_than(
     const bc_bitcoin_uri_t* self, const bc_bitcoin_uri_t* other);
-bool bc_bitcoin_uri_equals(
+bool bc_bitcoin_uri__equals(
     const bc_bitcoin_uri_t* self, const bc_bitcoin_uri_t* other);
-bool bc_bitcoin_uri_not_equals(
+bool bc_bitcoin_uri__not_equals(
     const bc_bitcoin_uri_t* self, const bc_bitcoin_uri_t* other);
-bc_bitcoin_uri_t* bc_bitcoin_uri_copy(
+bc_bitcoin_uri_t* bc_bitcoin_uri__copy(
     bc_bitcoin_uri_t* self, const bc_bitcoin_uri_t* other);
 // stream operators ignored
 /// Test whether the URI has been initialized.
-bool bc_bitcoin_uri_is_valid(const bc_bitcoin_uri_t* self);
+bool bc_bitcoin_uri__is_valid(const bc_bitcoin_uri_t* self);
 /// Get the serialized URI representation.
-bc_string_t* bc_bitcoin_uri_encoded(const bc_bitcoin_uri_t* self);
+bc_string_t* bc_bitcoin_uri__encoded(const bc_bitcoin_uri_t* self);
 /// Property getters.
-uint64_t bc_bitcoin_uri_amount(const bc_bitcoin_uri_t* self);
-bc_string_t* bc_bitcoin_uri_label(const bc_bitcoin_uri_t* self);
-bc_string_t* bc_bitcoin_uri_message(const bc_bitcoin_uri_t* self);
-bc_string_t* bc_bitcoin_uri_r(const bc_bitcoin_uri_t* self);
-bc_string_t* bc_bitcoin_uri_address(const bc_bitcoin_uri_t* self);
-bc_payment_address_t* bc_bitcoin_uri_payment(const bc_bitcoin_uri_t* self);
-bc_stealth_address_t* bc_bitcoin_uri_stealth(const bc_bitcoin_uri_t* self);
-bc_string_t* bc_bitcoin_uri_parameter(
+uint64_t bc_bitcoin_uri__amount(const bc_bitcoin_uri_t* self);
+bc_string_t* bc_bitcoin_uri__label(const bc_bitcoin_uri_t* self);
+bc_string_t* bc_bitcoin_uri__message(const bc_bitcoin_uri_t* self);
+bc_string_t* bc_bitcoin_uri__r(const bc_bitcoin_uri_t* self);
+bc_string_t* bc_bitcoin_uri__address(const bc_bitcoin_uri_t* self);
+bc_payment_address_t* bc_bitcoin_uri__payment(const bc_bitcoin_uri_t* self);
+bc_stealth_address_t* bc_bitcoin_uri__stealth(const bc_bitcoin_uri_t* self);
+bc_string_t* bc_bitcoin_uri__parameter(
     const bc_bitcoin_uri_t* self, const char* key);
 /// Property setters.
-void bc_bitcoin_uri_set_amount(bc_bitcoin_uri_t* self, uint64_t satoshis);
-void bc_bitcoin_uri_set_label(bc_bitcoin_uri_t* self, const char* label);
-void bc_bitcoin_uri_set_message(bc_bitcoin_uri_t* self, const char* message);
-void bc_bitcoin_uri_set_r(bc_bitcoin_uri_t* self, const char* r);
-void bc_bitcoin_uri_set_address(bc_bitcoin_uri_t* self, const char* address);
-void bc_bitcoin_uri_set_payment(bc_bitcoin_uri_t* self,
+void bc_bitcoin_uri__set_amount(bc_bitcoin_uri_t* self, uint64_t satoshis);
+void bc_bitcoin_uri__set_label(bc_bitcoin_uri_t* self, const char* label);
+void bc_bitcoin_uri__set_message(bc_bitcoin_uri_t* self, const char* message);
+void bc_bitcoin_uri__set_r(bc_bitcoin_uri_t* self, const char* r);
+void bc_bitcoin_uri__set_address(bc_bitcoin_uri_t* self, const char* address);
+void bc_bitcoin_uri__set_payment(bc_bitcoin_uri_t* self,
     const bc_payment_address_t* payment);
-void bc_bitcoin_uri_set_stealth(bc_bitcoin_uri_t* self,
+void bc_bitcoin_uri__set_stealth(bc_bitcoin_uri_t* self,
     const bc_stealth_address_t* stealth);
 /// uri_reader implementation.
-void bc_bitcoin_uri_set_strict(bc_bitcoin_uri_t* self, bool strict);
-bool bc_bitcoin_uri_set_scheme(bc_bitcoin_uri_t* self, const char* scheme);
-bool bc_bitcoin_uri_set_authority(
+void bc_bitcoin_uri__set_strict(bc_bitcoin_uri_t* self, bool strict);
+bool bc_bitcoin_uri__set_scheme(bc_bitcoin_uri_t* self, const char* scheme);
+bool bc_bitcoin_uri__set_authority(
     bc_bitcoin_uri_t* self, const char* authority);
-bool bc_bitcoin_uri_set_path(bc_bitcoin_uri_t* self, const char* path);
-bool bc_bitcoin_uri_set_fragment(bc_bitcoin_uri_t* self, const char* fragment);
-bool bc_bitcoin_uri_set_parameter(bc_bitcoin_uri_t* self,
+bool bc_bitcoin_uri__set_path(bc_bitcoin_uri_t* self, const char* path);
+bool bc_bitcoin_uri__set_fragment(bc_bitcoin_uri_t* self, const char* fragment);
+bool bc_bitcoin_uri__set_parameter(bc_bitcoin_uri_t* self,
     const char* key, const char* value);
 
 #ifdef __cplusplus

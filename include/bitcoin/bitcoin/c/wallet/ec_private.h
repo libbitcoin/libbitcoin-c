@@ -45,16 +45,16 @@ typedef struct bc_ec_private_t bc_ec_private_t;
 // assumes a mapping to payment address version. This is insufficient
 // as a parameterized mapping is required, so we use the same technique as
 // with hd keys, merging the two necessary values into one version.
-uint8_t bc_ec_private_wif();
-uint8_t bc_ec_private_mainnet_p2kh();
-uint16_t bc_ec_private_mainnet();
-uint8_t bc_ec_private_compressed_sentinel();
+uint8_t bc_ec_private__wif();
+uint8_t bc_ec_private__mainnet_p2kh();
+uint16_t bc_ec_private__mainnet();
+uint8_t bc_ec_private__compressed_sentinel();
 
 /// Static functions
-uint8_t bc_ec_private_to_address_prefix(uint16_t version);
-uint8_t bc_ec_private_to_wif_prefix(uint16_t version);
+uint8_t bc_ec_private__to_address_prefix(uint16_t version);
+uint8_t bc_ec_private__to_wif_prefix(uint16_t version);
 // Unfortunately can't use this below to define mainnet (MSVC).
-uint8_t bc_ec_private_to_version(uint8_t address, uint8_t wif);
+uint8_t bc_ec_private__to_version(uint8_t address, uint8_t wif);
 
 /// Constructors
 bc_ec_private_t* bc_create_ec_private();
@@ -84,29 +84,31 @@ bc_ec_private_t* bc_create_ec_private_Secret_Version_nocompress(
 void bc_destroy_ec_private(bc_ec_private_t* self);
 
 /// Operators.
-bool bc_ec_private_less_than(const bc_ec_private_t* self,
+bool bc_ec_private__less_than(const bc_ec_private_t* self,
     const bc_ec_private_t* other);
-bool bc_ec_private_equals(const bc_ec_private_t* self,
+bool bc_ec_private__equals(const bc_ec_private_t* self,
     const bc_ec_private_t* other);
-bool bc_ec_private_not_equals(const bc_ec_private_t* self,
+bool bc_ec_private__not_equals(const bc_ec_private_t* self,
     const bc_ec_private_t* other);
-void bc_ec_private_copy(bc_ec_private_t* self, const bc_ec_private_t* other);
+void bc_ec_private__copy(bc_ec_private_t* self, const bc_ec_private_t* other);
 // Skipping stream operators
-bool bc_ec_private_is_valid(const bc_ec_private_t* self);
+
+/// Cast operators.
+bool bc_ec_private__is_valid(const bc_ec_private_t* self);
 
 /// Serializer.
-bc_string_t* bc_ec_private_encoded(const bc_ec_private_t* self);
+bc_string_t* bc_ec_private__encoded(const bc_ec_private_t* self);
 
 /// Accessors.
-bc_ec_secret_t* bc_ec_private_secret(const bc_ec_private_t* self);
-uint16_t bc_ec_private_version(const bc_ec_private_t* self);
-uint8_t bc_ec_private_payment_version(const bc_ec_private_t* self);
-uint8_t bc_ec_private_wif_version(const bc_ec_private_t* self);
-bool bc_ec_private_compressed(const bc_ec_private_t* self);
+bc_ec_secret_t* bc_ec_private__secret(const bc_ec_private_t* self);
+uint16_t bc_ec_private__version(const bc_ec_private_t* self);
+uint8_t bc_ec_private__payment_version(const bc_ec_private_t* self);
+uint8_t bc_ec_private__wif_version(const bc_ec_private_t* self);
+bool bc_ec_private__compressed(const bc_ec_private_t* self);
 
 /// Methods.
 // TODO: ec_public to_public() const
-bc_payment_address_t* bc_ec_private_to_payment_address(
+bc_payment_address_t* bc_ec_private__to_payment_address(
     const bc_ec_private_t* self);
 
 #ifdef __cplusplus

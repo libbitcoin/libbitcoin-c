@@ -50,37 +50,37 @@ void bc_destroy_ek_public(bc_ek_public_t* self)
     delete self;
 }
 
-bool bc_ek_public_less_than(
+bool bc_ek_public__less_than(
     const bc_ek_public_t* self, const bc_ek_public_t* other)
 {
     return *self->obj < *other->obj;
 }
-bool bc_ek_public_equals(
+bool bc_ek_public__equals(
     const bc_ek_public_t* self, const bc_ek_public_t* other)
 {
     return *self->obj == *other->obj;
 }
-bool bc_ek_public_not_equals(
+bool bc_ek_public__not_equals(
     const bc_ek_public_t* self, const bc_ek_public_t* other)
 {
     return *self->obj != *other->obj;
 }
-void bc_ek_public_copy(bc_ek_public_t* self, const bc_ek_public_t* other)
+void bc_ek_public__copy(bc_ek_public_t* self, const bc_ek_public_t* other)
 {
     *self->obj = *other->obj;
 }
 
-bool bc_ek_public_is_valid(const bc_ek_public_t* self)
+bool bc_ek_public__is_valid(const bc_ek_public_t* self)
 {
     return static_cast<bool>(*self->obj);
 }
 
-bc_string_t* bc_ek_public_encoded(const bc_ek_public_t* self)
+bc_string_t* bc_ek_public__encoded(const bc_ek_public_t* self)
 {
     return bc_create_string_StdString(self->obj->encoded());
 }
 
-bc_encrypted_public_t* bc_ek_public_public(const bc_ek_public_t* self)
+bc_encrypted_public_t* bc_ek_public__public(const bc_ek_public_t* self)
 {
     return new bc_encrypted_public_t{
         new libbitcoin::wallet::encrypted_public(

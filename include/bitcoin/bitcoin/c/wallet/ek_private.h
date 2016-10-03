@@ -39,21 +39,21 @@ bc_ek_private_t* bc_create_ek_private_copy(const bc_ek_private_t* other);
 void bc_destroy_ek_private(bc_ek_private_t* self);
 
 /// Operators.
-bool bc_ek_private_less_than(
+bool bc_ek_private__less_than(
     const bc_ek_private_t* self, const bc_ek_private_t* other);
-bool bc_ek_private_equals(
+bool bc_ek_private__equals(
     const bc_ek_private_t* self, const bc_ek_private_t* other);
-bool bc_ek_private_not_equals(
+bool bc_ek_private__not_equals(
     const bc_ek_private_t* self, const bc_ek_private_t* other);
-void bc_ek_private_copy(bc_ek_private_t* self, const bc_ek_private_t* other);
+void bc_ek_private__copy(bc_ek_private_t* self, const bc_ek_private_t* other);
 
-bool bc_ek_private_is_valid(const bc_ek_private_t* self);
+bool bc_ek_private__is_valid(const bc_ek_private_t* self);
 
 /// Serializer.
-bc_string_t* bc_ek_private_encoded(const bc_ek_private_t* self);
+bc_string_t* bc_ek_private__encoded(const bc_ek_private_t* self);
 
 /// Accessors.
-bc_encrypted_private_t* bc_ek_private_private_key(const bc_ek_private_t* self);
+bc_encrypted_private_t* bc_ek_private__private_key(const bc_ek_private_t* self);
 
 #ifdef __cplusplus
 }

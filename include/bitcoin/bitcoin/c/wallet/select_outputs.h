@@ -21,15 +21,15 @@
 #define LIBBITCOIN_C_WALLET_SELECT_OUTPUTS_H
 
 #include <stdint.h>
-#include <bitcoin/bitcoin/c/chain/point.h>
 #include <bitcoin/bitcoin/c/chain/output.h>
+#include <bitcoin/bitcoin/c/chain/output_point.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-//void bc_select_outputs_select(bc_points_info_t* out,
-//    const bc_output_info_list_t* unspent, uint64_t minimum_value);
+void bc_select_outputs_select(bc_points_info_t* out,
+    const bc_output_info_list_t* unspent, uint64_t minimum_value);
 
 #ifdef __cplusplus
 }
