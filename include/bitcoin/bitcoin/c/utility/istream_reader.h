@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_VARIABLE_UINT_SIZE_H
-#define LIBBITCOIN_C_VARIABLE_UINT_SIZE_H
+#ifndef LIBBITCOIN_C_UTILITY_ISTREAM_READER_H
+#define LIBBITCOIN_C_UTILITY_ISTREAM_READER_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -32,6 +32,11 @@ extern "C" {
 #endif
 
 typedef struct bc_istream_reader_t bc_istream_reader_t;
+
+// Constructor
+
+// Destructor
+void bc_destroy_istream_reader(bc_istream_reader_t* self);
 
 bool bc_istream_reader__is_valid(const bc_istream_reader_t* self);
 bool bc_istream_reader__is_not_valid(const bc_istream_reader_t* self);

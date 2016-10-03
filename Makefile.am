@@ -43,6 +43,9 @@ src_libbitcoin_c_la_SOURCES = \
     src/utility/data.cpp \
     src/utility/variable_uint_size.cpp \
     src/utility/istream_reader.cpp \
+    src/utility/ostream_writer.cpp \
+    src/utility/resource_lock.cpp \
+    src/utility/random.cpp \
     src/math/limits.cpp \
     src/math/hash.cpp \
     src/formats/base_16.cpp \
@@ -176,10 +179,13 @@ include_bitcoin_bitcoin_c_math_HEADERS = \
 include_bitcoin_bitcoin_c_utilitydir = ${includedir}/bitcoin/bitcoin/c/utility
 include_bitcoin_bitcoin_c_utility_HEADERS = \
     include/bitcoin/bitcoin/c/utility/binary.h \
+    include/bitcoin/bitcoin/c/utility/random.h \
     include/bitcoin/bitcoin/c/utility/data.h \
     include/bitcoin/bitcoin/c/utility/string.h \
     include/bitcoin/bitcoin/c/utility/istream_reader.h \
+    include/bitcoin/bitcoin/c/utility/ostream_writer.h \
     include/bitcoin/bitcoin/c/utility/variable_uint_size.h \
+    include/bitcoin/bitcoin/c/utility/resource_lock.h \
     include/bitcoin/bitcoin/c/utility/vector.h
 
 include_bitcoin_bitcoin_c_formatsdir = ${includedir}/bitcoin/bitcoin/c/formats
@@ -243,6 +249,8 @@ include_bitcoin_bitcoin_c_internal_utility_HEADERS = \
     include/bitcoin/bitcoin/c/internal/utility/binary.hpp \
     include/bitcoin/bitcoin/c/internal/utility/data.hpp \
     include/bitcoin/bitcoin/c/internal/utility/istream_reader.hpp \
+    include/bitcoin/bitcoin/c/internal/utility/ostream_writer.hpp \
+    include/bitcoin/bitcoin/c/internal/utility/resource_lock.hpp \
     include/bitcoin/bitcoin/c/internal/utility/vector.hpp \
     include/bitcoin/bitcoin/c/internal/utility/string.hpp
 

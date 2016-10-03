@@ -17,21 +17,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_UTILITY_VARIABLE_UINT_SIZE_H
-#define LIBBITCOIN_C_UTILITY_VARIABLE_UINT_SIZE_H
+#include <bitcoin/bitcoin/c/utility/random.h>
 
-#include <stddef.h>
-#include <stdint.h>
+#include <bitcoin/bitcoin/utility/random.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
-size_t variable_uint_size(uint64_t value);
-
-#ifdef __cplusplus
+uint64_t bc_pseudo_random()
+{
+    return libbitcoin::pseudo_random();
 }
-#endif
 
-#endif
+uint64_t bc_nonzero_pseudo_random()
+{
+    return libbitcoin::nonzero_pseudo_random();
+}
+
+void bc_pseudo_random_fill(bc_data_chunk_t* chunk)
+{
+    libbitcoin::pseudo_random_fill(*chunk->obj);
+}
+
+} // extern C
 

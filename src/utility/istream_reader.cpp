@@ -25,6 +25,12 @@
 
 extern "C" {
 
+void bc_destroy_istream_reader(bc_istream_reader_t* self)
+{
+    delete self->obj;
+    delete self;
+}
+
 bool bc_istream_reader__is_valid(const bc_istream_reader_t* self)
 {
     return static_cast<bool>(self->obj);

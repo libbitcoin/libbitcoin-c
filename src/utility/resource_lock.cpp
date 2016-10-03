@@ -17,21 +17,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_UTILITY_VARIABLE_UINT_SIZE_H
-#define LIBBITCOIN_C_UTILITY_VARIABLE_UINT_SIZE_H
+#include <bitcoin/bitcoin/c/utility/resource_lock.h>
+#include <bitcoin/bitcoin/c/internal/utility/resource_lock.hpp>
 
-#include <stddef.h>
-#include <stdint.h>
+#include <bitcoin/bitcoin/utility/resource_lock.hpp>
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
-size_t variable_uint_size(uint64_t value);
-
-#ifdef __cplusplus
+bc_resource_lock_t* bc_create_resource_lock(const char* lock_path)
+{
+    return new bc_resource_lock_t{ new libbitcoin::resource_lock(lock_path) };
 }
-#endif
+void bc_destroy_resource_lock(bc_resource_lock_t* self)
+{
+    delete self->obj;
+    delete self;
+}
 
-#endif
+bool bc_resource_lock__lock(const bc_resource_lock_t* self)
+{
+    return self->obj->lock();
+}
+bool bc_resource_lock__unlock(const bc_resource_lock_t* self)
+{
+    return self->obj->unlock();
+}
+
+} // extern C
 
