@@ -75,8 +75,7 @@ bool bc_output_point__not_equals(const bc_output_point_t* self,
 
 bc_point_t* bc_output_point__to_point(bc_output_point_t* self)
 {
-    return new bc_point_t{ new libbitcoin::chain::point(
-        *static_cast<libbitcoin::chain::point*>(self->obj)) };
+    return new bc_point_t{ static_cast<libbitcoin::chain::point*>(self->obj) };
 }
 
 void bc_output_point__reset(bc_output_point_t* self)
