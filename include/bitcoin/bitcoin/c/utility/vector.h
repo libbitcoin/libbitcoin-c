@@ -37,6 +37,7 @@ extern "C" {
         size_t pos); \
     /****************************************************************/ \
     size_t bc_##typename##__size(const bc_##typename##_t* self); \
+    bool bc_##typename##__empty(const bc_##typename##_t* self); \
     void bc_##typename##__clear(bc_##typename##_t* self); \
     void bc_##typename##__erase(bc_##typename##_t* self, size_t pos); \
     void bc_##typename##__insert(bc_##typename##_t* self, \

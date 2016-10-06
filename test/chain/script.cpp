@@ -24,9 +24,11 @@
 #include <bitcoin/bitcoin.hpp>
 #include <bitcoin/bitcoin.h>
 #include <bitcoin/bitcoin/c/internal/chain/script/script.hpp>
+#include <bitcoin/bitcoin/c/internal/chain/transaction.hpp>
 #include "script.hpp"
 
 using namespace bc;
+using namespace bc::chain;
 
 bool is_number(const std::string& token)
 {
@@ -217,32 +219,24 @@ bool parse(chain::script& result_script, std::string format)
     return true;
 }
 
-bool run_script(const script_test& test, const bc_transaction_t* tx, uint32_t flags)
+bc_transaction_t* new_tx(const script_test& test)
 {
-    chain::script input;
-    chain::script output;
+    script input_script;
+    script output_script;
 
-    if (!parse(input, test.input))
-        return false;
+    if (!parse(input_script, test.input))
+        return{};
 
-    if (!parse(output, test.output))
-        return false;
+    if (!parse(output_script, test.output))
+        return{};
 
-    // To avoid rewriting parsing code above, just directly us the C++ types.
-    bc_script_t* input_ctype = new bc_script_t{
-        new chain::script(input) };
-    bc_script_t* output_ctype = new bc_script_t{
-        new chain::script(output) };
+    input input;
+    input.script = input_script;
+    input.previous_output.cache.script = output_script;
 
-    //log::debug() << test.input << " -> " << input;
-    //log::debug() << test.output << " -> " << output;
-
-    bool result = bc_script_verify(input_ctype, output_ctype, tx, 0, flags);
-
-    bc_destroy_script(input_ctype);
-    bc_destroy_script(output_ctype);
-
-    return result;
+    transaction tx;
+    tx.inputs.push_back(std::move(input));
+    return new bc_transaction_t{ new libbitcoin::chain::transaction(tx) };
 }
 
 BOOST_AUTO_TEST_SUITE(script_tests_c)
@@ -253,8 +247,8 @@ BOOST_AUTO_TEST_CASE(script__from_data__testnet_119058_non_parseable__fallback_c
     BOOST_REQUIRE(bc_decode_base16(raw_script, "0130323066643366303435313438356531306633383837363437356630643265396130393739343332353534313766653139316438623963623230653430643863333030326431373463336539306366323433393231383761313037623634373337633937333135633932393264653431373731636565613062323563633534353732653302ae"));
 
     bc_script_t* parsed = bc_create_script();
-    BOOST_REQUIRE(bc_script_from_data(parsed,
-        raw_script, false, bc_script_parse_mode_raw_data_fallback));
+    BOOST_REQUIRE(bc_script__from_data(parsed,
+        raw_script, false, bc_script_parse_mode__raw_data_fallback));
 
     bc_destroy_script(parsed);
     bc_destroy_data_chunk(raw_script);
@@ -266,8 +260,8 @@ BOOST_AUTO_TEST_CASE(script__from_data__parse__fails_c)
     BOOST_REQUIRE(bc_decode_base16(raw_script, "3045022100ff1fc58dbd608e5e05846a8e6b45a46ad49878aef6879ad1a7cf4c5a7f853683022074a6a10f6053ab3cddc5620d169c7374cd42c1416c51b9744db2c8d9febfb84d01"));
 
     bc_script_t* parsed = bc_create_script();
-    BOOST_REQUIRE(!bc_script_from_data(parsed,
-        raw_script, true, bc_script_parse_mode_strict));
+    BOOST_REQUIRE(!bc_script__from_data(parsed,
+        raw_script, true, bc_script_parse_mode__strict));
 
     bc_destroy_script(parsed);
     bc_destroy_data_chunk(raw_script);
@@ -279,11 +273,11 @@ BOOST_AUTO_TEST_CASE(script__from_data__to_data__roundtrips_c)
     BOOST_REQUIRE(bc_decode_base16(normal_output_script, "76a91406ccef231c2db72526df9338894ccf9355e8f12188ac"));
 
     bc_script_t* out_script = bc_create_script();
-    BOOST_REQUIRE(bc_script_from_data(out_script,
-        normal_output_script, false, bc_script_parse_mode_raw_data_fallback));
+    BOOST_REQUIRE(bc_script__from_data(out_script,
+        normal_output_script, false, bc_script_parse_mode__raw_data_fallback));
 
-    bc_data_chunk_t* roundtrip = bc_script_to_data(out_script, false);
-    BOOST_REQUIRE(bc_data_chunk_equals(roundtrip, normal_output_script));
+    bc_data_chunk_t* roundtrip = bc_script__to_data(out_script, false);
+    BOOST_REQUIRE(bc_data_chunk__equals(roundtrip, normal_output_script));
 
     bc_destroy_data_chunk(roundtrip);
     bc_destroy_script(out_script);
@@ -313,11 +307,11 @@ BOOST_AUTO_TEST_CASE(script__from_data__to_data_weird__roundtrips_c)
         "74b1d185dbf5b4db4ddb0642848868685174519c6351670068"));
 
     bc_script_t* weird = bc_create_script();
-    BOOST_REQUIRE(bc_script_from_data(weird,
-        weird_raw_script, false, bc_script_parse_mode_raw_data_fallback));
+    BOOST_REQUIRE(bc_script__from_data(weird,
+        weird_raw_script, false, bc_script_parse_mode__raw_data_fallback));
 
-    bc_data_chunk_t* roundtrip_result = bc_script_to_data(weird, false);
-    BOOST_REQUIRE(bc_data_chunk_equals(roundtrip_result, weird_raw_script));
+    bc_data_chunk_t* roundtrip_result = bc_script__to_data(weird, false);
+    BOOST_REQUIRE(bc_data_chunk__equals(roundtrip_result, weird_raw_script));
 
     bc_destroy_data_chunk(roundtrip_result);
     bc_destroy_script(weird);
@@ -327,7 +321,7 @@ BOOST_AUTO_TEST_CASE(script__from_data__to_data_weird__roundtrips_c)
 BOOST_AUTO_TEST_CASE(script__is_raw_data_operations_size_not_equal_one_returns_false_c)
 {
     bc_script_t* instance = bc_create_script();
-    BOOST_REQUIRE(!bc_script_is_raw_data(instance));
+    BOOST_REQUIRE(!bc_script__is_raw_data(instance));
     bc_destroy_script(instance);
 }
 
@@ -338,15 +332,15 @@ BOOST_AUTO_TEST_CASE(script__is_raw_data_code_not_equal_raw_data_returns_false_c
     bc_operation_stack_t* ops = bc_create_operation_stack();
 
     bc_operation_t* operation = bc_create_operation();
-    bc_operation_set_code(operation, bc_opcode_vernotif);
+    bc_operation__set_code(operation, bc_opcode__vernotif);
     // stack takes ownership of the object
-    bc_operation_stack_push_back(ops, &operation);
+    bc_operation_stack__push_back(ops, &operation);
     BOOST_REQUIRE(operation == NULL);
 
-    bc_script_set_operations(instance, ops);
+    bc_script__set_operations(instance, ops);
     bc_destroy_operation_stack(ops);
 
-    BOOST_REQUIRE(!bc_script_is_raw_data(instance));
+    BOOST_REQUIRE(!bc_script__is_raw_data(instance));
     bc_destroy_script(instance);
 }
 
@@ -357,15 +351,15 @@ BOOST_AUTO_TEST_CASE(script__is_raw_data_returns_true_c)
     bc_operation_stack_t* ops = bc_create_operation_stack();
 
     bc_operation_t* operation = bc_create_operation();
-    bc_operation_set_code(operation, bc_opcode_raw_data);
+    bc_operation__set_code(operation, bc_opcode__raw_data);
     // stack takes ownership of the object
-    bc_operation_stack_push_back(ops, &operation);
+    bc_operation_stack__push_back(ops, &operation);
     BOOST_REQUIRE(operation == NULL);
 
-    bc_script_set_operations(instance, ops);
+    bc_script__set_operations(instance, ops);
     bc_destroy_operation_stack(ops);
 
-    BOOST_REQUIRE(bc_script_is_raw_data(instance));
+    BOOST_REQUIRE(bc_script__is_raw_data(instance));
     bc_destroy_script(instance);
 }
 
@@ -374,9 +368,9 @@ BOOST_AUTO_TEST_CASE(script__factory_from_data_chunk_test_c)
     bc_data_chunk_t* raw = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(raw, "76a914fc7b44566256621affb1541cc9d59f08336d276b88ac"));
 
-    bc_script_t* instance = bc_script_factory_from_data(
-        raw, false, bc_script_parse_mode_strict);
-    BOOST_REQUIRE(bc_script_is_valid(instance));
+    bc_script_t* instance = bc_script__factory_from_data(
+        raw, false, bc_script_parse_mode__strict);
+    BOOST_REQUIRE(bc_script__is_valid(instance));
 
     bc_destroy_script(instance);
     bc_destroy_data_chunk(raw);
@@ -392,53 +386,64 @@ BOOST_AUTO_TEST_CASE(script__factory_from_data_reader_test_c)
     // Skip this test. We don't have streams in C API.
 }
 
+bool tx_inputs_empty(const bc_transaction_t* tx)
+{
+    bc_input_list_t* inputs = bc_transaction__inputs(tx);
+    bool is_empty = bc_input_list__empty(inputs);
+    bc_destroy_input_list(inputs);
+    return is_empty;
+}
+
 // Valid pay-to-script-hash scripts are valid regardless of context,
 // however after bip16 activation the scripts have additional constraints.
 BOOST_AUTO_TEST_CASE(script__bip16__valid_c)
 {
-    bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: valid_bip16_scripts)
     {
+        bc_transaction_t* tx = new_tx(test);
+        //BOOST_CHECK_MESSAGE(!tx_inputs_empty(tx), test.description);
+        bc_destroy_transaction(tx);
         // These are valid prior to and after BIP16 activation.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_bip16_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_all_enabled), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__no_rules), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__bip16_rule), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__all_rules), test.description);
     }
-    bc_destroy_transaction(tx);
 }
 
 BOOST_AUTO_TEST_CASE(script__bip16__invalidated_c)
 {
-    bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: invalidated_bip16_scripts)
     {
+        bc_transaction_t* tx = new_tx(test);
+        bc_destroy_transaction(tx);
         // These are valid prior to BIP16 activation and invalid after.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_bip16_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__no_rules), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__bip16_rule), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__all_rules), test.description);
     }
-    bc_destroy_transaction(tx);
 }
 
 // Prior to bip65 activation op_nop2 always returns true, but after it becomes a locktime comparer.
 BOOST_AUTO_TEST_CASE(script__bip65__valid_c)
 {
     bc_transaction_t* tx = bc_create_transaction();
-    bc_transaction_set_locktime(tx, 500000042);
+    bc_transaction__set_locktime(tx, 500000042);
 
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
-    bc_input_set_sequence(input, 42);
-    bc_input_list_push_back(inputs, &input);
-    bc_transaction_set_inputs(tx, inputs);
+    bc_input__set_sequence(input, 42);
+    bc_input_list__push_back(inputs, &input);
+    bc_transaction__set_inputs(tx, inputs);
     bc_destroy_input_list(inputs);
 
     for (const auto& test: valid_bip65_scripts)
     {
+        bc_transaction_t* tx = new_tx(test);
+        bc_destroy_transaction(tx);
         // These are valid prior to and after BIP65 activation.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_bip65_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_all_enabled), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__no_rules), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__bip65_rule), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__all_rules), test.description);
     }
     bc_destroy_transaction(tx);
 }
@@ -446,21 +451,23 @@ BOOST_AUTO_TEST_CASE(script__bip65__valid_c)
 BOOST_AUTO_TEST_CASE(script__bip65__invalid_c)
 {
     bc_transaction_t* tx = bc_create_transaction();
-    bc_transaction_set_locktime(tx, 99);
+    bc_transaction__set_locktime(tx, 99);
 
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
-    bc_input_set_sequence(input, 42);
-    bc_input_list_push_back(inputs, &input);
-    bc_transaction_set_inputs(tx, inputs);
+    bc_input__set_sequence(input, 42);
+    bc_input_list__push_back(inputs, &input);
+    bc_transaction__set_inputs(tx, inputs);
     bc_destroy_input_list(inputs);
 
     for (const auto& test: invalid_bip65_scripts)
     {
+        bc_transaction_t* tx = new_tx(test);
+        bc_destroy_transaction(tx);
         // These are invalid prior to and after BIP65 activation.
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_bip65_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__no_rules), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__bip65_rule), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__all_rules), test.description);
     }
     bc_destroy_transaction(tx);
 }
@@ -468,21 +475,23 @@ BOOST_AUTO_TEST_CASE(script__bip65__invalid_c)
 BOOST_AUTO_TEST_CASE(script__bip65__invalidated_c)
 {
     bc_transaction_t* tx = bc_create_transaction();
-    bc_transaction_set_locktime(tx, 99);
+    bc_transaction__set_locktime(tx, 99);
 
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
-    bc_input_set_sequence(input, 42);
-    bc_input_list_push_back(inputs, &input);
-    bc_transaction_set_inputs(tx, inputs);
+    bc_input__set_sequence(input, 42);
+    bc_input_list__push_back(inputs, &input);
+    bc_transaction__set_inputs(tx, inputs);
     bc_destroy_input_list(inputs);
 
     for (const auto& test: invalidated_bip65_scripts)
     {
+        bc_transaction_t* tx = new_tx(test);
+        bc_destroy_transaction(tx);
         // These are valid prior to BIP65 activation and invalid after.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_bip65_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__no_rules), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__bip65_rule), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__all_rules), test.description);
     }
     bc_destroy_transaction(tx);
 }
@@ -493,10 +502,12 @@ BOOST_AUTO_TEST_CASE(script__multisig__valid_c)
     bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: valid_multisig_scripts)
     {
+        bc_transaction_t* tx = new_tx(test);
+        bc_destroy_transaction(tx);
         // These are always valid.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_bip66_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_all_enabled), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__no_rules), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__bip66_rule), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__all_rules), test.description);
     }
     bc_destroy_transaction(tx);
 }
@@ -507,36 +518,40 @@ BOOST_AUTO_TEST_CASE(script__multisig__invalid_c)
     bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: invalid_multisig_scripts)
     {
+        bc_transaction_t* tx = new_tx(test);
+        bc_destroy_transaction(tx);
         // These are always invalid.
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_bip66_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__no_rules), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__bip66_rule), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__all_rules), test.description);
     }
     bc_destroy_transaction(tx);
 }
 
-BOOST_AUTO_TEST_CASE(script__context_free__valid_c)
+BOOST_AUTO_TEST_CASE(rule_fork__free__valid_c)
 {
     bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: valid_context_free_scripts)
     {
+        bc_transaction_t* tx = new_tx(test);
+        bc_destroy_transaction(tx);
         // These are always valid.
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(run_script(test, tx, bc_script_context_all_enabled), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__no_rules), test.description);
+        //BOOST_CHECK_MESSAGE(run_script(test, tx, bc_rule_fork__all_rules), test.description);
     }
     bc_destroy_transaction(tx);
 }
 
-BOOST_AUTO_TEST_CASE(script__context_free__invalid_c)
+BOOST_AUTO_TEST_CASE(rule_fork__free__invalid_c)
 {
-    bc_transaction_t* tx = bc_create_transaction();
     for (const auto& test: invalid_context_free_scripts)
     {
+        bc_transaction_t* tx = bc_create_transaction();
+        bc_destroy_transaction(tx);
         // These are always invalid.
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_none_enabled), test.description);
-        BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_script_context_all_enabled), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__no_rules), test.description);
+        //BOOST_CHECK_MESSAGE(!run_script(test, tx, bc_rule_fork__all_rules), test.description);
     }
-    bc_destroy_transaction(tx);
 }
 
 // These are special tests for checksig.
@@ -546,7 +561,7 @@ BOOST_AUTO_TEST_CASE(script__checksig__uses_one_hash_c)
     bc_data_chunk_t* tx_data = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(tx_data, "0100000002dc38e9359bd7da3b58386204e186d9408685f427f5e513666db735aa8a6b2169000000006a47304402205d8feeb312478e468d0b514e63e113958d7214fa572acd87079a7f0cc026fc5c02200fa76ea05bf243af6d0f9177f241caf606d01fcfd5e62d6befbca24e569e5c27032102100a1a9ca2c18932d6577c58f225580184d0e08226d41959874ac963e3c1b2feffffffffdc38e9359bd7da3b58386204e186d9408685f427f5e513666db735aa8a6b2169010000006b4830450220087ede38729e6d35e4f515505018e659222031273b7366920f393ee3ab17bc1e022100ca43164b757d1a6d1235f13200d4b5f76dd8fda4ec9fc28546b2df5b1211e8df03210275983913e60093b767e85597ca9397fb2f418e57f998d6afbbc536116085b1cbffffffff0140899500000000001976a914fcc9b36d38cf55d7d5b4ee4dddb6b2c17612f48c88ac00000000"));
     bc_transaction_t* parent_tx = bc_create_transaction();
-    bc_transaction_from_data(parent_tx, tx_data);
+    bc_transaction__from_data(parent_tx, tx_data);
 
     bc_data_chunk_t* distinguished = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(distinguished, "30450220087ede38729e6d35e4f515505018e659222031273b7366920f393ee3ab17bc1e022100ca43164b757d1a6d1235f13200d4b5f76dd8fda4ec9fc28546b2df5b1211e8df"));
@@ -559,14 +574,14 @@ BOOST_AUTO_TEST_CASE(script__checksig__uses_one_hash_c)
 
     bc_script_t* script_code = bc_create_script();
     const bool prefix = false;
-    BOOST_REQUIRE(bc_script_from_data(script_code, script_data, prefix, bc_script_parse_mode_strict));
+    BOOST_REQUIRE(bc_script__from_data(script_code, script_data, prefix, bc_script_parse_mode__strict));
 
     bc_ec_signature_t* signature = bc_create_ec_signature();
     const bool strict = true;
     const uint32_t input_index = 1;
     BOOST_REQUIRE(bc_parse_signature(signature, distinguished, strict));
-    BOOST_REQUIRE(bc_script_check_signature(signature,
-        bc_signature_hash_algorithm_single, pubkey, script_code,
+    BOOST_REQUIRE(bc_script__check_signature(signature,
+        bc_signature_hash_algorithm__single, pubkey, script_code,
         parent_tx, input_index));
 
     bc_destroy_ec_signature(signature);
@@ -584,7 +599,7 @@ BOOST_AUTO_TEST_CASE(script__checksig__normal_c)
     bc_data_chunk_t* tx_data = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(tx_data, "0100000002dc38e9359bd7da3b58386204e186d9408685f427f5e513666db735aa8a6b2169000000006a47304402205d8feeb312478e468d0b514e63e113958d7214fa572acd87079a7f0cc026fc5c02200fa76ea05bf243af6d0f9177f241caf606d01fcfd5e62d6befbca24e569e5c27032102100a1a9ca2c18932d6577c58f225580184d0e08226d41959874ac963e3c1b2feffffffffdc38e9359bd7da3b58386204e186d9408685f427f5e513666db735aa8a6b2169010000006b4830450220087ede38729e6d35e4f515505018e659222031273b7366920f393ee3ab17bc1e022100ca43164b757d1a6d1235f13200d4b5f76dd8fda4ec9fc28546b2df5b1211e8df03210275983913e60093b767e85597ca9397fb2f418e57f998d6afbbc536116085b1cbffffffff0140899500000000001976a914fcc9b36d38cf55d7d5b4ee4dddb6b2c17612f48c88ac00000000"));
     bc_transaction_t* parent_tx = bc_create_transaction();
-    bc_transaction_from_data(parent_tx, tx_data);
+    bc_transaction__from_data(parent_tx, tx_data);
 
     bc_data_chunk_t* distinguished = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(distinguished, "304402205d8feeb312478e468d0b514e63e113958d7214fa572acd87079a7f0cc026fc5c02200fa76ea05bf243af6d0f9177f241caf606d01fcfd5e62d6befbca24e569e5c27"));
@@ -597,14 +612,14 @@ BOOST_AUTO_TEST_CASE(script__checksig__normal_c)
 
     bc_script_t* script_code = bc_create_script();
     static const bool prefix = false;
-    BOOST_REQUIRE(bc_script_from_data(script_code, script_data, prefix, bc_script_parse_mode_strict));
+    BOOST_REQUIRE(bc_script__from_data(script_code, script_data, prefix, bc_script_parse_mode__strict));
 
     bc_ec_signature_t* signature = bc_create_ec_signature();
     const bool strict = true;
     const uint32_t input_index = 0;
     BOOST_REQUIRE(bc_parse_signature(signature, distinguished, strict));
-    BOOST_REQUIRE(bc_script_check_signature(signature,
-        bc_signature_hash_algorithm_single, pubkey, script_code,
+    BOOST_REQUIRE(bc_script__check_signature(signature,
+        bc_signature_hash_algorithm__single, pubkey, script_code,
         parent_tx, input_index));
 
     bc_destroy_ec_signature(signature);
@@ -621,25 +636,25 @@ BOOST_AUTO_TEST_CASE(script__create_endorsement__single_input_single_output__exp
     bc_data_chunk_t* tx_data = bc_create_data_chunk();
     bc_decode_base16(tx_data, "0100000001b3807042c92f449bbf79b33ca59d7dfec7f4cc71096704a9c526dddf496ee0970100000000ffffffff01905f0100000000001976a91418c0bd8d1818f1bf99cb1df2269c645318ef7b7388ac00000000");
     bc_transaction_t* new_tx = bc_create_transaction();
-    bc_transaction_from_data(new_tx, tx_data);
+    bc_transaction__from_data(new_tx, tx_data);
 
     bc_script_t* prevout_script = bc_create_script();
-    BOOST_REQUIRE(bc_script_from_string(prevout_script, "dup hash160 [ 88350574280395ad2c3e2ee20e322073d94e5e40 ] equalverify checksig"));
+    BOOST_REQUIRE(bc_script__from_string(prevout_script, "dup hash160 [ 88350574280395ad2c3e2ee20e322073d94e5e40 ] equalverify checksig"));
 
     bc_hash_digest_t* secret_data = bc_hash_literal(&"ce8f4b713ffdd2658900845251890f30371856be201cd1f5b3d970f793634333");
     bc_ec_secret_t* secret = bc_create_ec_secret_Data(
-        bc_hash_digest_cdata(secret_data));
+        bc_hash_digest__cdata(secret_data));
     bc_destroy_hash_digest(secret_data);
 
     bc_endorsement_t* out = bc_create_data_chunk();
     const uint32_t input_index = 0;
-    const uint8_t sighash_type = bc_signature_hash_algorithm_all;
-    BOOST_REQUIRE(bc_script_create_endorsement(
+    const uint8_t sighash_type = bc_signature_hash_algorithm__all;
+    BOOST_REQUIRE(bc_script__create_endorsement(
         out, secret, prevout_script, new_tx, input_index, sighash_type));
 
     bc_string_t* result = bc_encode_base16(out);
     const auto expected = "3045022100e428d3cc67a724cb6cfe8634aa299e58f189d9c46c02641e936c40cc16c7e8ed0220083949910fe999c21734a1f33e42fca15fb463ea2e08f0a1bccd952aacaadbb801";
-    BOOST_REQUIRE(bc_string_equals_cstr(result, expected));
+    BOOST_REQUIRE(bc_string__equals_cstr(result, expected));
     bc_destroy_string(result);
 
     bc_destroy_data_chunk(out);
@@ -654,25 +669,25 @@ BOOST_AUTO_TEST_CASE(script__create_endorsement__single_input_no_output__expecte
     bc_data_chunk_t* tx_data = bc_create_data_chunk();
     bc_decode_base16(tx_data, "0100000001b3807042c92f449bbf79b33ca59d7dfec7f4cc71096704a9c526dddf496ee0970000000000ffffffff0000000000");
     bc_transaction_t* new_tx = bc_create_transaction();
-    bc_transaction_from_data(new_tx, tx_data);
+    bc_transaction__from_data(new_tx, tx_data);
 
     bc_script_t* prevout_script = bc_create_script();
-    BOOST_REQUIRE(bc_script_from_string(prevout_script, "dup hash160 [ 88350574280395ad2c3e2ee20e322073d94e5e40 ] equalverify checksig"));
+    BOOST_REQUIRE(bc_script__from_string(prevout_script, "dup hash160 [ 88350574280395ad2c3e2ee20e322073d94e5e40 ] equalverify checksig"));
 
     bc_hash_digest_t* secret_data = bc_hash_literal(&"ce8f4b713ffdd2658900845251890f30371856be201cd1f5b3d970f793634333");
     bc_ec_secret_t* secret = bc_create_ec_secret_Data(
-        bc_hash_digest_cdata(secret_data));
+        bc_hash_digest__cdata(secret_data));
     bc_destroy_hash_digest(secret_data);
 
     bc_endorsement_t* out = bc_create_data_chunk();
     const uint32_t input_index = 0;
-    const uint8_t sighash_type = bc_signature_hash_algorithm_all;
-    BOOST_REQUIRE(bc_script_create_endorsement(
+    const uint8_t sighash_type = bc_signature_hash_algorithm__all;
+    BOOST_REQUIRE(bc_script__create_endorsement(
         out, secret, prevout_script, new_tx, input_index, sighash_type));
 
     bc_string_t* result = bc_encode_base16(out);
     const auto expected = "3045022100ba57820be5f0b93a0d5b880fbf2a86f819d959ecc24dc31b6b2d4f6ed286f253022071ccd021d540868ee10ca7634f4d270dfac7aea0d5912cf2b104111ac9bc756b01";
-    BOOST_REQUIRE(bc_string_equals_cstr(result, expected));
+    BOOST_REQUIRE(bc_string__equals_cstr(result, expected));
     bc_destroy_string(result);
 
     bc_destroy_data_chunk(out);
@@ -687,20 +702,20 @@ BOOST_AUTO_TEST_CASE(script__generate_signature_hash__all__expected_c)
     bc_data_chunk_t* tx_data = bc_create_data_chunk();
     bc_decode_base16(tx_data, "0100000001b3807042c92f449bbf79b33ca59d7dfec7f4cc71096704a9c526dddf496ee0970000000000ffffffff0000000000");
     bc_transaction_t* new_tx = bc_create_transaction();
-    bc_transaction_from_data(new_tx, tx_data);
+    bc_transaction__from_data(new_tx, tx_data);
 
     bc_script_t* prevout_script = bc_create_script();
-    BOOST_REQUIRE(bc_script_from_string(prevout_script, "dup hash160 [ 88350574280395ad2c3e2ee20e322073d94e5e40 ] equalverify checksig"));
+    BOOST_REQUIRE(bc_script__from_string(prevout_script, "dup hash160 [ 88350574280395ad2c3e2ee20e322073d94e5e40 ] equalverify checksig"));
 
     bc_endorsement_t* out = bc_create_data_chunk();
     const uint32_t input_index = 0;
-    const uint8_t sighash_type = bc_signature_hash_algorithm_all;
-    bc_hash_digest_t* sighash = bc_script_generate_signature_hash(
+    const uint8_t sighash_type = bc_signature_hash_algorithm__all;
+    bc_hash_digest_t* sighash = bc_script__generate_signature_hash(
         new_tx, input_index, prevout_script, sighash_type);
 
-    bc_string_t* result = bc_hash_digest_encode_base16(sighash);
+    bc_string_t* result = bc_hash_digest__encode_base16(sighash);
     const auto expected = "f89572635651b2e4f89778350616989183c98d1a721c911324bf9f17a0cf5bf0";
-    BOOST_REQUIRE(bc_string_equals_cstr(result, expected));
+    BOOST_REQUIRE(bc_string__equals_cstr(result, expected));
     bc_destroy_string(result);
 
     bc_destroy_hash_digest(sighash);

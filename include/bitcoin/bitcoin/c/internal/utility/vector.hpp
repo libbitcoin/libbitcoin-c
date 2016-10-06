@@ -58,6 +58,10 @@
     { \
         return self->obj->size(); \
     } \
+    bool bc_##typename##__empty(const bc_##typename##_t* self) \
+    { \
+        return self->obj->empty(); \
+    } \
     void bc_##typename##__clear(bc_##typename##_t* self) \
     { \
         self->obj->clear(); \

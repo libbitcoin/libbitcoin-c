@@ -141,20 +141,6 @@ static void CheckSubtract(const int64_t num1, const int64_t num2,
 
         result = bc_script_number__subtract(scriptnum1, num2);
         BC_SCRIPT_NUMBER_CHECK_EQ(subtract.forward, result);
-        {
-            std::cout << num1 << " + " << num2 << std::endl;
-            bc_data_chunk_t* buffer_data = bc_create_data_chunk_Internal(
-                (subtract.forward).bytes);
-            bc_data_chunk_t* script_data = bc_script_number__data((result));
-            bc_string_t* buffer_str = bc_encode_base16(buffer_data);
-            bc_string_t* script_str = bc_encode_base16(script_data);
-            std::cout << bc_string__data(buffer_str) << std::endl;
-            std::cout << bc_string__data(script_str) << std::endl;
-            bc_destroy_string(buffer_str);
-            bc_destroy_string(script_str);
-            bc_destroy_data_chunk(buffer_data);
-            bc_destroy_data_chunk(script_data);
-        }
         bc_destroy_script_number(result);
     }
 

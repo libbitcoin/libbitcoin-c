@@ -47,17 +47,17 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__secret_to_public__positive__test_c)
 
     bc_data_chunk_t* secret_data = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(secret_data, SECRET1));
-    BOOST_REQUIRE(bc_data_chunk_size(secret_data) == bc_ec_secret_size());
+    BOOST_REQUIRE(bc_data_chunk__size(secret_data) == bc_ec_secret_size());
     bc_ec_secret_t* secret = bc_create_ec_secret_Data(
-        bc_data_chunk_cdata(secret_data));
+        bc_data_chunk__cdata(secret_data));
     bc_destroy_data_chunk(secret_data);
 
     BOOST_REQUIRE(bc_secret_to_public_compressed(point, secret));
 
     bc_data_chunk_t* point_data = bc_create_data_chunk_Array(
-        bc_ec_compressed_cdata(point), bc_ec_compressed_size());
+        bc_ec_compressed__cdata(point), bc_ec_compressed_size());
     bc_string_t* encoded = bc_encode_base16(point_data);
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded, COMPRESSED1));
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded, COMPRESSED1));
     bc_destroy_string(encoded);
     bc_destroy_data_chunk(point_data);
 
@@ -72,18 +72,18 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__decompress__positive__test_c)
     bc_data_chunk_t* compressed_data = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(compressed_data, COMPRESSED1));
     BOOST_REQUIRE(
-        bc_data_chunk_size(compressed_data) == bc_ec_compressed_size());
+        bc_data_chunk__size(compressed_data) == bc_ec_compressed_size());
     bc_ec_compressed_t* compressed = bc_create_ec_compressed_Data(
-        bc_data_chunk_cdata(compressed_data));
+        bc_data_chunk__cdata(compressed_data));
     bc_destroy_data_chunk(compressed_data);
 
     BOOST_REQUIRE(bc_decompress(uncompressed, compressed));
     bc_destroy_ec_compressed(compressed);
 
     bc_data_chunk_t* point_data = bc_create_data_chunk_Array(
-        bc_ec_uncompressed_cdata(uncompressed), bc_ec_uncompressed_size());
+        bc_ec_uncompressed__cdata(uncompressed), bc_ec_uncompressed_size());
     bc_string_t* encoded = bc_encode_base16(point_data);
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded, UNCOMPRESSED1));
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded, UNCOMPRESSED1));
     bc_destroy_string(encoded);
     bc_destroy_data_chunk(point_data);
 
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__sign__positive__test_c)
 
     bc_hash_digest_t* secret_literal = bc_hash_literal(&SECRET3);
     bc_ec_secret_t* secret = bc_create_ec_secret_Data(
-        bc_hash_digest_cdata(secret_literal));
+        bc_hash_digest__cdata(secret_literal));
     bc_destroy_hash_digest(secret_literal);
 
     bc_hash_digest_t* sighash = bc_hash_literal(&SIGHASH3);
@@ -104,13 +104,13 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__sign__positive__test_c)
     BOOST_REQUIRE(bc_sign(signature, secret, sighash));
 
     bc_data_chunk_t* signature_data = bc_create_data_chunk_Array(
-        bc_ec_signature_cdata(signature), bc_ec_signature_size());
+        bc_ec_signature__cdata(signature), bc_ec_signature_size());
     bc_string_t* result = bc_encode_base16(signature_data);
     bc_destroy_data_chunk(signature_data);
 
     bc_destroy_ec_signature(signature);
 
-    BOOST_REQUIRE(bc_string_equals_cstr(result, EC_SIGNATURE3));
+    BOOST_REQUIRE(bc_string__equals_cstr(result, EC_SIGNATURE3));
 }
 
 BOOST_AUTO_TEST_CASE(elliptic_curve__encode_signature__positive__test_c)
@@ -120,13 +120,13 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__encode_signature__positive__test_c)
     bc_data_chunk_t* signature_data = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(signature_data, EC_SIGNATURE3));
     bc_ec_signature_t* signature = bc_create_ec_signature_Data(
-        bc_data_chunk_cdata(signature_data));
+        bc_data_chunk__cdata(signature_data));
     bc_destroy_data_chunk(signature_data);
 
     BOOST_REQUIRE(bc_encode_signature(out, signature));
 
     bc_string_t* result = bc_encode_base16(out);
-    BOOST_REQUIRE(bc_string_equals_cstr(result, DER_SIGNATURE3));
+    BOOST_REQUIRE(bc_string__equals_cstr(result, DER_SIGNATURE3));
 
     bc_destroy_data_chunk(out);
 }
@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__sign__round_trip_positive__test_c)
 
     bc_hash_digest_t* secret_literal = bc_hash_literal(&SECRET1);
     bc_ec_secret_t* secret = bc_create_ec_secret_Data(
-        bc_hash_digest_cdata(secret_literal));
+        bc_hash_digest__cdata(secret_literal));
     bc_destroy_hash_digest(secret_literal);
 
     BOOST_REQUIRE(bc_secret_to_public_compressed(point, secret));
@@ -168,14 +168,14 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__sign__round_trip_negative__test_c)
 
     bc_hash_digest_t* secret_literal = bc_hash_literal(&SECRET1);
     bc_ec_secret_t* secret = bc_create_ec_secret_Data(
-        bc_hash_digest_cdata(secret_literal));
+        bc_hash_digest__cdata(secret_literal));
     bc_destroy_hash_digest(secret_literal);
 
     BOOST_REQUIRE(bc_secret_to_public_compressed(point, secret));
     BOOST_REQUIRE(bc_sign(signature, secret, hash));
 
     // Invalidate the positive test.
-    bc_hash_digest_data(hash)[0] = 0;
+    bc_hash_digest__data(hash)[0] = 0;
     BOOST_REQUIRE(!bc_verify_signature_compressed(point, hash, signature));
 
     bc_destroy_ec_secret(secret);
@@ -193,9 +193,9 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__verify_signature__positive__test_c)
     bc_data_chunk_t* point_data = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(point_data, COMPRESSED2));
     BOOST_REQUIRE(
-        bc_data_chunk_size(point_data) == bc_ec_compressed_size());
+        bc_data_chunk__size(point_data) == bc_ec_compressed_size());
     bc_ec_compressed_t* point = bc_create_ec_compressed_Data(
-        bc_data_chunk_cdata(point_data));
+        bc_data_chunk__cdata(point_data));
     bc_destroy_data_chunk(point_data);
 
     bc_der_signature_t* distinguished = bc_create_data_chunk();
@@ -218,9 +218,9 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__verify_signature__negative__test_c)
     bc_data_chunk_t* point_data = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(point_data, COMPRESSED2));
     BOOST_REQUIRE(
-        bc_data_chunk_size(point_data) == bc_ec_compressed_size());
+        bc_data_chunk__size(point_data) == bc_ec_compressed_size());
     bc_ec_compressed_t* point = bc_create_ec_compressed_Data(
-        bc_data_chunk_cdata(point_data));
+        bc_data_chunk__cdata(point_data));
     bc_destroy_data_chunk(point_data);
 
     bc_der_signature_t* distinguished = bc_create_data_chunk();
@@ -228,7 +228,7 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__verify_signature__negative__test_c)
     BOOST_REQUIRE(bc_parse_signature(signature, distinguished, strict));
 
     // Invalidate the positive test.
-    bc_ec_signature_data(signature)[10] = 110;
+    bc_ec_signature__data(signature)[10] = 110;
     BOOST_REQUIRE(!bc_verify_signature_compressed(point, sighash, signature));
 
     bc_destroy_data_chunk(distinguished);
@@ -241,24 +241,24 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__ec_add__positive__test_c)
 {
     const uint8_t secret1_data[] = { 1, 2, 3 };
     bc_ec_secret_t* secret1 = bc_create_ec_secret();
-    memset(bc_ec_secret_data(secret1), 0, bc_ec_secret_size());
+    memset(bc_ec_secret__data(secret1), 0, bc_ec_secret_size());
     std::copy(std::begin(secret1_data), std::end(secret1_data),
-        bc_ec_secret_data(secret1));
+        bc_ec_secret__data(secret1));
 
     const uint8_t secret2_data[] = { 3, 2, 1 };
     bc_ec_secret_t* secret2 = bc_create_ec_secret();
-    memset(bc_ec_secret_data(secret2), 0, bc_ec_secret_size());
+    memset(bc_ec_secret__data(secret2), 0, bc_ec_secret_size());
     std::copy(std::begin(secret2_data), std::end(secret2_data),
-        bc_ec_secret_data(secret2));
+        bc_ec_secret__data(secret2));
 
     bc_ec_compressed_t* public1 = bc_create_ec_compressed();
     BOOST_REQUIRE(bc_secret_to_public_compressed(public1, secret1));
     BOOST_REQUIRE(bc_ec_add(secret1, secret2));
 
     bc_data_chunk_t* secret1_chunk = bc_create_data_chunk_Array(
-        bc_ec_secret_cdata(secret1), bc_ec_secret_size());
+        bc_ec_secret__cdata(secret1), bc_ec_secret_size());
     bc_string_t* encoded = bc_encode_base16(secret1_chunk);
-    BOOST_REQUIRE(bc_string_equals_cstr(encoded, "0404040000000000000000000000000000000000000000000000000000000000"));
+    BOOST_REQUIRE(bc_string__equals_cstr(encoded, "0404040000000000000000000000000000000000000000000000000000000000"));
     bc_destroy_string(encoded);
     bc_destroy_data_chunk(secret1_chunk);
 
@@ -266,7 +266,7 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__ec_add__positive__test_c)
     BOOST_REQUIRE(bc_secret_to_public_compressed(public2, secret1));
     BOOST_REQUIRE(bc_ec_add_compressed(public1, secret2));
     BOOST_REQUIRE(memcmp(
-        bc_ec_compressed_cdata(public1), bc_ec_compressed_cdata(public2),
+        bc_ec_compressed__cdata(public1), bc_ec_compressed__cdata(public2),
         bc_ec_compressed_size()) == 0);
 }
 
@@ -276,15 +276,15 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__ec_add__negative__test_c)
     bc_data_chunk_t* secret1_data = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(secret1_data,
         "fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140"));
-    BOOST_REQUIRE(bc_data_chunk_size(secret1_data) == bc_ec_secret_size());
+    BOOST_REQUIRE(bc_data_chunk__size(secret1_data) == bc_ec_secret_size());
     bc_ec_secret_t* secret1 = bc_create_ec_secret_Data(
-        bc_data_chunk_cdata(secret1_data));
+        bc_data_chunk__cdata(secret1_data));
     bc_destroy_data_chunk(secret1_data);
 
     bc_ec_secret_t* secret2 = bc_create_ec_secret();
-    memset(bc_ec_secret_data(secret2), 0, bc_ec_secret_size());
-    bc_ec_secret_data(secret2)[0] = 0;
-    bc_ec_secret_data(secret2)[31] = 1;
+    memset(bc_ec_secret__data(secret2), 0, bc_ec_secret_size());
+    bc_ec_secret__data(secret2)[0] = 0;
+    bc_ec_secret__data(secret2)[31] = 1;
 
     bc_ec_compressed_t* public1 = bc_create_ec_compressed();
     BOOST_REQUIRE(bc_secret_to_public_compressed(public1, secret1));
@@ -300,21 +300,21 @@ BOOST_AUTO_TEST_CASE(elliptic_curve__ec_multiply_test_c)
 {
     bc_ec_secret_t* secret1 = bc_create_ec_secret();
     bc_ec_secret_t* secret2 = bc_create_ec_secret();
-    memset(bc_ec_secret_data(secret1), 0, bc_ec_secret_size());
-    memset(bc_ec_secret_data(secret2), 0, bc_ec_secret_size());
-    bc_ec_secret_data(secret1)[31] = 11;
-    bc_ec_secret_data(secret2)[31] = 22;
+    memset(bc_ec_secret__data(secret1), 0, bc_ec_secret_size());
+    memset(bc_ec_secret__data(secret2), 0, bc_ec_secret_size());
+    bc_ec_secret__data(secret1)[31] = 11;
+    bc_ec_secret__data(secret2)[31] = 22;
 
     bc_ec_compressed_t* public1 = bc_create_ec_compressed();
     BOOST_REQUIRE(bc_secret_to_public_compressed(public1, secret1));
     BOOST_REQUIRE(bc_ec_multiply(secret1, secret2));
-    BOOST_REQUIRE_EQUAL(bc_ec_secret_data(secret1)[31], 242u);
+    BOOST_REQUIRE_EQUAL(bc_ec_secret__data(secret1)[31], 242u);
     BOOST_REQUIRE(bc_ec_multiply_compressed(public1, secret2));
 
     bc_ec_compressed_t* public2 = bc_create_ec_compressed();
     BOOST_REQUIRE(bc_secret_to_public_compressed(public2, secret1));
     BOOST_REQUIRE(memcmp(
-        bc_ec_compressed_cdata(public1), bc_ec_compressed_cdata(public2),
+        bc_ec_compressed__cdata(public1), bc_ec_compressed__cdata(public2),
         bc_ec_compressed_size()) == 0);
 }
 

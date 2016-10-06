@@ -37,12 +37,12 @@ BOOST_AUTO_TEST_CASE(hd_public__derive_public__invalid__false_c)
     BOOST_REQUIRE(bc_decode_base16(seed, SHORT_SEED));
 
     bc_hd_private_t* m = bc_create_hd_private_Seed(
-        seed, bc_hd_private_mainnet());
-    bc_hd_public_t* m_pub = bc_hd_private_to_public(m);
+        seed, bc_hd_private__mainnet());
+    bc_hd_public_t* m_pub = bc_hd_private__to_public(m);
 
-    bc_hd_public_t* derived = bc_hd_public_derive_public(
+    bc_hd_public_t* derived = bc_hd_public__derive_public(
         m_pub, bc_hd_first_hardened_key());
-    BOOST_REQUIRE(!bc_hd_public_to_bool(derived));
+    BOOST_REQUIRE(!bc_hd_public__to_bool(derived));
     bc_destroy_hd_public(derived);
 
     bc_destroy_hd_public(m_pub);
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(hd_public__encoded__round_trip__expected_c)
 {
     const char* encoded_data = "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8";
     bc_string_t* encoded = bc_create_string(encoded_data);
-    bc_hd_public_t* key = bc_create_hd_public_String(bc_string_data(encoded));
-    bc_string_t* reencoded = bc_hd_public_encoded(key);
-    BOOST_REQUIRE(bc_string_equals(reencoded, encoded));
+    bc_hd_public_t* key = bc_create_hd_public_String(bc_string__data(encoded));
+    bc_string_t* reencoded = bc_hd_public__encoded(key);
+    BOOST_REQUIRE(bc_string__equals(reencoded, encoded));
     bc_destroy_hd_public(key);
     bc_destroy_string(reencoded);
     bc_destroy_string(encoded);
@@ -68,50 +68,50 @@ BOOST_AUTO_TEST_CASE(hd_public__derive_public__short_seed__expected_c)
     BOOST_REQUIRE(bc_decode_base16(seed, SHORT_SEED));
 
     bc_hd_private_t* m = bc_create_hd_private_Seed(
-        seed, bc_hd_private_mainnet());
-    bc_hd_private_t* m0h = bc_hd_private_derive_private(
+        seed, bc_hd_private__mainnet());
+    bc_hd_private_t* m0h = bc_hd_private__derive_private(
         m, bc_hd_first_hardened_key());
-    bc_hd_private_t* m0h1 = bc_hd_private_derive_private(m0h, 1);
+    bc_hd_private_t* m0h1 = bc_hd_private__derive_private(m0h, 1);
 
-    bc_hd_public_t* m_pub = bc_hd_private_to_public(m);
-    bc_hd_public_t* m0h_pub = bc_hd_private_derive_public(
+    bc_hd_public_t* m_pub = bc_hd_private__to_public(m);
+    bc_hd_public_t* m0h_pub = bc_hd_private__derive_public(
         m, bc_hd_first_hardened_key());
-    bc_hd_public_t* m0h1_pub = bc_hd_public_derive_public(
+    bc_hd_public_t* m0h1_pub = bc_hd_public__derive_public(
         m0h_pub, 1);
-    bc_hd_public_t* m0h12h_pub = bc_hd_private_derive_public(
+    bc_hd_public_t* m0h12h_pub = bc_hd_private__derive_public(
         m0h1, 2 + bc_hd_first_hardened_key());
-    bc_hd_public_t* m0h12h2_pub = bc_hd_public_derive_public(
+    bc_hd_public_t* m0h12h2_pub = bc_hd_public__derive_public(
         m0h12h_pub, 2);
-    bc_hd_public_t* m0h12h2x_pub = bc_hd_public_derive_public(
+    bc_hd_public_t* m0h12h2x_pub = bc_hd_public__derive_public(
         m0h12h2_pub, 1000000000);
 
-    bc_string_t* m_pub_encoded = bc_hd_public_encoded(m_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m_pub_encoded = bc_hd_public__encoded(m_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m_pub_encoded, "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8"));
     bc_destroy_string(m_pub_encoded);
 
-    bc_string_t* m0h_pub_encoded = bc_hd_public_encoded(m0h_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0h_pub_encoded = bc_hd_public__encoded(m0h_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0h_pub_encoded, "xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg55crXYuXoQRKfDBFA1WEjWgP6LHhwBZeNK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw"));
     bc_destroy_string(m0h_pub_encoded);
 
-    bc_string_t* m0h1_pub_encoded = bc_hd_public_encoded(m0h1_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0h1_pub_encoded = bc_hd_public__encoded(m0h1_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0h1_pub_encoded, "xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ"));
     bc_destroy_string(m0h1_pub_encoded);
 
-    bc_string_t* m0h12h_pub_encoded = bc_hd_public_encoded(m0h12h_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0h12h_pub_encoded = bc_hd_public__encoded(m0h12h_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0h12h_pub_encoded, "xpub6D4BDPcP2GT577Vvch3R8wDkScZWzQzMMUm3PWbmWvVJrZwQY4VUNgqFJPMM3No2dFDFGTsxxpG5uJh7n7epu4trkrX7x7DogT5Uv6fcLW5"));
     bc_destroy_string(m0h12h_pub_encoded);
 
-    bc_string_t* m0h12h2_pub_encoded = bc_hd_public_encoded(m0h12h2_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0h12h2_pub_encoded = bc_hd_public__encoded(m0h12h2_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0h12h2_pub_encoded, "xpub6FHa3pjLCk84BayeJxFW2SP4XRrFd1JYnxeLeU8EqN3vDfZmbqBqaGJAyiLjTAwm6ZLRQUMv1ZACTj37sR62cfN7fe5JnJ7dh8zL4fiyLHV"));
     bc_destroy_string(m0h12h2_pub_encoded);
 
-    bc_string_t* m0h12h2x_pub_encoded = bc_hd_public_encoded(m0h12h2x_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0h12h2x_pub_encoded = bc_hd_public__encoded(m0h12h2x_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0h12h2x_pub_encoded, "xpub6H1LXWLaKsWFhvm6RVpEL9P4KfRZSW7abD2ttkWP3SSQvnyA8FSVqNTEcYFgJS2UaFcxupHiYkro49S8yGasTvXEYBVPamhGW6cFJodrTHy"));
     bc_destroy_string(m0h12h2x_pub_encoded);
 
@@ -135,53 +135,53 @@ BOOST_AUTO_TEST_CASE(hd_public__derive_public__long_seed__expected_c)
     BOOST_REQUIRE(bc_decode_base16(seed, LONG_SEED));
 
     bc_hd_private_t* m = bc_create_hd_private_Seed(
-        seed, bc_hd_private_mainnet());
-    bc_hd_private_t* m0 = bc_hd_private_derive_private(
+        seed, bc_hd_private__mainnet());
+    bc_hd_private_t* m0 = bc_hd_private__derive_private(
         m, 0);
-    bc_hd_private_t* m0xH = bc_hd_private_derive_private(
+    bc_hd_private_t* m0xH = bc_hd_private__derive_private(
         m0, 2147483647 + bc_hd_first_hardened_key());
-    bc_hd_private_t* m0xH1 = bc_hd_private_derive_private(
+    bc_hd_private_t* m0xH1 = bc_hd_private__derive_private(
         m0xH, 1);
 
-    bc_hd_public_t* m_pub = bc_hd_private_to_public(m);
-    bc_hd_public_t* m0_pub = bc_hd_public_derive_public(
+    bc_hd_public_t* m_pub = bc_hd_private__to_public(m);
+    bc_hd_public_t* m0_pub = bc_hd_public__derive_public(
         m_pub, 0);
-    bc_hd_public_t* m0xH_pub = bc_hd_private_derive_public(
+    bc_hd_public_t* m0xH_pub = bc_hd_private__derive_public(
         m0, 2147483647 + bc_hd_first_hardened_key());
-    bc_hd_public_t* m0xH1_pub = bc_hd_public_derive_public(
+    bc_hd_public_t* m0xH1_pub = bc_hd_public__derive_public(
         m0xH_pub, 1);
-    bc_hd_public_t* m0xH1yH_pub = bc_hd_private_derive_public(
+    bc_hd_public_t* m0xH1yH_pub = bc_hd_private__derive_public(
         m0xH1, 2147483646 + bc_hd_first_hardened_key());
-    bc_hd_public_t* m0xH1yH2_pub = bc_hd_public_derive_public(
+    bc_hd_public_t* m0xH1yH2_pub = bc_hd_public__derive_public(
         m0xH1yH_pub, 2);
 
-    bc_string_t* m_pub_encoded = bc_hd_public_encoded(m_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m_pub_encoded = bc_hd_public__encoded(m_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m_pub_encoded, "xpub661MyMwAqRbcFW31YEwpkMuc5THy2PSt5bDMsktWQcFF8syAmRUapSCGu8ED9W6oDMSgv6Zz8idoc4a6mr8BDzTJY47LJhkJ8UB7WEGuduB"));
     bc_destroy_string(m_pub_encoded);
 
-    bc_string_t* m0_pub_encoded = bc_hd_public_encoded(m0_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0_pub_encoded = bc_hd_public__encoded(m0_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0_pub_encoded, "xpub69H7F5d8KSRgmmdJg2KhpAK8SR3DjMwAdkxj3ZuxV27CprR9LgpeyGmXUbC6wb7ERfvrnKZjXoUmmDznezpbZb7ap6r1D3tgFxHmwMkQTPH"));
     bc_destroy_string(m0_pub_encoded);
 
-    bc_string_t* m0xH_pub_encoded = bc_hd_public_encoded(m0xH_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0xH_pub_encoded = bc_hd_public__encoded(m0xH_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0xH_pub_encoded, "xpub6ASAVgeehLbnwdqV6UKMHVzgqAG8Gr6riv3Fxxpj8ksbH9ebxaEyBLZ85ySDhKiLDBrQSARLq1uNRts8RuJiHjaDMBU4Zn9h8LZNnBC5y4a"));
     bc_destroy_string(m0xH_pub_encoded);
 
-    bc_string_t* m0xH1_pub_encoded = bc_hd_public_encoded(m0xH1_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0xH1_pub_encoded = bc_hd_public__encoded(m0xH1_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0xH1_pub_encoded, "xpub6DF8uhdarytz3FWdA8TvFSvvAh8dP3283MY7p2V4SeE2wyWmG5mg5EwVvmdMVCQcoNJxGoWaU9DCWh89LojfZ537wTfunKau47EL2dhHKon"));
     bc_destroy_string(m0xH1_pub_encoded);
 
-    bc_string_t* m0xH1yH_pub_encoded = bc_hd_public_encoded(m0xH1yH_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0xH1yH_pub_encoded = bc_hd_public__encoded(m0xH1yH_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0xH1yH_pub_encoded, "xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL"));
     bc_destroy_string(m0xH1yH_pub_encoded);
 
-    bc_string_t* m0xH1yH2_pub_encoded = bc_hd_public_encoded(m0xH1yH2_pub);
-    BOOST_REQUIRE(bc_string_equals_cstr(
+    bc_string_t* m0xH1yH2_pub_encoded = bc_hd_public__encoded(m0xH1yH2_pub);
+    BOOST_REQUIRE(bc_string__equals_cstr(
         m0xH1yH2_pub_encoded, "xpub6FnCn6nSzZAw5Tw7cgR9bi15UV96gLZhjDstkXXxvCLsUXBGXPdSnLFbdpq8p9HmGsApME5hQTZ3emM2rnY5agb9rXpVGyy3bdW6EEgAtqt"));
     bc_destroy_string(m0xH1yH2_pub_encoded);
 

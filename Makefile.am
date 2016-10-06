@@ -121,13 +121,13 @@ test_libbitcoin_c_test_SOURCES = \
     test/chain/transaction.cpp \
     test/chain/block.cpp \
     test/chain/point.cpp \
-    # test/chain/script.cpp \
-    # test/chain/satoshi_words.cpp \
-    # test/math/elliptic_curve.cpp \
-    # test/wallet/bitcoin_uri.cpp \
-    # test/wallet/hd_public.cpp \
-    # test/wallet/hd_private.cpp \
-    # test/wallet/payment_address.cpp
+    test/chain/script.cpp \
+    test/chain/satoshi_words.cpp \
+    test/math/elliptic_curve.cpp \
+    test/wallet/bitcoin_uri.cpp \
+    test/wallet/hd_public.cpp \
+    test/wallet/hd_private.cpp \
+    test/wallet/payment_address.cpp
 
 endif WITH_TESTS
 

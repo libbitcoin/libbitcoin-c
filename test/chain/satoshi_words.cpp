@@ -26,31 +26,31 @@ BOOST_AUTO_TEST_SUITE(satoshi_words_c)
 BOOST_AUTO_TEST_CASE(satoshi_words_mainnet_c)
 {
     // Create mainnet genesis block.
-    bc_block_t* block = bc_block_genesis_mainnet();
+    bc_block_t* block = bc_block__genesis_mainnet();
 
     // Genesis block contains a single coinbase transaction.
-    bc_transaction_list_t* txs = bc_block_transactions(block);
-    BOOST_REQUIRE_EQUAL(bc_transaction_list_size(txs), 1u);
+    bc_transaction_list_t* txs = bc_block__transactions(block);
+    BOOST_REQUIRE_EQUAL(bc_transaction_list__size(txs), 1u);
 
     // Get first transaction in block (coinbase).
-    bc_transaction_t* coinbase_tx = bc_transaction_list_at(txs, 0);
+    bc_transaction_t* coinbase_tx = bc_transaction_list__at(txs, 0);
 
     // Coinbase tx has a single input.
-    bc_input_list_t* inputs = bc_transaction_inputs(coinbase_tx);
-    BOOST_REQUIRE_EQUAL(bc_input_list_size(inputs), 1u);
-    bc_input_t* coinbase_input = bc_input_list_at(inputs, 0);
+    bc_input_list_t* inputs = bc_transaction__inputs(coinbase_tx);
+    BOOST_REQUIRE_EQUAL(bc_input_list__size(inputs), 1u);
+    bc_input_t* coinbase_input = bc_input_list__at(inputs, 0);
 
     // Convert the input script to its raw format.
-    bc_script_t* coinbase_script = bc_input_script(coinbase_input);
-    bc_data_chunk_t* raw_message = bc_script_to_data(coinbase_script, false);
+    bc_script_t* coinbase_script = bc_input__script(coinbase_input);
+    bc_data_chunk_t* raw_message = bc_script__to_data(coinbase_script, false);
 
     // Convert to a string after removing the 8 byte checksum.
-    BOOST_REQUIRE_GT(bc_data_chunk_size(raw_message), 8u);
+    BOOST_REQUIRE_GT(bc_data_chunk__size(raw_message), 8u);
     bc_string_t* message = bc_create_string_Length(
-        reinterpret_cast<const char*>(bc_data_chunk_cdata(raw_message) + 8),
-        bc_data_chunk_size(raw_message) - 8);
+        reinterpret_cast<const char*>(bc_data_chunk__cdata(raw_message) + 8),
+        bc_data_chunk__size(raw_message) - 8);
 
-    BOOST_REQUIRE(bc_string_equals_cstr(message,
+    BOOST_REQUIRE(bc_string__equals_cstr(message,
         "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"));
 
     // We don't delete the objects stored in the vector.

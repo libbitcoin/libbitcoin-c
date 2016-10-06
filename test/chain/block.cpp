@@ -254,7 +254,7 @@ BOOST_AUTO_TEST_CASE(generate_merkle_root_block_with_multiple_transactions_match
             BOOST_REQUIRE(bc_input__is_valid(input));
 
             bc_script_t* script = bc_input__script(input);
-            BOOST_REQUIRE(bc_script_is_valid(script));
+            BOOST_REQUIRE(bc_script__is_valid(script));
             bc_destroy_script(script);
         }
         bc_destroy_input_list(inputs);
@@ -266,7 +266,7 @@ BOOST_AUTO_TEST_CASE(generate_merkle_root_block_with_multiple_transactions_match
             BOOST_REQUIRE(bc_output__is_valid(output));
 
             bc_script_t* script = bc_output__script(output);
-            BOOST_REQUIRE(bc_script_is_valid(script));
+            BOOST_REQUIRE(bc_script__is_valid(script));
             bc_destroy_script(script);
         }
         bc_destroy_output_list(outputs);
