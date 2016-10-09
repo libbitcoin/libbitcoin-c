@@ -114,6 +114,12 @@ bool bc_hd_private__not_equals(
 {
     return *self->obj != *other->obj;
 }
+
+bc_hd_public_t* bc_hd_private__hd_public_Base(bc_hd_private_t* self)
+{
+    return new bc_hd_public_t{
+        static_cast<libbitcoin::wallet::hd_public*>(self->obj) };
+}
 // Simply returns itself again
 bc_hd_private_t* bc_hd_private__copy(
     bc_hd_private_t* self, const bc_hd_private_t* other)

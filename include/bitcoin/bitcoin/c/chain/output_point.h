@@ -49,7 +49,7 @@ bool bc_output_point__equals(const bc_output_point_t* self,
 bool bc_output_point__not_equals(const bc_output_point_t* self,
     const bc_output_point_t* other);
 
-bc_point_t* bc_output_point__to_point(bc_output_point_t* self);
+bc_point_t* bc_output_point__point_Base(bc_output_point_t* self);
 
 /// Methods
 void bc_output_point__reset(bc_output_point_t* self);

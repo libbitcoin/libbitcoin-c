@@ -98,7 +98,7 @@ bc_hd_public_t* bc_hd_public__copy(
 // Ignored:
 //  friend std::istream& operator>>(std::istream& in, hd_public& to);
 //  friend std::ostream& operator<<(std::ostream& out, const hd_public& of);
-bool bc_hd_public__to_bool(const bc_hd_public_t* self);
+bool bc_hd_public__is_valid(const bc_hd_public_t* self);
 /// Serializer.
 bc_string_t* bc_hd_public__encoded(const bc_hd_public_t* self);
 /// Accessors.

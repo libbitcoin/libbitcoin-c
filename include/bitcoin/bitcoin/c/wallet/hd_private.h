@@ -61,6 +61,7 @@ bool bc_hd_private__equals(
     bc_hd_private_t* self, const bc_hd_private_t* other);
 bool bc_hd_private__not_equals(
     bc_hd_private_t* self, const bc_hd_private_t* other);
+bc_hd_public_t* bc_hd_private__hd_public_Base(bc_hd_private_t* self);
 // Simply returns itself again
 bc_hd_private_t* bc_hd_private__copy(
     bc_hd_private_t* self, const bc_hd_private_t* other);

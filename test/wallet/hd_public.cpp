@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(hd_public__derive_public__invalid__false_c)
 
     bc_hd_public_t* derived = bc_hd_public__derive_public(
         m_pub, bc_hd_first_hardened_key());
-    BOOST_REQUIRE(!bc_hd_public__to_bool(derived));
+    BOOST_REQUIRE(!bc_hd_public__is_valid(derived));
     bc_destroy_hd_public(derived);
 
     bc_destroy_hd_public(m_pub);

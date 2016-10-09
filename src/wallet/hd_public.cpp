@@ -172,7 +172,7 @@ bc_hd_public_t* bc_hd_public__copy(
 {
     *self->obj = *other->obj;
 }
-bool bc_hd_public__to_bool(const bc_hd_public_t* self)
+bool bc_hd_public__is_valid(const bc_hd_public_t* self)
 {
     return static_cast<bool>(*self->obj);
 }
