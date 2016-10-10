@@ -32,6 +32,11 @@ void bc_destroy_dictionary(bc_dictionary_t* self)
     delete self;
 }
 
+const char* bc_dictionary__const_at(const bc_dictionary_t* self, size_t pos)
+{
+    return self->obj->at(pos);
+}
+
 bc_dictionary_t* bc_dictionary_en()
 {
     return new bc_dictionary_t{ &libbitcoin::wallet::language::en };
