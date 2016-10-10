@@ -170,7 +170,7 @@ typedef enum bc_rule_fork_t
 
     bc_rule_fork__all_rules = 0xffffffff
 
-} bc_script_context_t;
+} bc_rule_fork_t;
 
 /// Determine if code is in the op_n range.
 bool bc_within_op_n(bc_opcode_t code);

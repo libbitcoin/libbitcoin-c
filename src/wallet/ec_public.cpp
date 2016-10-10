@@ -88,11 +88,11 @@ bc_ec_public_t* bc_create_ec_public_UncompPoint(
     return new bc_ec_public_t{ new libbitcoin::wallet::ec_public(
         *point->obj) };
 }
-bc_ec_public_t* bc_create_ec_public_UncompPoint_nocompress(
+bc_ec_public_t* bc_create_ec_public_UncompPoint_compress(
     const bc_ec_uncompressed_t* point)
 {
     return new bc_ec_public_t{ new libbitcoin::wallet::ec_public(
-        *point->obj, false) };
+        *point->obj, true) };
 }
 /// Destructor
 void bc_destroy_ec_public(bc_ec_public_t* self)

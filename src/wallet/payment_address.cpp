@@ -24,6 +24,8 @@
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
+#include <bitcoin/bitcoin/c/internal/wallet/ec_private.hpp>
+#include <bitcoin/bitcoin/c/internal/wallet/ec_public.hpp>
 
 extern "C" {
 
@@ -64,9 +66,12 @@ bc_payment_address_t* bc_create_payment_address_Payment(
     return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
         *decoded->obj) };
 }
-// TODO:
-//bc_payment_address_t* bc_create_payment_address_Secret(
-//    const bc_ec_private_t* secret);
+bc_payment_address_t* bc_create_payment_address_Secret(
+    const bc_ec_private_t* secret)
+{
+    return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
+        *secret->obj) };
+}
 bc_payment_address_t* bc_create_payment_address_String(
     const char* address)
 {
@@ -91,11 +96,18 @@ bc_payment_address_t* bc_create_payment_address_Hash_Version(
     return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
         *hash->obj, version) };
 }
-// TODO:
-//bc_payment_address_t* bc_create_payment_address_Point(
-//    const bc_ec_public_t* point);
-//bc_payment_address_t* bc_create_payment_address_Point_Version(
-//    const bc_ec_public_t* point, uint8_t version);
+bc_payment_address_t* bc_create_payment_address_Point(
+    const bc_ec_public_t* point)
+{
+    return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
+        *point->obj) };
+}
+bc_payment_address_t* bc_create_payment_address_Point_Version(
+    const bc_ec_public_t* point, uint8_t version)
+{
+    return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
+        *point->obj, version) };
+}
 bc_payment_address_t* bc_create_payment_address_Script(
     const bc_script_t* script)
 {

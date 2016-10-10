@@ -32,6 +32,9 @@
 extern "C" {
 #endif
 
+typedef struct bc_ec_public_t bc_ec_public_t;
+typedef struct bc_ec_private_t bc_ec_private_t;
+
 size_t bc_payment_size();
 BC_DECLARE_BYTE_ARRAY(payment);
 
@@ -50,9 +53,8 @@ bc_payment_address_t* bc_payment_address__extract_Options(
 bc_payment_address_t* bc_create_payment_address();
 bc_payment_address_t* bc_create_payment_address_Payment(
     const bc_payment_t* decoded);
-// TODO:
-//bc_payment_address_t* bc_create_payment_address_Secret(
-//    const bc_ec_private_t* secret);
+bc_payment_address_t* bc_create_payment_address_Secret(
+    const bc_ec_private_t* secret);
 bc_payment_address_t* bc_create_payment_address_String(
     const char* address);
 bc_payment_address_t* bc_create_payment_address_copy(
@@ -61,11 +63,10 @@ bc_payment_address_t* bc_create_payment_address_Hash(
     const bc_short_hash_t* hash);
 bc_payment_address_t* bc_create_payment_address_Hash_Version(
     const bc_short_hash_t* hash, uint8_t version);
-// TODO:
-//bc_payment_address_t* bc_create_payment_address_Point(
-//    const bc_ec_public_t* point);
-//bc_payment_address_t* bc_create_payment_address_Point_Version(
-//    const bc_ec_public_t* point, uint8_t version);
+bc_payment_address_t* bc_create_payment_address_Point(
+    const bc_ec_public_t* point);
+bc_payment_address_t* bc_create_payment_address_Point_Version(
+    const bc_ec_public_t* point, uint8_t version);
 bc_payment_address_t* bc_create_payment_address_Script(
     const bc_script_t* script);
 bc_payment_address_t* bc_create_payment_address_Script_Version(

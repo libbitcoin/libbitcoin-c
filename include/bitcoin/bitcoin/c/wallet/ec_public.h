@@ -52,7 +52,7 @@ bc_ec_public_t* bc_create_ec_public_CompPoint_nocompress(
     const bc_ec_compressed_t* point);
 bc_ec_public_t* bc_create_ec_public_UncompPoint(
     const bc_ec_uncompressed_t* point);
-bc_ec_public_t* bc_create_ec_public_UncompPoint_nocompress(
+bc_ec_public_t* bc_create_ec_public_UncompPoint_compress(
     const bc_ec_uncompressed_t* point);
 /// Destructor
 void bc_destroy_ec_public(bc_ec_public_t* self);

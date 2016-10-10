@@ -83,6 +83,18 @@
         self->obj->push_back(std::move(item)); \
         *obj = NULL; \
     } \
+    void bc_##typename##__insert_noconsume(bc_##typename##_t* self, \
+        size_t pos, itemtype* obj) \
+    { \
+        bc_##typename##_t::uniqptr_type item(obj, delete_function); \
+        self->obj->insert(self->obj->begin() + pos, std::move(item)); \
+    } \
+    void bc_##typename##__push_back_noconsume(bc_##typename##_t* self, \
+        itemtype* obj) \
+    { \
+        bc_##typename##_t::uniqptr_type item(obj, delete_function); \
+        self->obj->push_back(std::move(item)); \
+    } \
     void bc_##typename##__resize(bc_##typename##_t* self, size_t count) \
     { \
         self->obj->resize(count); \

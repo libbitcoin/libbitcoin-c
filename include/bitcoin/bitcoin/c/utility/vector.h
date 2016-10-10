@@ -43,6 +43,12 @@ extern "C" {
     void bc_##typename##__insert(bc_##typename##_t* self, \
         size_t pos, itemtype** obj); \
     void bc_##typename##__push_back(bc_##typename##_t* self, itemtype** obj); \
+    /* Methods that don't try to consume the passed pointer, but
+       the semantics remain the same as the normal push_back() */ \
+    void bc_##typename##__insert_noconsume(bc_##typename##_t* self, \
+        size_t pos, itemtype* obj); \
+    void bc_##typename##__push_back_noconsume(bc_##typename##_t* self, \
+        itemtype* obj); \
     void bc_##typename##__resize(bc_##typename##_t* self, size_t count);
 
 #ifdef __cplusplus
