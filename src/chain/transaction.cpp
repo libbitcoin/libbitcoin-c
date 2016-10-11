@@ -79,9 +79,19 @@ bool bc_transaction__from_data(bc_transaction_t* self,
 {
     return self->obj->from_data(*data->obj);
 }
+bool bc_transaction__from_data_nosatoshi(bc_transaction_t* self,
+    const bc_data_chunk_t* data)
+{
+    return self->obj->from_data(*data->obj, false);
+}
 bc_data_chunk_t* bc_transaction__to_data(const bc_transaction_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->to_data());
+}
+bc_data_chunk_t* bc_transaction__to_data_nosatoshi(
+    const bc_transaction_t* self)
+{
+    return bc_create_data_chunk_Internal(self->obj->to_data(false));
 }
 bc_string_t* bc_transaction__to_string(const bc_transaction_t* self,
     uint32_t flags)
