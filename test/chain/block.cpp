@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_CASE(generate_merkle_root_block_with_multiple_transactions_match
         "d4a2dfd354d6af0ff155fc17c1ee9ef802062feb07ef1d065f0ac00000000");
     bc_transaction__from_data(tx, tx_data);
     bc_destroy_data_chunk(tx_data);
-    bc_transaction_list__push_back(txs, &tx);
+    bc_transaction_list__push_back_consume(txs, &tx);
     // transaction_list has taken possession of the tx
     BOOST_REQUIRE(!tx);
 
@@ -213,7 +213,7 @@ BOOST_AUTO_TEST_CASE(generate_merkle_root_block_with_multiple_transactions_match
         "105f7898f36b84ec583350d88ac00000000");
     bc_transaction__from_data(tx, tx_data);
     bc_destroy_data_chunk(tx_data);
-    bc_transaction_list__push_back(txs, &tx);
+    bc_transaction_list__push_back_consume(txs, &tx);
     // transaction_list has taken possession of the tx
     BOOST_REQUIRE(!tx);
 
@@ -230,7 +230,7 @@ BOOST_AUTO_TEST_CASE(generate_merkle_root_block_with_multiple_transactions_match
         "dea2d79d12cff6f330ab48788ac00000000");
     bc_transaction__from_data(tx, tx_data);
     bc_destroy_data_chunk(tx_data);
-    bc_transaction_list__push_back(txs, &tx);
+    bc_transaction_list__push_back_consume(txs, &tx);
     // transaction_list has taken possession of the tx
     BOOST_REQUIRE(!tx);
 
@@ -270,6 +270,8 @@ BOOST_AUTO_TEST_CASE(generate_merkle_root_block_with_multiple_transactions_match
             bc_destroy_script(script);
         }
         bc_destroy_output_list(outputs);
+
+        bc_destroy_transaction(tx);
     }
 
     bc_hash_digest_t* header_merkle = bc_header__merkle(header);

@@ -334,7 +334,7 @@ BOOST_AUTO_TEST_CASE(script__is_raw_data_code_not_equal_raw_data_returns_false_c
     bc_operation_t* operation = bc_create_operation();
     bc_operation__set_code(operation, bc_opcode__vernotif);
     // stack takes ownership of the object
-    bc_operation_stack__push_back(ops, &operation);
+    bc_operation_stack__push_back_consume(ops, &operation);
     BOOST_REQUIRE(operation == NULL);
 
     bc_script__set_operations(instance, ops);
@@ -353,7 +353,7 @@ BOOST_AUTO_TEST_CASE(script__is_raw_data_returns_true_c)
     bc_operation_t* operation = bc_create_operation();
     bc_operation__set_code(operation, bc_opcode__raw_data);
     // stack takes ownership of the object
-    bc_operation_stack__push_back(ops, &operation);
+    bc_operation_stack__push_back_consume(ops, &operation);
     BOOST_REQUIRE(operation == NULL);
 
     bc_script__set_operations(instance, ops);
@@ -432,7 +432,7 @@ BOOST_AUTO_TEST_CASE(script__bip65__valid_c)
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
     bc_input__set_sequence(input, 42);
-    bc_input_list__push_back(inputs, &input);
+    bc_input_list__push_back_consume(inputs, &input);
     bc_transaction__set_inputs(tx, inputs);
     bc_destroy_input_list(inputs);
 
@@ -456,7 +456,7 @@ BOOST_AUTO_TEST_CASE(script__bip65__invalid_c)
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
     bc_input__set_sequence(input, 42);
-    bc_input_list__push_back(inputs, &input);
+    bc_input_list__push_back_consume(inputs, &input);
     bc_transaction__set_inputs(tx, inputs);
     bc_destroy_input_list(inputs);
 
@@ -480,7 +480,7 @@ BOOST_AUTO_TEST_CASE(script__bip65__invalidated_c)
     bc_input_list_t* inputs = bc_create_input_list();
     bc_input_t* input = bc_create_input();
     bc_input__set_sequence(input, 42);
-    bc_input_list__push_back(inputs, &input);
+    bc_input_list__push_back_consume(inputs, &input);
     bc_transaction__set_inputs(tx, inputs);
     bc_destroy_input_list(inputs);
 

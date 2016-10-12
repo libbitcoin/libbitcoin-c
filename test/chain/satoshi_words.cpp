@@ -57,7 +57,9 @@ BOOST_AUTO_TEST_CASE(satoshi_words_mainnet_c)
     bc_destroy_string(message);
     bc_destroy_data_chunk(raw_message);
     bc_destroy_script(coinbase_script);
+    bc_destroy_input(coinbase_input);
     bc_destroy_input_list(inputs);
+    bc_destroy_transaction(coinbase_tx);
     bc_destroy_transaction_list(txs);
     bc_destroy_block(block);
 }

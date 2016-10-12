@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(is_coinbase_returns_true_c)
     bc_input__set_previous_output(input, prevout);
     bc_destroy_output_point(prevout);
     // Add to list of inputs
-    bc_input_list__push_back(inputs, &input);
+    bc_input_list__push_back_consume(inputs, &input);
     bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
     BOOST_REQUIRE_EQUAL(true, bc_transaction__is_coinbase(instance));
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE(is_final_locktime_input_not_final_returns_false_c)
     bc_input_t* input = bc_create_input();
     bc_input__set_sequence(input, 1);
     // Add to list of inputs
-    bc_input_list__push_back(inputs, &input);
+    bc_input_list__push_back_consume(inputs, &input);
     bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
     BOOST_REQUIRE_EQUAL(false, bc_transaction__is_final(instance, height, time));
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE(is_final_locktime_inputs_final_returns_true_c)
     bc_input_t* input = bc_create_input();
     bc_input__set_sequence(input, bc_max_input_sequence());
     // Add to list of inputs
-    bc_input_list__push_back(inputs, &input);
+    bc_input_list__push_back_consume(inputs, &input);
     bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
     BOOST_REQUIRE_EQUAL(true, bc_transaction__is_final(instance, height, time));
@@ -133,7 +133,7 @@ BOOST_AUTO_TEST_CASE(is_locktime_conflict_input_sequence_not_maximum_returns_fal
     bc_input_t* input = bc_create_input();
     bc_input__set_sequence(input, 1);
     // Add to list of inputs
-    bc_input_list__push_back(inputs, &input);
+    bc_input_list__push_back_consume(inputs, &input);
     bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
     BOOST_REQUIRE_EQUAL(false, bc_transaction__is_locktime_conflict(instance));
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_CASE(is_locktime_conflict_input_max_sequence_returns_true_c)
     bc_input_t* input = bc_create_input();
     bc_input__set_sequence(input, bc_max_input_sequence());
     // Add to list of inputs
-    bc_input_list__push_back(inputs, &input);
+    bc_input_list__push_back_consume(inputs, &input);
     bc_transaction__set_inputs(instance, inputs);
     bc_destroy_input_list(inputs);
     BOOST_REQUIRE_EQUAL(true, bc_transaction__is_locktime_conflict(instance));
@@ -179,11 +179,11 @@ BOOST_AUTO_TEST_CASE(total_output_value_returns_positive_c)
     // Output 1
     output = bc_create_output();
     bc_output__set_value(output, 1200);
-    bc_output_list__push_back(outputs, &output);
+    bc_output_list__push_back_consume(outputs, &output);
     // Output 2
     output = bc_create_output();
     bc_output__set_value(output, 34);
-    bc_output_list__push_back(outputs, &output);
+    bc_output_list__push_back_consume(outputs, &output);
     bc_transaction__set_outputs(instance, outputs);
     bc_destroy_output_list(outputs);
     BOOST_REQUIRE_EQUAL(expected, bc_transaction__total_output_value(instance));
