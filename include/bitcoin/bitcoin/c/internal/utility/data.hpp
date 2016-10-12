@@ -25,14 +25,18 @@
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(data_stack, bc_data_chunk_t,
-    libbitcoin::data_stack);
-
 extern "C" {
 
 struct bc_data_chunk_t
 {
     libbitcoin::data_chunk* obj;
+    const bool delete_obj;
+};
+
+struct bc_data_stack_t
+{
+    libbitcoin::data_stack* obj;
+    const bool delete_obj;
 };
 
 // For objects in the libbitcoin::wallet namespace
@@ -44,12 +48,12 @@ struct bc_data_chunk_t
     } \
     bc_##typename##_t* bc_create_##typename() \
     { \
-        return new bc_##typename##_t{ new namespace::typename }; \
+        return new bc_##typename##_t{ new namespace::typename, true }; \
     } \
     bc_##typename##_t* bc_create_##typename##_Data(const uint8_t* data) \
     { \
         bc_##typename##_t* self = new bc_##typename##_t{ \
-            new namespace::typename }; \
+            new namespace::typename, true }; \
         std::copy_n(data, bc_##typename##_size(), self->obj->data()); \
         return self; \
     } \
@@ -57,14 +61,15 @@ struct bc_data_chunk_t
         const char* encoded_bytes) \
     { \
         bc_##typename##_t* self = new bc_##typename##_t{ \
-            new namespace::typename }; \
+            new namespace::typename, true }; \
         if (!libbitcoin::decode_base16(*self->obj, encoded_bytes)) \
             return NULL; \
         return self; \
     } \
     void bc_destroy_##typename(bc_##typename##_t* self) \
     { \
-        delete self->obj; \
+        if (self->delete_obj) \
+            delete self->obj; \
         delete self; \
     } \
     uint8_t* bc_##typename##__data(bc_##typename##_t* self) \

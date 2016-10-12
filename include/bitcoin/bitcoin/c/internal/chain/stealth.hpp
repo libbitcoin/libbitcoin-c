@@ -25,22 +25,30 @@
 #include <bitcoin/bitcoin/chain/stealth.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(stealth_compact_list, bc_stealth_compact_t,
-    libbitcoin::chain::stealth_compact::list);
-
-BC_DECLARE_VECTOR_INTERNAL(stealth_list, bc_stealth_t,
-    libbitcoin::chain::stealth::list);
-
 extern "C" {
 
 struct bc_stealth_compact_t
 {
     libbitcoin::chain::stealth_compact* obj;
+    const bool delete_obj;
+};
+
+struct bc_stealth_compact_list_t
+{
+    libbitcoin::chain::stealth_compact::list* obj;
+    const bool delete_obj;
 };
 
 struct bc_stealth_t
 {
     libbitcoin::chain::stealth* obj;
+    const bool delete_obj;
+};
+
+struct bc_stealth_list_t
+{
+    libbitcoin::chain::stealth::list* obj;
+    const bool delete_obj;
 };
 
 } // extern C

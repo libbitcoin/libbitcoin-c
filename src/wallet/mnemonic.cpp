@@ -39,34 +39,33 @@ size_t bc_mnemonic_seed_multiple()
 
 bc_word_list_t* bc_create_mnemonic(const bc_data_chunk_t* entropy)
 {
-    return bc_string_list_to_ctype(
-        libbitcoin::wallet::create_mnemonic(*entropy->obj));
+    return new bc_word_list_t{ new libbitcoin::string_list(
+        libbitcoin::wallet::create_mnemonic(*entropy->obj)), true };
 }
 bc_word_list_t* bc_create_mnemonic_Dict(const bc_data_chunk_t* entropy,
     const bc_dictionary_t* lexicon)
 {
-    return bc_string_list_to_ctype(
-        libbitcoin::wallet::create_mnemonic(*entropy->obj, *lexicon->obj));
+    return new bc_word_list_t{ new libbitcoin::string_list(
+        libbitcoin::wallet::create_mnemonic(*entropy->obj, *lexicon->obj)),
+        true };
 }
 
 bool bc_validate_mnemonic(const bc_word_list_t* mnemonic,
     const bc_dictionary_t* lexicon)
 {
     return libbitcoin::wallet::validate_mnemonic(
-        bc_string_list_from_ctype(mnemonic), *lexicon->obj);
+        *mnemonic->obj, *lexicon->obj);
 }
 
 bool bc_validate_mnemonic_all_languages(const bc_word_list_t* mnemonic)
 {
-    return libbitcoin::wallet::validate_mnemonic(
-        bc_string_list_from_ctype(mnemonic));
+    return libbitcoin::wallet::validate_mnemonic(*mnemonic->obj);
 }
 
 bc_long_hash_t* bc_decode_mnemonic(const bc_word_list_t* mnemonic)
 {
     return bc_create_long_hash_Internal(
-        libbitcoin::wallet::decode_mnemonic(
-            bc_string_list_from_ctype(mnemonic)));
+        libbitcoin::wallet::decode_mnemonic(*mnemonic->obj));
 }
 
 }

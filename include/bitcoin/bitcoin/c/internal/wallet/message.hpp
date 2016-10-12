@@ -27,6 +27,7 @@ extern "C" {
 struct bc_message_signature_t
 {
     libbitcoin::wallet::message_signature* obj;
+    const bool delete_obj;
 };
 
 }

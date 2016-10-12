@@ -65,71 +65,72 @@ uint8_t bc_ec_private__to_version(uint8_t address, uint8_t wif)
 
 bc_ec_private_t* bc_create_ec_private()
 {
-    return new bc_ec_private_t{ new libbitcoin::wallet::ec_private };
+    return new bc_ec_private_t{ new libbitcoin::wallet::ec_private, true };
 }
 bc_ec_private_t* bc_create_ec_private_copy(const bc_ec_private_t* other)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        *other->obj) };
+        *other->obj), true };
 }
 bc_ec_private_t* bc_create_ec_private_String(
     const char* wif)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        wif) };
+        wif), true };
 }
 bc_ec_private_t* bc_create_ec_private_String_Version(
     const char* wif, uint8_t version)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        wif, version) };
+        wif, version), true };
 }
 bc_ec_private_t* bc_create_ec_private_WifComp(
     const bc_wif_compressed_t* wif)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        *wif->obj) };
+        *wif->obj), true };
 }
 bc_ec_private_t* bc_create_ec_private_WifComp_Version(
     const bc_wif_compressed_t* wif, uint8_t version)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        *wif->obj, version) };
+        *wif->obj, version), true };
 }
 bc_ec_private_t* bc_create_ec_private_WifUncomp(
     const bc_wif_uncompressed_t* wif)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        *wif->obj) };
+        *wif->obj), true };
 }
 bc_ec_private_t* bc_create_ec_private_WifUncomp_Version(
     const bc_wif_uncompressed_t* wif, uint8_t version)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        *wif->obj, version) };
+        *wif->obj, version), true };
 }
 bc_ec_private_t* bc_create_ec_private_Secret(
     const bc_ec_secret_t* secret)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        *secret->obj) };
+        *secret->obj), true };
 }
 bc_ec_private_t* bc_create_ec_private_Secret_Version(
     const bc_ec_secret_t* secret, uint16_t version)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        *secret->obj, version) };
+        *secret->obj, version), true };
 }
 bc_ec_private_t* bc_create_ec_private_Secret_Version_nocompress(
     const bc_ec_secret_t* secret, uint16_t version)
 {
     return new bc_ec_private_t{ new libbitcoin::wallet::ec_private(
-        *secret->obj, version, false) };
+        *secret->obj, version, false), true };
 }
 
 void bc_destroy_ec_private(bc_ec_private_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 

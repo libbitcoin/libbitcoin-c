@@ -27,10 +27,10 @@
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(output_list, bc_output_t,
     bc_destroy_output, libbitcoin::chain::output::list);
-
-extern "C" {
 
 // Static values
 uint64_t bc_output__not_found()

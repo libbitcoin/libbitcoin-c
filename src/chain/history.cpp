@@ -23,23 +23,25 @@
 #include <bitcoin/bitcoin/c/internal/chain/output_point.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/point.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(history_compact_list, bc_history_compact_t,
     bc_destroy_history_compact, libbitcoin::chain::history_compact::list);
 
 BC_IMPLEMENT_VECTOR(history_list, bc_history_t,
     bc_destroy_history, libbitcoin::chain::history::list);
 
-extern "C" {
-
 // Constructor
 bc_history_compact_t* bc_create_history_compact()
 {
-    return new bc_history_compact_t{ new libbitcoin::chain::history_compact };
+    return new bc_history_compact_t{
+        new libbitcoin::chain::history_compact, true };
 }
 // Destructor
 void bc_destroy_history_compact(bc_history_compact_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Member variables
@@ -56,7 +58,7 @@ void bc_history_compact__set_kind(bc_history_compact_t* self,
 /// The point that identifies the record.
 bc_point_t* bc_history_compact__point(const bc_history_compact_t* self)
 {
-    return new bc_point_t{ new libbitcoin::chain::point(self->obj->point) };
+    return new bc_point_t{ &self->obj->point, false };
 }
 void bc_history_compact__set_point(bc_history_compact_t* self,
     const bc_point_t* point)
@@ -100,20 +102,20 @@ void bc_history_compact__set_previous_checksum(bc_history_compact_t* self,
 // Constructor
 bc_history_t* bc_create_history()
 {
-    return new bc_history_t{ new libbitcoin::chain::history };
+    return new bc_history_t{ new libbitcoin::chain::history, true };
 }
 // Destructor
 void bc_destroy_history(bc_history_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Member variables
 /// If there is no output this is null_hash:max.
 bc_output_point_t* bc_history__output(const bc_history_t* self)
 {
-    return new bc_output_point_t{ new libbitcoin::chain::output_point(
-        self->obj->output) };
+    return new bc_output_point_t{ &self->obj->output, false };
 }
 void bc_history__set_output(bc_history_t* self,
     const bc_output_point_t* output)
@@ -140,8 +142,7 @@ void bc_history__set_value(bc_history_t* self, uint64_t value)
 /// If there is no spend this is null_hash:max.
 bc_input_point_t* bc_history__spend(const bc_history_t* self)
 {
-    return new bc_input_point_t{ new libbitcoin::chain::input_point(
-        self->obj->spend) };
+    return new bc_input_point_t{ &self->obj->spend, false };
 }
 void bc_history__set_spend(bc_history_t* self, const bc_input_point_t* spend)
 {

@@ -24,35 +24,26 @@
 #include <memory>
 #include <vector>
 
-#define BC_DECLARE_VECTOR_STRUCT(typename, itemtype) \
-    \
-    struct bc_##typename##_t \
-    { \
-        typedef std::function<void (itemtype*)> deleter_func_type; \
-        typedef std::unique_ptr<itemtype, deleter_func_type> uniqptr_type; \
-        typedef std::vector<uniqptr_type> list_type; \
-        list_type* obj; \
-    };
-
-#define BC_IMPLEMENT_VECTOR_METHODS(typename, itemtype, delete_function) \
+#define BC_IMPLEMENT_VECTOR(typename, itemtype, delete_function, list_type) \
     \
     bc_##typename##_t* bc_create_##typename() \
     { \
-        return new bc_##typename##_t{ new bc_##typename##_t::list_type }; \
+        return new bc_##typename##_t{ new list_type, true }; \
     } \
     void bc_destroy_##typename(bc_##typename##_t* self) \
     { \
-        delete self->obj; \
+        if (self->delete_obj) \
+            delete self->obj; \
         delete self; \
     } \
     itemtype* bc_##typename##__at(bc_##typename##_t* self, size_t pos) \
     { \
-        return self->obj->at(pos).get(); \
+        return new itemtype{ &self->obj->at(pos), false }; \
     } \
     const itemtype* bc_##typename##__const_at(const bc_##typename##_t* self, \
         size_t pos) \
     { \
-        return self->obj->at(pos).get(); \
+        return new itemtype{ &self->obj->at(pos), false }; \
     } \
     size_t bc_##typename##__size(const bc_##typename##_t* self) \
     { \
@@ -71,95 +62,38 @@
         self->obj->erase(self->obj->begin() + pos); \
     } \
     void bc_##typename##__insert(bc_##typename##_t* self, \
-        size_t pos, itemtype** obj) \
-    { \
-        bc_##typename##_t::uniqptr_type item(*obj, delete_function); \
-        self->obj->insert(self->obj->begin() + pos, std::move(item)); \
-        *obj = NULL; \
-    } \
-    void bc_##typename##__push_back(bc_##typename##_t* self, itemtype** obj) \
-    { \
-        bc_##typename##_t::uniqptr_type item(*obj, delete_function); \
-        self->obj->push_back(std::move(item)); \
-        *obj = NULL; \
-    } \
-    void bc_##typename##__insert_noconsume(bc_##typename##_t* self, \
         size_t pos, itemtype* obj) \
     { \
-        bc_##typename##_t::uniqptr_type item(obj, delete_function); \
-        self->obj->insert(self->obj->begin() + pos, std::move(item)); \
+        self->obj->insert(self->obj->begin() + pos, *obj->obj); \
     } \
-    void bc_##typename##__push_back_noconsume(bc_##typename##_t* self, \
-        itemtype* obj) \
+    void bc_##typename##__push_back(bc_##typename##_t* self, itemtype* obj) \
     { \
-        bc_##typename##_t::uniqptr_type item(obj, delete_function); \
-        self->obj->push_back(std::move(item)); \
+        self->obj->push_back(*obj->obj); \
+    } \
+    void bc_##typename##__insert_consume(bc_##typename##_t* self, \
+        size_t pos, itemtype** obj) \
+    { \
+        bc_##typename##__insert(self, pos, *obj); \
+        delete_function(*obj); \
+        *obj = nullptr; \
+    } \
+    void bc_##typename##__push_back_consume(bc_##typename##_t* self, \
+        itemtype** obj) \
+    { \
+        bc_##typename##__push_back(self, *obj); \
+        delete_function(*obj); \
+        *obj = nullptr; \
     } \
     void bc_##typename##__resize(bc_##typename##_t* self, size_t count) \
     { \
         self->obj->resize(count); \
-    }
-
-// C++ convenience functions
-template <typename ResultType, typename WrapperType,
-    typename WrapperSizeFunc, typename WrapperAtFunc>
-ResultType bc_vector_from_ctype(const WrapperType* c_vector,
-    WrapperSizeFunc size_func, WrapperAtFunc at_func);
-
-template <typename WrapperType, typename ItemType, typename VectorType,
-    typename CreateFunc, typename PushFunc>
-WrapperType* bc_vector_to_ctype(const VectorType& vector_obj,
-    CreateFunc create_func, PushFunc push_func);
-
-#define BC_DECLARE_VECTOR_CONVERSION_FUNCTIONS( \
-    wrappername, originaltype) \
+    } \
     \
-    originaltype bc_##wrappername##_from_ctype( \
-        const bc_##wrappername##_t* stack); \
-    \
-    bc_##wrappername##_t* bc_##wrappername##_to_ctype( \
-        const originaltype& stack);
-
-#define BC_IMPLEMENT_VECTOR_CONVERSION_FUNCTIONS( \
-    wrappername, itemtype, originaltype) \
-    \
-    originaltype bc_##wrappername##_from_ctype( \
-        const bc_##wrappername##_t* stack) \
+    bc_##typename##_t* bc_create_##typename##_Internal( \
+        const list_type& value) \
     { \
-        return bc_vector_from_ctype< \
-            originaltype, bc_##wrappername##_t>( \
-                stack, \
-                bc_##wrappername##__size, \
-                bc_##wrappername##__const_at); \
-    } \
-    \
-    bc_##wrappername##_t* bc_##wrappername##_to_ctype( \
-        const originaltype& stack) \
-    { \
-        return bc_vector_to_ctype<bc_##wrappername##_t, itemtype>( \
-                stack, \
-                bc_create_##wrappername, \
-                bc_##wrappername##__push_back); \
+        return new bc_##typename##_t{ new list_type(value), true }; \
     }
-
-#define BC_DECLARE_VECTOR_INTERNAL( \
-    typename, itemtype, originaltype) \
-    \
-    extern "C" { \
-        BC_DECLARE_VECTOR_STRUCT(typename, itemtype); \
-    } \
-    BC_DECLARE_VECTOR_CONVERSION_FUNCTIONS(typename, originaltype);
-
-#define BC_IMPLEMENT_VECTOR( \
-    typename, itemtype, delete_function, originaltype) \
-    \
-    extern "C" { \
-        BC_IMPLEMENT_VECTOR_METHODS(typename, itemtype, delete_function); \
-    } \
-    BC_IMPLEMENT_VECTOR_CONVERSION_FUNCTIONS( \
-        typename, itemtype, originaltype);
-
-#include <bitcoin/bitcoin/c/internal/impl/utility/vector.ipp>
 
 #endif
 

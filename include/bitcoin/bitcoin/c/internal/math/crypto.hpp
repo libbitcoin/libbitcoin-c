@@ -27,11 +27,13 @@ extern "C" {
 struct bc_aes_secret_t
 {
     libbitcoin::aes_secret* obj;
+    const bool delete_obj;
 };
 
 struct bc_aes_block_t
 {
     libbitcoin::aes_block* obj;
+    const bool delete_obj;
 };
 
 }

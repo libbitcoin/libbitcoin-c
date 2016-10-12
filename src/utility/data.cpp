@@ -21,35 +21,33 @@
 
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(data_stack, bc_data_chunk_t, bc_destroy_data_chunk,
     libbitcoin::data_stack);
 
-extern "C" {
-
 bc_data_chunk_t* bc_create_data_chunk()
 {
-    bc_data_chunk_t* self = new bc_data_chunk_t;
-    self->obj = new libbitcoin::data_chunk();
-    return self;
+    return new bc_data_chunk_t{
+        new libbitcoin::data_chunk, true };
 }
 // Copy constructor
 bc_data_chunk_t* bc_create_data_chunk_copy(const bc_data_chunk_t* other)
 {
-    bc_data_chunk_t* self = new bc_data_chunk_t;
-    self->obj = new libbitcoin::data_chunk(*other->obj);
-    return self;
+    return new bc_data_chunk_t{
+        new libbitcoin::data_chunk(*other->obj), true };
 }
 // Initialize data chunk from uint8_t array
 bc_data_chunk_t* bc_create_data_chunk_Array(const uint8_t* data, size_t size)
 {
-    bc_data_chunk_t* self = new bc_data_chunk_t;
-    self->obj = new libbitcoin::data_chunk(data, data + size);
-    return self;
+    return new bc_data_chunk_t{
+        new libbitcoin::data_chunk(data, data + size), true };
 }
 // Destructor
 void bc_destroy_data_chunk(bc_data_chunk_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // .size()

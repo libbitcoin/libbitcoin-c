@@ -27,6 +27,7 @@ extern "C" {
 struct bc_payment_t
 {
     libbitcoin::wallet::payment* obj;
+    const bool delete_obj;
 };
 
 struct bc_payment_address_t

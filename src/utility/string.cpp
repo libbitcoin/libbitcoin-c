@@ -20,26 +20,27 @@
 #include <bitcoin/bitcoin/c/utility/string.h>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(string_list, bc_string_t, bc_destroy_string,
     libbitcoin::string_list);
 
-extern "C" {
-
 bc_string_t* bc_create_string_default()
 {
-    return new bc_string_t{ new std::string };
+    return new bc_string_t{ new std::string, true };
 }
 bc_string_t* bc_create_string(const char* data)
 {
-    return new bc_string_t{ new std::string(data) };
+    return new bc_string_t{ new std::string(data), true };
 }
 bc_string_t* bc_create_string_Length(const char* data, size_t length)
 {
-    return new bc_string_t{ new std::string(data, length) };
+    return new bc_string_t{ new std::string(data, length), true };
 }
 void bc_destroy_string(bc_string_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 const char* bc_string__data(const bc_string_t* self)
@@ -69,32 +70,31 @@ bool bc_string__equals_cstr(const bc_string_t* self, const char* other)
 
 bc_string_t* bc_join(const bc_string_list_t* words)
 {
-    return bc_create_string_StdString(
-        libbitcoin::join(bc_string_list_from_ctype(words)));
+    return bc_create_string_StdString(libbitcoin::join(*words->obj));
 }
 bc_string_t* bc_join_Delim(const bc_string_list_t* words,
     const char* delimiter)
 {
     return bc_create_string_StdString(
-        libbitcoin::join(bc_string_list_from_ctype(words), delimiter));
+        libbitcoin::join(*words->obj, delimiter));
 }
 
 bc_string_list_t* bc_split(const char* sentence)
 {
-    return bc_string_list_to_ctype(
-        libbitcoin::split(sentence));
+    return new bc_string_list_t{ new libbitcoin::string_list(
+        libbitcoin::split(sentence)), true };
 }
 bc_string_list_t* bc_split_Delim(const char* sentence,
     const char* delimiter)
 {
-    return bc_string_list_to_ctype(
-        libbitcoin::split(sentence, delimiter));
+    return new bc_string_list_t{ new libbitcoin::string_list(
+        libbitcoin::split(sentence, delimiter)), true };
 }
 bc_string_list_t* bc_split_Delim_notrim(const char* sentence,
     const char* delimiter)
 {
-    return bc_string_list_to_ctype(
-        libbitcoin::split(sentence, delimiter, false));
+    return new bc_string_list_t{ new libbitcoin::string_list(
+        libbitcoin::split(sentence, delimiter, false)), true };
 }
 
 } // extern C

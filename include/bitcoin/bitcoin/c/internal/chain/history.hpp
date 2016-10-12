@@ -27,22 +27,30 @@
 #include <bitcoin/bitcoin/chain/history.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(history_compact_list, bc_history_compact_t,
-    libbitcoin::chain::history_compact::list);
-
-BC_DECLARE_VECTOR_INTERNAL(history_list, bc_history_t,
-    libbitcoin::chain::history::list);
-
 extern "C" {
 
 struct bc_history_compact_t
 {
     libbitcoin::chain::history_compact* obj;
+    const bool delete_obj;
+};
+
+struct bc_history_compact_list_t
+{
+    libbitcoin::chain::history_compact::list* obj;
+    const bool delete_obj;
 };
 
 struct bc_history_t
 {
     libbitcoin::chain::history* obj;
+    const bool delete_obj;
+};
+
+struct bc_history_list_t
+{
+    libbitcoin::chain::history::list* obj;
+    const bool delete_obj;
 };
 
 } // extern C

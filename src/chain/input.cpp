@@ -28,10 +28,10 @@
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(input_list, bc_input_t, bc_destroy_input,
     libbitcoin::chain::input::list);
-
-extern "C" {
 
 // Static functions
 bc_input_t* bc_input__factory_from_data(const bc_data_chunk_t* data)

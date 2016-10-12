@@ -26,22 +26,23 @@
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(chain_point_list, bc_point_t, bc_destroy_point,
     libbitcoin::chain::point::list);
-
-extern "C" {
 
 // Constructor
 bc_point_indexes_t* bc_create_point_indexes(
     const uint32_t* indexes, size_t size)
 {
     return new bc_point_indexes_t{ new libbitcoin::chain::point::indexes(
-        indexes, indexes + size) };
+        indexes, indexes + size), true };
 }
 // Destructor
 void bc_destroy_point_indexes(bc_point_indexes_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Operators
@@ -73,7 +74,7 @@ uint32_t bc_point__null_index()
 bc_point_t* bc_point__factory_from_data(const bc_data_chunk_t* data)
 {
     return new bc_point_t{ new libbitcoin::chain::point(
-        libbitcoin::chain::point::factory_from_data(*data->obj)) };
+        libbitcoin::chain::point::factory_from_data(*data->obj)), true };
 }
 uint64_t bc_point__satoshi_fixed_size()
 {
@@ -82,12 +83,13 @@ uint64_t bc_point__satoshi_fixed_size()
 // Constructor
 bc_point_t* bc_create_point()
 {
-    return new bc_point_t{ new libbitcoin::chain::point };
+    return new bc_point_t{ new libbitcoin::chain::point, true };
 }
 // Destructor
 void bc_destroy_point(bc_point_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Member functions
@@ -136,7 +138,7 @@ bc_point_iterator_t* bc_point__end(const bc_point_t* self)
 // Member variables
 bc_hash_digest_t* bc_point__hash(const bc_point_t* self)
 {
-    return bc_create_hash_digest_Internal(self->obj->hash);
+    return new bc_hash_digest_t{ &self->obj->hash, false };
 }
 void bc_point__set_hash(bc_point_t* self, const bc_hash_digest_t* hash)
 {

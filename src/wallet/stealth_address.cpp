@@ -67,9 +67,8 @@ bc_stealth_address_t* bc_create_stealth_address_Options(
     const bc_binary_t* filter, const bc_ec_compressed_t* scan_key,
     const bc_point_list_t* spend_keys, uint8_t signatures, uint8_t version)
 {
-    const auto spend_keys_vector = bc_point_list_from_ctype(spend_keys);
     return new bc_stealth_address_t{ new libbitcoin::wallet::stealth_address(
-        *filter->obj, *scan_key->obj, spend_keys_vector,
+        *filter->obj, *scan_key->obj, *spend_keys->obj,
         signatures, version) };
 }
 
@@ -129,7 +128,8 @@ bc_ec_compressed_t* bc_stealth_address__scan_key(
 bc_point_list_t* bc_stealth_address__spend_keys(
     const bc_stealth_address_t* self)
 {
-    return bc_point_list_to_ctype(self->obj->spend_keys());
+    return new bc_point_list_t{ new libbitcoin::point_list(
+        self->obj->spend_keys()), true };
 }
 uint8_t bc_stealth_address__signatures(const bc_stealth_address_t* self)
 {

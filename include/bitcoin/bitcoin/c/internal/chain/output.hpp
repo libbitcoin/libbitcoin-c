@@ -25,14 +25,17 @@
 #include <bitcoin/bitcoin/chain/output.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(output_list, bc_output_t,
-    libbitcoin::chain::output::list);
-
 extern "C" {
 
 struct bc_output_t
 {
     libbitcoin::chain::output* obj;
+    const bool delete_obj;
+};
+
+struct bc_output_list_t
+{
+    libbitcoin::chain::output::list* obj;
     const bool delete_obj;
 };
 

@@ -115,10 +115,8 @@ bc_block_t* bc_create_block_Options(
     const bc_header_t* header,
     const bc_transaction_list_t* transactions)
 {
-    const auto transactions_converted =
-        bc_transaction_list_from_ctype(transactions);
     return new bc_block_t{ new libbitcoin::chain::block(
-        *header->obj, transactions_converted) };
+        *header->obj, *transactions->obj) };
 }
 
 // Destructor
@@ -262,8 +260,7 @@ size_t bc_block__signature_operations(
 // Member variables
 bc_header_t* bc_block__header(const bc_block_t* self)
 {
-    return new bc_header_t{ new libbitcoin::chain::header(
-        self->obj->header) };
+    return new bc_header_t{ &self->obj->header, false };
 }
 void bc_block__set_header(bc_block_t* self, const bc_header_t* header)
 {
@@ -271,12 +268,12 @@ void bc_block__set_header(bc_block_t* self, const bc_header_t* header)
 }
 bc_transaction_list_t* bc_block__transactions(const bc_block_t* self)
 {
-    return bc_transaction_list_to_ctype(self->obj->transactions);
+    return new bc_transaction_list_t{ &self->obj->transactions, false };
 }
 void bc_block__set_transactions(bc_block_t* self,
     const bc_transaction_list_t* transactions)
 {
-    self->obj->transactions = bc_transaction_list_from_ctype(transactions);
+    self->obj->transactions = *transactions->obj;
 }
 
 } // extern C

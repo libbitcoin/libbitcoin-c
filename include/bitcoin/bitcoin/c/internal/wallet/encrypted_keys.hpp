@@ -27,31 +27,37 @@ extern "C" {
 struct bc_ek_salt_t
 {
     libbitcoin::wallet::ek_salt* obj;
+    const bool delete_obj;
 };
 
 struct bc_ek_entropy_t
 {
     libbitcoin::wallet::ek_entropy* obj;
+    const bool delete_obj;
 };
 
 struct bc_ek_seed_t
 {
     libbitcoin::wallet::ek_seed* obj;
+    const bool delete_obj;
 };
 
 struct bc_encrypted_token_t
 {
     libbitcoin::wallet::encrypted_token* obj;
+    const bool delete_obj;
 };
 
 struct bc_encrypted_private_t
 {
     libbitcoin::wallet::encrypted_private* obj;
+    const bool delete_obj;
 };
 
 struct bc_encrypted_public_t
 {
     libbitcoin::wallet::encrypted_public* obj;
+    const bool delete_obj;
 };
 
 }

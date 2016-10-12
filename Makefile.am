@@ -272,7 +272,3 @@ include_bitcoin_bitcoin_c_internal_wallet_HEADERS = \
     include/bitcoin/bitcoin/c/internal/wallet/payment_address.hpp \
     include/bitcoin/bitcoin/c/internal/wallet/stealth_address.hpp
 
-include_bitcoin_bitcoin_c_internal_impl_utility_vectordir = ${includedir}/bitcoin/bitcoin/c/internal/impl/utility
-include_bitcoin_bitcoin_c_internal_impl_utility_vector_HEADERS = \
-    include/bitcoin/bitcoin/c/internal/impl/utility/vector.ipp
-

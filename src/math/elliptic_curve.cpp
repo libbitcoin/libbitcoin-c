@@ -23,10 +23,10 @@
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(point_list, bc_ec_compressed_t, bc_destroy_ec_compressed,
     libbitcoin::point_list);
-
-extern "C" {
 
 BC_IMPLEMENT_BYTE_ARRAY(ec_secret);
 
@@ -49,18 +49,18 @@ size_t bc_max_endorsement_size()
 bc_recoverable_signature_t* bc_create_recoverable_signature()
 {
     return new bc_recoverable_signature_t{
-        new libbitcoin::recoverable_signature };
+        new libbitcoin::recoverable_signature, true };
 }
 void bc_destroy_recoverable_signature(bc_recoverable_signature_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 bc_ec_signature_t* bc_recoverable_signature__signature(
     const bc_recoverable_signature_t* self)
 {
-    return new bc_ec_signature_t{ new libbitcoin::ec_signature(
-        self->obj->signature) };
+    return new bc_ec_signature_t{ &self->obj->signature, false };
 }
 void bc_recoverable_signature__set_signature(
     bc_recoverable_signature_t* self, const bc_ec_signature_t* signature)
@@ -81,12 +81,12 @@ void bc_recoverable_signature__set_recovery_id(
 bc_ec_compressed_t* null_compressed_point()
 {
     return new bc_ec_compressed_t{ new libbitcoin::ec_compressed(
-        libbitcoin::null_compressed_point) };
+        libbitcoin::null_compressed_point), false };
 }
 bc_ec_uncompressed_t* null_uncompressed_point()
 {
     return new bc_ec_uncompressed_t{ new libbitcoin::ec_uncompressed(
-        libbitcoin::null_uncompressed_point) };
+        libbitcoin::null_uncompressed_point), false };
 }
 
 // Add and multiply EC values

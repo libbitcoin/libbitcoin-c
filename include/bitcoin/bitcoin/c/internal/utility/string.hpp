@@ -23,13 +23,18 @@
 #include <bitcoin/bitcoin/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(string_list, bc_string_t, libbitcoin::string_list);
-
 extern "C" {
 
 struct bc_string_t
 {
     std::string* obj;
+    const bool delete_obj;
+};
+
+struct bc_string_list_t
+{
+    libbitcoin::string_list* obj;
+    const bool delete_obj;
 };
 
 } // extern C

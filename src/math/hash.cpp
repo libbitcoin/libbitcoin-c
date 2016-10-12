@@ -24,6 +24,8 @@
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(hash_list, bc_hash_digest_t,
     bc_destroy_hash_digest, libbitcoin::hash_list);
 BC_IMPLEMENT_VECTOR(half_hash_list, bc_half_hash_t,
@@ -36,8 +38,6 @@ BC_IMPLEMENT_VECTOR(short_hash_list, bc_short_hash_t,
     bc_destroy_short_hash, libbitcoin::short_hash_list);
 BC_IMPLEMENT_VECTOR(mini_hash_list, bc_mini_hash_t,
     bc_destroy_mini_hash, libbitcoin::mini_hash_list);
-
-extern "C" {
 
 size_t bc_hash_size()
 {
@@ -68,9 +68,7 @@ size_t bc_mini_hash_size()
     \
     bc_##hashtype##_t* bc_create_##hashtype() \
     { \
-        bc_##hashtype##_t* self = new bc_##hashtype##_t; \
-        self->obj = new libbitcoin::hashtype; \
-        return self; \
+        return new bc_##hashtype##_t{ new libbitcoin::hashtype, true }; \
     } \
     bc_##hashtype##_t* bc_create_##hashtype##_Array(const uint8_t* data) \
     { \
@@ -80,7 +78,8 @@ size_t bc_mini_hash_size()
     } \
     void bc_destroy_##hashtype(bc_##hashtype##_t* self) \
     { \
-        delete self->obj; \
+        if (self->delete_obj) \
+            delete self->obj; \
         delete self; \
     } \
     uint8_t* bc_##hashtype##__data(bc_##hashtype##_t* self) \
@@ -107,9 +106,8 @@ size_t bc_mini_hash_size()
     bc_##hashtype##_t* bc_create_##hashtype##_Internal( \
         const libbitcoin::hashtype& value) \
     { \
-        bc_##hashtype##_t* self = new bc_##hashtype##_t; \
-        self->obj = new libbitcoin::hashtype(value); \
-        return self; \
+        return new bc_##hashtype##_t{ \
+            new libbitcoin::hashtype(value), true }; \
     }
 
 BC_HASH_IMPL(hash_digest);

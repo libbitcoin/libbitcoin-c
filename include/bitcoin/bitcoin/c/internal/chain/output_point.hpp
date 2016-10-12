@@ -25,9 +25,6 @@
 #include <bitcoin/bitcoin/chain/output_point.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(output_info_list, bc_output_info_t,
-    libbitcoin::chain::output_info::list);
-
 extern "C" {
 
 struct bc_output_point_t
@@ -39,11 +36,19 @@ struct bc_output_point_t
 struct bc_points_info_t
 {
     libbitcoin::chain::points_info* obj;
+    const bool delete_obj;
 };
 
 struct bc_output_info_t
 {
     libbitcoin::chain::output_info* obj;
+    const bool delete_obj;
+};
+
+struct bc_output_info_list_t
+{
+    libbitcoin::chain::output_info::list* obj;
+    const bool delete_obj;
 };
 
 } // extern C

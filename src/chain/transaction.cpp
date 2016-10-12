@@ -29,48 +29,47 @@
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(transaction_list, bc_transaction_t, bc_destroy_transaction,
     libbitcoin::chain::transaction::list);
-
-extern "C" {
 
 // Static functions
 bc_transaction_t* bc_transaction__factory_from_data(
     const bc_data_chunk_t* data)
 {
     return new bc_transaction_t{ new libbitcoin::chain::transaction(
-        libbitcoin::chain::transaction::factory_from_data(*data->obj)) };
+        libbitcoin::chain::transaction::factory_from_data(*data->obj)), true };
 }
 bc_transaction_t* bc_transaction__factory_from_data_nosatoshi(
     const bc_data_chunk_t* data)
 {
     return new bc_transaction_t{ new libbitcoin::chain::transaction(
         libbitcoin::chain::transaction::factory_from_data(
-            *data->obj, false)) };
+            *data->obj, false)), true };
 }
 // Constructor
 bc_transaction_t* bc_create_transaction()
 {
-    return new bc_transaction_t{ new libbitcoin::chain::transaction };
+    return new bc_transaction_t{ new libbitcoin::chain::transaction, true };
 }
 bc_transaction_t* bc_create_transaction_copy(const bc_transaction_t* other)
 {
     return new bc_transaction_t{ new libbitcoin::chain::transaction(
-        *other->obj) };
+        *other->obj), true };
 }
 bc_transaction_t* bc_create_transaction_Parts(
     uint32_t version, uint32_t locktime,
     const bc_input_list_t* inputs, const bc_output_list_t* outputs)
 {
-    const auto inputs_vector = bc_input_list_from_ctype(inputs);
-    const auto outputs_vector = bc_output_list_from_ctype(outputs);
     return new bc_transaction_t{ new libbitcoin::chain::transaction(
-        version, locktime, inputs_vector, outputs_vector) };
+        version, locktime, *inputs->obj, *outputs->obj), true };
 }
 // Destructor
 void bc_destroy_transaction(bc_transaction_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Member functions
@@ -221,21 +220,21 @@ void bc_transaction__set_locktime(bc_transaction_t* self, uint32_t locktime)
 }
 bc_input_list_t* bc_transaction__inputs(const bc_transaction_t* self)
 {
-    return bc_input_list_to_ctype(self->obj->inputs);
+    return new bc_input_list_t{ &self->obj->inputs, false };
 }
 void bc_transaction__set_inputs(bc_transaction_t* self,
     const bc_input_list_t* inputs)
 {
-    self->obj->inputs = bc_input_list_from_ctype(inputs);
+    self->obj->inputs = *inputs->obj;
 }
 bc_output_list_t* bc_transaction__outputs(const bc_transaction_t* self)
 {
-    return bc_output_list_to_ctype(self->obj->outputs);
+    return new bc_output_list_t{ &self->obj->outputs, false };
 }
 void bc_transaction__set_outputs(bc_transaction_t* self,
     const bc_output_list_t* outputs)
 {
-    self->obj->outputs = bc_output_list_from_ctype(outputs);
+    self->obj->outputs = *outputs->obj;
 }
 
 } // extern C

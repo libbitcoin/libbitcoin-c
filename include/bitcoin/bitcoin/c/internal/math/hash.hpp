@@ -24,19 +24,6 @@
 
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(hash_list, bc_hash_digest_t,
-    libbitcoin::hash_list);
-BC_DECLARE_VECTOR_INTERNAL(half_hash_list, bc_half_hash_t,
-    libbitcoin::half_hash_list);
-BC_DECLARE_VECTOR_INTERNAL(quarter_hash_list, bc_quarter_hash_t,
-    libbitcoin::quarter_hash_list);
-BC_DECLARE_VECTOR_INTERNAL(long_hash_list, bc_long_hash_t,
-    libbitcoin::long_hash_list);
-BC_DECLARE_VECTOR_INTERNAL(short_hash_list, bc_short_hash_t,
-    libbitcoin::short_hash_list);
-BC_DECLARE_VECTOR_INTERNAL(mini_hash_list, bc_mini_hash_t,
-    libbitcoin::mini_hash_list);
-
 extern "C" {
 
 #define BC_DECLARE_HASH_INTERNAL(hashtype) \
@@ -44,6 +31,7 @@ extern "C" {
     struct bc_##hashtype##_t \
     { \
         libbitcoin::hashtype* obj; \
+        const bool delete_obj; \
     }; \
     \
     bc_##hashtype##_t* bc_create_##hashtype##_Internal( \
@@ -56,7 +44,30 @@ BC_DECLARE_HASH_INTERNAL(long_hash);
 BC_DECLARE_HASH_INTERNAL(short_hash);
 BC_DECLARE_HASH_INTERNAL(mini_hash);
 
-#undef HASH_STRUCT
+#undef BC_DECLARE_HASH_INTERNAL
+
+#define BC_DECLARE_HASH_VECTOR_INTERNAL(list_name, list_type) \
+    \
+    struct bc_##list_name##_t \
+    { \
+        list_type* obj; \
+        const bool delete_obj; \
+    };
+
+BC_DECLARE_HASH_VECTOR_INTERNAL(
+    hash_list, libbitcoin::hash_list);
+BC_DECLARE_HASH_VECTOR_INTERNAL(
+    half_hash_list, libbitcoin::half_hash_list);
+BC_DECLARE_HASH_VECTOR_INTERNAL(
+    quarter_hash_list, libbitcoin::quarter_hash_list);
+BC_DECLARE_HASH_VECTOR_INTERNAL(
+    long_hash_list, libbitcoin::long_hash_list);
+BC_DECLARE_HASH_VECTOR_INTERNAL(
+    short_hash_list, libbitcoin::short_hash_list);
+BC_DECLARE_HASH_VECTOR_INTERNAL(
+    mini_hash_list, libbitcoin::mini_hash_list);
+
+#undef BC_DECLARE_HASH_VECTOR_INTERNAL
 
 }
 

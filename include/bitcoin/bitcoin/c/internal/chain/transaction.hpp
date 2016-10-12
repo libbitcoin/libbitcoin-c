@@ -25,14 +25,18 @@
 #include <bitcoin/bitcoin/chain/transaction.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(transaction_list, bc_transaction_t,
-    libbitcoin::chain::transaction::list);
-
 extern "C" {
 
 struct bc_transaction_t
 {
     libbitcoin::chain::transaction* obj;
+    const bool delete_obj;
+};
+
+struct bc_transaction_list_t
+{
+    libbitcoin::chain::transaction::list* obj;
+    const bool delete_obj;
 };
 
 } // extern C

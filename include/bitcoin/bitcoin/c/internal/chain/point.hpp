@@ -25,19 +25,24 @@
 #include <bitcoin/bitcoin/chain/point.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(chain_point_list, bc_point_t,
-    libbitcoin::chain::point::list);
-
 extern "C" {
 
 struct bc_point_indexes_t
 {
     libbitcoin::chain::point::indexes* obj;
+    const bool delete_obj;
 };
 
 struct bc_point_t
 {
     libbitcoin::chain::point* obj;
+    const bool delete_obj;
+};
+
+struct bc_chain_point_list_t
+{
+    libbitcoin::chain::point::list* obj;
+    const bool delete_obj;
 };
 
 } // extern C

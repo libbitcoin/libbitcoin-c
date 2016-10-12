@@ -26,14 +26,18 @@
 #include <bitcoin/bitcoin/chain/script/operation.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
-BC_DECLARE_VECTOR_INTERNAL(operation_stack, bc_operation_t,
-    libbitcoin::chain::operation::stack);
-
 extern "C" {
 
 struct bc_operation_t
 {
     libbitcoin::chain::operation* obj;
+    const bool delete_obj;
+};
+
+struct bc_operation_stack_t
+{
+    libbitcoin::chain::operation::stack* obj;
+    const bool delete_obj;
 };
 
 } // extern C

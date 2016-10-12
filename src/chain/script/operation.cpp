@@ -39,119 +39,102 @@ size_t bc_operation__max_null_data_size()
 bc_operation_t* bc_operation__factory_from_data(const bc_data_chunk_t* data)
 {
     return new bc_operation_t{ new libbitcoin::chain::operation(
-        libbitcoin::chain::operation::factory_from_data(*data->obj)) };
+        libbitcoin::chain::operation::factory_from_data(*data->obj)), true };
 }
 bool bc_operation__is_push_only(const bc_operation_stack_t* operations)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(operations);
-    return libbitcoin::chain::operation::is_push_only(ops_vector);
+    return libbitcoin::chain::operation::is_push_only(*operations->obj);
 }
 /// unspendable pattern (standard)
 bool bc_operation__is_null_data_pattern(const bc_operation_stack_t* ops)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(ops);
-    return libbitcoin::chain::operation::is_null_data_pattern(ops_vector);
+    return libbitcoin::chain::operation::is_null_data_pattern(*ops->obj);
 }
 /// payment script patterns (standard)
 bool bc_operation__is_pay_multisig_pattern(const bc_operation_stack_t* ops)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(ops);
-    return libbitcoin::chain::operation::is_pay_multisig_pattern(ops_vector);
+    return libbitcoin::chain::operation::is_pay_multisig_pattern(*ops->obj);
 }
 bool bc_operation__is_pay_public_key_pattern(const bc_operation_stack_t* ops)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(ops);
-    return libbitcoin::chain::operation::is_pay_public_key_pattern(ops_vector);
+    return libbitcoin::chain::operation::is_pay_public_key_pattern(*ops->obj);
 }
 bool bc_operation__is_pay_key_hash_pattern(const bc_operation_stack_t* ops)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(ops);
-    return libbitcoin::chain::operation::is_pay_key_hash_pattern(ops_vector);
+    return libbitcoin::chain::operation::is_pay_key_hash_pattern(*ops->obj);
 }
 bool bc_operation__is_pay_script_hash_pattern(const bc_operation_stack_t* ops)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(ops);
-    return libbitcoin::chain::operation::is_pay_script_hash_pattern(
-        ops_vector);
+    return libbitcoin::chain::operation::is_pay_script_hash_pattern(*ops->obj);
 }
 /// signature script patterns (standard)
 bool bc_operation__is_sign_multisig_pattern(const bc_operation_stack_t* ops)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(ops);
-    return libbitcoin::chain::operation::is_sign_multisig_pattern(ops_vector);
+    return libbitcoin::chain::operation::is_sign_multisig_pattern(*ops->obj);
 }
 bool bc_operation__is_sign_public_key_pattern(const bc_operation_stack_t* ops)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(ops);
-    return libbitcoin::chain::operation::is_sign_public_key_pattern(
-        ops_vector);
+    return libbitcoin::chain::operation::is_sign_public_key_pattern(*ops->obj);
 }
 bool bc_operation__is_sign_key_hash_pattern(const bc_operation_stack_t* ops)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(ops);
-    return libbitcoin::chain::operation::is_sign_key_hash_pattern(ops_vector);
+    return libbitcoin::chain::operation::is_sign_key_hash_pattern(*ops->obj);
 }
 bool bc_operation__is_sign_script_hash_pattern(const bc_operation_stack_t* ops)
 {
-    const auto ops_vector = bc_operation_stack_from_ctype(ops);
     return libbitcoin::chain::operation::is_sign_script_hash_pattern(
-        ops_vector);
+        *ops->obj);
 }
 /// stack factories
 bc_operation_stack_t* bc_operation__to_null_data_pattern(
     const bc_data_chunk_t* data)
 {
-    const auto ops =
-        libbitcoin::chain::operation::to_null_data_pattern(*data->obj);
-    return bc_operation_stack_to_ctype(ops);
+    return bc_create_operation_stack_Internal(
+        libbitcoin::chain::operation::to_null_data_pattern(*data->obj));
 }
 bc_operation_stack_t* bc_operation__to_pay_multisig_pattern_PointList(
     uint8_t signatures,
     const bc_point_list_t* points)
 {
-    const auto points_vector = bc_point_list_from_ctype(points);
     const auto result = libbitcoin::chain::operation::to_pay_multisig_pattern(
-        signatures, points_vector);
-    return bc_operation_stack_to_ctype(result);
+        signatures, *points->obj);
+    return bc_create_operation_stack_Internal(result);
 }
 bc_operation_stack_t* bc_operation__to_pay_multisig_pattern(
     uint8_t signatures,
     const bc_data_stack_t* points)
 {
-    const auto stack = bc_data_stack_from_ctype(points);
     const auto result = libbitcoin::chain::operation::to_pay_multisig_pattern(
-        signatures, stack);
-    return bc_operation_stack_to_ctype(result);
+        signatures, *points->obj);
+    return bc_create_operation_stack_Internal(result);
 }
 bc_operation_stack_t* bc_operation__to_pay_public_key_pattern(
     const bc_data_chunk_t* point)
 {
-    const auto ops = libbitcoin::chain::operation::to_pay_public_key_pattern(
-        *point->obj);
-    return bc_operation_stack_to_ctype(ops);
+    return bc_create_operation_stack_Internal(
+        libbitcoin::chain::operation::to_pay_public_key_pattern(*point->obj));
 }
 bc_operation_stack_t* bc_operation__to_pay_key_hash_pattern(
     const bc_short_hash_t* hash)
 {
-    const auto ops = libbitcoin::chain::operation::to_pay_key_hash_pattern(
-        *hash->obj);
-    return bc_operation_stack_to_ctype(ops);
+    return bc_create_operation_stack_Internal(
+        libbitcoin::chain::operation::to_pay_key_hash_pattern(*hash->obj));
 }
 bc_operation_stack_t* bc_operation__to_pay_script_hash_pattern(
     const bc_short_hash_t* hash)
 {
-    const auto ops = libbitcoin::chain::operation::to_pay_script_hash_pattern(
-        *hash->obj);
-    return bc_operation_stack_to_ctype(ops);
+    return bc_create_operation_stack_Internal(
+        libbitcoin::chain::operation::to_pay_script_hash_pattern(*hash->obj));
 }
 
 bc_operation_t* bc_create_operation()
 {
-    return new bc_operation_t{ new libbitcoin::chain::operation };
+    return new bc_operation_t{ new libbitcoin::chain::operation, true };
 }
 void bc_destroy_operation(bc_operation_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 

@@ -25,10 +25,10 @@
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(output_info_list, bc_output_info_t,
     bc_destroy_output_info, libbitcoin::chain::output_info::list);
-
-extern "C" {
 
 uint64_t bc_output_point__not_coinbase()
 {
@@ -134,21 +134,22 @@ void bc_output_point__set_cache(bc_output_point_t* self,
 
 bc_points_info_t* bc_create_points_info()
 {
-    return new bc_points_info_t{ new libbitcoin::chain::points_info };
+    return new bc_points_info_t{ new libbitcoin::chain::points_info, true };
 }
 void bc_destroy_points_info(bc_points_info_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 bc_chain_point_list_t* bc_points_info__points(const bc_points_info_t* self)
 {
-    return bc_chain_point_list_to_ctype(self->obj->points);
+    return new bc_chain_point_list_t{ &self->obj->points, false };
 }
 void bc_points_info__set_points(bc_points_info_t* self,
     const bc_chain_point_list_t* points)
 {
-    self->obj->points = bc_chain_point_list_from_ctype(points);
+    self->obj->points = *points->obj;
 }
 uint64_t bc_points_info__change(const bc_points_info_t* self)
 {
@@ -161,11 +162,12 @@ void bc_points_info__set_change(bc_points_info_t* self, uint64_t change)
 
 bc_output_info_t* bc_create_output_info()
 {
-    return new bc_output_info_t{ new libbitcoin::chain::output_info };
+    return new bc_output_info_t{ new libbitcoin::chain::output_info, true };
 }
 void bc_destroy_output_info(bc_output_info_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 bc_output_point_t* bc_output_info__point(const bc_output_info_t* self)

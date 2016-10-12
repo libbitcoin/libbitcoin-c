@@ -25,24 +25,24 @@
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(header_list, bc_header_t, bc_destroy_header,
     libbitcoin::chain::header::list);
-
-extern "C" {
 
 // Static functions
 bc_header_t* bc_header__factory_from_data(
     const bc_data_chunk_t* data)
 {
     return new bc_header_t{ new libbitcoin::chain::header(
-        libbitcoin::chain::header::factory_from_data(*data->obj)) };
+        libbitcoin::chain::header::factory_from_data(*data->obj)), true };
 }
 bc_header_t* bc_header__factory_from_data_without_transaction_count(
     const bc_data_chunk_t* data)
 {
     return new bc_header_t{ new libbitcoin::chain::header(
         libbitcoin::chain::header::factory_from_data(
-            *data->obj, false)) };
+            *data->obj, false)), true };
 }
 uint64_t bc_header__satoshi_fixed_size_without_transaction_count()
 {
@@ -52,11 +52,11 @@ uint64_t bc_header__satoshi_fixed_size_without_transaction_count()
 // Constructor
 bc_header_t* bc_create_header()
 {
-    return new bc_header_t{ new libbitcoin::chain::header };
+    return new bc_header_t{ new libbitcoin::chain::header, true };
 }
 bc_header_t* bc_create_header_copy(const bc_header_t* other)
 {
-    return new bc_header_t{ new libbitcoin::chain::header(*other->obj) };
+    return new bc_header_t{ new libbitcoin::chain::header(*other->obj), true };
 }
 bc_header_t* bc_create_header_Options(
     uint32_t version, const bc_hash_digest_t* previous_block_hash,
@@ -65,13 +65,14 @@ bc_header_t* bc_create_header_Options(
 {
     return new bc_header_t{ new libbitcoin::chain::header(
         version, *previous_block_hash->obj, *merkle->obj, timestamp,
-        bits, nonce, transaction_count) };
+        bits, nonce, transaction_count), true };
 }
 
 // Destructor
 void bc_destroy_header(const bc_header_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 
@@ -138,7 +139,7 @@ void bc_header__set_version(bc_header_t* self, uint32_t version)
 }
 bc_hash_digest_t* bc_header__previous_block_hash(const bc_header_t* self)
 {
-    return bc_create_hash_digest_Internal(self->obj->previous_block_hash);
+    return new bc_hash_digest_t{ &self->obj->previous_block_hash, false };
 }
 void bc_header__set_previous_block_hash(bc_header_t* self,
     const bc_hash_digest_t* previous_block_hash)
@@ -147,7 +148,7 @@ void bc_header__set_previous_block_hash(bc_header_t* self,
 }
 bc_hash_digest_t* bc_header__merkle(const bc_header_t* self)
 {
-    return bc_create_hash_digest_Internal(self->obj->merkle);
+    return new bc_hash_digest_t{ &self->obj->merkle, false };
 }
 void bc_header__set_merkle(bc_header_t* self,
     const bc_hash_digest_t* merkle)

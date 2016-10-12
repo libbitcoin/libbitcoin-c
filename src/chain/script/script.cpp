@@ -156,12 +156,12 @@ uint64_t bc_script__serialized_size(const bc_script_t* self, bool prefix)
 // Member variables
 bc_operation_stack_t* bc_script__operations(const bc_script_t* self)
 {
-    return bc_operation_stack_to_ctype(self->obj->operations);
+    return new bc_operation_stack_t{ &self->obj->operations, false };
 }
 void bc_script__set_operations(bc_script_t* self,
     const bc_operation_stack_t* operations)
 {
-    self->obj->operations = bc_operation_stack_from_ctype(operations);
+    self->obj->operations = *operations->obj;
 }
 
 } // extern C

@@ -27,16 +27,19 @@ extern "C" {
 struct bc_wif_uncompressed_t
 {
     libbitcoin::wallet::wif_uncompressed* obj;
+    const bool delete_obj;
 };
 
 struct bc_wif_compressed_t
 {
     libbitcoin::wallet::wif_compressed* obj;
+    const bool delete_obj;
 };
 
 struct bc_ec_private_t
 {
     libbitcoin::wallet::ec_private* obj;
+    const bool delete_obj;
 };
 
 }

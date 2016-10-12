@@ -23,23 +23,25 @@
 #include <bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 
+extern "C" {
+
 BC_IMPLEMENT_VECTOR(stealth_compact_list, bc_stealth_compact_t,
     bc_destroy_stealth_compact, libbitcoin::chain::stealth_compact::list);
 
 BC_IMPLEMENT_VECTOR(stealth_list, bc_stealth_t,
     bc_destroy_stealth, libbitcoin::chain::stealth::list);
 
-extern "C" {
-
 // Constructor
 bc_stealth_compact_t* bc_create_stealth_compact()
 {
-    return new bc_stealth_compact_t{ new libbitcoin::chain::stealth_compact };
+    return new bc_stealth_compact_t{
+        new libbitcoin::chain::stealth_compact, true };
 }
 // Destructor
 void bc_destroy_stealth_compact(bc_stealth_compact_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Member variables
@@ -80,12 +82,13 @@ void bc_stealth_compact__set_transaction_hash(
 // Constructor
 bc_stealth_t* bc_create_stealth()
 {
-    return new bc_stealth_t{ new libbitcoin::chain::stealth };
+    return new bc_stealth_t{ new libbitcoin::chain::stealth, true };
 }
 // Destructor
 void bc_destroy_stealth(bc_stealth_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Member variables
