@@ -33,6 +33,7 @@ extern "C" {
 struct bc_output_t
 {
     libbitcoin::chain::output* obj;
+    const bool delete_obj;
 };
 
 } // extern C

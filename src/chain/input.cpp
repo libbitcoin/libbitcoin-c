@@ -37,17 +37,18 @@ extern "C" {
 bc_input_t* bc_input__factory_from_data(const bc_data_chunk_t* data)
 {
     return new bc_input_t{ new libbitcoin::chain::input(
-        libbitcoin::chain::input::factory_from_data(*data->obj)) };
+        libbitcoin::chain::input::factory_from_data(*data->obj)), true };
 }
 // Constructor
 bc_input_t* bc_create_input()
 {
-    return new bc_input_t{ new libbitcoin::chain::input };
+    return new bc_input_t{ new libbitcoin::chain::input, true };
 }
 // Destructor
 void bc_destroy_input(bc_input_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Member functions
@@ -94,8 +95,7 @@ size_t bc_input__signature_operations(
 // Member variables
 bc_output_point_t* bc_input__previous_output(const bc_input_t* self)
 {
-    return new bc_output_point_t{ new libbitcoin::chain::output_point(
-        self->obj->previous_output) };
+    return new bc_output_point_t{ &self->obj->previous_output, false };
 }
 void bc_input__set_previous_output(bc_input_t* self,
     bc_output_point_t* previous_output)

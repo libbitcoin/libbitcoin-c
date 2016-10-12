@@ -41,17 +41,18 @@ uint64_t bc_output__not_found()
 bc_output_t* bc_output__factory_from_data(const bc_data_chunk_t* data)
 {
     return new bc_output_t{ new libbitcoin::chain::output(
-        libbitcoin::chain::output::factory_from_data(*data->obj)) };
+        libbitcoin::chain::output::factory_from_data(*data->obj)), true };
 }
 // Constructor
 bc_output_t* bc_create_output()
 {
-    return new bc_output_t{ new libbitcoin::chain::output };
+    return new bc_output_t{ new libbitcoin::chain::output, true };
 }
 // Destructor
 void bc_destroy_output(bc_output_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Member functions
