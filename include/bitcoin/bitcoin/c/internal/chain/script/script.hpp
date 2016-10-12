@@ -29,6 +29,7 @@ extern "C" {
 struct bc_script_t
 {
     libbitcoin::chain::script* obj;
+    const bool delete_obj;
 };
 
 } // extern C

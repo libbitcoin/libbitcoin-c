@@ -104,8 +104,7 @@ void bc_input__set_previous_output(bc_input_t* self,
 }
 bc_script_t* bc_input__script(const bc_input_t* self)
 {
-    return new bc_script_t{ new libbitcoin::chain::script(
-        self->obj->script) };
+    return new bc_script_t{ &self->obj->script, false };
 }
 void bc_input__set_script(bc_input_t* self, const bc_script_t* script)
 {

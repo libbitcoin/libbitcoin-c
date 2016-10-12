@@ -90,12 +90,13 @@ bc_error_code_t* bc_script__verify_Script(
 // Constructor
 bc_script_t* bc_create_script()
 {
-    return new bc_script_t{ new libbitcoin::chain::script };
+    return new bc_script_t{ new libbitcoin::chain::script, true };
 }
 // Destructor
 void bc_destroy_script(bc_script_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 // Member functions

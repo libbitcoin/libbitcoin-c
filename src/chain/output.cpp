@@ -94,8 +94,7 @@ void bc_output__set_value(bc_output_t* self, uint64_t value)
 }
 bc_script_t* bc_output__script(const bc_output_t* self)
 {
-    return new bc_script_t{ new libbitcoin::chain::script(
-        self->obj->script) };
+    return new bc_script_t{ &self->obj->script, false };
 }
 void bc_output__set_script(bc_output_t* self, const bc_script_t* script)
 {
