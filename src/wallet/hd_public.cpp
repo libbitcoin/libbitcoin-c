@@ -111,45 +111,40 @@ uint32_t bc_hd_public__to_prefix(uint64_t prefixes)
 }
 bc_hd_public_t* bc_create_hd_public()
 {
-    bc_hd_public_t* self = new bc_hd_public_t;
-    self->obj = new libbitcoin::wallet::hd_public();
-    return self;
+    return new bc_hd_public_t{
+        new libbitcoin::wallet::hd_public, true };
 }
 bc_hd_public_t* bc_create_hd_public_copy(const bc_hd_public_t* other)
 {
-    bc_hd_public_t* self = new bc_hd_public_t;
-    self->obj = new libbitcoin::wallet::hd_public(*other->obj);
-    return self;
+    return new bc_hd_public_t{
+        new libbitcoin::wallet::hd_public(*other->obj), true };
 }
 bc_hd_public_t* bc_create_hd_public_Key(bc_hd_key_t* public_key)
 {
-    bc_hd_public_t* self = new bc_hd_public_t;
-    self->obj = new libbitcoin::wallet::hd_public(*public_key->obj);
-    return self;
+    return new bc_hd_public_t{
+        new libbitcoin::wallet::hd_public(*public_key->obj), true };
 }
 bc_hd_public_t* bc_create_hd_public_Key_Prefix(
     bc_hd_key_t* public_key, uint32_t prefix)
 {
-    bc_hd_public_t* self = new bc_hd_public_t;
-    self->obj = new libbitcoin::wallet::hd_public(*public_key->obj, prefix);
-    return self;
+    return new bc_hd_public_t{
+        new libbitcoin::wallet::hd_public(*public_key->obj, prefix), true };
 }
 bc_hd_public_t* bc_create_hd_public_String(const char* encoded)
 {
-    bc_hd_public_t* self = new bc_hd_public_t;
-    self->obj = new libbitcoin::wallet::hd_public(encoded);
-    return self;
+    return new bc_hd_public_t{
+        new libbitcoin::wallet::hd_public(encoded), true };
 }
 bc_hd_public_t* bc_create_hd_public_String_Prefix(
     const char* encoded, uint32_t prefix)
 {
-    bc_hd_public_t* self = new bc_hd_public_t;
-    self->obj = new libbitcoin::wallet::hd_public(encoded, prefix);
-    return self;
+    return new bc_hd_public_t{
+        new libbitcoin::wallet::hd_public(encoded, prefix), true };
 }
 void bc_destroy_hd_public(bc_hd_public_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 bool bc_hd_public__less_than(
@@ -198,22 +193,18 @@ bc_hd_lineage_t* bc_hd_public__lineage(const bc_hd_public_t* self)
 bc_ec_compressed_t* bc_hd_public__point(const bc_hd_public_t* self)
 {
     return new bc_ec_compressed_t{ new libbitcoin::ec_compressed(
-        self->obj->point()) };
+        self->obj->point()), true };
 }
 bc_hd_key_t* bc_hd_public__to_hd_key(const bc_hd_public_t* self)
 {
-    auto key = self->obj->to_hd_key();
-    bc_hd_key_t* result = new bc_hd_key_t;
-    result->obj = new libbitcoin::wallet::hd_key(key);
-    return result;
+    return new bc_hd_key_t{ new libbitcoin::wallet::hd_key(
+        self->obj->to_hd_key()) };
 }
 bc_hd_public_t* bc_hd_public__derive_public(
     const bc_hd_public_t* self, uint32_t index)
 {
-    bc_hd_public_t* derived = new bc_hd_public_t;
-    derived->obj = new libbitcoin::wallet::hd_public(
-        self->obj->derive_public(index));
-    return derived;
+    return new bc_hd_public_t{ new libbitcoin::wallet::hd_public(
+        self->obj->derive_public(index)), true };
 }
 
 }

@@ -118,7 +118,7 @@ bool bc_hd_private__not_equals(
 bc_hd_public_t* bc_hd_private__hd_public_Base(bc_hd_private_t* self)
 {
     return new bc_hd_public_t{
-        static_cast<libbitcoin::wallet::hd_public*>(self->obj) };
+        static_cast<libbitcoin::wallet::hd_public*>(self->obj), false };
 }
 // Simply returns itself again
 bc_hd_private_t* bc_hd_private__copy(
@@ -138,7 +138,7 @@ bc_string_t* bc_hd_private__encoded(const bc_hd_private_t* self)
 bc_ec_secret_t* bc_hd_private__ec_secret(const bc_hd_private_t* self)
 {
     return new bc_ec_secret_t{ new libbitcoin::ec_secret(
-        self->obj->secret()) };
+        self->obj->secret()), true };
 }
 /// Methods.
 bc_hd_key_t* bc_hd_private__to_hd_key(const bc_hd_private_t* self)
@@ -149,7 +149,7 @@ bc_hd_key_t* bc_hd_private__to_hd_key(const bc_hd_private_t* self)
 bc_hd_public_t* bc_hd_private__to_public(const bc_hd_private_t* self)
 {
     return new bc_hd_public_t{ new libbitcoin::wallet::hd_public(
-        self->obj->to_public()) };
+        self->obj->to_public()), true };
 }
 bc_hd_private_t* bc_hd_private__derive_private(
     const bc_hd_private_t* self, uint32_t index)
@@ -161,7 +161,7 @@ bc_hd_public_t* bc_hd_private__derive_public(
     const bc_hd_private_t* self, uint32_t index)
 {
     return new bc_hd_public_t{ new libbitcoin::wallet::hd_public(
-        self->obj->derive_public(index)) };
+        self->obj->derive_public(index)), true };
 }
 
 }

@@ -42,6 +42,7 @@ struct bc_hd_lineage_t
 struct bc_hd_public_t
 {
     libbitcoin::wallet::hd_public* obj;
+    const bool delete_obj;
 };
 
 }
