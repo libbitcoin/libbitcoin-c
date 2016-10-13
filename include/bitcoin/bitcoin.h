@@ -37,6 +37,7 @@
 #include <bitcoin/bitcoin/c/math/hash.h>
 #include <bitcoin/bitcoin/c/wallet/hd_public.h>
 #include <bitcoin/bitcoin/c/wallet/stealth_address.h>
+#include <bitcoin/bitcoin/c/wallet/select_outputs.h>
 #include <bitcoin/bitcoin/c/wallet/bitcoin_uri.h>
 #include <bitcoin/bitcoin/c/wallet/payment_address.h>
 #include <bitcoin/bitcoin/c/wallet/hd_private.h>

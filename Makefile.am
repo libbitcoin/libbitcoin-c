@@ -213,6 +213,7 @@ include_bitcoin_bitcoin_c_wallet_HEADERS = \
     include/bitcoin/bitcoin/c/wallet/mini_keys.h \
     include/bitcoin/bitcoin/c/wallet/payment_address.h \
     include/bitcoin/bitcoin/c/wallet/mnemonic.h \
+    include/bitcoin/bitcoin/c/wallet/select_outputs.h \
     include/bitcoin/bitcoin/c/wallet/stealth_address.h
 
 include_bitcoin_bitcoin_c_internal_chaindir = ${includedir}/bitcoin/bitcoin/c/internal/chain
