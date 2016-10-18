@@ -135,7 +135,7 @@ bc_string_t* bc_hd_private__encoded(const bc_hd_private_t* self)
     return bc_create_string_Length(encoded.data(), encoded.length());
 }
 /// Accessors.
-bc_ec_secret_t* bc_hd_private__ec_secret(const bc_hd_private_t* self)
+bc_ec_secret_t* bc_hd_private__secret(const bc_hd_private_t* self)
 {
     return new bc_ec_secret_t{ new libbitcoin::ec_secret(
         self->obj->secret()), true };
