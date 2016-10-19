@@ -31,6 +31,10 @@ uint64_t bc_hd_private__mainnet()
 {
     return libbitcoin::wallet::hd_private::mainnet;
 }
+uint64_t bc_hd_private__testnet()
+{
+    return libbitcoin::wallet::hd_private::testnet;
+}
 uint32_t bc_hd_private__to_prefix(uint64_t prefixes)
 {
     return libbitcoin::wallet::hd_private::to_prefix(prefixes);

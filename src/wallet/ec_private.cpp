@@ -45,6 +45,10 @@ uint16_t bc_ec_private__mainnet()
 {
     return libbitcoin::wallet::ec_private::mainnet;
 }
+uint16_t bc_ec_private__testnet()
+{
+    return libbitcoin::wallet::ec_private::testnet;
+}
 uint8_t bc_ec_private__compressed_sentinel()
 {
     return libbitcoin::wallet::ec_private::compressed_sentinel;
