@@ -47,6 +47,14 @@ bc_payment_address_t* bc_payment_address__extract(
     return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
         address) };
 }
+bc_payment_address_t* bc_payment_address__extract_Version(
+    const bc_script_t* script, uint8_t p2kh_version)
+{
+    const auto& address = libbitcoin::wallet::payment_address::extract(
+        *script->obj, p2kh_version);
+    return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
+        address) };
+}
 bc_payment_address_t* bc_payment_address__extract_Options(
     const bc_script_t* script, uint8_t p2kh_version, uint8_t p2sh_version)
 {
