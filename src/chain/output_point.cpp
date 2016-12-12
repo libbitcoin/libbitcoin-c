@@ -23,6 +23,7 @@
 #include <bitcoin/bitcoin/c/internal/chain/output.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/point.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
 extern "C" {
@@ -30,24 +31,19 @@ extern "C" {
 BC_IMPLEMENT_VECTOR(output_info_list, bc_output_info_t,
     bc_destroy_output_info, libbitcoin::chain::output_info::list);
 
-uint64_t bc_output_point__not_coinbase()
-{
-    return libbitcoin::chain::output_point::not_coinbase;
-}
-
 bc_output_point_t* bc_create_output_point()
 {
     return new bc_output_point_t{ new libbitcoin::chain::output_point, true };
-}
-bc_output_point_t* bc_create_output_point_copy(const bc_output_point_t* other)
-{
-    return new bc_output_point_t{ new libbitcoin::chain::output_point(
-        *other->obj), true };
 }
 bc_output_point_t* bc_create_output_point_Point(const bc_point_t* value)
 {
     return new bc_output_point_t{ new libbitcoin::chain::output_point(
         *value->obj), true };
+}
+bc_output_point_t* bc_create_output_point_copy(const bc_output_point_t* other)
+{
+    return new bc_output_point_t{ new libbitcoin::chain::output_point(
+        *other->obj), true };
 }
 bc_output_point_t* bc_create_output_point_Tuple(
     const bc_hash_digest_t* hash, uint32_t index)
@@ -63,6 +59,17 @@ void bc_destroy_output_point(bc_output_point_t* self)
     delete self;
 }
 
+bool bc_output_point__copy_Point(const bc_output_point_t* self,
+    const bc_point_t* other)
+{
+    *self->obj = *other->obj;
+}
+bool bc_output_point__copy(const bc_output_point_t* self,
+    const bc_output_point_t* other)
+{
+    *self->obj = *other->obj;
+}
+
 bool bc_output_point__equals(const bc_output_point_t* self,
     const bc_output_point_t* other)
 {
@@ -74,63 +81,23 @@ bool bc_output_point__not_equals(const bc_output_point_t* self,
     return *self->obj != *other->obj;
 }
 
+bc_output_point_t* bc_output_point__factory_from_data(
+    const bc_data_chunk_t* data)
+{
+    return new bc_output_point_t{ new libbitcoin::chain::output_point(
+        libbitcoin::chain::output_point::factory_from_data(*data->obj)) };
+}
+
 bc_point_t* bc_output_point__point_Base(bc_output_point_t* self)
 {
     return new bc_point_t{
         static_cast<libbitcoin::chain::point*>(self->obj), false };
 }
 
-void bc_output_point__reset(bc_output_point_t* self)
-{
-    self->obj->reset();
-}
-
-bool bc_output_point__is_cached(const bc_output_point_t* self)
-{
-    return self->obj->is_cached();
-}
-
 bool bc_output_point__is_mature(const bc_output_point_t* self,
     size_t target_height)
 {
     return self->obj->is_mature(target_height);
-}
-
-bool bc_output_point__spent(const bc_output_point_t* self)
-{
-    return self->obj->spent;
-}
-void bc_output_point__set_spent(bc_output_point_t* self, bool spent)
-{
-    self->obj->spent = spent;
-}
-
-bool bc_output_point__confirmed(const bc_output_point_t* self)
-{
-    return self->obj->confirmed;
-}
-void bc_output_point__set_confirmed(bc_output_point_t* self, bool confirmed)
-{
-    self->obj->confirmed = confirmed;
-}
-
-size_t bc_output_point__height(const bc_output_point_t* self)
-{
-    return self->obj->height;
-}
-void bc_output_point__set_height(bc_output_point_t* self, size_t height)
-{
-    self->obj->height = height;
-}
-
-bc_output_t* bc_output_point__cache(const bc_output_point_t* self)
-{
-    return new bc_output_t{ &self->obj->cache, false };
-}
-void bc_output_point__set_cache(bc_output_point_t* self,
-    const bc_output_t* cache)
-{
-    self->obj->cache = *cache->obj;
 }
 
 bc_points_info_t* bc_create_points_info()

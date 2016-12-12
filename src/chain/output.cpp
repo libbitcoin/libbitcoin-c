@@ -21,7 +21,7 @@
 #include <bitcoin/bitcoin/c/internal/chain/output.hpp>
 
 #include <bitcoin/bitcoin/c/internal/chain/point.hpp>
-#include <bitcoin/bitcoin/c/internal/chain/script/script.hpp>
+#include <bitcoin/bitcoin/c/internal/chain/script.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
@@ -37,16 +37,19 @@ uint64_t bc_output__not_found()
 {
     return libbitcoin::chain::output::not_found;
 }
-// Static functions
-bc_output_t* bc_output__factory_from_data(const bc_data_chunk_t* data)
-{
-    return new bc_output_t{ new libbitcoin::chain::output(
-        libbitcoin::chain::output::factory_from_data(*data->obj)), true };
-}
 // Constructor
 bc_output_t* bc_create_output()
 {
     return new bc_output_t{ new libbitcoin::chain::output, true };
+}
+bc_output_t* bc_create_output_copy(const bc_output_t* other)
+{
+    return new bc_output_t{ new libbitcoin::chain::output(*other->obj), true };
+}
+bc_output_t* bc_create_output_Value(uint64_t value, const bc_script_t* script)
+{
+    return new bc_output_t{ new libbitcoin::chain::output(
+        value, *script->obj), true };
 }
 // Destructor
 void bc_destroy_output(bc_output_t* self)
@@ -56,50 +59,68 @@ void bc_destroy_output(bc_output_t* self)
     delete self;
 }
 // Member functions
+bc_output_t* bc_output__factory_from_data(const bc_data_chunk_t* data)
+{
+    return new bc_output_t{ new libbitcoin::chain::output(
+        libbitcoin::chain::output::factory_from_data(*data->obj)), true };
+}
+bc_output_t* bc_output__factory_from_data_nowire(const bc_data_chunk_t* data)
+{
+    return new bc_output_t{ new libbitcoin::chain::output(
+        libbitcoin::chain::output::factory_from_data(
+            *data->obj, false)), true };
+}
 bool bc_output__from_data(bc_output_t* self, const bc_data_chunk_t* data)
 {
     return self->obj->from_data(*data->obj);
+}
+bool bc_output__from_data_nowire(
+    bc_output_t* self, const bc_data_chunk_t* data)
+{
+    return self->obj->from_data(*data->obj, false);
 }
 bc_data_chunk_t* bc_output__to_data(const bc_output_t* self)
 {
     return bc_create_data_chunk_Internal(self->obj->to_data());
 }
-bc_string_t* bc_output__to_string(const bc_output_t* self, uint32_t flags)
+bc_data_chunk_t* bc_output__to_data_nowire(const bc_output_t* self)
 {
-    return bc_create_string_StdString(self->obj->to_string(flags));
+    return bc_create_data_chunk_Internal(self->obj->to_data(false));
 }
 bool bc_output__is_valid(const bc_output_t* self)
 {
     return self->obj->is_valid();
 }
-void bc_output__reset(bc_output_t* self)
-{
-    self->obj->reset();
-}
 uint64_t bc_output__serialized_size(const bc_output_t* self)
 {
     return self->obj->serialized_size();
 }
-size_t bc_output__signature_operations(const bc_output_t* self)
+uint64_t bc_output__serialized_size_nowire(const bc_output_t* self)
 {
-    return self->obj->signature_operations();
+    return self->obj->serialized_size(false);
 }
 // Member variables
 uint64_t bc_output__value(const bc_output_t* self)
 {
-    return self->obj->value;
+    return self->obj->value();
 }
 void bc_output__set_value(bc_output_t* self, uint64_t value)
 {
-    self->obj->value = value;
+    self->obj->set_value(value);
 }
 bc_script_t* bc_output__script(const bc_output_t* self)
 {
-    return new bc_script_t{ &self->obj->script, false };
+    return new bc_script_t{ new libbitcoin::chain::script(
+        self->obj->script()), false };
 }
 void bc_output__set_script(bc_output_t* self, const bc_script_t* script)
 {
-    self->obj->script = *script->obj;
+    self->obj->set_script(*script->obj);
+}
+
+size_t bc_output__signature_operations(const bc_output_t* self)
+{
+    return self->obj->signature_operations();
 }
 
 } // extern C

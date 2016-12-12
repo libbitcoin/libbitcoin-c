@@ -17,30 +17,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#include <bitcoin/bitcoin/c/utility/resource_lock.h>
-#include <bitcoin/bitcoin/c/internal/utility/resource_lock.hpp>
+#include <bitcoin/bitcoin/c/utility/flush_lock.h>
+#include <bitcoin/bitcoin/c/internal/utility/flush_lock.hpp>
 
-#include <bitcoin/bitcoin/utility/resource_lock.hpp>
+#include <bitcoin/bitcoin/utility/flush_lock.hpp>
 
 extern "C" {
 
-bc_resource_lock_t* bc_create_resource_lock(const char* lock_path)
+bc_flush_lock_t* bc_create_flush_lock(const char* lock_path)
 {
-    return new bc_resource_lock_t{ new libbitcoin::resource_lock(lock_path) };
+    return new bc_flush_lock_t{ new libbitcoin::flush_lock(lock_path) };
 }
-void bc_destroy_resource_lock(bc_resource_lock_t* self)
+void bc_destroy_flush_lock(bc_flush_lock_t* self)
 {
     delete self->obj;
     delete self;
 }
 
-bool bc_resource_lock__lock(const bc_resource_lock_t* self)
+bool bc_flush_lock__try_lock(const bc_flush_lock_t* self)
 {
-    return self->obj->lock();
+    return self->obj->try_lock();
 }
-bool bc_resource_lock__unlock(const bc_resource_lock_t* self)
+bool bc_flush_lock__lock_shared(const bc_flush_lock_t* self)
 {
-    return self->obj->unlock();
+    return self->obj->lock_shared();
+}
+bool bc_flush_lock__unlock_shared(const bc_flush_lock_t* self)
+{
+    return self->obj->unlock_shared();
 }
 
 } // extern C

@@ -21,17 +21,20 @@
 #include <bitcoin/bitcoin/c/internal/utility/ostream_writer.hpp>
 
 #include <bitcoin/bitcoin/utility/ostream_writer.hpp>
+#include <bitcoin/bitcoin/c/internal/error.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 
 extern "C" {
 
+// Destructor
 void bc_destroy_ostream_writer(bc_ostream_writer_t* self)
 {
     delete self->obj;
     delete self;
 }
 
+/// Context.
 bool bc_ostream_writer__is_valid(const bc_ostream_writer_t* self)
 {
     return static_cast<bool>(self->obj);
@@ -41,20 +44,7 @@ bool bc_ostream_writer__is_not_valid(const bc_ostream_writer_t* self)
     return !(*self->obj);
 }
 
-void bc_ostream_writer__write_byte(bc_ostream_writer_t* self, uint8_t value)
-{
-    self->obj->write_byte(value);
-}
-void bc_ostream_writer__write_data_DataChunk(
-    bc_ostream_writer_t* self, const bc_data_chunk_t* data)
-{
-    self->obj->write_data(*data->obj);
-}
-void bc_ostream_writer__write_data(
-    bc_ostream_writer_t* self, const uint8_t* data, size_t size)
-{
-    self->obj->write_data(data, size);
-}
+/// Write hashes.
 void bc_ostream_writer__write_hash(
     bc_ostream_writer_t* self, const bc_hash_digest_t* value)
 {
@@ -71,29 +61,7 @@ void bc_ostream_writer__write_mini_hash(
     self->obj->write_mini_hash(*value->obj);
 }
 
-// These write data in little endian format: 
-void bc_ostream_writer__write_2_bytes_little_endian(
-    bc_ostream_writer_t* self, uint16_t value)
-{
-    self->obj->write_2_bytes_little_endian(value);
-}
-void bc_ostream_writer__write_4_bytes_little_endian(
-    bc_ostream_writer_t* self, uint32_t value)
-{
-    self->obj->write_4_bytes_little_endian(value);
-}
-void bc_ostream_writer__write_8_bytes_little_endian(
-    bc_ostream_writer_t* self, uint64_t value)
-{
-    self->obj->write_8_bytes_little_endian(value);
-}
-void bc_ostream_writer__write_variable_uint_little_endian(
-    bc_ostream_writer_t* self, uint64_t value)
-{
-    self->obj->write_variable_uint_little_endian(value);
-}
-
-// These write data in big endian format:
+/// Write big endian integers.
 void bc_ostream_writer__write_2_bytes_big_endian(
     bc_ostream_writer_t* self, uint16_t value)
 {
@@ -109,28 +77,87 @@ void bc_ostream_writer__write_8_bytes_big_endian(
 {
     self->obj->write_8_bytes_big_endian(value);
 }
-void bc_ostream_writer__write_variable_uint_big_endian(
+void bc_ostream_writer__write_variable_big_endian(
     bc_ostream_writer_t* self, uint64_t value)
 {
-    self->obj->write_variable_uint_big_endian(value);
+    self->obj->write_variable_big_endian(value);
+}
+void bc_ostream_writer__write_size_big_endian(
+    bc_ostream_writer_t* self, uint64_t value)
+{
+    self->obj->write_size_big_endian(value);
 }
 
-/**
- * Write a fixed size string padded with zeroes.
- */
-void bc_ostream_writer__write_fixed_string(
+/// Write little endian integers.
+void bc_ostream_writer__write_error_code(
+    bc_ostream_writer_t* self, bc_error_t ec)
+{
+    self->obj->write_error_code(bc_error_code_from_ctype(ec));
+}
+void bc_ostream_writer__write_2_bytes_little_endian(
+    bc_ostream_writer_t* self, uint16_t value)
+{
+    self->obj->write_2_bytes_little_endian(value);
+}
+void bc_ostream_writer__write_4_bytes_little_endian(
+    bc_ostream_writer_t* self, uint32_t value)
+{
+    self->obj->write_4_bytes_little_endian(value);
+}
+void bc_ostream_writer__write_8_bytes_little_endian(
+    bc_ostream_writer_t* self, uint64_t value)
+{
+    self->obj->write_8_bytes_little_endian(value);
+}
+void bc_ostream_writer__write_variable_little_endian(
+    bc_ostream_writer_t* self, uint64_t value)
+{
+    self->obj->write_variable_little_endian(value);
+}
+void bc_ostream_writer__write_size_little_endian(
+    bc_ostream_writer_t* self, uint64_t value)
+{
+    self->obj->write_size_little_endian(value);
+}
+
+/// Write one byte.
+void bc_ostream_writer__write_byte(bc_ostream_writer_t* self, uint8_t value)
+{
+    self->obj->write_byte(value);
+}
+
+/// Write all bytes.
+void bc_ostream_writer__write_bytes(
+    bc_ostream_writer_t* self, const bc_data_chunk_t* data)
+{
+    self->obj->write_bytes(*data->obj);
+}
+
+/// Write required size buffer.
+void bc_ostream_writer__write_bytes_Buffer(
+    bc_ostream_writer_t* self, const uint8_t* data, size_t size)
+{
+    self->obj->write_bytes(data, size);
+}
+
+/// Write variable length string.
+void bc_ostream_writer__write_string_Size(
     bc_ostream_writer_t* self, const char* value, size_t size)
 {
-    self->obj->write_fixed_string(value, size);
+    self->obj->write_string(value, size);
 }
 
-/**
- * Write a variable length string.
- */
+/// Write required length string, padded with nulls.
 void bc_ostream_writer__write_string(
     bc_ostream_writer_t* self, const char* value)
 {
     self->obj->write_string(value);
+}
+
+/// Advance iterator without writing.
+void bc_ostream_writer__skip(bc_ostream_writer_t* self, size_t size)
+{
+    self->obj->skip(size);
 }
 
 } // extern C

@@ -23,7 +23,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <bitcoin/bitcoin/c/chain/script/script.h>
+#include <bitcoin/bitcoin/c/chain/script.h>
 #include <bitcoin/bitcoin/c/math/hash.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/string.h>

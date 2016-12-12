@@ -26,7 +26,6 @@
 #include <bitcoin/bitcoin/c/chain/header.h>
 #include <bitcoin/bitcoin/c/chain/transaction.h>
 #include <bitcoin/bitcoin/c/math/hash.h>
-#include <bitcoin/bitcoin/c/math/hash_number.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/vector.h>
 
@@ -34,19 +33,12 @@
 extern "C" {
 #endif
 
-// Immutable vector of size_t
-typedef struct bc_block_indexes_t bc_block_indexes_t;
-// Constructor
-bc_block_indexes_t* bc_create_block_indexes(
-    const size_t* indexes, size_t size);
-// Destructor
-void bc_destroy_block_indexes(bc_block_indexes_t* self);
-// Member functions
-size_t bc_block_indexes_size(const bc_block_indexes_t* self);
-size_t bc_block_indexes_at(const bc_block_indexes_t* self, size_t pos);
-
 typedef struct bc_block_t bc_block_t;
 
+BC_DECLARE_VECTOR(block_list, bc_block_t);
+BC_DECLARE_INT_VECTOR(block_indexes, size_t);
+
+/*
 // Static functions
 bc_block_t* bc_block__factory_from_data(
     const bc_data_chunk_t* data);
@@ -68,10 +60,12 @@ bc_block_t* bc_create_block_copy(const bc_block_t* other);
 bc_block_t* bc_create_block_Options(
     const bc_header_t* header,
     const bc_transaction_list_t* transactions);
+*/
 
 // Destructor
 void bc_destroy_block(const bc_block_t* self);
 
+/*
 // Member functions
 bool bc_block__from_data(
     bc_block_t* self, const bc_data_chunk_t* data);
@@ -121,6 +115,7 @@ void bc_block__set_header(bc_block_t* self, const bc_header_t* header);
 bc_transaction_list_t* bc_block__transactions(const bc_block_t* self);
 void bc_block__set_transactions(bc_block_t* self,
     const bc_transaction_list_t* transactions);
+*/
 
 #ifdef __cplusplus
 }

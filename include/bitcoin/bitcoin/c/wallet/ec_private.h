@@ -40,16 +40,19 @@ BC_DECLARE_BYTE_ARRAY(wif_compressed);
 typedef struct bc_ec_private_t bc_ec_private_t;
 
 /// Static values
+uint8_t bc_ec_private__compressed_sentinel();
 
 // WIF carries a compression flag for payment address generation but
 // assumes a mapping to payment address version. This is insufficient
 // as a parameterized mapping is required, so we use the same technique as
 // with hd keys, merging the two necessary values into one version.
-uint8_t bc_ec_private__wif();
+uint8_t bc_ec_private__mainnet_wif();
 uint8_t bc_ec_private__mainnet_p2kh();
 uint16_t bc_ec_private__mainnet();
+
+uint8_t bc_ec_private__testnet_wif();
+uint8_t bc_ec_private__testnet_p2kh();
 uint16_t bc_ec_private__testnet();
-uint8_t bc_ec_private__compressed_sentinel();
 
 /// Static functions
 uint8_t bc_ec_private__to_address_prefix(uint16_t version);

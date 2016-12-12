@@ -17,36 +17,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPERATION_HPP
-#define LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPERATION_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_MACHINE_SIGHASH_ALGORITHM_HPP
+#define LIBBITCOIN_C_INTERNAL_MACHINE_SIGHASH_ALGORITHM_HPP
 
-#include <bitcoin/bitcoin/c/chain/script/operation.h>
+#include <bitcoin/bitcoin/c/machine/sighash_algorithm.h>
 
-#include <vector>
-#include <bitcoin/bitcoin/chain/script/operation.hpp>
-#include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
+#include <bitcoin/bitcoin/machine/sighash_algorithm.hpp>
 
-extern "C" {
-
-struct bc_operation_t
-{
-    libbitcoin::chain::operation* obj;
-    const bool delete_obj;
-};
-
-struct bc_operation_stack_t
-{
-    libbitcoin::chain::operation::stack* obj;
-    const bool delete_obj;
-};
-
-} // extern C
-
-// C++ convenience functions
-bc_script_pattern_t bc_script_pattern_to_ctype(
-    libbitcoin::chain::script_pattern value);
-libbitcoin::chain::script_pattern bc_script_pattern_from_ctype(
-    bc_script_pattern_t value);
+// C++ convenience function
+bc_sighash_algorithm_t bc_sighash_algorithm_to_ctype(
+    libbitcoin::machine::sighash_algorithm value);
+libbitcoin::machine::sighash_algorithm bc_sighash_algorithm_from_ctype(
+    bc_sighash_algorithm_t value);
 
 #endif
 

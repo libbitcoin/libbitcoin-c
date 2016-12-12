@@ -17,19 +17,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_MATH_HASH_NUMBER_HPP
-#define LIBBITCOIN_C_INTERNAL_MATH_HASH_NUMBER_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_MACHINE_OPCODE_HPP
+#define LIBBITCOIN_C_INTERNAL_MACHINE_OPCODE_HPP
 
-#include <bitcoin/bitcoin/math/hash_number.hpp>
+#include <bitcoin/bitcoin/c/machine/opcode.h>
 
-extern "C" {
+#include <bitcoin/bitcoin/machine/opcode.hpp>
 
-struct bc_hash_number_t
-{
-    libbitcoin::hash_number* obj;
-};
-
-} // extern C
+// C++ convenience function
+bc_opcode_t bc_opcode_to_ctype(libbitcoin::machine::opcode value);
+libbitcoin::machine::opcode bc_opcode_from_ctype(bc_opcode_t value);
 
 #endif
+
 

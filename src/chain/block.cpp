@@ -25,31 +25,17 @@
 #include <bitcoin/bitcoin/c/internal/chain/header.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/transaction.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
-#include <bitcoin/bitcoin/c/internal/math/hash_number.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
 extern "C" {
 
-bc_block_indexes_t* bc_create_block_indexes(
-    const size_t* indexes, size_t size)
-{
-    return new bc_block_indexes_t{ new libbitcoin::chain::block::indexes };
-}
-void bc_destroy_block_indexes(bc_block_indexes_t* self)
-{
-    delete self->obj;
-    delete self;
-}
-size_t bc_block_indexes_size(const bc_block_indexes_t* self)
-{
-    return self->obj->size();
-}
-size_t bc_block_indexes_at(const bc_block_indexes_t* self, size_t pos)
-{
-    return self->obj->at(pos);
-}
+BC_IMPLEMENT_VECTOR(block_list, bc_block_t,
+    bc_destroy_block, libbitcoin::chain::block::list);
+BC_IMPLEMENT_INT_VECTOR(block_indexes, size_t,
+    libbitcoin::chain::block::indexes);
 
+/*
 // Static functions
 bc_block_t* bc_block__factory_from_data(
     const bc_data_chunk_t* data)
@@ -275,6 +261,7 @@ void bc_block__set_transactions(bc_block_t* self,
 {
     self->obj->transactions = *transactions->obj;
 }
+*/
 
 } // extern C
 

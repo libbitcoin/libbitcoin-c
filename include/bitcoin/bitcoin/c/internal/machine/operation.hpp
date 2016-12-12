@@ -17,20 +17,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_UTILITY_RESOURCE_LOCK_HPP
-#define LIBBITCOIN_C_INTERNAL_UTILITY_RESOURCE_LOCK_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPERATION_HPP
+#define LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPERATION_HPP
 
-#include <bitcoin/bitcoin/c/utility/resource_lock.h>
-#include <bitcoin/bitcoin/utility/resource_lock.hpp>
+#include <bitcoin/bitcoin/c/machine/operation.h>
+
+#include <vector>
+#include <bitcoin/bitcoin/machine/operation.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
 extern "C" {
 
-struct bc_resource_lock_t
+struct bc_operation_t
 {
-    libbitcoin::resource_lock* obj;
+    libbitcoin::machine::operation* obj;
+    const bool delete_obj;
 };
 
-}
+struct bc_operation_list_t
+{
+    libbitcoin::machine::operation::list* obj;
+    const bool delete_obj;
+};
+
+} // extern C
 
 #endif
 

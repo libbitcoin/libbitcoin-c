@@ -30,7 +30,7 @@ bc_uint256_t* bc_create_uint256()
 {
     return new bc_uint256_t{ new libbitcoin::uint256_t };
 }
-bc_uint256_t* bc_create_uint256_copy(const bc_uint256_t* other)
+/*bc_uint256_t* bc_create_uint256_copy(const bc_uint256_t* other)
 {
     return new bc_uint256_t{ new libbitcoin::uint256_t(*other->obj) };
 }
@@ -41,13 +41,14 @@ bc_uint256_t* bc_create_uint256_Uint64(uint64_t b)
 bc_uint256_t* bc_create_uint256_Data(const bc_data_chunk_t* data)
 {
     return new bc_uint256_t{ new libbitcoin::uint256_t(*data->obj) };
-}
+}*/
 // Destructor
 void bc_destroy_uint256(bc_uint256_t* self)
 {
     delete self->obj;
     delete self;
 }
+#if 0
 
 // Operators
 void bc_uint256_copy(bc_uint256_t* self, const bc_uint256_t* other)
@@ -251,6 +252,7 @@ void bc_uint256_set_compact(bc_uint256_t* self,
 {
     self->obj->SetCompact(ncompact, negative, overflow);
 }
+#endif
 
 } // extern C
 

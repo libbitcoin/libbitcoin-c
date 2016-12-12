@@ -145,6 +145,10 @@ bool bc_is_public_key(const bc_data_chunk_t* point);
 // DER parse/encode
 // ----------------------------------------------------------------------------
 
+/// Parse an endorsement into signature hash type and DER signature.
+bool bc_parse_endorsement(uint8_t* sighash_type,
+    bc_der_signature_t* der_signature, bc_endorsement_t* endorsement);
+
 /// Parse a DER encoded signature with optional strict DER enforcement.
 /// Treat an empty DER signature as invalid, in accordance with BIP66.
 bool bc_parse_signature(bc_ec_signature_t* out,

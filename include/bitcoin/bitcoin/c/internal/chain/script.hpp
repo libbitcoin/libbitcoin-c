@@ -17,12 +17,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_SCRIPT_HPP
-#define LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_SCRIPT_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_HPP
+#define LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_HPP
 
-#include <bitcoin/bitcoin/c/chain/script/script.h>
+#include <bitcoin/bitcoin/c/chain/script.h>
 
-#include <bitcoin/bitcoin/chain/script/script.hpp>
+#include <bitcoin/bitcoin/chain/script.hpp>
 
 extern "C" {
 
@@ -35,6 +35,7 @@ struct bc_script_t
 } // extern C
 
 // C++ convenience functions
+/*
 bc_signature_hash_algorithm_t bc_signature_hash_algorithm_to_ctype(
     libbitcoin::chain::signature_hash_algorithm alg);
 
@@ -46,6 +47,7 @@ bc_script_parse_mode_t bc_script_parse_mode_to_ctype(
 
 libbitcoin::chain::script::parse_mode bc_script_parse_mode_from_ctype(
     bc_script_parse_mode_t mode);
+*/
 
 #endif
 

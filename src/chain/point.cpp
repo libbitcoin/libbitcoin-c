@@ -45,15 +45,6 @@ void bc_destroy_point_indexes(bc_point_indexes_t* self)
         delete self->obj;
     delete self;
 }
-// Operators
-bool bc_point__equals(const bc_point_t* left, const bc_point_t* right)
-{
-    return *left->obj == *right->obj;
-}
-bool bc_point__not_equals(const bc_point_t* left, const bc_point_t* right)
-{
-    return *left->obj != *right->obj;
-}
 // Member functions
 size_t bc_point_indexes_size(const bc_point_indexes_t* self)
 {
@@ -70,20 +61,21 @@ uint32_t bc_point__null_index()
     return libbitcoin::chain::point::null_index;
 }
 
-// Static functions
-bc_point_t* bc_point__factory_from_data(const bc_data_chunk_t* data)
-{
-    return new bc_point_t{ new libbitcoin::chain::point(
-        libbitcoin::chain::point::factory_from_data(*data->obj)), true };
-}
-uint64_t bc_point__satoshi_fixed_size()
-{
-    return libbitcoin::chain::point::satoshi_fixed_size();
-}
 // Constructor
 bc_point_t* bc_create_point()
 {
     return new bc_point_t{ new libbitcoin::chain::point, true };
+}
+bc_point_t* bc_create_point_copy(const bc_point_t* other)
+{
+    return new bc_point_t{ new libbitcoin::chain::point(
+        *other->obj), true };
+}
+bc_point_t* bc_create_point_Tuple(
+    const bc_hash_digest_t* hash, uint32_t index)
+{
+    return new bc_point_t{ new libbitcoin::chain::point(
+        *hash->obj, index), true };
 }
 // Destructor
 void bc_destroy_point(bc_point_t* self)
@@ -92,39 +84,47 @@ void bc_destroy_point(bc_point_t* self)
         delete self->obj;
     delete self;
 }
-// Member functions
-uint64_t bc_point__checksum(const bc_point_t* self)
+
+// Operators
+void bc_point__copy(bc_point_t* self, const bc_point_t* other)
 {
-    return self->obj->checksum();
+    *self->obj = *other->obj;
 }
-bool bc_point__is_null(const bc_point_t* self)
+
+bool bc_point__equals(const bc_point_t* left, const bc_point_t* right)
 {
-    return self->obj->is_null();
+    return *left->obj == *right->obj;
+}
+bool bc_point__not_equals(const bc_point_t* left, const bc_point_t* right)
+{
+    return *left->obj != *right->obj;
+}
+
+// Deserialization.
+//-------------------------------------------------------------------------
+bc_point_t* bc_point__factory_from_data(const bc_data_chunk_t* data)
+{
+    return new bc_point_t{ new libbitcoin::chain::point(
+        libbitcoin::chain::point::factory_from_data(*data->obj)), true };
 }
 bool bc_point__from_data(bc_point_t* self, const bc_data_chunk_t* data)
 {
     return self->obj->from_data(*data->obj);
 }
-bc_data_chunk_t* bc_point__to_data(const bc_point_t* self)
-{
-    return bc_create_data_chunk_Internal(self->obj->to_data());
-}
-bc_string_t* bc_point__to_string(const bc_point_t* self)
-{
-    return bc_create_string_StdString(self->obj->to_string());
-}
 bool bc_point__is_valid(const bc_point_t* self)
 {
     return self->obj->is_valid();
 }
-void bc_point__reset(bc_point_t* self)
+
+// Serialization.
+//-------------------------------------------------------------------------
+bc_data_chunk_t* bc_point__to_data(const bc_point_t* self)
 {
-    self->obj->reset();
+    return bc_create_data_chunk_Internal(self->obj->to_data());
 }
-uint64_t bc_point__serialized_size(const bc_point_t* self)
-{
-    return self->obj->serialized_size();
-}
+
+// Iteration.
+//-------------------------------------------------------------------------
 bc_point_iterator_t* bc_point__begin(const bc_point_t* self)
 {
     return new bc_point_iterator_t{ new libbitcoin::chain::point_iterator(
@@ -135,23 +135,51 @@ bc_point_iterator_t* bc_point__end(const bc_point_t* self)
     return new bc_point_iterator_t{ new libbitcoin::chain::point_iterator(
         self->obj->end()) };
 }
-// Member variables
+
+// Properties (size, accessors, cache).
+//-------------------------------------------------------------------------
+uint64_t bc_point__satoshi_fixed_size()
+{
+    return libbitcoin::chain::point::satoshi_fixed_size();
+}
+uint64_t bc_point__serialized_size(const bc_point_t* self)
+{
+    return self->obj->serialized_size();
+}
+
 bc_hash_digest_t* bc_point__hash(const bc_point_t* self)
 {
-    return new bc_hash_digest_t{ &self->obj->hash, false };
+    return new bc_hash_digest_t{ new libbitcoin::hash_digest(
+        self->obj->hash()), true };
 }
 void bc_point__set_hash(bc_point_t* self, const bc_hash_digest_t* hash)
 {
-    self->obj->hash = *hash->obj;
+    self->obj->set_hash(*hash->obj);
 }
+
 uint32_t bc_point__index(const bc_point_t* self)
 {
-    return self->obj->index;
+    return self->obj->index();
 }
 void bc_point__set_index(bc_point_t* self, uint32_t index)
 {
-    self->obj->index = index;
+    self->obj->set_index(index);
 }
+
+// Utilities.
+//-------------------------------------------------------------------------
+uint64_t bc_point__checksum(const bc_point_t* self)
+{
+    return self->obj->checksum();
+}
+
+// Validation.
+//-------------------------------------------------------------------------
+bool bc_point__is_null(const bc_point_t* self)
+{
+    return self->obj->is_null();
+}
+// Member variables
 
 } // extern C
 

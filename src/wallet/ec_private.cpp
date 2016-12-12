@@ -33,9 +33,14 @@ BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(
 BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(
     wif_compressed, libbitcoin::wallet);
 
-uint8_t bc_ec_private__wif()
+uint8_t bc_ec_private__compressed_sentinel()
 {
-    return libbitcoin::wallet::ec_private::wif;
+    return libbitcoin::wallet::ec_private::compressed_sentinel;
+}
+
+uint8_t bc_ec_private__mainnet_wif()
+{
+    return libbitcoin::wallet::ec_private::mainnet_wif;
 }
 uint8_t bc_ec_private__mainnet_p2kh()
 {
@@ -45,13 +50,18 @@ uint16_t bc_ec_private__mainnet()
 {
     return libbitcoin::wallet::ec_private::mainnet;
 }
+
+uint8_t bc_ec_private__testnet_wif()
+{
+    return libbitcoin::wallet::ec_private::testnet_wif;
+}
+uint8_t bc_ec_private__testnet_p2kh()
+{
+    return libbitcoin::wallet::ec_private::testnet_p2kh;
+}
 uint16_t bc_ec_private__testnet()
 {
     return libbitcoin::wallet::ec_private::testnet;
-}
-uint8_t bc_ec_private__compressed_sentinel()
-{
-    return libbitcoin::wallet::ec_private::compressed_sentinel;
 }
 
 uint8_t bc_ec_private__to_address_prefix(uint16_t version)

@@ -31,23 +31,25 @@ typedef struct bc_point_t bc_point_t;
 typedef struct bc_point_iterator_t bc_point_iterator_t;
 
 // Constructors
-bc_point_iterator_t* bc_create_point_iterator(const bc_point_t* value);
-bc_point_iterator_t* bc_create_point_iterator_End(
-    const bc_point_t* value, bool end);
-bc_point_iterator_t* bc_create_point_iterator_Offset(
-    const bc_point_t* value, uint8_t offset);
+bc_point_iterator_t* bc_create_point_iterator_copy(
+    const bc_point_iterator_t* other);
+bc_point_iterator_t* bc_create_point_iterator_Value(
+    const bc_point_t* value);
+bc_point_iterator_t* bc_create_point_iterator_Value_Index(
+    const bc_point_t* value, unsigned index);
+
 // Destructor
 void bc_destroy_point_iterator(bc_point_iterator_t* self);
 
 // Operators
 bool bc_point_iterator__is_valid(const bc_point_iterator_t* self);
 uint8_t bc_point_iterator__access(const bc_point_iterator_t* self);
+void bc_point_iterator__increment(bc_point_iterator_t* self);
+void bc_point_iterator__decrement(bc_point_iterator_t* self);
 bool bc_point_iterator__equals(
     const bc_point_iterator_t* self, const bc_point_iterator_t* other);
 bool bc_point_iterator__not_equals(
     const bc_point_iterator_t* self, const bc_point_iterator_t* other);
-void bc_point_iterator__increment(bc_point_iterator_t* self);
-void bc_point_iterator__decrement(bc_point_iterator_t* self);
 
 #ifdef __cplusplus
 }

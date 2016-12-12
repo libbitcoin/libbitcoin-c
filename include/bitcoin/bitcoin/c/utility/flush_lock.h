@@ -17,22 +17,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPCODE_HPP
-#define LIBBITCOIN_C_INTERNAL_CHAIN_SCRIPT_OPCODE_HPP
+#ifndef LIBBITCOIN_C_UTILITY_FLUSH_LOCK_H
+#define LIBBITCOIN_C_UTILITY_FLUSH_LOCK_H
 
-#include <bitcoin/bitcoin/c/chain/script/opcode.h>
+#include <stdbool.h>
 
-#include <bitcoin/bitcoin/chain/script/opcode.hpp>
-
-// C++ convenience function
-bc_opcode_t bc_opcode_to_ctype(libbitcoin::chain::opcode value);
-libbitcoin::chain::opcode bc_opcode_from_ctype(bc_opcode_t value);
-
-bc_rule_fork_t bc_rule_fork_to_ctype(
-    libbitcoin::chain::rule_fork rule);
-libbitcoin::chain::rule_fork bc_rule_fork_from_ctype(
-    bc_rule_fork_t rule);
-
+#ifdef __cplusplus
+extern "C" {
 #endif
 
+/// This class is not thread safe.
+/// Guard a resource that may be corrupted due to an interrupted write.
+typedef struct bc_flush_lock_t bc_flush_lock_t;
+
+bc_flush_lock_t* bc_create_flush_lock(const char* lock_path);
+void bc_destroy_flush_lock(bc_flush_lock_t* self);
+
+bool bc_flush_lock__try_lock(const bc_flush_lock_t* self);
+bool bc_flush_lock__lock_shared(const bc_flush_lock_t* self);
+bool bc_flush_lock__unlock_shared(const bc_flush_lock_t* self);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
 

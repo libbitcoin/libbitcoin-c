@@ -44,7 +44,7 @@ src_libbitcoin_c_la_SOURCES = \
     src/utility/variable_uint_size.cpp \
     src/utility/istream_reader.cpp \
     src/utility/ostream_writer.cpp \
-    src/utility/resource_lock.cpp \
+    src/utility/flush_lock.cpp \
     src/utility/random.cpp \
     src/math/limits.cpp \
     src/math/hash.cpp \
@@ -53,28 +53,32 @@ src_libbitcoin_c_la_SOURCES = \
     src/formats/base_64.cpp \
     src/formats/base_58.cpp \
     src/formats/base_10.cpp \
-    src/math/stealth.cpp \
-    src/math/elliptic_curve.cpp \
-    src/math/checksum.cpp \
-    src/math/hash_number.cpp \
-    src/math/script_number.cpp \
-    src/math/crypto.cpp \
-    src/math/uint256.cpp \
-    src/chain/point.cpp \
-    src/wallet/bitcoin_uri.cpp \
+    src/chain/script.cpp \
+    src/machine/script_pattern.cpp \
+    src/machine/rule_fork.cpp \
+    src/machine/sighash_algorithm.cpp \
+    src/machine/opcode.cpp \
+    src/machine/operation.cpp \
+    src/machine/number.cpp \
+    src/machine/program.cpp \
+    src/machine/interpreter.cpp \
+    src/chain/transaction.cpp \
     src/chain/header.cpp \
     src/chain/point_iterator.cpp \
     src/chain/input.cpp \
     src/chain/output_point.cpp \
     src/chain/output.cpp \
-    src/chain/transaction.cpp \
     src/chain/chain_state.cpp \
     src/chain/stealth.cpp \
     src/chain/history.cpp \
     src/chain/block.cpp \
-    src/chain/script/opcode.cpp \
-    src/chain/script/operation.cpp \
-    src/chain/script/script.cpp \
+    src/math/stealth.cpp \
+    src/math/elliptic_curve.cpp \
+    src/math/checksum.cpp \
+    src/math/crypto.cpp \
+    src/math/uint256.cpp \
+    src/chain/point.cpp \
+    src/wallet/bitcoin_uri.cpp \
     src/wallet/encrypted_keys.cpp \
     src/wallet/ek_public.cpp \
     src/wallet/ek_private.cpp \
@@ -85,12 +89,12 @@ src_libbitcoin_c_la_SOURCES = \
     src/wallet/ek_token.cpp \
     src/wallet/message.cpp \
     src/wallet/ec_public.cpp \
-    src/wallet/hd_public.cpp \
-    src/wallet/hd_private.cpp \
-    src/wallet/stealth_address.cpp \
-    src/wallet/payment_address.cpp \
-    src/wallet/dictionary.cpp \
-    src/wallet/select_outputs.cpp
+    #src/wallet/hd_public.cpp \
+    #src/wallet/hd_private.cpp \
+    #src/wallet/stealth_address.cpp \
+    #src/wallet/payment_address.cpp \
+    #src/wallet/dictionary.cpp \
+    #src/wallet/select_outputs.cpp
 
 # local: test/libbitcoin_network_test
 #------------------------------------------------------------------------------
@@ -156,19 +160,19 @@ include_bitcoin_bitcoin_c_chain_HEADERS = \
     include/bitcoin/bitcoin/c/chain/point_iterator.h \
     include/bitcoin/bitcoin/c/chain/stealth.h \
     include/bitcoin/bitcoin/c/chain/history.h \
+    include/bitcoin/bitcoin/c/chain/script.h \
     include/bitcoin/bitcoin/c/chain/point.h
 
-include_bitcoin_bitcoin_c_chain_scriptdir = ${includedir}/bitcoin/bitcoin/c/chain/script
-include_bitcoin_bitcoin_c_chain_script_HEADERS = \
-    include/bitcoin/bitcoin/c/chain/script/opcode.h \
-    include/bitcoin/bitcoin/c/chain/script/operation.h \
-    include/bitcoin/bitcoin/c/chain/script/script.h
+include_bitcoin_bitcoin_c_machine_scriptdir = ${includedir}/bitcoin/bitcoin/c/machine
+include_bitcoin_bitcoin_c_machine_script_HEADERS = \
+    include/bitcoin/bitcoin/c/machine/opcode.h \
+    include/bitcoin/bitcoin/c/machine/script_pattern.h \
+    include/bitcoin/bitcoin/c/machine/operation.h
 
 include_bitcoin_bitcoin_c_mathdir = ${includedir}/bitcoin/bitcoin/c/math
 include_bitcoin_bitcoin_c_math_HEADERS = \
     include/bitcoin/bitcoin/c/math/elliptic_curve.h \
     include/bitcoin/bitcoin/c/math/limits.h \
-    include/bitcoin/bitcoin/c/math/hash_number.h \
     include/bitcoin/bitcoin/c/math/script_number.h \
     include/bitcoin/bitcoin/c/math/crypto.h \
     include/bitcoin/bitcoin/c/math/uint256.h \
@@ -185,7 +189,7 @@ include_bitcoin_bitcoin_c_utility_HEADERS = \
     include/bitcoin/bitcoin/c/utility/istream_reader.h \
     include/bitcoin/bitcoin/c/utility/ostream_writer.h \
     include/bitcoin/bitcoin/c/utility/variable_uint_size.h \
-    include/bitcoin/bitcoin/c/utility/resource_lock.h \
+    include/bitcoin/bitcoin/c/utility/flush_lock.h \
     include/bitcoin/bitcoin/c/utility/vector.h
 
 include_bitcoin_bitcoin_c_formatsdir = ${includedir}/bitcoin/bitcoin/c/formats
@@ -228,13 +232,16 @@ include_bitcoin_bitcoin_c_internal_chain_HEADERS = \
     include/bitcoin/bitcoin/c/internal/chain/point.hpp \
     include/bitcoin/bitcoin/c/internal/chain/stealth.hpp \
     include/bitcoin/bitcoin/c/internal/chain/history.hpp \
+    include/bitcoin/bitcoin/c/internal/chain/script.hpp \
     include/bitcoin/bitcoin/c/internal/chain/point_iterator.hpp
 
-include_bitcoin_bitcoin_c_internal_chain_scriptdir = ${includedir}/bitcoin/bitcoin/c/internal/chain/script
-include_bitcoin_bitcoin_c_internal_chain_script_HEADERS = \
-    include/bitcoin/bitcoin/c/internal/chain/script/opcode.hpp \
-    include/bitcoin/bitcoin/c/internal/chain/script/operation.hpp \
-    include/bitcoin/bitcoin/c/internal/chain/script/script.hpp
+include_bitcoin_bitcoin_c_internal_machinedir = ${includedir}/bitcoin/bitcoin/c/internal/machine
+include_bitcoin_bitcoin_c_internal_machine_HEADERS = \
+    include/bitcoin/bitcoin/c/internal/machine/opcode.hpp \
+    include/bitcoin/bitcoin/c/internal/machine/script_pattern.hpp \
+    include/bitcoin/bitcoin/c/internal/machine/sighash_algorithm.hpp \
+    include/bitcoin/bitcoin/c/internal/machine/rule_fork.hpp \
+    include/bitcoin/bitcoin/c/internal/machine/operation.hpp
 
 include_bitcoin_bitcoin_c_internal_mathdir = ${includedir}/bitcoin/bitcoin/c/internal/math
 include_bitcoin_bitcoin_c_internal_math_HEADERS = \
@@ -242,8 +249,7 @@ include_bitcoin_bitcoin_c_internal_math_HEADERS = \
     include/bitcoin/bitcoin/c/internal/math/crypto.hpp \
     include/bitcoin/bitcoin/c/internal/math/uint256.hpp \
     include/bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp \
-    include/bitcoin/bitcoin/c/internal/math/script_number.hpp \
-    include/bitcoin/bitcoin/c/internal/math/hash_number.hpp
+    include/bitcoin/bitcoin/c/internal/math/script_number.hpp
 
 include_bitcoin_bitcoin_c_internal_utilitydir = ${includedir}/bitcoin/bitcoin/c/internal/utility
 include_bitcoin_bitcoin_c_internal_utility_HEADERS = \
@@ -251,7 +257,7 @@ include_bitcoin_bitcoin_c_internal_utility_HEADERS = \
     include/bitcoin/bitcoin/c/internal/utility/data.hpp \
     include/bitcoin/bitcoin/c/internal/utility/istream_reader.hpp \
     include/bitcoin/bitcoin/c/internal/utility/ostream_writer.hpp \
-    include/bitcoin/bitcoin/c/internal/utility/resource_lock.hpp \
+    include/bitcoin/bitcoin/c/internal/utility/flush_lock.hpp \
     include/bitcoin/bitcoin/c/internal/utility/vector.hpp \
     include/bitcoin/bitcoin/c/internal/utility/string.hpp
 

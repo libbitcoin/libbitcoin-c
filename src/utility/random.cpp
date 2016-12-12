@@ -29,9 +29,9 @@ uint64_t bc_pseudo_random()
     return libbitcoin::pseudo_random();
 }
 
-uint64_t bc_nonzero_pseudo_random()
+uint64_t bc_pseudo_random_Range(uint64_t begin, uint64_t end)
 {
-    return libbitcoin::nonzero_pseudo_random();
+    return libbitcoin::pseudo_random();
 }
 
 void bc_pseudo_random_fill(bc_data_chunk_t* chunk)

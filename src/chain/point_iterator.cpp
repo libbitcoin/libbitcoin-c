@@ -25,23 +25,25 @@
 extern "C" {
 
 // Constructors
-bc_point_iterator_t* bc_create_point_iterator(const bc_point_t* value)
+bc_point_iterator_t* bc_create_point_iterator_copy(
+    const bc_point_iterator_t* other)
+{
+    return new bc_point_iterator_t{ new libbitcoin::chain::point_iterator(
+        *other->obj) };
+}
+bc_point_iterator_t* bc_create_point_iterator_Value(
+    const bc_point_t* value)
 {
     return new bc_point_iterator_t{ new libbitcoin::chain::point_iterator(
         *value->obj) };
 }
-bc_point_iterator_t* bc_create_point_iterator_End(
-    const bc_point_t* value, bool end)
+bc_point_iterator_t* bc_create_point_iterator_Value_Index(
+    const bc_point_t* value, unsigned index)
 {
     return new bc_point_iterator_t{ new libbitcoin::chain::point_iterator(
-        *value->obj, end) };
+        *value->obj, index) };
 }
-bc_point_iterator_t* bc_create_point_iterator_Offset(
-    const bc_point_t* value, uint8_t offset)
-{
-    return new bc_point_iterator_t{ new libbitcoin::chain::point_iterator(
-        *value->obj, offset) };
-}
+
 // Destructor
 void bc_destroy_point_iterator(bc_point_iterator_t* self)
 {
@@ -58,6 +60,14 @@ uint8_t bc_point_iterator__access(const bc_point_iterator_t* self)
 {
     return *(*self->obj);
 }
+void bc_point_iterator__increment(bc_point_iterator_t* self)
+{
+    ++(*self->obj);
+}
+void bc_point_iterator__decrement(bc_point_iterator_t* self)
+{
+    --(*self->obj);
+}
 bool bc_point_iterator__equals(
     const bc_point_iterator_t* self, const bc_point_iterator_t* other)
 {
@@ -67,14 +77,6 @@ bool bc_point_iterator__not_equals(
     const bc_point_iterator_t* self, const bc_point_iterator_t* other)
 {
     return *self->obj != *other->obj;
-}
-void bc_point_iterator__increment(bc_point_iterator_t* self)
-{
-    ++(*self->obj);
-}
-void bc_point_iterator__decrement(bc_point_iterator_t* self)
-{
-    --(*self->obj);
 }
 
 } // extern C

@@ -29,15 +29,15 @@ extern "C" {
 
 /**
  * Generate a pseudo random number within the domain.
- * @return  The 64 bit number (use % to subset domain).
+ * @return  The 64 bit number.
  */
 uint64_t bc_pseudo_random();
 
 /**
- * Generate a non-zero pseudo random number within the domain.
- * @return  The 64 bit number (use % to subset domain).
+ * Generate a pseudo random number within [begin, end].
+ * @return  The 64 bit number.
  */
-uint64_t bc_nonzero_pseudo_random();
+uint64_t bc_pseudo_random_Range(uint64_t begin, uint64_t end);
 
 /**
  * Fill a buffer with randomness using the default random engine.

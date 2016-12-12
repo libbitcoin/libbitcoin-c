@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_POINT_HPP
-#define LIBBITCOIN_C_INTERNAL_CHAIN_POINT_HPP
+#ifndef LIBBITCOIN_C_INTERNAL_CHAIN_CHAIN_STATE_HPP
+#define LIBBITCOIN_C_INTERNAL_CHAIN_CHAIN_STATE_HPP
 
 #include <bitcoin/bitcoin/c/chain/chain_state.h>
 
@@ -26,9 +26,24 @@
 
 extern "C" {
 
+struct bc_chain_state_bitss_t
+{
+    libbitcoin::chain::chain_state::bitss* obj;
+};
+
 struct bc_chain_state_versions_t
 {
     libbitcoin::chain::chain_state::versions* obj;
+};
+
+struct bc_chain_state_timestamps_t
+{
+    libbitcoin::chain::chain_state::timestamps* obj;
+};
+
+struct bc_chain_state_range_t
+{
+    libbitcoin::chain::chain_state::range* obj;
 };
 
 struct bc_chain_state_t

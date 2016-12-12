@@ -20,32 +20,10 @@
 #include <bitcoin/bitcoin/c/internal/chain/chain_state.hpp>
 
 #include <bitcoin/bitcoin/c/internal/chain/header.hpp>
+#include <bitcoin/bitcoin/c/internal/machine/rule_fork.hpp>
+#include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 
 extern "C" {
-
-bc_chain_state_versions_t* bc_create_chain_state_versions(
-    const uint8_t* versions, size_t size)
-{
-    return new bc_chain_state_versions_t{
-        new libbitcoin::chain::chain_state::versions(
-            versions, versions + size) };
-}
-// Destructor
-void bc_destroy_chain_state_versions(bc_chain_state_versions_t* self)
-{
-    delete self->obj;
-    delete self;
-}
-// Member functions
-size_t bc_chain_state_versions__size(const bc_chain_state_versions_t* self)
-{
-    return self->obj->size();
-}
-uint8_t bc_chain_state_versions__at(const bc_chain_state_versions_t* self,
-    size_t pos)
-{
-    return self->obj->at(pos);
-}
 
 void bc_destroy_chain_state(bc_chain_state_t* self)
 {
@@ -53,9 +31,9 @@ void bc_destroy_chain_state(bc_chain_state_t* self)
     delete self;
 }
 
-size_t bc_chain_state__next_height(const bc_chain_state_t* self)
+size_t bc_chain_state__height(const bc_chain_state_t* self)
 {
-    return self->obj->next_height();
+    return self->obj->height();
 }
 uint32_t bc_chain_state__enabled_forks(const bc_chain_state_t* self)
 {
@@ -74,26 +52,27 @@ uint32_t bc_chain_state__work_required(const bc_chain_state_t* self)
     return self->obj->work_required();
 }
 
-void bc_chain_state__set_context(bc_chain_state_t* self,
-    size_t height, const bc_chain_state_versions_t* history)
+bool bc_chain_state__is_valid(const bc_chain_state_t* self)
 {
-    return self->obj->set_context(height, *history->obj);
+    return self->obj->is_valid();
 }
 
-bool bc_chain_state__is_checkpoint_failure(
-    const bc_chain_state_t* self, const bc_header_t* header)
+bool bc_chain_state__is_enabled(const bc_chain_state_t* self,
+    bc_rule_fork_t fork)
 {
-    return self->obj->is_checkpoint_failure(*header->obj);
+    const auto fork_conv = bc_rule_fork_from_ctype(fork);
+    return self->obj->is_enabled(fork_conv);
 }
 
-bool bc_chain_state__use_full_validation(const bc_chain_state_t* self)
+bool bc_chain_state__is_checkpoint_conflict(
+    const bc_chain_state_t* self, const bc_hash_digest_t* hash)
 {
-    return self->obj->use_full_validation();
+    return self->obj->is_checkpoint_conflict(*hash->obj);
 }
 
-uint32_t bc_chain_state__sample_size(const bc_chain_state_t* self)
+bool bc_chain_state__is_under_checkpoint(const bc_chain_state_t* self)
 {
-    return self->obj->sample_size;
+    return self->obj->is_under_checkpoint();
 }
 
 } // extern C

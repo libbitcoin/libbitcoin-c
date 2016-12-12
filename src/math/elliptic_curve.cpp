@@ -190,6 +190,13 @@ bool bc_is_public_key(const bc_data_chunk_t* point)
 // DER parse/encode
 // ----------------------------------------------------------------------------
 
+bool bc_parse_endorsement(uint8_t* sighash_type,
+    bc_der_signature_t* der_signature, bc_endorsement_t* endorsement)
+{
+    return libbitcoin::parse_endorsement(*sighash_type,
+        *der_signature->obj, std::move(*endorsement->obj));
+}
+
 bool bc_parse_signature(bc_ec_signature_t* out,
     const bc_der_signature_t* der_signature, bool strict)
 {

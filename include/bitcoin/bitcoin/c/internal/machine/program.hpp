@@ -17,32 +17,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_UTILITY_RESOURCE_LOCK_H
-#define LIBBITCOIN_C_UTILITY_RESOURCE_LOCK_H
+#ifndef LIBBITCOIN_C_INTERNAL_MACHINE_PROGRAM_HPP
+#define LIBBITCOIN_C_INTERNAL_MACHINE_PROGRAM_HPP
 
-#include <stdbool.h>
+#include <bitcoin/bitcoin/c/machine/program.h>
+#include <bitcoin/bitcoin/machine/program.hpp>
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
-/**
- * A resource lock device that ensures exclusive access to a resource.
- * It takes a path for creating a lock file object that can be used
- * for telling the usage of some resource between processes.
- * Example: opening/closing blockchain database.
- */
-typedef struct bc_resource_lock_t bc_resource_lock_t;
+struct bc_program_t
+{
+    libbitcoin::machine::program* obj;
+};
 
-bc_resource_lock_t* bc_create_resource_lock(const char* lock_path);
-void bc_destroy_resource_lock(bc_resource_lock_t* self);
-
-bool bc_resource_lock__lock(const bc_resource_lock_t* self);
-bool bc_resource_lock__unlock(const bc_resource_lock_t* self);
-
-#ifdef __cplusplus
-}
-#endif
+} // extern C
 
 #endif
 

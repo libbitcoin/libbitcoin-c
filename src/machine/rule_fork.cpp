@@ -17,19 +17,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBBITCOIN_C_INTERNAL_MATH_SCRIPT_NUMBER_HPP
-#define LIBBITCOIN_C_INTERNAL_MATH_SCRIPT_NUMBER_HPP
+#include <bitcoin/bitcoin/c/machine/rule_fork.h>
+#include <bitcoin/bitcoin/c/internal/machine/rule_fork.hpp>
 
-#include <bitcoin/bitcoin/math/script_number.hpp>
+#include <bitcoin/bitcoin/machine/rule_fork.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/data.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 
-extern "C" {
-
-struct bc_script_number_t
+bc_rule_fork_t bc_rule_fork_to_ctype(
+    libbitcoin::machine::rule_fork rule)
 {
-    libbitcoin::script_number* obj;
-};
-
-} // extern C
-
-#endif
+    return static_cast<bc_rule_fork_t>(rule);
+}
+libbitcoin::machine::rule_fork bc_rule_fork_from_ctype(
+    bc_rule_fork_t rule)
+{
+    return static_cast<libbitcoin::machine::rule_fork>(rule);
+}
 

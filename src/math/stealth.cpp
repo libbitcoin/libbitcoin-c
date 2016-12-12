@@ -20,7 +20,7 @@
 #include <bitcoin/bitcoin/c/math/stealth.h>
 
 #include <bitcoin/bitcoin/math/stealth.hpp>
-#include <bitcoin/bitcoin/c/internal/chain/script/script.hpp>
+#include <bitcoin/bitcoin/c/internal/chain/script.hpp>
 #include <bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/binary.hpp>

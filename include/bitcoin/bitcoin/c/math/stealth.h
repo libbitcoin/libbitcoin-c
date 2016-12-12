@@ -22,7 +22,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <bitcoin/bitcoin/c/chain/script/script.h>
+#include <bitcoin/bitcoin/c/chain/script.h>
 #include <bitcoin/bitcoin/c/math/elliptic_curve.h>
 #include <bitcoin/bitcoin/c/utility/binary.h>
 

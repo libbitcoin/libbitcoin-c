@@ -27,14 +27,22 @@
 
 extern "C" {
 
+struct bc_block_list_t
+{
+    libbitcoin::chain::block::list* obj;
+    bool delete_obj;
+};
+
 struct bc_block_indexes_t
 {
     libbitcoin::chain::block::indexes* obj;
+    bool delete_obj;
 };
 
 struct bc_block_t
 {
     libbitcoin::chain::block* obj;
+    bool delete_obj;
 };
 
 } // extern C

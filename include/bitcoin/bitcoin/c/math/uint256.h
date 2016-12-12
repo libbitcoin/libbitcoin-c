@@ -29,11 +29,12 @@ extern "C" {
 typedef struct bc_uint256_t bc_uint256_t;
 // Constructors
 bc_uint256_t* bc_create_uint256();
-bc_uint256_t* bc_create_uint256_copy(const bc_uint256_t* other);
-bc_uint256_t* bc_create_uint256_Uint64(uint64_t b);
-bc_uint256_t* bc_create_uint256_Data(const bc_data_chunk_t* data);
+//bc_uint256_t* bc_create_uint256_copy(const bc_uint256_t* other);
+//bc_uint256_t* bc_create_uint256_Uint64(uint64_t b);
+//bc_uint256_t* bc_create_uint256_Data(const bc_data_chunk_t* data);
 // Destructor
 void bc_destroy_uint256(bc_uint256_t* self);
+#if 0
 
 // Operators
 void bc_uint256_copy(bc_uint256_t* self, const bc_uint256_t* other);
@@ -112,6 +113,7 @@ uint32_t bc_uint256_get_compact(const bc_uint256_t* self);
 uint32_t bc_uint256_get_compact_fNegative(const bc_uint256_t* self);
 void bc_uint256_set_compact(bc_uint256_t* self,
     uint32_t ncompact, bool* negative, bool* overflow);
+#endif
 
 #ifdef __cplusplus
 }

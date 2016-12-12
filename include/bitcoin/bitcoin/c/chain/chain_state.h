@@ -20,23 +20,31 @@
 #ifndef LIBBITCOIN_C_CHAIN_CHAIN_STATE_H
 #define LIBBITCOIN_C_CHAIN_CHAIN_STATE_H
 
-#include <bitcoin/bitcoin/c/chain/header.h>
+#include <bitcoin/bitcoin/c/machine/rule_fork.h>
+#include <bitcoin/bitcoin/c/math/hash.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-// Immutable vector of uint32_t
-typedef struct bc_chain_state_versions_t bc_chain_state_versions_t;
-// Constructor
-bc_chain_state_versions_t* bc_create_chain_state_versions(
-    const uint8_t* versions, size_t size);
-// Destructor
-void bc_destroy_chain_state_versions(bc_chain_state_versions_t* self);
-// Member functions
-size_t bc_chain_state_versions__size(const bc_chain_state_versions_t* self);
-uint8_t bc_chain_state_versions__at(const bc_chain_state_versions_t* self,
-    size_t pos);
+// Forward declaration for bc_header_t;
+typedef struct bc_header_t bc_header_t;
+
+#define BC_CHAIN_STATE_UINT32_VECTOR(name) \
+    typedef struct bc_chain_state_##name##_t bc_chain_state_##name##_t; \
+    bc_chain_state_##name##_t* bc_create_chain_state_##name(); \
+    void bc_destroy_chain_state_##name( \
+        bc_chain_state_##name##_t* self); \
+    size_t bc_chain_state_##name##__at( \
+        const bc_chain_state_##name##_t* self, size_t pos); \
+    uint8_t bc_chain_state_##name##__size( \
+        const bc_chain_state_##name##_t* self);
+
+BC_CHAIN_STATE_UINT32_VECTOR(bitss)
+BC_CHAIN_STATE_UINT32_VECTOR(versions)
+BC_CHAIN_STATE_UINT32_VECTOR(timestamps)
+
+#undef BC_CHAIN_STATE_UINT32_VECTOR
 
 typedef struct bc_chain_state_t bc_chain_state_t;
 
@@ -47,33 +55,25 @@ typedef struct bc_chain_state_t bc_chain_state_t;
 void bc_destroy_chain_state(bc_chain_state_t* self);
 
 /// Properties.
-size_t bc_chain_state__next_height(const bc_chain_state_t* self);
+size_t bc_chain_state__height(const bc_chain_state_t* self);
 uint32_t bc_chain_state__enabled_forks(const bc_chain_state_t* self);
 uint32_t bc_chain_state__minimum_version(const bc_chain_state_t* self);
 uint32_t bc_chain_state__median_time_past(const bc_chain_state_t* self);
 uint32_t bc_chain_state__work_required(const bc_chain_state_t* self);
 
-/// Initialize enabled forks and minimum version for the given context.
-void bc_chain_state__set_context(bc_chain_state_t* self,
-    size_t height, const bc_chain_state_versions_t* history);
+/// Construction with zero height or any empty array causes invalid state.
+bool bc_chain_state__is_valid(const bc_chain_state_t* self);
 
-// TODO: need rule_fork in opcode.h
-/// Determine it the flag is set in the active_forks member.
-//bool bc_chain_state__is_enabled(rule_fork flag) const;
+/// Determine if the fork is set for this block.
+bool bc_chain_state__is_enabled(const bc_chain_state_t* self,
+    bc_rule_fork_t fork);
 
-// TODO: need rule_fork in opcode.h
-/// Determine it the flag is set and enabled for the given block's version.
-//bool bc_chain_state__is_enabled(const header& header, rule_fork flag) const;
+/// Determine if this block hash fails a checkpoint at this height.
+bool bc_chain_state__is_checkpoint_conflict(
+    const bc_chain_state_t* self, const bc_hash_digest_t* hash);
 
-/// Determine if the block fails a checkpoint at next_height.
-bool bc_chain_state__is_checkpoint_failure(
-    const bc_chain_state_t* self, const bc_header_t* header);
-
-/// This height requires full validation due to no checkpoint coverage.
-bool bc_chain_state__use_full_validation(const bc_chain_state_t* self);
-
-/// Use to initialize the history collection and parameterize the query.
-uint32_t bc_chain_state__sample_size(const bc_chain_state_t* self);
+/// This block height is less than or equal to that of the top checkpoint.
+bool bc_chain_state__is_under_checkpoint(const bc_chain_state_t* self);
 
 #ifdef __cplusplus
 }
