@@ -108,30 +108,30 @@ test_libbitcoin_c_test_LDADD = src/libbitcoin-c.la ${boost_unit_test_framework_L
 test_libbitcoin_c_test_SOURCES = \
     test/main.cpp \
     test/utility/binary.cpp \
-    #test/utility/data.cpp \
-    #test/math/hash.cpp \
-    #test/formats/base_16.cpp \
-    #test/formats/base_58.cpp \
-    #test/formats/base_64.cpp \
-    #test/formats/base_85.cpp \
-    #test/formats/base_10.cpp \
-    #test/math/stealth.cpp \
-    #test/math/checksum.cpp \
+    test/utility/data.cpp \
+    test/math/hash.cpp \
+    test/formats/base_16.cpp \
+    test/formats/base_58.cpp \
+    test/formats/base_64.cpp \
+    test/formats/base_85.cpp \
+    test/formats/base_10.cpp \
+    test/math/stealth.cpp \
+    test/math/checksum.cpp \
+    test/math/elliptic_curve.cpp \
+    test/wallet/bitcoin_uri.cpp \
+    test/wallet/hd_public.cpp \
+    test/wallet/hd_private.cpp \
+    test/wallet/payment_address.cpp \
+    test/chain/point.cpp \
+    test/chain/header.cpp \
+    test/chain/satoshi_words.cpp \
+    test/chain/input.cpp \
+    test/chain/output.cpp \
+    test/chain/transaction.cpp \
+    test/chain/block.cpp \
+    test/chain/script.cpp \
     #test/math/hash_number.cpp \
-    #test/math/script_number.cpp \
-    #test/chain/header.cpp \
-    #test/chain/input.cpp \
-    #test/chain/output.cpp \
-    #test/chain/transaction.cpp \
-    #test/chain/block.cpp \
-    #test/chain/point.cpp \
-    #test/chain/script.cpp \
-    #test/chain/satoshi_words.cpp \
-    #test/math/elliptic_curve.cpp \
-    #test/wallet/bitcoin_uri.cpp \
-    #test/wallet/hd_public.cpp \
-    #test/wallet/hd_private.cpp \
-    #test/wallet/payment_address.cpp
+    #test/math/script_number.cpp
 
 endif WITH_TESTS
 

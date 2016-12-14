@@ -83,9 +83,7 @@ BOOST_AUTO_TEST_CASE(roundtrip_mainnet_genesis_block_serialization_factory_data_
     BOOST_REQUIRE_EQUAL(bc_block__serialized_size(genesis), 285u);
 
     bc_header_t* genesis_header = bc_block__header(genesis);
-    BOOST_REQUIRE_EQUAL(
-        bc_header__serialized_size_without_transaction_count(genesis_header),
-        80u);
+    BOOST_REQUIRE_EQUAL(bc_header__serialized_size(genesis_header), 80u);
 
     // Save genesis block.
     bc_data_chunk_t* raw_block = bc_block__to_data(genesis);

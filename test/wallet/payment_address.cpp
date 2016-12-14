@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_SUITE(payment_address_tests_c)
 
 // $ bx base16-encode "Satoshi" | bx sha256
 #define SECRET "002688cc350a5333a87fa622eacec626c3d1c0ebf9f3793de3885fa254d7e393"
-#define SCRIPT "dup hash160 [ 18c0bd8d1818f1bf99cb1df2269c645318ef7b73 ] equalverify checksig"
+#define SCRIPT "dup hash160 [18c0bd8d1818f1bf99cb1df2269c645318ef7b73] equalverify checksig"
 
 // $ bx base16-encode "Satoshi" | bx sha256 | bx ec-to-public
 #define COMPRESSED "03d24123978d696a6c964f2dcb1d1e000d4150102fbbcc37f020401e35fb4cb745"

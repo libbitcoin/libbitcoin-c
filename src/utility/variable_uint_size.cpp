@@ -25,7 +25,8 @@ extern "C" {
 
 size_t variable_uint_size(uint64_t value)
 {
-    return libbitcoin::variable_uint_size(value);
+    //return libbitcoin::variable_uint_size(value);
+    return 0;
 }
 
 } // extern C

@@ -23,12 +23,13 @@
 #include <boost/test/unit_test.hpp>
 #include <bitcoin/bitcoin.hpp>
 #include <bitcoin/bitcoin.h>
-#include <bitcoin/bitcoin/c/internal/chain/script/script.hpp>
+#include <bitcoin/bitcoin/c/internal/chain/script.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/transaction.hpp>
 #include "script.hpp"
 
 using namespace bc;
 using namespace bc::chain;
+using namespace bc::machine;
 
 bool is_number(const std::string& token)
 {
@@ -60,16 +61,10 @@ bool is_quoted_string(const std::string& token)
     return boost::starts_with(token, "'") && boost::ends_with(token, "'");
 }
 
-chain::opcode token_to_opcode(const std::string& token)
-{
-    std::string lower_token = token;
-    boost::algorithm::to_lower(lower_token);
-    return chain::string_to_opcode(lower_token);
-}
-
 bool is_opcode(const std::string& token)
 {
-    return token_to_opcode(token) != chain::opcode::bad_operation;
+    opcode out_code;
+    return opcode_from_string(out_code, token);
 }
 
 bool is_opx(int64_t value)
@@ -83,12 +78,12 @@ void push_literal(data_chunk& raw_script, int64_t value)
     switch (value)
     {
         case -1:
-            raw_script.push_back(static_cast<uint8_t>(chain::opcode::negative_1));
+            raw_script.push_back(static_cast<uint8_t>(opcode::push_negative_1));
             return;
 
 #define PUSH_X(n) \
         case n: \
-            raw_script.push_back(static_cast<uint8_t>(chain::opcode::op_##n)); \
+            raw_script.push_back(static_cast<uint8_t>(opcode::push_positive_##n)); \
             return;
 
         PUSH_X(1);
@@ -112,27 +107,7 @@ void push_literal(data_chunk& raw_script, int64_t value)
 
 void push_data(data_chunk& raw_script, const data_chunk& data)
 {
-    chain::opcode code;
-
-    // pushdata1 = 76
-    if (data.empty())
-        code = chain::opcode::zero;
-    else if (data.size() < 76)
-        code = chain::opcode::special;
-    else if (data.size() <= 0xff)
-        code = chain::opcode::pushdata1;
-    else if (data.size() <= 0xffff)
-        code = chain::opcode::pushdata2;
-    else
-    {
-        BOOST_REQUIRE_LE(data.size(), 0xffffffffu);
-        code = chain::opcode::pushdata4;
-    }
-
-    chain::script tmp_script;
-    tmp_script.operations.push_back(chain::operation{ code, data });
-    data_chunk raw_tmp_script = tmp_script.to_data(false);
-    extend_data(raw_script, raw_tmp_script);
+    extend_data(raw_script, operation(data).to_data());
 }
 
 static const auto sentinel = "__ENDING__";
@@ -153,6 +128,8 @@ bool parse_token(data_chunk& raw_script, data_chunk& raw_hex, std::string token)
     if (token == sentinel)
         return true;
 
+    opcode out_code;
+
     if (is_number(token))
     {
         const auto value = boost::lexical_cast<int64_t>(token);
@@ -162,7 +139,7 @@ bool parse_token(data_chunk& raw_script, data_chunk& raw_hex, std::string token)
         }
         else
         {
-            script_number bignum(value);
+            number bignum(value);
             push_data(raw_script, bignum.data());
         }
     }
@@ -170,6 +147,7 @@ bool parse_token(data_chunk& raw_script, data_chunk& raw_hex, std::string token)
     {
         std::string hex_part(token.begin() + 2, token.end());
         data_chunk raw_data;
+
         if (!decode_base16(raw_data, hex_part))
             return false;
 
@@ -180,10 +158,11 @@ bool parse_token(data_chunk& raw_script, data_chunk& raw_hex, std::string token)
         data_chunk inner_value(token.begin() + 1, token.end() - 1);
         push_data(raw_script, inner_value);
     }
-    else if (is_opcode(token))
+    else if (opcode_from_string(out_code, token))
     {
-        chain::opcode tokenized_opcode = token_to_opcode(token);
-        raw_script.push_back(static_cast<uint8_t>(tokenized_opcode));
+        // opcode_from_string converts push codes (data) in [hex] format,
+        // but that is not currently expected here.
+        raw_script.push_back(static_cast<uint8_t>(out_code));
     }
     else
     {
@@ -198,6 +177,7 @@ bool parse_token(data_chunk& raw_script, data_chunk& raw_hex, std::string token)
 bool parse(chain::script& result_script, std::string format)
 {
     boost::trim(format);
+
     if (format.empty())
         return true;
 
@@ -210,16 +190,16 @@ bool parse(chain::script& result_script, std::string format)
 
     parse_token(raw_script, raw_hex, sentinel);
 
-    if (!result_script.from_data(raw_script, false, chain::script::parse_mode::strict))
+    if (!result_script.from_data(raw_script, false))
         return false;
 
-    if (result_script.operations.empty())
+    if (result_script.empty())
         return false;
 
     return true;
 }
 
-bc_transaction_t* new_tx(const script_test& test)
+bc_transaction_t* new_tx(const script_test& test, uint32_t sequence=0)
 {
     script input_script;
     script output_script;
@@ -231,11 +211,12 @@ bc_transaction_t* new_tx(const script_test& test)
         return{};
 
     input input;
-    input.script = input_script;
-    input.previous_output.cache.script = output_script;
+    input.set_sequence(sequence);
+    input.set_script(std::move(input_script));
+    input.previous_output().validation.cache.set_script(std::move(output_script));
 
     transaction tx;
-    tx.inputs.push_back(std::move(input));
+    tx.set_inputs({ std::move(input) });
     return new bc_transaction_t{ new libbitcoin::chain::transaction(tx) };
 }
 
@@ -247,8 +228,7 @@ BOOST_AUTO_TEST_CASE(script__from_data__testnet_119058_non_parseable__fallback_c
     BOOST_REQUIRE(bc_decode_base16(raw_script, "0130323066643366303435313438356531306633383837363437356630643265396130393739343332353534313766653139316438623963623230653430643863333030326431373463336539306366323433393231383761313037623634373337633937333135633932393264653431373731636565613062323563633534353732653302ae"));
 
     bc_script_t* parsed = bc_create_script();
-    BOOST_REQUIRE(bc_script__from_data(parsed,
-        raw_script, false, bc_script_parse_mode__raw_data_fallback));
+    BOOST_REQUIRE(bc_script__from_data(parsed, raw_script, false));
 
     bc_destroy_script(parsed);
     bc_destroy_data_chunk(raw_script);
@@ -260,8 +240,7 @@ BOOST_AUTO_TEST_CASE(script__from_data__parse__fails_c)
     BOOST_REQUIRE(bc_decode_base16(raw_script, "3045022100ff1fc58dbd608e5e05846a8e6b45a46ad49878aef6879ad1a7cf4c5a7f853683022074a6a10f6053ab3cddc5620d169c7374cd42c1416c51b9744db2c8d9febfb84d01"));
 
     bc_script_t* parsed = bc_create_script();
-    BOOST_REQUIRE(!bc_script__from_data(parsed,
-        raw_script, true, bc_script_parse_mode__strict));
+    BOOST_REQUIRE(bc_script__from_data(parsed, raw_script, true));
 
     bc_destroy_script(parsed);
     bc_destroy_data_chunk(raw_script);
@@ -273,8 +252,8 @@ BOOST_AUTO_TEST_CASE(script__from_data__to_data__roundtrips_c)
     BOOST_REQUIRE(bc_decode_base16(normal_output_script, "76a91406ccef231c2db72526df9338894ccf9355e8f12188ac"));
 
     bc_script_t* out_script = bc_create_script();
-    BOOST_REQUIRE(bc_script__from_data(out_script,
-        normal_output_script, false, bc_script_parse_mode__raw_data_fallback));
+    BOOST_REQUIRE(bc_script__from_data(
+        out_script, normal_output_script, false));
 
     bc_data_chunk_t* roundtrip = bc_script__to_data(out_script, false);
     BOOST_REQUIRE(bc_data_chunk__equals(roundtrip, normal_output_script));
@@ -307,8 +286,8 @@ BOOST_AUTO_TEST_CASE(script__from_data__to_data_weird__roundtrips_c)
         "74b1d185dbf5b4db4ddb0642848868685174519c6351670068"));
 
     bc_script_t* weird = bc_create_script();
-    BOOST_REQUIRE(bc_script__from_data(weird,
-        weird_raw_script, false, bc_script_parse_mode__raw_data_fallback));
+    BOOST_REQUIRE(bc_script__from_data(
+        weird, weird_raw_script, false));
 
     bc_data_chunk_t* roundtrip_result = bc_script__to_data(weird, false);
     BOOST_REQUIRE(bc_data_chunk__equals(roundtrip_result, weird_raw_script));
@@ -318,58 +297,12 @@ BOOST_AUTO_TEST_CASE(script__from_data__to_data_weird__roundtrips_c)
     bc_destroy_data_chunk(weird_raw_script);
 }
 
-BOOST_AUTO_TEST_CASE(script__is_raw_data_operations_size_not_equal_one_returns_false_c)
-{
-    bc_script_t* instance = bc_create_script();
-    BOOST_REQUIRE(!bc_script__is_raw_data(instance));
-    bc_destroy_script(instance);
-}
-
-BOOST_AUTO_TEST_CASE(script__is_raw_data_code_not_equal_raw_data_returns_false_c)
-{
-    bc_script_t* instance = bc_create_script();
-
-    bc_operation_stack_t* ops = bc_create_operation_stack();
-
-    bc_operation_t* operation = bc_create_operation();
-    bc_operation__set_code(operation, bc_opcode__vernotif);
-    // stack takes ownership of the object
-    bc_operation_stack__push_back_consume(ops, &operation);
-    BOOST_REQUIRE(operation == NULL);
-
-    bc_script__set_operations(instance, ops);
-    bc_destroy_operation_stack(ops);
-
-    BOOST_REQUIRE(!bc_script__is_raw_data(instance));
-    bc_destroy_script(instance);
-}
-
-BOOST_AUTO_TEST_CASE(script__is_raw_data_returns_true_c)
-{
-    bc_script_t* instance = bc_create_script();
-
-    bc_operation_stack_t* ops = bc_create_operation_stack();
-
-    bc_operation_t* operation = bc_create_operation();
-    bc_operation__set_code(operation, bc_opcode__raw_data);
-    // stack takes ownership of the object
-    bc_operation_stack__push_back_consume(ops, &operation);
-    BOOST_REQUIRE(operation == NULL);
-
-    bc_script__set_operations(instance, ops);
-    bc_destroy_operation_stack(ops);
-
-    BOOST_REQUIRE(bc_script__is_raw_data(instance));
-    bc_destroy_script(instance);
-}
-
 BOOST_AUTO_TEST_CASE(script__factory_from_data_chunk_test_c)
 {
     bc_data_chunk_t* raw = bc_create_data_chunk();
     BOOST_REQUIRE(bc_decode_base16(raw, "76a914fc7b44566256621affb1541cc9d59f08336d276b88ac"));
 
-    bc_script_t* instance = bc_script__factory_from_data(
-        raw, false, bc_script_parse_mode__strict);
+    bc_script_t* instance = bc_script__factory_from_data(raw, false);
     BOOST_REQUIRE(bc_script__is_valid(instance));
 
     bc_destroy_script(instance);
@@ -574,14 +507,14 @@ BOOST_AUTO_TEST_CASE(script__checksig__uses_one_hash_c)
 
     bc_script_t* script_code = bc_create_script();
     const bool prefix = false;
-    BOOST_REQUIRE(bc_script__from_data(script_code, script_data, prefix, bc_script_parse_mode__strict));
+    BOOST_REQUIRE(bc_script__from_data(script_code, script_data, prefix));
 
     bc_ec_signature_t* signature = bc_create_ec_signature();
     const bool strict = true;
     const uint32_t input_index = 1;
     BOOST_REQUIRE(bc_parse_signature(signature, distinguished, strict));
     BOOST_REQUIRE(bc_script__check_signature(signature,
-        bc_signature_hash_algorithm__single, pubkey, script_code,
+        bc_sighash_algorithm__single, pubkey, script_code,
         parent_tx, input_index));
 
     bc_destroy_ec_signature(signature);
@@ -611,15 +544,14 @@ BOOST_AUTO_TEST_CASE(script__checksig__normal_c)
     bc_decode_base16(script_data, "76a914fcc9b36d38cf55d7d5b4ee4dddb6b2c17612f48c88ac");
 
     bc_script_t* script_code = bc_create_script();
-    static const bool prefix = false;
-    BOOST_REQUIRE(bc_script__from_data(script_code, script_data, prefix, bc_script_parse_mode__strict));
+    BOOST_REQUIRE(bc_script__from_data(script_code, script_data, false));
 
     bc_ec_signature_t* signature = bc_create_ec_signature();
     const bool strict = true;
     const uint32_t input_index = 0;
     BOOST_REQUIRE(bc_parse_signature(signature, distinguished, strict));
     BOOST_REQUIRE(bc_script__check_signature(signature,
-        bc_signature_hash_algorithm__single, pubkey, script_code,
+        bc_sighash_algorithm__single, pubkey, script_code,
         parent_tx, input_index));
 
     bc_destroy_ec_signature(signature);
@@ -639,7 +571,7 @@ BOOST_AUTO_TEST_CASE(script__create_endorsement__single_input_single_output__exp
     bc_transaction__from_data(new_tx, tx_data);
 
     bc_script_t* prevout_script = bc_create_script();
-    BOOST_REQUIRE(bc_script__from_string(prevout_script, "dup hash160 [ 88350574280395ad2c3e2ee20e322073d94e5e40 ] equalverify checksig"));
+    BOOST_REQUIRE(bc_script__from_string(prevout_script, "dup hash160 [88350574280395ad2c3e2ee20e322073d94e5e40] equalverify checksig"));
 
     bc_hash_digest_t* secret_data = bc_hash_literal(&"ce8f4b713ffdd2658900845251890f30371856be201cd1f5b3d970f793634333");
     bc_ec_secret_t* secret = bc_create_ec_secret_Data(
@@ -648,7 +580,7 @@ BOOST_AUTO_TEST_CASE(script__create_endorsement__single_input_single_output__exp
 
     bc_endorsement_t* out = bc_create_data_chunk();
     const uint32_t input_index = 0;
-    const uint8_t sighash_type = bc_signature_hash_algorithm__all;
+    const uint8_t sighash_type = bc_sighash_algorithm__all;
     BOOST_REQUIRE(bc_script__create_endorsement(
         out, secret, prevout_script, new_tx, input_index, sighash_type));
 
@@ -672,7 +604,7 @@ BOOST_AUTO_TEST_CASE(script__create_endorsement__single_input_no_output__expecte
     bc_transaction__from_data(new_tx, tx_data);
 
     bc_script_t* prevout_script = bc_create_script();
-    BOOST_REQUIRE(bc_script__from_string(prevout_script, "dup hash160 [ 88350574280395ad2c3e2ee20e322073d94e5e40 ] equalverify checksig"));
+    BOOST_REQUIRE(bc_script__from_string(prevout_script, "dup hash160 [88350574280395ad2c3e2ee20e322073d94e5e40] equalverify checksig"));
 
     bc_hash_digest_t* secret_data = bc_hash_literal(&"ce8f4b713ffdd2658900845251890f30371856be201cd1f5b3d970f793634333");
     bc_ec_secret_t* secret = bc_create_ec_secret_Data(
@@ -681,7 +613,7 @@ BOOST_AUTO_TEST_CASE(script__create_endorsement__single_input_no_output__expecte
 
     bc_endorsement_t* out = bc_create_data_chunk();
     const uint32_t input_index = 0;
-    const uint8_t sighash_type = bc_signature_hash_algorithm__all;
+    const uint8_t sighash_type = bc_sighash_algorithm__all;
     BOOST_REQUIRE(bc_script__create_endorsement(
         out, secret, prevout_script, new_tx, input_index, sighash_type));
 
@@ -705,11 +637,11 @@ BOOST_AUTO_TEST_CASE(script__generate_signature_hash__all__expected_c)
     bc_transaction__from_data(new_tx, tx_data);
 
     bc_script_t* prevout_script = bc_create_script();
-    BOOST_REQUIRE(bc_script__from_string(prevout_script, "dup hash160 [ 88350574280395ad2c3e2ee20e322073d94e5e40 ] equalverify checksig"));
+    BOOST_REQUIRE(bc_script__from_string(prevout_script, "dup hash160 [88350574280395ad2c3e2ee20e322073d94e5e40] equalverify checksig"));
 
     bc_endorsement_t* out = bc_create_data_chunk();
     const uint32_t input_index = 0;
-    const uint8_t sighash_type = bc_signature_hash_algorithm__all;
+    const uint8_t sighash_type = bc_sighash_algorithm__all;
     bc_hash_digest_t* sighash = bc_script__generate_signature_hash(
         new_tx, input_index, prevout_script, sighash_type);
 
