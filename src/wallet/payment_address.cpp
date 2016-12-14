@@ -20,7 +20,7 @@
 #include <bitcoin/bitcoin/c/wallet/payment_address.h>
 #include <bitcoin/bitcoin/c/internal/wallet/payment_address.hpp>
 
-#include <bitcoin/bitcoin/c/internal/chain/script/script.hpp>
+#include <bitcoin/bitcoin/c/internal/chain/script.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>

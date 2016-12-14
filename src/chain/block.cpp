@@ -25,6 +25,7 @@
 #include <bitcoin/bitcoin/c/internal/chain/header.hpp>
 #include <bitcoin/bitcoin/c/internal/chain/transaction.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
+#include <bitcoin/bitcoin/c/internal/math/uint256.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
@@ -35,60 +36,8 @@ BC_IMPLEMENT_VECTOR(block_list, bc_block_t,
 BC_IMPLEMENT_INT_VECTOR(block_indexes, size_t,
     libbitcoin::chain::block::indexes);
 
-/*
-// Static functions
-bc_block_t* bc_block__factory_from_data(
-    const bc_data_chunk_t* data)
-{
-    return new bc_block_t{ new libbitcoin::chain::block(
-        libbitcoin::chain::block::factory_from_data(*data->obj)) };
-}
-bc_block_t* bc_block__factory_from_data_without_transaction_count(
-    const bc_data_chunk_t* data)
-{
-    return new bc_block_t{ new libbitcoin::chain::block(
-        libbitcoin::chain::block::factory_from_data(
-            *data->obj, false)) };
-}
-
-bool bc_block__is_retarget_height(size_t height)
-{
-    return libbitcoin::chain::block::is_retarget_height(height);
-}
-bc_hash_number_t* bc_block__difficulty_Static(uint32_t bits)
-{
-    return new bc_hash_number_t{ new libbitcoin::hash_number(
-        libbitcoin::chain::block::difficulty(bits)) };
-}
-uint32_t bc_block__work_required(uint64_t timespan, uint32_t bits)
-{
-    return libbitcoin::chain::block::work_required(timespan, bits);
-}
-uint64_t bc_block__subsidy(size_t height)
-{
-    return libbitcoin::chain::block::subsidy(height);
-}
-size_t bc_block__locator_size(size_t top)
-{
-    return libbitcoin::chain::block::locator_size(top);
-}
-bc_block_indexes_t* bc_block__locator_heights(size_t top)
-{
-    return new bc_block_indexes_t{ new libbitcoin::chain::block::indexes(
-        libbitcoin::chain::block::locator_heights(top)) };
-}
-bc_block_t* bc_block__genesis_mainnet()
-{
-    return new bc_block_t{ new libbitcoin::chain::block(
-        libbitcoin::chain::block::genesis_mainnet()) };
-}
-bc_block_t* bc_block__genesis_testnet()
-{
-    return new bc_block_t{ new libbitcoin::chain::block(
-        libbitcoin::chain::block::genesis_testnet()) };
-}
-
 // Constructor
+//-------------------------------------------------------------------------
 bc_block_t* bc_create_block()
 {
     return new bc_block_t{ new libbitcoin::chain::block };
@@ -112,94 +61,115 @@ void bc_destroy_block(const bc_block_t* self)
     delete self;
 }
 
-// Member functions
+// Operators.
+//-------------------------------------------------------------------------
+
+bool bc_block__equals(const bc_block_t* self, const bc_block_t* other)
+{
+    return *self->obj == *other->obj;
+}
+bool bc_block__not_equals(const bc_block_t* self, const bc_block_t* other)
+{
+    return *self->obj != *other->obj;
+}
+
+// Deserialization.
+//-------------------------------------------------------------------------
+
+bc_block_t* bc_block__factory_from_data(
+    const bc_data_chunk_t* data)
+{
+    return new bc_block_t{ new libbitcoin::chain::block(
+        libbitcoin::chain::block::factory_from_data(*data->obj)) };
+}
+
 bool bc_block__from_data(
     bc_block_t* self, const bc_data_chunk_t* data)
 {
     return self->obj->from_data(*data->obj);
-}
-bool bc_block__from_data_without_transaction_count(
-    bc_block_t* self, const bc_data_chunk_t* data)
-{
-    return self->obj->from_data(*data->obj, false);
-}
-bc_data_chunk_t* bc_block__to_data(const bc_block_t* self)
-{
-    return bc_create_data_chunk_Internal(self->obj->to_data());
-}
-bc_data_chunk_t* bc_block__to_data_without_transaction_count(
-    const bc_block_t* self)
-{
-    return bc_create_data_chunk_Internal(self->obj->to_data(false));
 }
 
 bool bc_block__is_valid(const bc_block_t* self)
 {
     return self->obj->is_valid();
 }
-bool bc_block__is_extra_coinbases(const bc_block_t* self)
+
+// Serialization.
+//-------------------------------------------------------------------------
+
+bc_data_chunk_t* bc_block__to_data(const bc_block_t* self)
 {
-    return self->obj->is_extra_coinbases();
-}
-bool bc_block__is_valid_merkle_root(const bc_block_t* self)
-{
-    return self->obj->is_valid_merkle_root();
-}
-bool bc_block__is_distinct_transaction_set(const bc_block_t* self)
-{
-    return self->obj->is_distinct_transaction_set();
-}
-bool bc_block__is_valid_coinbase_claim(const bc_block_t* self, size_t height)
-{
-    return self->obj->is_valid_coinbase_claim(height);
-}
-bool bc_block__is_valid_coinbase_script(const bc_block_t* self, size_t height)
-{
-    return self->obj->is_valid_coinbase_script(height);
+    return bc_create_data_chunk_Internal(self->obj->to_data());
 }
 
-void bc_block__reset(bc_block_t* self)
+// Properties (size, accessors, cache).
+//-------------------------------------------------------------------------
+
+uint64_t bc_block__serialized_size(const bc_block_t* self)
 {
-    self->obj->reset();
+    return self->obj->serialized_size();
 }
+
+bc_header_t* bc_block__header(const bc_block_t* self)
+{
+    return new bc_header_t{ new libbitcoin::chain::header(
+        self->obj->header()), true };
+}
+void bc_block__set_header(bc_block_t* self, const bc_header_t* header)
+{
+    self->obj->set_header(*header->obj);
+}
+
+bc_transaction_list_t* bc_block__transactions(const bc_block_t* self)
+{
+    return new bc_transaction_list_t{ new libbitcoin::chain::transaction::list(
+        self->obj->transactions()), true };
+}
+void bc_block__set_transactions(bc_block_t* self,
+    const bc_transaction_list_t* transactions)
+{
+    self->obj->set_transactions(*transactions->obj);
+}
+
 bc_hash_digest_t* bc_block__hash(const bc_block_t* self)
 {
     return bc_create_hash_digest_Internal(self->obj->hash());
 }
 
-bc_error_code_t* bc_block__check(const bc_block_t* self)
+// Utilities.
+//-------------------------------------------------------------------------
+
+bc_block_t* bc_block__genesis_mainnet()
 {
-    return new bc_error_code_t{ new std::error_code(
-        self->obj->check()) };
+    return new bc_block_t{ new libbitcoin::chain::block(
+        libbitcoin::chain::block::genesis_mainnet()) };
 }
-bc_error_code_t* bc_block__check_transactions(const bc_block_t* self)
+bc_block_t* bc_block__genesis_testnet()
 {
-    return new bc_error_code_t{ new std::error_code(
-        self->obj->check_transactions()) };
+    return new bc_block_t{ new libbitcoin::chain::block(
+        libbitcoin::chain::block::genesis_testnet()) };
 }
-bc_error_code_t* bc_block__accept(
-    const bc_block_t* self, const bc_chain_state_t* state)
+size_t bc_block__locator_size(size_t top)
 {
-    return new bc_error_code_t{ new std::error_code(
-        self->obj->accept(*state->obj)) };
+    return libbitcoin::chain::block::locator_size(top);
 }
-bc_error_code_t* bc_block__accept_transactions(
-    const bc_block_t* self, const bc_chain_state_t* state)
+bc_block_indexes_t* bc_block__locator_heights(size_t top)
 {
-    return new bc_error_code_t{ new std::error_code(
-        self->obj->accept_transactions(*state->obj)) };
+    return new bc_block_indexes_t{ new libbitcoin::chain::block::indexes(
+        libbitcoin::chain::block::locator_heights(top)) };
 }
-bc_error_code_t* bc_block__connect(
-    const bc_block_t* self, const bc_chain_state_t* state)
+
+// Validation.
+//-------------------------------------------------------------------------
+
+uint64_t bc_block__subsidy(size_t height)
 {
-    return new bc_error_code_t{ new std::error_code(
-        self->obj->connect(*state->obj)) };
+    return libbitcoin::chain::block::subsidy(height);
 }
-bc_error_code_t* bc_block__connect_transactions(
-    const bc_block_t* self, const bc_chain_state_t* state)
+bc_uint256_t* bc_block__difficulty_Static(uint32_t bits)
 {
-    return new bc_error_code_t{ new std::error_code(
-        self->obj->connect_transactions(*state->obj)) };
+    return new bc_uint256_t{ new libbitcoin::uint256_t(
+        libbitcoin::chain::block::difficulty(bits)) };
 }
 
 uint64_t bc_block__fees(const bc_block_t* self)
@@ -214,54 +184,117 @@ uint64_t bc_block__reward(const bc_block_t* self, size_t height)
 {
     return self->obj->reward(height);
 }
-
-size_t bc_block__total_inputs(const bc_block_t* self)
+bc_uint256_t* bc_block__difficulty(const bc_block_t* self)
 {
-    return self->obj->total_inputs();
-}
-bc_hash_number_t* bc_block__difficulty(const bc_block_t* self)
-{
-    return new bc_hash_number_t{ new libbitcoin::hash_number(
+    return new bc_uint256_t{ new libbitcoin::uint256_t(
         self->obj->difficulty()) };
 }
 bc_hash_digest_t* bc_block__generate_merkle_root(const bc_block_t* self)
 {
     return bc_create_hash_digest_Internal(self->obj->generate_merkle_root());
 }
-uint64_t bc_block__serialized_size(const bc_block_t* self)
+size_t bc_block__signature_operations(const bc_block_t* self)
 {
-    return self->obj->serialized_size();
+    return self->obj->signature_operations();
 }
-uint64_t bc_block__serialized_size_without_transaction_count(
-    const bc_block_t* self)
-{
-    return self->obj->serialized_size(false);
-}
-size_t bc_block__signature_operations(
+size_t bc_block__signature_operations_Bip16(
     const bc_block_t* self, bool bip16_active)
 {
     return self->obj->signature_operations(bip16_active);
 }
+size_t bc_block__total_inputs(const bc_block_t* self)
+{
+    return self->obj->total_inputs();
+}
+size_t bc_block__total_inputs_nocoinbase(const bc_block_t* self)
+{
+    return self->obj->total_inputs(false);
+}
 
-// Member variables
-bc_header_t* bc_block__header(const bc_block_t* self)
+bool bc_block__is_extra_coinbases(const bc_block_t* self)
 {
-    return new bc_header_t{ &self->obj->header, false };
+    return self->obj->is_extra_coinbases();
 }
-void bc_block__set_header(bc_block_t* self, const bc_header_t* header)
+bool bc_block__is_final(const bc_block_t* self, size_t height)
 {
-    self->obj->header = *header->obj;
+    return self->obj->is_final(height);
 }
-bc_transaction_list_t* bc_block__transactions(const bc_block_t* self)
+bool bc_block__is_distinct_transaction_set(const bc_block_t* self)
 {
-    return new bc_transaction_list_t{ &self->obj->transactions, false };
+    return self->obj->is_distinct_transaction_set();
 }
-void bc_block__set_transactions(bc_block_t* self,
-    const bc_transaction_list_t* transactions)
+bool bc_block__is_valid_coinbase_claim(const bc_block_t* self, size_t height)
 {
-    self->obj->transactions = *transactions->obj;
+    return self->obj->is_valid_coinbase_claim(height);
 }
-*/
+bool bc_block__is_valid_coinbase_script(const bc_block_t* self, size_t height)
+{
+    return self->obj->is_valid_coinbase_script(height);
+}
+bool bc_block__is_internal_double_spend(const bc_block_t* self)
+{
+    return self->obj->is_internal_double_spend();
+}
+bool bc_block__is_valid_merkle_root(const bc_block_t* self)
+{
+    return self->obj->is_valid_merkle_root();
+}
+
+bc_error_code_t* bc_block__check(const bc_block_t* self)
+{
+    return new bc_error_code_t{ new std::error_code(
+        self->obj->check()) };
+}
+bc_error_code_t* bc_block__check_transactions(const bc_block_t* self)
+{
+    return new bc_error_code_t{ new std::error_code(
+        self->obj->check_transactions()) };
+}
+bc_error_code_t* bc_block__accept(
+    const bc_block_t* self)
+{
+    return new bc_error_code_t{ new std::error_code(self->obj->accept()) };
+}
+bc_error_code_t* bc_block__accept_notransactions(
+    const bc_block_t* self)
+{
+    return new bc_error_code_t{ new std::error_code(
+        self->obj->accept(false)) };
+}
+bc_error_code_t* bc_block__accept_ChainState(
+    const bc_block_t* self, const bc_chain_state_t* state)
+{
+    return new bc_error_code_t{ new std::error_code(
+        self->obj->accept(*state->obj)) };
+}
+bc_error_code_t* bc_block__accept_ChainState_notransactions(
+    const bc_block_t* self, const bc_chain_state_t* state)
+{
+    return new bc_error_code_t{ new std::error_code(
+        self->obj->accept(*state->obj, false)) };
+}
+bc_error_code_t* bc_block__accept_transactions(
+    const bc_block_t* self, const bc_chain_state_t* state)
+{
+    return new bc_error_code_t{ new std::error_code(
+        self->obj->accept_transactions(*state->obj)) };
+}
+bc_error_code_t* bc_block__connect(const bc_block_t* self)
+{
+    return new bc_error_code_t{ new std::error_code(self->obj->connect()) };
+}
+bc_error_code_t* bc_block__connect_ChainState(
+    const bc_block_t* self, const bc_chain_state_t* state)
+{
+    return new bc_error_code_t{ new std::error_code(
+        self->obj->connect(*state->obj)) };
+}
+bc_error_code_t* bc_block__connect_transactions(
+    const bc_block_t* self, const bc_chain_state_t* state)
+{
+    return new bc_error_code_t{ new std::error_code(
+        self->obj->connect_transactions(*state->obj)) };
+}
 
 } // extern C
 

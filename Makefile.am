@@ -89,12 +89,12 @@ src_libbitcoin_c_la_SOURCES = \
     src/wallet/ek_token.cpp \
     src/wallet/message.cpp \
     src/wallet/ec_public.cpp \
-    #src/wallet/hd_public.cpp \
-    #src/wallet/hd_private.cpp \
-    #src/wallet/stealth_address.cpp \
-    #src/wallet/payment_address.cpp \
-    #src/wallet/dictionary.cpp \
-    #src/wallet/select_outputs.cpp
+    src/wallet/hd_public.cpp \
+    src/wallet/hd_private.cpp \
+    src/wallet/stealth_address.cpp \
+    src/wallet/payment_address.cpp \
+    src/wallet/dictionary.cpp \
+    src/wallet/select_outputs.cpp
 
 # local: test/libbitcoin_network_test
 #------------------------------------------------------------------------------
@@ -108,30 +108,30 @@ test_libbitcoin_c_test_LDADD = src/libbitcoin-c.la ${boost_unit_test_framework_L
 test_libbitcoin_c_test_SOURCES = \
     test/main.cpp \
     test/utility/binary.cpp \
-    test/utility/data.cpp \
-    test/math/hash.cpp \
-    test/formats/base_16.cpp \
-    test/formats/base_58.cpp \
-    test/formats/base_64.cpp \
-    test/formats/base_85.cpp \
-    test/formats/base_10.cpp \
-    test/math/stealth.cpp \
-    test/math/checksum.cpp \
-    test/math/hash_number.cpp \
-    test/math/script_number.cpp \
-    test/chain/header.cpp \
-    test/chain/input.cpp \
-    test/chain/output.cpp \
-    test/chain/transaction.cpp \
-    test/chain/block.cpp \
-    test/chain/point.cpp \
-    test/chain/script.cpp \
-    test/chain/satoshi_words.cpp \
-    test/math/elliptic_curve.cpp \
-    test/wallet/bitcoin_uri.cpp \
-    test/wallet/hd_public.cpp \
-    test/wallet/hd_private.cpp \
-    test/wallet/payment_address.cpp
+    #test/utility/data.cpp \
+    #test/math/hash.cpp \
+    #test/formats/base_16.cpp \
+    #test/formats/base_58.cpp \
+    #test/formats/base_64.cpp \
+    #test/formats/base_85.cpp \
+    #test/formats/base_10.cpp \
+    #test/math/stealth.cpp \
+    #test/math/checksum.cpp \
+    #test/math/hash_number.cpp \
+    #test/math/script_number.cpp \
+    #test/chain/header.cpp \
+    #test/chain/input.cpp \
+    #test/chain/output.cpp \
+    #test/chain/transaction.cpp \
+    #test/chain/block.cpp \
+    #test/chain/point.cpp \
+    #test/chain/script.cpp \
+    #test/chain/satoshi_words.cpp \
+    #test/math/elliptic_curve.cpp \
+    #test/wallet/bitcoin_uri.cpp \
+    #test/wallet/hd_public.cpp \
+    #test/wallet/hd_private.cpp \
+    #test/wallet/payment_address.cpp
 
 endif WITH_TESTS
 
@@ -173,7 +173,6 @@ include_bitcoin_bitcoin_c_mathdir = ${includedir}/bitcoin/bitcoin/c/math
 include_bitcoin_bitcoin_c_math_HEADERS = \
     include/bitcoin/bitcoin/c/math/elliptic_curve.h \
     include/bitcoin/bitcoin/c/math/limits.h \
-    include/bitcoin/bitcoin/c/math/script_number.h \
     include/bitcoin/bitcoin/c/math/crypto.h \
     include/bitcoin/bitcoin/c/math/uint256.h \
     include/bitcoin/bitcoin/c/math/checksum.h \
@@ -248,8 +247,7 @@ include_bitcoin_bitcoin_c_internal_math_HEADERS = \
     include/bitcoin/bitcoin/c/internal/math/hash.hpp \
     include/bitcoin/bitcoin/c/internal/math/crypto.hpp \
     include/bitcoin/bitcoin/c/internal/math/uint256.hpp \
-    include/bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp \
-    include/bitcoin/bitcoin/c/internal/math/script_number.hpp
+    include/bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp
 
 include_bitcoin_bitcoin_c_internal_utilitydir = ${includedir}/bitcoin/bitcoin/c/internal/utility
 include_bitcoin_bitcoin_c_internal_utility_HEADERS = \
