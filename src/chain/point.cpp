@@ -28,38 +28,11 @@
 
 extern "C" {
 
+BC_IMPLEMENT_INT_VECTOR(point_indexes, uint32_t,
+    libbitcoin::chain::point::indexes);
+
 BC_IMPLEMENT_VECTOR(chain_point_list, bc_point_t, bc_destroy_point,
     libbitcoin::chain::point::list);
-
-// Constructor
-bc_point_indexes_t* bc_create_point_indexes(
-    const uint32_t* indexes, size_t size)
-{
-    return new bc_point_indexes_t{ new libbitcoin::chain::point::indexes(
-        indexes, indexes + size), true };
-}
-// Destructor
-void bc_destroy_point_indexes(bc_point_indexes_t* self)
-{
-    if (self->delete_obj)
-        delete self->obj;
-    delete self;
-}
-// Member functions
-size_t bc_point_indexes_size(const bc_point_indexes_t* self)
-{
-    return self->obj->size();
-}
-uint32_t bc_point_indexes_at(const bc_point_indexes_t* self, size_t pos)
-{
-    return self->obj->at(pos);
-}
-
-// Static values
-uint32_t bc_point__null_index()
-{
-    return libbitcoin::chain::point::null_index;
-}
 
 // Constructor
 bc_point_t* bc_create_point()

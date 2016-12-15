@@ -30,16 +30,7 @@
 extern "C" {
 #endif
 
-// Immutable vector of uint32_t
-typedef struct bc_point_indexes_t bc_point_indexes_t;
-// Constructor
-bc_point_indexes_t* bc_create_point_indexes(
-    const uint32_t* indexes, size_t size);
-// Destructor
-void bc_destroy_point_indexes(bc_point_indexes_t* self);
-// Member functions
-size_t bc_point_indexes_size(const bc_point_indexes_t* self);
-uint32_t bc_point_indexes_at(const bc_point_indexes_t* self, size_t pos);
+BC_DECLARE_INT_VECTOR(point_indexes, uint32_t);
 
 typedef struct bc_point_t bc_point_t;
 BC_DECLARE_VECTOR(chain_point_list, bc_point_t);
