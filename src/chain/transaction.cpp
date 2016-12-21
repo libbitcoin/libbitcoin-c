@@ -68,7 +68,7 @@ void bc_destroy_transaction(bc_transaction_t* self)
 
 // Operators.
 void bc_transaction__copy(
-    const bc_transaction_t* self, bc_transaction_t* other)
+    bc_transaction_t* self, const bc_transaction_t* other)
 {
     *self->obj = *other->obj;
 }
