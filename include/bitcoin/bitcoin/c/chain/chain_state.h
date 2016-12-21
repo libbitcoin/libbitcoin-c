@@ -31,14 +31,7 @@ extern "C" {
 typedef struct bc_header_t bc_header_t;
 
 #define BC_CHAIN_STATE_UINT32_VECTOR(name) \
-    typedef struct bc_chain_state_##name##_t bc_chain_state_##name##_t; \
-    bc_chain_state_##name##_t* bc_create_chain_state_##name(); \
-    void bc_destroy_chain_state_##name( \
-        bc_chain_state_##name##_t* self); \
-    size_t bc_chain_state_##name##__at( \
-        const bc_chain_state_##name##_t* self, size_t pos); \
-    uint8_t bc_chain_state_##name##__size( \
-        const bc_chain_state_##name##_t* self);
+    BC_DECLARE_INT_VECTOR(chain_state_##name, uint32_t);
 
 BC_CHAIN_STATE_UINT32_VECTOR(bitss)
 BC_CHAIN_STATE_UINT32_VECTOR(versions)

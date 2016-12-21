@@ -29,16 +29,19 @@ extern "C" {
 struct bc_chain_state_bitss_t
 {
     libbitcoin::chain::chain_state::bitss* obj;
+    bool delete_obj;
 };
 
 struct bc_chain_state_versions_t
 {
     libbitcoin::chain::chain_state::versions* obj;
+    bool delete_obj;
 };
 
 struct bc_chain_state_timestamps_t
 {
     libbitcoin::chain::chain_state::timestamps* obj;
+    bool delete_obj;
 };
 
 struct bc_chain_state_range_t

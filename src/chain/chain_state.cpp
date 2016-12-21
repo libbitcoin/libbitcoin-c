@@ -22,8 +22,19 @@
 #include <bitcoin/bitcoin/c/internal/chain/header.hpp>
 #include <bitcoin/bitcoin/c/internal/machine/rule_fork.hpp>
 #include <bitcoin/bitcoin/c/internal/math/hash.hpp>
+#include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
 
 extern "C" {
+
+#define BC_CHAIN_STATE_UINT32_VECTOR(name) \
+    BC_IMPLEMENT_INT_VECTOR(chain_state_##name, uint32_t, \
+        libbitcoin::chain::chain_state::name)
+
+BC_CHAIN_STATE_UINT32_VECTOR(bitss)
+BC_CHAIN_STATE_UINT32_VECTOR(versions)
+BC_CHAIN_STATE_UINT32_VECTOR(timestamps)
+
+#undef BC_CHAIN_STATE_UINT32_VECTOR
 
 void bc_destroy_chain_state(bc_chain_state_t* self)
 {
