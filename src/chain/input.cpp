@@ -111,8 +111,10 @@ uint64_t bc_input__serialized_size_nowire(const bc_input_t* self)
 }
 bc_output_point_t* bc_input__previous_output(const bc_input_t* self)
 {
-    return new bc_output_point_t{ new libbitcoin::chain::output_point(
-        self->obj->previous_output()), false };
+    const auto& cprevout = self->obj->previous_output();
+    libbitcoin::chain::output_point* prevout =
+        const_cast<libbitcoin::chain::output_point*>(&cprevout);
+    return new bc_output_point_t{ prevout, false };
 }
 void bc_input__set_previous_output(bc_input_t* self,
     bc_output_point_t* previous_output)

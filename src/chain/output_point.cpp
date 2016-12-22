@@ -28,8 +28,57 @@
 
 extern "C" {
 
-BC_IMPLEMENT_VECTOR(output_info_list, bc_output_info_t,
-    bc_destroy_output_info, libbitcoin::chain::output_info::list);
+void bc_destroy_output_point_validation(bc_output_point_validation_t* self)
+{
+    if (self->delete_obj)
+        delete self->obj;
+    delete self;
+}
+
+size_t bc_output_point_validation__not_specified(
+    const bc_output_point_validation_t* self)
+{
+    return self->obj->not_specified;
+}
+
+bool bc_output_point_validation__spent(
+    const bc_output_point_validation_t* self)
+{
+    return self->obj->spent;
+}
+void bc_output_point_validation__set_spent(
+    bc_output_point_validation_t* self, bool spent)
+{
+    self->obj->spent = spent;
+}
+
+bool bc_output_point_validation__confirmed(
+    const bc_output_point_validation_t* self)
+{
+    return self->obj->confirmed;
+}
+void bc_output_point_validation__set_confirmed(
+    bc_output_point_validation_t* self, bool confirmed)
+{
+    self->obj->confirmed = confirmed;
+}
+
+size_t bc_output_point_validation__height(
+    const bc_output_point_validation_t* self)
+{
+    return self->obj->height;
+}
+void bc_output_point_validation__set_height(
+    bc_output_point_validation_t* self, size_t height)
+{
+    self->obj->height = height;
+}
+
+bc_output_t* bc_output_point_validation__cache(
+    const bc_output_point_validation_t* self)
+{
+    return new bc_output_t{ &self->obj->cache, false };
+}
 
 bc_output_point_t* bc_create_output_point()
 {
@@ -100,6 +149,12 @@ bool bc_output_point__is_mature(const bc_output_point_t* self,
     return self->obj->is_mature(target_height);
 }
 
+bc_output_point_validation_t* bc_output_point__validation(
+    const bc_output_point_t* self)
+{
+    return new bc_output_point_validation_t{ &self->obj->validation, false };
+}
+
 bc_points_info_t* bc_create_points_info()
 {
     return new bc_points_info_t{ new libbitcoin::chain::points_info, true };
@@ -127,6 +182,9 @@ void bc_points_info__set_change(bc_points_info_t* self, uint64_t change)
 {
     self->obj->change = change;
 }
+
+BC_IMPLEMENT_VECTOR(output_info_list, bc_output_info_t,
+    bc_destroy_output_info, libbitcoin::chain::output_info::list);
 
 bc_output_info_t* bc_create_output_info()
 {

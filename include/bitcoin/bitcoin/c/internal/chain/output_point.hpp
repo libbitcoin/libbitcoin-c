@@ -27,6 +27,12 @@
 
 extern "C" {
 
+struct bc_output_point_validation_t
+{
+    libbitcoin::chain::output_point::validation_type* obj;
+    const bool delete_obj;
+};
+
 struct bc_output_point_t
 {
     libbitcoin::chain::output_point* obj;
