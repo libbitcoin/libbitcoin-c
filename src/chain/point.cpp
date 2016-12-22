@@ -34,6 +34,11 @@ BC_IMPLEMENT_INT_VECTOR(point_indexes, uint32_t,
 BC_IMPLEMENT_VECTOR(chain_point_list, bc_point_t, bc_destroy_point,
     libbitcoin::chain::point::list);
 
+uint32_t bc_point__null_index()
+{
+    return libbitcoin::chain::point::null_index;
+}
+
 // Constructor
 bc_point_t* bc_create_point()
 {
