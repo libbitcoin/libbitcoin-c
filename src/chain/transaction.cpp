@@ -247,6 +247,11 @@ bool bc_transaction__is_overspent(const bc_transaction_t* self)
 {
     return self->obj->is_overspent();
 }
+bool bc_transaction__is_double_spend(const bc_transaction_t* self,
+    bool include_unconfirmed)
+{
+    return self->obj->is_double_spend(include_unconfirmed);
+}
 bool bc_transaction__is_missing_previous_outputs(const bc_transaction_t* self)
 {
     return self->obj->is_missing_previous_outputs();
