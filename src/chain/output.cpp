@@ -58,6 +58,12 @@ void bc_destroy_output(bc_output_t* self)
         delete self->obj;
     delete self;
 }
+
+bool bc_output__equals(const bc_output_t* self, const bc_output_t* other)
+{
+    return *self->obj == *other->obj;
+}
+
 // Member functions
 bc_output_t* bc_output__factory_from_data(const bc_data_chunk_t* data)
 {
