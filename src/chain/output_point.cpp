@@ -35,10 +35,9 @@ void bc_destroy_output_point_validation(bc_output_point_validation_t* self)
     delete self;
 }
 
-size_t bc_output_point_validation__not_specified(
-    const bc_output_point_validation_t* self)
+size_t bc_output_point_validation__not_specified()
 {
-    return self->obj->not_specified;
+    return libbitcoin::chain::output_point::validation_type::not_specified;
 }
 
 bool bc_output_point_validation__spent(
