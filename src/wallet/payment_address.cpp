@@ -47,7 +47,7 @@ uint8_t bc_payment_address__testnet_p2sh()
 {
     return libbitcoin::wallet::payment_address::testnet_p2sh;
 }
-}
+
 bc_payment_address_t* bc_payment_address__extract(
     const bc_script_t* script)
 {
