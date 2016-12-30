@@ -39,8 +39,12 @@ size_t bc_payment_size();
 BC_DECLARE_BYTE_ARRAY(payment);
 
 typedef struct bc_payment_address_t bc_payment_address_t;
+
 uint8_t bc_payment_address__mainnet_p2kh();
 uint8_t bc_payment_address__mainnet_p2sh();
+
+uint8_t bc_payment_address__testnet_p2kh();
+uint8_t bc_payment_address__testnet_p2sh();
 
 /// Extract a payment address from an input or output script.
 /// The address will be invalid if and only if the script type is not
