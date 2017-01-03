@@ -27,6 +27,7 @@
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
+#include <bitcoin/bitcoin/c/internal/wallet/payment_address.hpp>
 
 extern "C" {
 
@@ -137,6 +138,12 @@ uint32_t bc_input__sequence(const bc_input_t* self)
 void bc_input__set_sequence(bc_input_t* self, uint32_t sequence)
 {
     self->obj->set_sequence(sequence);
+}
+
+bc_payment_address_t* bc_input__address(const bc_input_t* self)
+{
+    return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
+        self->obj->address()) };
 }
 
 bool bc_input__is_final(const bc_input_t* self)

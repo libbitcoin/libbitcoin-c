@@ -26,6 +26,7 @@
 #include <bitcoin/bitcoin/c/internal/utility/data.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/string.hpp>
 #include <bitcoin/bitcoin/c/internal/utility/vector.hpp>
+#include <bitcoin/bitcoin/c/internal/wallet/payment_address.hpp>
 
 extern "C" {
 
@@ -122,6 +123,12 @@ bc_script_t* bc_output__script(const bc_output_t* self)
 void bc_output__set_script(bc_output_t* self, const bc_script_t* script)
 {
     self->obj->set_script(*script->obj);
+}
+
+bc_payment_address_t* bc_output__address(const bc_output_t* self)
+{
+    return new bc_payment_address_t{ new libbitcoin::wallet::payment_address(
+        self->obj->address()) };
 }
 
 size_t bc_output__signature_operations(const bc_output_t* self)

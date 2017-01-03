@@ -26,6 +26,7 @@
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
 #include <bitcoin/bitcoin/c/utility/vector.h>
+#include <bitcoin/bitcoin/c/wallet/payment_address.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -69,6 +70,9 @@ void bc_output__set_value(bc_output_t* self, uint64_t value);
 
 bc_script_t* bc_output__script(const bc_output_t* self);
 void bc_output__set_script(bc_output_t* self, const bc_script_t* script);
+
+/// The payment address extracted from this output as a standard script.
+bc_payment_address_t* bc_output__address(const bc_output_t* self);
 
 size_t bc_output__signature_operations(const bc_output_t* self);
 
