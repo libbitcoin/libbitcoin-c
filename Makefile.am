@@ -41,7 +41,6 @@ src_libbitcoin_c_la_SOURCES = \
     src/utility/binary.cpp \
     src/utility/string.cpp \
     src/utility/data.cpp \
-    src/utility/variable_uint_size.cpp \
     src/utility/istream_reader.cpp \
     src/utility/ostream_writer.cpp \
     src/utility/flush_lock.cpp \
@@ -187,7 +186,6 @@ include_bitcoin_bitcoin_c_utility_HEADERS = \
     include/bitcoin/bitcoin/c/utility/string.h \
     include/bitcoin/bitcoin/c/utility/istream_reader.h \
     include/bitcoin/bitcoin/c/utility/ostream_writer.h \
-    include/bitcoin/bitcoin/c/utility/variable_uint_size.h \
     include/bitcoin/bitcoin/c/utility/flush_lock.h \
     include/bitcoin/bitcoin/c/utility/vector.h
 
