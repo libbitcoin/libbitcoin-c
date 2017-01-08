@@ -267,9 +267,21 @@ size_t bc_command_size()
 {
     return libbitcoin::command_size;
 }
-size_t bc_max_inventory_count()
+size_t bc_max_get_blocks()
 {
-    return libbitcoin::max_inventory_count;
+    return libbitcoin::max_get_blocks;
+}
+size_t bc_max_get_headers()
+{
+    return libbitcoin::max_get_headers;
+}
+size_t bc_max_get_data()
+{
+    return libbitcoin::max_get_data;
+}
+size_t bc_max_inventory()
+{
+    return libbitcoin::max_inventory;
 }
 
 /// Variable integer prefix sentinels.
