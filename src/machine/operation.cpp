@@ -64,7 +64,8 @@ bc_operation_t* bc_create_operation_Opcode(bc_opcode_t code)
 //-------------------------------------------------------------------------
 void bc_destroy_operation(bc_operation_t* self)
 {
-    delete self->obj;
+    if (self->delete_obj)
+        delete self->obj;
     delete self;
 }
 
