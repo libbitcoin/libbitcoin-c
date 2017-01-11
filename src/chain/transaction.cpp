@@ -191,7 +191,7 @@ uint64_t bc_transaction__fees(const bc_transaction_t* self)
 {
     return self->obj->fees();
 }
-bc_point_indexes_t* bc_transaction__double_spends(
+/*bc_point_indexes_t* bc_transaction__double_spends(
     const bc_transaction_t* self, bool include_unconfirmed)
 {
     const auto indexes = self->obj->double_spends(include_unconfirmed);
@@ -211,7 +211,7 @@ bc_point_indexes_t* bc_transaction__missing_previous_outputs(
     const auto indexes = self->obj->missing_previous_outputs();
     return new bc_point_indexes_t{ new libbitcoin::chain::point::indexes(
         indexes), true };
-}
+}*/
 uint64_t bc_transaction__total_input_value(const bc_transaction_t* self)
 {
     return self->obj->total_input_value();

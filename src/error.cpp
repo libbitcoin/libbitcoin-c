@@ -70,6 +70,8 @@ bc_error_t bc_error_code_to_ctype(libbitcoin::error::error_code_t value)
             return bc_error__file_system;
         case libbitcoin::error::non_standard:
             return bc_error__non_standard;
+        case libbitcoin::error::not_implemented:
+            return bc_error__not_implemented;
         case libbitcoin::error::service_stopped:
             return bc_error__service_stopped;
         case libbitcoin::error::operation_failed:
@@ -106,12 +108,8 @@ bc_error_t bc_error_code_to_ctype(libbitcoin::error::error_code_t value)
             return bc_error__invalid_previous_block;
         case libbitcoin::error::insufficient_work:
             return bc_error__insufficient_work;
-        case libbitcoin::error::blockchain_reorganized:
-            return bc_error__blockchain_reorganized;
-        case libbitcoin::error::transaction_pool_filled:
-            return bc_error__transaction_pool_filled;
-        case libbitcoin::error::duplicate_pool_transaction:
-            return bc_error__duplicate_pool_transaction;
+        case libbitcoin::error::orphan_transaction:
+            return bc_error__orphan_transaction;
         case libbitcoin::error::invalid_proof_of_work:
             return bc_error__invalid_proof_of_work;
         case libbitcoin::error::futuristic_timestamp:
@@ -366,6 +364,8 @@ libbitcoin::error::error_code_t bc_error_code_from_ctype(bc_error_t value)
             return libbitcoin::error::file_system;
         case bc_error__non_standard:
             return libbitcoin::error::non_standard;
+        case bc_error__not_implemented:
+            return libbitcoin::error::not_implemented;
         case bc_error__service_stopped:
             return libbitcoin::error::service_stopped;
         case bc_error__operation_failed:
@@ -402,12 +402,8 @@ libbitcoin::error::error_code_t bc_error_code_from_ctype(bc_error_t value)
             return libbitcoin::error::invalid_previous_block;
         case bc_error__insufficient_work:
             return libbitcoin::error::insufficient_work;
-        case bc_error__blockchain_reorganized:
-            return libbitcoin::error::blockchain_reorganized;
-        case bc_error__transaction_pool_filled:
-            return libbitcoin::error::transaction_pool_filled;
-        case bc_error__duplicate_pool_transaction:
-            return libbitcoin::error::duplicate_pool_transaction;
+        case bc_error__orphan_transaction:
+            return libbitcoin::error::orphan_transaction;
         case bc_error__invalid_proof_of_work:
             return libbitcoin::error::invalid_proof_of_work;
         case bc_error__futuristic_timestamp:

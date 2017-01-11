@@ -99,12 +99,12 @@ bc_hash_digest_t* bc_transaction__hash_Sighash(const bc_transaction_t* self,
 
 // Validation.
 uint64_t bc_transaction__fees(const bc_transaction_t* self);
-bc_point_indexes_t* bc_transaction__double_spends(
-    const bc_transaction_t* self, bool include_unconfirmed);
-bc_point_indexes_t* bc_transaction__immature_inputs(
-    const bc_transaction_t* self, size_t target_height);
-bc_point_indexes_t* bc_transaction__missing_previous_outputs(
-    const bc_transaction_t* self);
+//bc_point_indexes_t* bc_transaction__double_spends(
+//    const bc_transaction_t* self, bool include_unconfirmed);
+//bc_point_indexes_t* bc_transaction__immature_inputs(
+//    const bc_transaction_t* self, size_t target_height);
+//bc_point_indexes_t* bc_transaction__missing_previous_outputs(
+//    const bc_transaction_t* self);
 uint64_t bc_transaction__total_input_value(const bc_transaction_t* self);
 uint64_t bc_transaction__total_output_value(const bc_transaction_t* self);
 size_t bc_transaction__signature_operations(
