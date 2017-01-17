@@ -39,8 +39,6 @@ bc_sighash_algorithm_t bc_sighash_algorithm_to_ctype(
             return bc_sighash_algorithm__none_anyone_can_pay;
         case libbitcoin::machine::sighash_algorithm::single_anyone_can_pay:
             return bc_sighash_algorithm__single_anyone_can_pay;
-        case libbitcoin::machine::sighash_algorithm::mask:
-            return bc_sighash_algorithm__mask;
     }
 }
 libbitcoin::machine::sighash_algorithm bc_sighash_algorithm_from_ctype(
@@ -62,8 +60,6 @@ libbitcoin::machine::sighash_algorithm bc_sighash_algorithm_from_ctype(
             return libbitcoin::machine::sighash_algorithm::none_anyone_can_pay;
         case bc_sighash_algorithm__single_anyone_can_pay:
             return libbitcoin::machine::sighash_algorithm::single_anyone_can_pay;
-        case bc_sighash_algorithm__mask:
-            return libbitcoin::machine::sighash_algorithm::mask;
     }
 }
 

@@ -79,10 +79,6 @@ typedef enum bc_sighash_algorithm_t
         bc_sighash_algorithm__single |
         bc_sighash_algorithm__anyone_can_pay,
 
-    /// Used to mask off the anyone_can_pay flag to access the enumeration.
-    bc_sighash_algorithm__mask =
-        ~bc_sighash_algorithm__anyone_can_pay
-
 } bc_sighash_algorithm_t;
 
 #ifdef __cplusplus
