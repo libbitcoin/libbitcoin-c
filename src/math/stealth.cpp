@@ -28,11 +28,6 @@
 
 extern "C" {
 
-uint8_t bc_ephemeral_public_key_sign()
-{
-    return libbitcoin::ephemeral_public_key_sign;
-}
-
 /// Determine if the script is a null-data script of at least 32 data bytes.
 bool bc_is_stealth_script(const bc_script_t* script)
 {
@@ -52,14 +47,20 @@ bool bc_create_ephemeral_key(bc_ec_secret_t* out_secret,
     return libbitcoin::create_ephemeral_key(*out_secret->obj, *seed->obj);
 }
 
-/// Create an ephemeral public key from the provided seed with the
-/// null-data script data value that produces the desired filter prefix.
-bool bc_create_stealth_data(bc_data_chunk_t* out_stealth_data,
+bool bc_create_stealth_data(bc_script_t* out_null_data,
     bc_ec_secret_t* out_secret, const bc_binary_t* filter,
     const bc_data_chunk_t* seed)
 {
-    return libbitcoin::create_stealth_data(*out_stealth_data->obj,
+    return libbitcoin::create_stealth_data(*out_null_data->obj,
         *out_secret->obj, *filter->obj, *seed->obj);
+}
+
+bool bc_create_stealth_script(bc_script_t* out_null_data,
+    const bc_ec_secret_t* secret, const bc_binary_t* filter,
+    const bc_data_chunk_t* seed)
+{
+    return libbitcoin::create_stealth_data(*out_null_data->obj,
+        *secret->obj, *filter->obj, *seed->obj);
 }
 
 /// Extract the stealth ephemeral public key from an output script.

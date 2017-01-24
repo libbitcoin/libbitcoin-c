@@ -166,10 +166,10 @@ uint64_t bc_block__subsidy(size_t height)
 {
     return libbitcoin::chain::block::subsidy(height);
 }
-bc_uint256_t* bc_block__difficulty_Static(uint32_t bits)
+bc_uint256_t* bc_block__proof_Static(uint32_t bits)
 {
     return new bc_uint256_t{ new libbitcoin::uint256_t(
-        libbitcoin::chain::block::difficulty(bits)) };
+        libbitcoin::chain::block::proof(bits)) };
 }
 
 uint64_t bc_block__fees(const bc_block_t* self)
@@ -184,10 +184,10 @@ uint64_t bc_block__reward(const bc_block_t* self, size_t height)
 {
     return self->obj->reward(height);
 }
-bc_uint256_t* bc_block__difficulty(const bc_block_t* self)
+bc_uint256_t* bc_block__proof(const bc_block_t* self)
 {
     return new bc_uint256_t{ new libbitcoin::uint256_t(
-        self->obj->difficulty()) };
+        self->obj->proof()) };
 }
 bc_hash_digest_t* bc_block__generate_merkle_root(const bc_block_t* self)
 {
