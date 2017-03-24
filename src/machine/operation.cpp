@@ -160,7 +160,7 @@ bc_opcode_t bc_operation__opcode_from_size(size_t size)
 bc_opcode_t bc_operation__opcode_from_data(const bc_data_chunk_t* data)
 {
     return bc_opcode_to_ctype(
-        libbitcoin::machine::operation::minimal_opcode_from_data(*data->obj));
+        libbitcoin::machine::operation::opcode_from_data(*data->obj));
 }
 
 /// Convert the [1..16] value to the corresponding opcode (or undefined).
