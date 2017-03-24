@@ -177,9 +177,9 @@ bc_hash_digest_t* bc_header__hash(const bc_header_t* self)
     return bc_create_hash_digest_Internal(self->obj->hash());
 }
 
-bool bc_header__is_valid_time_stamp(const bc_header_t* self)
+bool bc_header__is_valid_timestamp(const bc_header_t* self)
 {
-    return self->obj->is_valid_time_stamp();
+    return self->obj->is_valid_timestamp();
 }
 bool bc_header__is_valid_proof_of_work(const bc_header_t* self)
 {

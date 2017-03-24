@@ -113,9 +113,9 @@ size_t bc_max_push_data_size()
 {
     return libbitcoin::max_push_data_size;
 }
-size_t bc_max_script_public_key_count()
+size_t bc_max_script_public_keys()
 {
-    return libbitcoin::max_script_public_key_count;
+    return libbitcoin::max_script_public_keys;
 }
 size_t bc_multisig_default_sigops()
 {
@@ -155,10 +155,6 @@ size_t bc_coinbase_maturity()
 {
     return libbitcoin::coinbase_maturity;
 }
-size_t bc_time_stamp_future_hours()
-{
-    return libbitcoin::time_stamp_future_hours;
-}
 size_t bc_locktime_threshold()
 {
     return libbitcoin::locktime_threshold;
@@ -178,10 +174,6 @@ uint32_t bc_retargeting_factor()
 uint32_t bc_target_spacing_seconds()
 {
     return libbitcoin::target_spacing_seconds;
-}
-uint32_t bc_double_spacing_seconds()
-{
-    return libbitcoin::double_spacing_seconds;
 }
 uint32_t bc_target_timespan_seconds()
 {

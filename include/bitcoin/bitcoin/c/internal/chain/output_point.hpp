@@ -39,24 +39,6 @@ struct bc_output_point_t
     const bool delete_obj;
 };
 
-struct bc_points_info_t
-{
-    libbitcoin::chain::points_info* obj;
-    const bool delete_obj;
-};
-
-struct bc_output_info_t
-{
-    libbitcoin::chain::output_info* obj;
-    const bool delete_obj;
-};
-
-struct bc_output_info_list_t
-{
-    libbitcoin::chain::output_info::list* obj;
-    const bool delete_obj;
-};
-
 } // extern C
 
 #endif

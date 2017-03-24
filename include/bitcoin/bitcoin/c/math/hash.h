@@ -23,7 +23,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <bitcoin/bitcoin/c/math/uint256.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/string.h>
 #include <bitcoin/bitcoin/c/utility/vector.h>
@@ -77,8 +76,6 @@ bc_quarter_hash_t* bc_null_quarter_hash();
 bc_long_hash_t* bc_null_long_hash();
 bc_short_hash_t* bc_null_short_hash();
 bc_mini_hash_t* bc_null_mini_hash();
-
-bc_uint256_t* to_uint256(const bc_hash_digest_t* hash);
 
 /// Generate a scrypt hash of specified length.
 bc_data_chunk_t* bc_scrypt(

@@ -26,7 +26,6 @@
 #include <bitcoin/bitcoin/c/chain/header.h>
 #include <bitcoin/bitcoin/c/chain/transaction.h>
 #include <bitcoin/bitcoin/c/math/hash.h>
-#include <bitcoin/bitcoin/c/math/uint256.h>
 #include <bitcoin/bitcoin/c/utility/data.h>
 #include <bitcoin/bitcoin/c/utility/vector.h>
 
@@ -98,12 +97,10 @@ bc_block_indexes_t* bc_block__locator_heights(size_t top);
 //-------------------------------------------------------------------------
 
 uint64_t bc_block__subsidy(size_t height);
-bc_uint256_t* bc_block__proof_Static(uint32_t bits);
 
 uint64_t bc_block__fees(const bc_block_t* self);
 uint64_t bc_block__claim(const bc_block_t* self);
 uint64_t bc_block__reward(const bc_block_t* self, size_t height);
-bc_uint256_t* bc_block__proof(const bc_block_t* self);
 bc_hash_digest_t* bc_block__generate_merkle_root(const bc_block_t* self);
 size_t bc_block__signature_operations(const bc_block_t* self);
 size_t bc_block__signature_operations_Bip16(

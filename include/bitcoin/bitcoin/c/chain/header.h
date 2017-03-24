@@ -103,7 +103,7 @@ bc_hash_digest_t* bc_header__hash(const bc_header_t* self);
 // Validation.
 //-----------------------------------------------------------------------------
 
-bool bc_header__is_valid_time_stamp(const bc_header_t* self);
+bool bc_header__is_valid_timestamp(const bc_header_t* self);
 bool bc_header__is_valid_proof_of_work(const bc_header_t* self);
 
 bc_error_code_t* bc_header__check(const bc_header_t* self);

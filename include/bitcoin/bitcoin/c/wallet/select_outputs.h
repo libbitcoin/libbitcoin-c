@@ -21,8 +21,7 @@
 #define LIBBITCOIN_C_WALLET_SELECT_OUTPUTS_H
 
 #include <stdint.h>
-#include <bitcoin/bitcoin/c/chain/output.h>
-#include <bitcoin/bitcoin/c/chain/output_point.h>
+#include <bitcoin/bitcoin/c/chain/points_value.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,11 +45,11 @@ typedef enum bc_select_outputs__algorithm_t
     bc_select_outputs__algorithm__individual
 } bc_select_outputs__algorithm_t;
 
-void bc_select_outputs__select(bc_points_info_t* out,
-    const bc_output_info_list_t* unspent, uint64_t minimum_value);
+void bc_select_outputs__select(bc_points_value_t* out,
+    const bc_points_value_t* unspent, uint64_t minimum_value);
 
-void bc_select_outputs__select_Alg(bc_points_info_t* out,
-    const bc_output_info_list_t* unspent, uint64_t minimum_value,
+void bc_select_outputs__select_Alg(bc_points_value_t* out,
+    const bc_points_value_t* unspent, uint64_t minimum_value,
     bc_select_outputs__algorithm_t option);
 
 #ifdef __cplusplus

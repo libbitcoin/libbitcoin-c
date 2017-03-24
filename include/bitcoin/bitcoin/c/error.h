@@ -46,6 +46,7 @@ typedef enum bc_error_t
     bc_error__file_system = 42,
     bc_error__non_standard = 17,
     bc_error__not_implemented = 4,
+    bc_error__oversubscribed = 71,
 
     // network
     bc_error__service_stopped = 1,
@@ -73,6 +74,7 @@ typedef enum bc_error_t
 
     // transaction pool
     bc_error__orphan_transaction = 14,
+    bc_error__insufficient_fee = 70,
 
     // check header
     bc_error__invalid_proof_of_work = 26,
@@ -106,10 +108,11 @@ typedef enum bc_error_t
     bc_error__spend_overflow = 21,
     bc_error__invalid_coinbase_script_size = 22,
     bc_error__coinbase_transaction = 16,
-    bc_error__transction_size_limit = 53,
+    bc_error__transaction_size_limit = 53,
     bc_error__transaction_legacy_sigop_limit = 54,
 
     // accept transaction
+    bc_error__premature_validation = 69,
     bc_error__unspent_duplicate = 38,
     bc_error__missing_previous_output = 19,
     bc_error__double_spend = 18,

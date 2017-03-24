@@ -72,6 +72,8 @@ bc_error_t bc_error_code_to_ctype(libbitcoin::error::error_code_t value)
             return bc_error__non_standard;
         case libbitcoin::error::not_implemented:
             return bc_error__not_implemented;
+        case libbitcoin::error::oversubscribed:
+            return bc_error__oversubscribed;
         case libbitcoin::error::service_stopped:
             return bc_error__service_stopped;
         case libbitcoin::error::operation_failed:
@@ -110,6 +112,8 @@ bc_error_t bc_error_code_to_ctype(libbitcoin::error::error_code_t value)
             return bc_error__insufficient_work;
         case libbitcoin::error::orphan_transaction:
             return bc_error__orphan_transaction;
+        case libbitcoin::error::insufficient_fee:
+            return bc_error__insufficient_fee;
         case libbitcoin::error::invalid_proof_of_work:
             return bc_error__invalid_proof_of_work;
         case libbitcoin::error::futuristic_timestamp:
@@ -156,10 +160,12 @@ bc_error_t bc_error_code_to_ctype(libbitcoin::error::error_code_t value)
             return bc_error__invalid_coinbase_script_size;
         case libbitcoin::error::coinbase_transaction:
             return bc_error__coinbase_transaction;
-        case libbitcoin::error::transction_size_limit:
-            return bc_error__transction_size_limit;
+        case libbitcoin::error::transaction_size_limit:
+            return bc_error__transaction_size_limit;
         case libbitcoin::error::transaction_legacy_sigop_limit:
             return bc_error__transaction_legacy_sigop_limit;
+        case libbitcoin::error::premature_validation:
+            return bc_error__premature_validation;
         case libbitcoin::error::unspent_duplicate:
             return bc_error__unspent_duplicate;
         case libbitcoin::error::missing_previous_output:
@@ -366,6 +372,8 @@ libbitcoin::error::error_code_t bc_error_code_from_ctype(bc_error_t value)
             return libbitcoin::error::non_standard;
         case bc_error__not_implemented:
             return libbitcoin::error::not_implemented;
+        case bc_error__oversubscribed:
+            return libbitcoin::error::oversubscribed;
         case bc_error__service_stopped:
             return libbitcoin::error::service_stopped;
         case bc_error__operation_failed:
@@ -404,6 +412,8 @@ libbitcoin::error::error_code_t bc_error_code_from_ctype(bc_error_t value)
             return libbitcoin::error::insufficient_work;
         case bc_error__orphan_transaction:
             return libbitcoin::error::orphan_transaction;
+        case bc_error__insufficient_fee:
+            return libbitcoin::error::insufficient_fee;
         case bc_error__invalid_proof_of_work:
             return libbitcoin::error::invalid_proof_of_work;
         case bc_error__futuristic_timestamp:
@@ -450,10 +460,12 @@ libbitcoin::error::error_code_t bc_error_code_from_ctype(bc_error_t value)
             return libbitcoin::error::invalid_coinbase_script_size;
         case bc_error__coinbase_transaction:
             return libbitcoin::error::coinbase_transaction;
-        case bc_error__transction_size_limit:
-            return libbitcoin::error::transction_size_limit;
+        case bc_error__transaction_size_limit:
+            return libbitcoin::error::transaction_size_limit;
         case bc_error__transaction_legacy_sigop_limit:
             return libbitcoin::error::transaction_legacy_sigop_limit;
+        case bc_error__premature_validation:
+            return libbitcoin::error::premature_validation;
         case bc_error__unspent_duplicate:
             return libbitcoin::error::unspent_duplicate;
         case bc_error__missing_previous_output:

@@ -4,3 +4,5 @@ Headers to access internal C++ objects are in `<bitcoin/bitcoin/c/internal/>`
 
 Directory structure exactly mirrors libbitcoin, as do the method and type names.
 
+Written for libbitcoin version3.
+

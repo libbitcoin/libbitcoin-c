@@ -75,8 +75,9 @@ src_libbitcoin_c_la_SOURCES = \
     src/math/elliptic_curve.cpp \
     src/math/checksum.cpp \
     src/math/crypto.cpp \
-    src/math/uint256.cpp \
     src/chain/point.cpp \
+    src/chain/point_value.cpp \
+    src/chain/points_value.cpp \
     src/wallet/bitcoin_uri.cpp \
     src/wallet/encrypted_keys.cpp \
     src/wallet/ek_public.cpp \
@@ -160,6 +161,8 @@ include_bitcoin_bitcoin_c_chain_HEADERS = \
     include/bitcoin/bitcoin/c/chain/stealth.h \
     include/bitcoin/bitcoin/c/chain/history.h \
     include/bitcoin/bitcoin/c/chain/script.h \
+    include/bitcoin/bitcoin/c/chain/point_value.h \
+    include/bitcoin/bitcoin/c/chain/points_value.h \
     include/bitcoin/bitcoin/c/chain/point.h
 
 include_bitcoin_bitcoin_c_machine_scriptdir = ${includedir}/bitcoin/bitcoin/c/machine
@@ -173,7 +176,6 @@ include_bitcoin_bitcoin_c_math_HEADERS = \
     include/bitcoin/bitcoin/c/math/elliptic_curve.h \
     include/bitcoin/bitcoin/c/math/limits.h \
     include/bitcoin/bitcoin/c/math/crypto.h \
-    include/bitcoin/bitcoin/c/math/uint256.h \
     include/bitcoin/bitcoin/c/math/checksum.h \
     include/bitcoin/bitcoin/c/math/stealth.h \
     include/bitcoin/bitcoin/c/math/hash.h
@@ -227,6 +229,8 @@ include_bitcoin_bitcoin_c_internal_chain_HEADERS = \
     include/bitcoin/bitcoin/c/internal/chain/header.hpp \
     include/bitcoin/bitcoin/c/internal/chain/block.hpp \
     include/bitcoin/bitcoin/c/internal/chain/point.hpp \
+    include/bitcoin/bitcoin/c/internal/chain/point_value.hpp \
+    include/bitcoin/bitcoin/c/internal/chain/points_value.hpp \
     include/bitcoin/bitcoin/c/internal/chain/stealth.hpp \
     include/bitcoin/bitcoin/c/internal/chain/history.hpp \
     include/bitcoin/bitcoin/c/internal/chain/script.hpp \
@@ -244,7 +248,6 @@ include_bitcoin_bitcoin_c_internal_mathdir = ${includedir}/bitcoin/bitcoin/c/int
 include_bitcoin_bitcoin_c_internal_math_HEADERS = \
     include/bitcoin/bitcoin/c/internal/math/hash.hpp \
     include/bitcoin/bitcoin/c/internal/math/crypto.hpp \
-    include/bitcoin/bitcoin/c/internal/math/uint256.hpp \
     include/bitcoin/bitcoin/c/internal/math/elliptic_curve.hpp
 
 include_bitcoin_bitcoin_c_internal_utilitydir = ${includedir}/bitcoin/bitcoin/c/internal/utility

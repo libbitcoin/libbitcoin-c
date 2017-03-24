@@ -89,25 +89,6 @@ bool bc_output_point__is_mature(const bc_output_point_t* self,
 bc_output_point_validation_t* bc_output_point__validation(
     const bc_output_point_t* self);
 
-typedef struct bc_points_info_t bc_points_info_t;
-bc_points_info_t* bc_create_points_info();
-void bc_destroy_points_info(bc_points_info_t* self);
-bc_chain_point_list_t* bc_points_info__points(const bc_points_info_t* self);
-void bc_points_info__set_points(bc_points_info_t* self,
-    const bc_chain_point_list_t* points);
-uint64_t bc_points_info__change(const bc_points_info_t* self);
-void bc_points_info__set_change(bc_points_info_t* self, uint64_t change);
-
-typedef struct bc_output_info_t bc_output_info_t;
-BC_DECLARE_VECTOR(output_info_list, bc_output_info_t);
-bc_output_info_t* bc_create_output_info();
-void bc_destroy_output_info(bc_output_info_t* self);
-bc_output_point_t* bc_output_info__point(const bc_output_info_t* self);
-void bc_output_info__set_point(bc_output_info_t* self,
-    const bc_output_point_t* point);
-uint64_t bc_output_info__value(const bc_output_info_t* self);
-void bc_output_info__set_value(bc_output_info_t* self, uint64_t value);
-
 #ifdef __cplusplus
 }
 #endif
