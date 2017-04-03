@@ -169,6 +169,8 @@ include_bitcoin_bitcoin_c_machine_scriptdir = ${includedir}/bitcoin/bitcoin/c/ma
 include_bitcoin_bitcoin_c_machine_script_HEADERS = \
     include/bitcoin/bitcoin/c/machine/opcode.h \
     include/bitcoin/bitcoin/c/machine/script_pattern.h \
+    include/bitcoin/bitcoin/c/machine/sighash_algorithm.h \
+    include/bitcoin/bitcoin/c/machine/rule_fork.h \
     include/bitcoin/bitcoin/c/machine/operation.h
 
 include_bitcoin_bitcoin_c_mathdir = ${includedir}/bitcoin/bitcoin/c/math
