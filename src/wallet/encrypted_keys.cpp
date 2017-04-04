@@ -74,8 +74,6 @@ BC_IMPLEMENT_BYTE_ARRAY__CUSTOM_NAMESPACE(
     encrypted_public, libbitcoin::wallet);
 
 // TODO: these calls require ICU
-#if 0
-
 bool bc_create_token(bc_encrypted_token_t* out_token,
     const char* passphrase, const bc_ek_entropy_t* entropy)
 {
@@ -91,8 +89,6 @@ bool bc_create_token_Salt(bc_encrypted_token_t* out_token,
         passphrase, *salt->obj, lot, sequence);
 }
 
-#endif
-
 bool bc_create_key_pair(bc_encrypted_private_t* out_private,
     bc_ec_compressed_t* out_point, const bc_encrypted_token_t* token,
     const bc_ek_seed_t* seed, uint8_t version)
@@ -106,5 +102,24 @@ bool bc_create_key_pair_nocompress(bc_encrypted_private_t* out_private,
 {
 }
 
+}
+
+bool bc_encrypt(bc_encrypted_private_t* out_private,
+                bc_ec_secret_t* secret,
+                const char* passphrase,
+                uint8_t version,
+                bool compression) {
+    return libbitcoin::wallet::encrypt(*out_private->obj,
+                                       *secret->obj,
+                                       passphrase,
+                                       version,
+                                       compression);
+}
+
+bool bc_decrypt(bc_ec_secret_t* out_secret, uint8_t* out_version,
+                bool* out_compressed, bc_encrypted_private_t* key,
+                const char* passphrase) {
+    return libbitcoin::wallet::decrypt(*out_secret->obj, *out_version,
+                                       *out_compressed, *key->obj, passphrase);
 }
 

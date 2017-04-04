@@ -91,7 +91,6 @@ typedef enum bc_ek_flag_t
 } bc_ek_flag_t;
 
 // TODO: these calls require ICU
-#if 0
 
 /**
  * Create an intermediate passphrase for subsequent key pair generation.
@@ -117,8 +116,6 @@ bool bc_create_token_Salt(bc_encrypted_token_t* out_token,
     const char* passphrase, const bc_ek_salt_t* salt, uint32_t lot,
     uint32_t sequence);
 
-#endif
-
 /**
  * Create an encrypted private key from an intermediate passphrase.
  * The `out_point` paramter is always compressed, so to use it it should be 
@@ -137,6 +134,35 @@ bool bc_create_key_pair(bc_encrypted_private_t* out_private,
 bool bc_create_key_pair_nocompress(bc_encrypted_private_t* out_private,
     bc_ec_compressed_t* out_point, const bc_encrypted_token_t* token,
     const bc_ek_seed_t* seed, uint8_t version);
+
+/**
+ * Encrypt the ec secret to an encrypted public key using the passphrase.
+ * @param[out] out_private  The new encrypted private key.
+ * @param[in]  secret       An ec secret to encrypt.
+ * @param[in]  passphrase   A passphrase for use in the encryption.
+ * @param[in]  version      The coin address version byte.
+ * @param[in]  compressed   Set true to associate ec public key compression.
+ * @return false if the secret could not be converted to a public key.
+ */
+bool bc_encrypt(bc_encrypted_private_t* out_private,
+                bc_ec_secret_t* secret,
+                const char* passphrase,
+                uint8_t version,
+                bool compression);
+
+/**
+ * Decrypt the ec secret associated with the encrypted private key.
+ * @param[out] out_secret      The decrypted ec secret.
+ * @param[out] out_version     The coin address version.
+ * @param[out] out_compressed  The compression of the associated ec public key.
+ * @param[in]  key             An encrypted private key.
+ * @param[in]  passphrase      The passphrase from the encryption or token.
+ * @return false if the key checksum or passphrase is not valid.
+ */
+bool bc_decrypt(bc_ec_secret_t* out_secret, uint8_t* out_version,
+                bool* out_compressed, bc_encrypted_private_t* key,
+                const char* passphrase);
+
 
 #ifdef __cplusplus
 }
