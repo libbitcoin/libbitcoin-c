@@ -68,5 +68,12 @@ bc_long_hash_t* bc_decode_mnemonic(const bc_word_list_t* mnemonic)
         libbitcoin::wallet::decode_mnemonic(*mnemonic->obj));
 }
 
+bc_long_hash_t* bc_decode_mnemonic_Passphrase(const bc_word_list_t* mnemonic,
+					      const bc_string_t* passphrase)
+{
+    return bc_create_long_hash_Internal(
+        libbitcoin::wallet::decode_mnemonic(*mnemonic->obj, *passphrase->obj));
+}
+
 }
 
