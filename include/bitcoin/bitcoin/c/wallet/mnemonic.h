@@ -73,6 +73,12 @@ bool bc_validate_mnemonic_all_languages(const bc_word_list_t* mnemonic);
  */
 bc_long_hash_t* bc_decode_mnemonic(const bc_word_list_t* mnemonic);
 
+/**
+ * Convert a mnemonic with passphrase to a wallet-generation seed.
+ */
+bc_long_hash_t* bc_decode_mnemonic_Passphrase(const bc_word_list_t* mnemonic,
+					      const bc_string_t* passphrase);
+
 #ifdef __cplusplus
 }
 #endif
